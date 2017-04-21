@@ -8,9 +8,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 int main(void) {
 	puts("Program start");
+
+	std::cout << "Test and stuff";
 
 	puts("Program end");
 	return EXIT_SUCCESS;
