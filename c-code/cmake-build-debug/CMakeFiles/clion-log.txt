@@ -1,7 +1,0 @@
-/home/5dv115/clion-2017.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/5dv115/CLionProjects/Project
--- Configuring done
-WARNING: Target "Project" requests linking to directory "/home/5dv115/vlfeat-0.9.20/bin/glnxa64".  Targets may link only to libraries.  CMake is dropping the item.
-CMake Error: Cannot determine link language for target "vlfeat_sift".
-CMake Error: CMake can not determine linker language for target: vlfeat_sift
--- Generating done
--- Build files have been written to: /home/5dv115/CLionProjects/Project/cmake-build-debug

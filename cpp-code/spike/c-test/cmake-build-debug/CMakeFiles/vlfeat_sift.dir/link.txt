@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvlfeat_sift.a  CMakeFiles/vlfeat_sift.dir/home/5dv115/vlfeat-0.9.20/vl/generic.c.o
+/usr/bin/ranlib libvlfeat_sift.a
