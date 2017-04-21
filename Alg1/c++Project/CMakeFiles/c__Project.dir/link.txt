@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/c__Project.dir/main.cpp.o CMakeFiles/c__Project.dir/TestClass.cpp.o  -o c__Project  -L/home/5dv115/CLionProjects/c++Project/vlfeat-0.9.20/bin/glnxa64 

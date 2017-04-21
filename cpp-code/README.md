@@ -1,38 +1,38 @@
 # C++
 
-## src
+#### src
 source for the application
 
-## tests
+#### tests
 test code for the application
 
-## lib
+#### lib
 libraries
 
-## include 
+#### include 
 interface for the library *.h
 
-## doc
+#### doc
 documentation of any kind
 
-## spikes
+#### spikes
 small tests for proof-of-concept
 
 
 
-# Mosaic Pipeline
+## Mosaic Pipeline
 Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mosaic
 
-## Geotag
+#### Geotag
 
-## Image compression
+#### Image compression
 
-## Find neighbours
+#### Find neighbours
 
-## SIFT
+#### SIFT
 
-## RANSAC
+#### RANSAC
 
-## Bundle Adjustment
+#### Bundle Adjustment
 
-## Mosaic
+#### Mosaic
