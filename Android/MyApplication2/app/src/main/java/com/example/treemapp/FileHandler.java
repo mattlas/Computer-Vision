@@ -5,8 +5,11 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
@@ -16,7 +19,7 @@ import java.io.FileWriter;
 
 public class FileHandler {
 
-    private final String filename="treelist.csv";
+    private final String filename="/sdcard/treeList.csv";
     private FileReader fr;
     private BufferedReader br;
     private FileWriter fw;
@@ -48,11 +51,10 @@ public class FileHandler {
     public boolean addLine(String line){
         try{
 
-            bw.write(line);
+            bw.append(line);
             return true;
 
         }catch (Exception e){
-            Toast.makeText(null, "Write failed", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
