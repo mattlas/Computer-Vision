@@ -1,9 +1,8 @@
 package com.example.treemapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +16,11 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
-import java.io.IOException;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     public FileHandler filehandler;
     private SubsamplingScaleImageView imageView;
+    public Mark mark;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -42,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
         // Display image in its native orientation
         imageView.setOrientation(ORIENTATION_0);
 
-
+        // Filehandler
         filehandler = new FileHandler();
         createFileHandler();
     }
+
 
     protected String getImageData(){
         // Dummy method, replace later with real image data
@@ -96,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
                     Toast.makeText(getApplicationContext(), "Single tap: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
 
-                    // Mark tree
-
+                    // Mark a tree
+                    //mark = new Mark(getApplicationContext());
+                    //mark.setPin(sCoord);
 
                     // Pop up menu
 
@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        return;
     }
 }
 
