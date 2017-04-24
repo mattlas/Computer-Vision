@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
- * Created by 5dv173 on 4/24/17.
+ * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
+ * @author Adam Kavanagh Coyne
+ * @author Karolina Drobotowicz
  */
 
 public class FileHandler {
@@ -38,6 +40,11 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Adds a line to the file specified by "filename"
+     * @param line the string to append to the file
+     * @return true if the operation was a success, false if not
+     */
     public boolean addLine(String line){
         try{
 
@@ -50,6 +57,9 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Closes the file. Only to be used on destruction of this class.
+     */
     public void close(){
         try {
             bw.close();
@@ -67,8 +77,7 @@ public class FileHandler {
         super.finalize();
     }
 
-    // Do this later: reading data
-    /*
+    /* Do this later: reading data
     public String readContents(){
         try {
             return br.read();
