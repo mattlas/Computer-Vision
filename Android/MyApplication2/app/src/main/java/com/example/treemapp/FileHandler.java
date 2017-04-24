@@ -12,6 +12,9 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 
 public class FileHandler {
 
-    private final String filename="/sdcard/treeList.csv";
+    private String filename="/sdcard/treeList_";
     private FileReader fr;
     private BufferedReader br;
     private FileWriter fw;
@@ -31,6 +34,9 @@ public class FileHandler {
 
     public FileHandler(){
         try{
+            Date date = new Date() ;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
+            filename = filename + dateFormat.format(date) + ".csv" ;
             file = new File(filename);
             file.createNewFile(); // if file already exists will do nothing
 

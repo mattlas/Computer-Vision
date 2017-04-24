@@ -14,5 +14,16 @@
         android:layout_height="wrap_content"
         android:text="Button" />
 
+    <Button
+        android:id="@+id/finishStream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="#55ff0000"
+        android:src="@drawable/pin"/>
 
 </LinearLayout>
