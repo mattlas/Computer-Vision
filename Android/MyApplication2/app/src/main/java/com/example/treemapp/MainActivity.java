@@ -2,7 +2,10 @@ package com.example.treemapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +27,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Setting the image to display
+
         imageView = (SubsamplingScaleImageView) findViewById(R.id.imageView);
         imageView.setImage(ImageSource.resource(R.drawable.tree));
+
         //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
 
         // Event handling
@@ -56,35 +62,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // inputting and saving the data
         Button mShowDialog = (Button) findViewById(R.id.showInput);
         mShowDialog.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
+                // Just for debugging! it triggers a Log.d()
                 filehandler.readContents();
+
 
                 final EditText height = (EditText) mView.findViewById(R.id.inp_height);
                 final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
                 final EditText species = (EditText) mView.findViewById(R.id.inp_species);
                 Button save = (Button) mView.findViewById(R.id.btn_save);
 
-                mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String data = getImageData() + height.getText() + "," + diameter.getText() + "," + species.getText() + "\n";
-                        if(filehandler.addLine(data))
-                            Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                        String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
+                        filehandler.addLine(data);
                     }
                 });
             }
-
         });
     }
 

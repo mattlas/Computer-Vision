@@ -1,0 +1,3 @@
+/home/lucero/Project course/ReadImage/CMakeFiles/edit_cache.dir
+/home/lucero/Project course/ReadImage/CMakeFiles/rebuild_cache.dir
+/home/lucero/Project course/ReadImage/CMakeFiles/ReadImage.dir
