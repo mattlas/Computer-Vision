@@ -1,5 +1,6 @@
 package com.example.treemapp;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 /**
  * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
@@ -59,6 +61,8 @@ public class FileHandler {
         }
     }
 
+
+
     /**
      * Closes the file. Only to be used on destruction of this class.
      */
@@ -69,7 +73,7 @@ public class FileHandler {
             br.close();
             fr.close();
         } catch (Exception e){
-            e.printStackTrace();
+            Log.getStackTraceString(e);
         }
     }
 
@@ -79,22 +83,36 @@ public class FileHandler {
         super.finalize();
     }
 
-    /* Do this later: reading data
-    public String readContents(){
+
+    /**
+     * Returns the entire file in list format. Each element requires further parsing.
+     * @return an ArrayList of Strings, one for each line in the file.
+     */
+    public ArrayList<String> readContents(){
+        ArrayList<String> lineList = new ArrayList<>();
         try {
-            return br.read();
+            String line;
+            br.reset();
+            while ((line = br.readLine()) != null){
+                lineList.add(line);
+            }
+            br.reset();
         } catch (Exception e){
-            e.printStackTrace();
+            Log.getStackTraceString(e);
         }
+        return lineList;
     }
 
-    public String readLine(){
-        try {
-            return br.readLine();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    */
+    // Do we really need this one?
+//
+//    public String readLine(){
+//        try {
+//            return br.readLine();
+//        } catch (Exception e){
+//            Log.getStackTraceString(e);
+//            return null;
+//        }
+//    }
+
 
 }
