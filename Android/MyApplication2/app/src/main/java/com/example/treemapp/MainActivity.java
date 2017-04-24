@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,9 +67,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
-
+                
+                Log.d(TAG,"Tree detail input popup opened");
                 // Just for debugging! it triggers a Log.d()
                 filehandler.readContents();
+                /*
+                 * TODO GUYS! I need your help in debugging this. I need to test the read from SD card but i never have permission to edit files.
+                 * Take a look at this: http://stackoverflow.com/questions/33162152/storage-permission-error-in-marshmallow
+                 * It worked for Karolina though... I hope i didnt fuck up the code :S
+                 * -A
+                 *
+                 */
 
 
                 final EditText height = (EditText) mView.findViewById(R.id.inp_height);

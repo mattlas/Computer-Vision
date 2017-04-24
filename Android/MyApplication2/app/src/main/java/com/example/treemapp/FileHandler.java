@@ -1,5 +1,7 @@
 package com.example.treemapp;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -9,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -38,7 +41,13 @@ public class FileHandler {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
             filename = filename + dateFormat.format(date) + ".csv" ;
             file = new File(filename);
-            file.createNewFile(); // if file already exists will do nothing
+
+            Log.d(TAG,"Attempting to create/open file: "+filename);
+            if (file.createNewFile()){// if file already exists will do nothing
+                Log.d(TAG, "Existing file not found, new file created");
+            } else {
+                Log.d(TAG, "Existing file found and loaded");
+            }
 
             fw = new FileWriter(file,true);
             bw = new BufferedWriter(fw);
@@ -46,8 +55,8 @@ public class FileHandler {
             fr = new FileReader(file);
             br = new BufferedReader(fr);
 
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(IOException e){
+            Log.e(TAG, "Failed to create/open file "+filename+": "+e.getLocalizedMessage());
             //System.exit(-1);
         }
     }
