@@ -1,0 +1,9 @@
+# Emacs backup files
+*~
+.#*
+**/Project\ Backups
+*.aux
+*.log
+*.toc
+*.out
+*.blg
