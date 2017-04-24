@@ -27,6 +27,7 @@ public class FileHandler {
     private FileWriter fw;
     private BufferedWriter bw;
     private File file;
+    private final String TAG = FileHandler.class.getSimpleName();
 
     public FileHandler(){
         try{
@@ -85,23 +86,25 @@ public class FileHandler {
 
 
     /**
-     * Returns the entire file in list format. Each element requires further parsing.
-     * @return an ArrayList of Strings, one for each line in the file.
+     * Returns the entire file in list format.
+     * @return an ArrayList of String Arrays, one array for each line in the file, one String for each element
      */
-    public ArrayList<String> readContents(){
-        ArrayList<String> lineList = new ArrayList<>();
+    public ArrayList<String[]> readContents(){
+        ArrayList<String[]> lineList = new ArrayList<>();
         try {
             String line;
             br.reset();
             while ((line = br.readLine()) != null){
-                lineList.add(line);
+                lineList.add(line.split(","));
             }
             br.reset();
         } catch (Exception e){
             Log.getStackTraceString(e);
         }
+        Log.d(TAG,lineList.toString());
         return lineList;
     }
+
 
     // Do we really need this one?
 //
