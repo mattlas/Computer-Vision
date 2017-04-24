@@ -2,6 +2,9 @@ package com.example.treemapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +13,9 @@ import android.widget.EditText;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -43,6 +49,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Filehandler
         filehandler = new FileHandler();
         createFileHandler();
+
+
+
+
+        /*LinearLayout mLinearLayout;
+
+        super.onCreate(savedInstanceState);
+
+        // Create a LinearLayout in which to add the ImageView
+        mLinearLayout = new LinearLayout(this);
+
+        // Instantiate an ImageView and define its properties
+        ImageView i = new ImageView(this);
+        i.setImageResource(R.drawable.pin);
+        i.setAdjustViewBounds(true); // set the ImageView bounds to match the Drawable's dimensions
+        i.setLayoutParams(new Gallery.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // Add the ImageView to the layout and set the layout as the content view
+        mLinearLayout.addView(i);
+        setContentView(mLinearLayout);*/
     }
 
 
@@ -88,8 +115,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(getApplicationContext(), "Single tap: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
 
                     // Mark a tree
+                    /*Bitmap b = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+                    Paint paint = new Paint();
+                    Canvas canvas = new Canvas(b);
+
+                    canvas.drawCircle((int)sCoord.x, (int)sCoord.y, 5, paint);
+                    imageView.onDrawForeground(canvas);*/
+
                     //mark = new Mark(getApplicationContext());
                     //mark.setPin(sCoord);
+
 
                     // Pop up menu
 
