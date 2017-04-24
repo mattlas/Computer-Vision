@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by 5dv173 on 4/24/17.
@@ -17,7 +19,7 @@ import java.io.OutputStreamWriter;
 
 public class FileHandler {
 
-    private final String filename="/sdcard/treeList.csv";
+    private String filename="/sdcard/treeList_";
     private FileReader fr;
     private BufferedReader br;
     private FileWriter fw;
@@ -26,6 +28,9 @@ public class FileHandler {
 
     public FileHandler(){
         try{
+            Date date = new Date() ;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
+            filename = filename + dateFormat.format(date) + ".csv" ;
             file = new File(filename);
             file.createNewFile(); // if file already exists will do nothing
 
