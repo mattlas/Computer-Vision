@@ -42,9 +42,11 @@ public class FileHandler {
         try{
 
             bw.write(line);
+            return true;
 
         }catch (Exception e){
             Toast.makeText(null, "Write failed", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
