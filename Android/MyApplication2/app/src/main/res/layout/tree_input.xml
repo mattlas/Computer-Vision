@@ -6,6 +6,22 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:id="+@id"/>
+        android:id="@+id/inp_height"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:id="@+id/inp_diameter"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:id="@+id/inp_species"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/btn_save"
+        android:text="Save"/>
 
 </LinearLayout>
