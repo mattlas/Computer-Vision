@@ -83,25 +83,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // inputting and saving the data
         Button mShowDialog = (Button) findViewById(R.id.showInput);
         mShowDialog.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
+
                 final EditText height = (EditText) mView.findViewById(R.id.inp_height);
                 final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
                 final EditText species = (EditText) mView.findViewById(R.id.inp_species);
                 Button save = (Button) mView.findViewById(R.id.btn_save);
 
+                mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
-                        filehandler.addLine(data);
+                        String data = getImageData() + height.getText() + "," + diameter.getText() + "," + species.getText() + "\n";
+                        if(filehandler.addLine(data))
+                            Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 });
             }
+
         });
     }
 
