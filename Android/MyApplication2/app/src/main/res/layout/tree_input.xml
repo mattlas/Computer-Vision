@@ -5,17 +5,17 @@
     
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="50dp"
         android:id="@+id/inp_height"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="50dp"
         android:id="@+id/inp_diameter"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="50dp"
         android:id="@+id/inp_species"/>
 
     <Button
