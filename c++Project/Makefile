@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/5dv115/Computer-Vision/c++Project
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named c__Project
+# Target rules for targets named TreeMarkupToolbox
 
 # Build rule for target.
-c__Project: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 c__Project
-.PHONY : c__Project
+TreeMarkupToolbox: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TreeMarkupToolbox
+.PHONY : TreeMarkupToolbox
 
 # fast build rule for target.
-c__Project/fast:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/build
-.PHONY : c__Project/fast
+TreeMarkupToolbox/fast:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/build
+.PHONY : TreeMarkupToolbox/fast
 
-main.o: main.cpp.o
+src/Main.o: src/Main.cpp.o
 
-.PHONY : main.o
+.PHONY : src/Main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/Main.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.o
+.PHONY : src/Main.cpp.o
 
-main.i: main.cpp.i
+src/Main.i: src/Main.cpp.i
 
-.PHONY : main.i
+.PHONY : src/Main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/Main.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.i
+.PHONY : src/Main.cpp.i
 
-main.s: main.cpp.s
+src/Main.s: src/Main.cpp.s
 
-.PHONY : main.s
+.PHONY : src/Main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/Main.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.s
+.PHONY : src/Main.cpp.s
 
 # Help Target
 help:
@@ -156,12 +156,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... c__Project"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... rebuild_cache"
+	@echo "... TreeMarkupToolbox"
+	@echo "... src/Main.o"
+	@echo "... src/Main.i"
+	@echo "... src/Main.s"
 .PHONY : help
 
 
