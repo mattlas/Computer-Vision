@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/5dv115/CLionProjects/c++Project
+CMAKE_SOURCE_DIR = /home/5dv115/Computer-Vision/c++Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/5dv115/CLionProjects/c++Project
+CMAKE_BINARY_DIR = /home/5dv115/Computer-Vision/c++Project
 
 # Include any dependencies generated for this target.
 include CMakeFiles/c__Project.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/c__Project.dir/flags.make
 
 CMakeFiles/c__Project.dir/main.cpp.o: CMakeFiles/c__Project.dir/flags.make
 CMakeFiles/c__Project.dir/main.cpp.o: main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/5dv115/CLionProjects/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/c__Project.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/c__Project.dir/main.cpp.o -c /home/5dv115/CLionProjects/c++Project/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/5dv115/Computer-Vision/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/c__Project.dir/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/c__Project.dir/main.cpp.o -c /home/5dv115/Computer-Vision/c++Project/main.cpp
 
 CMakeFiles/c__Project.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/c__Project.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/5dv115/CLionProjects/c++Project/main.cpp > CMakeFiles/c__Project.dir/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/5dv115/Computer-Vision/c++Project/main.cpp > CMakeFiles/c__Project.dir/main.cpp.i
 
 CMakeFiles/c__Project.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/c__Project.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/5dv115/CLionProjects/c++Project/main.cpp -o CMakeFiles/c__Project.dir/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/5dv115/Computer-Vision/c++Project/main.cpp -o CMakeFiles/c__Project.dir/main.cpp.s
 
 CMakeFiles/c__Project.dir/main.cpp.o.requires:
 
@@ -81,44 +81,18 @@ CMakeFiles/c__Project.dir/main.cpp.o.provides: CMakeFiles/c__Project.dir/main.cp
 CMakeFiles/c__Project.dir/main.cpp.o.provides.build: CMakeFiles/c__Project.dir/main.cpp.o
 
 
-CMakeFiles/c__Project.dir/TestClass.cpp.o: CMakeFiles/c__Project.dir/flags.make
-CMakeFiles/c__Project.dir/TestClass.cpp.o: TestClass.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/5dv115/CLionProjects/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/c__Project.dir/TestClass.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/c__Project.dir/TestClass.cpp.o -c /home/5dv115/CLionProjects/c++Project/TestClass.cpp
-
-CMakeFiles/c__Project.dir/TestClass.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/c__Project.dir/TestClass.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/5dv115/CLionProjects/c++Project/TestClass.cpp > CMakeFiles/c__Project.dir/TestClass.cpp.i
-
-CMakeFiles/c__Project.dir/TestClass.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/c__Project.dir/TestClass.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/5dv115/CLionProjects/c++Project/TestClass.cpp -o CMakeFiles/c__Project.dir/TestClass.cpp.s
-
-CMakeFiles/c__Project.dir/TestClass.cpp.o.requires:
-
-.PHONY : CMakeFiles/c__Project.dir/TestClass.cpp.o.requires
-
-CMakeFiles/c__Project.dir/TestClass.cpp.o.provides: CMakeFiles/c__Project.dir/TestClass.cpp.o.requires
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/TestClass.cpp.o.provides.build
-.PHONY : CMakeFiles/c__Project.dir/TestClass.cpp.o.provides
-
-CMakeFiles/c__Project.dir/TestClass.cpp.o.provides.build: CMakeFiles/c__Project.dir/TestClass.cpp.o
-
-
 # Object files for target c__Project
 c__Project_OBJECTS = \
-"CMakeFiles/c__Project.dir/main.cpp.o" \
-"CMakeFiles/c__Project.dir/TestClass.cpp.o"
+"CMakeFiles/c__Project.dir/main.cpp.o"
 
 # External object files for target c__Project
 c__Project_EXTERNAL_OBJECTS =
 
 c__Project: CMakeFiles/c__Project.dir/main.cpp.o
-c__Project: CMakeFiles/c__Project.dir/TestClass.cpp.o
 c__Project: CMakeFiles/c__Project.dir/build.make
 c__Project: vlfeat-0.9.20/bin/glnxa64/libvl.so
 c__Project: CMakeFiles/c__Project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/5dv115/CLionProjects/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable c__Project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/5dv115/Computer-Vision/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable c__Project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/c__Project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -127,7 +101,6 @@ CMakeFiles/c__Project.dir/build: c__Project
 .PHONY : CMakeFiles/c__Project.dir/build
 
 CMakeFiles/c__Project.dir/requires: CMakeFiles/c__Project.dir/main.cpp.o.requires
-CMakeFiles/c__Project.dir/requires: CMakeFiles/c__Project.dir/TestClass.cpp.o.requires
 
 .PHONY : CMakeFiles/c__Project.dir/requires
 
@@ -136,6 +109,6 @@ CMakeFiles/c__Project.dir/clean:
 .PHONY : CMakeFiles/c__Project.dir/clean
 
 CMakeFiles/c__Project.dir/depend:
-	cd /home/5dv115/CLionProjects/c++Project && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/5dv115/CLionProjects/c++Project /home/5dv115/CLionProjects/c++Project /home/5dv115/CLionProjects/c++Project /home/5dv115/CLionProjects/c++Project /home/5dv115/CLionProjects/c++Project/CMakeFiles/c__Project.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/5dv115/Computer-Vision/c++Project && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/5dv115/Computer-Vision/c++Project /home/5dv115/Computer-Vision/c++Project /home/5dv115/Computer-Vision/c++Project /home/5dv115/Computer-Vision/c++Project /home/5dv115/Computer-Vision/c++Project/CMakeFiles/c__Project.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/c__Project.dir/depend
 
