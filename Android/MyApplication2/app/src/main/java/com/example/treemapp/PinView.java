@@ -8,11 +8,14 @@ import android.util.AttributeSet;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
+import java.util.List;
+
 /**
  * Created by oskar on 2017-04-24.
  */
 
 public class PinView extends SubsamplingScaleImageView {
+
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
     }
@@ -22,11 +25,15 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint p = new Paint();
-        p.setAlpha(255);
-        p.setColor(Color.BLUE);
-        canvas.drawCircle(300, 300, 50, p);
+
+        Paint paint = new Paint();
+
+        paint.setColor(Color.WHITE);
+        paint.setAlpha(255);
+        paint.setStrokeWidth(50);
+
+        canvas.drawCircle(300, 300, 100, paint);
     }
 }
