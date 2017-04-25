@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/5dv115/CLionProjects/c++Project
+CMAKE_SOURCE_DIR = /home/5dv115/Computer-Vision/c++Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/5dv115/CLionProjects/c++Project
+CMAKE_BINARY_DIR = /home/5dv115/Computer-Vision/c++Project
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/CLionProjects/c++Project/CMakeFiles /home/5dv115/CLionProjects/c++Project/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles /home/5dv115/Computer-Vision/c++Project/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/CLionProjects/c++Project/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,33 +123,6 @@ c__Project/fast:
 	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/build
 .PHONY : c__Project/fast
 
-TestClass.o: TestClass.cpp.o
-
-.PHONY : TestClass.o
-
-# target to build an object file
-TestClass.cpp.o:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/TestClass.cpp.o
-.PHONY : TestClass.cpp.o
-
-TestClass.i: TestClass.cpp.i
-
-.PHONY : TestClass.i
-
-# target to preprocess a source file
-TestClass.cpp.i:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/TestClass.cpp.i
-.PHONY : TestClass.cpp.i
-
-TestClass.s: TestClass.cpp.s
-
-.PHONY : TestClass.s
-
-# target to generate assembly for a file
-TestClass.cpp.s:
-	$(MAKE) -f CMakeFiles/c__Project.dir/build.make CMakeFiles/c__Project.dir/TestClass.cpp.s
-.PHONY : TestClass.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -186,9 +159,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... c__Project"
-	@echo "... TestClass.o"
-	@echo "... TestClass.i"
-	@echo "... TestClass.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
