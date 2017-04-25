@@ -46,9 +46,6 @@ public class PinView extends SubsamplingScaleImageView {
         pins.add(pin);
     }
 
-    public int x = 300;
-    public int y = 300;
-
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -64,6 +61,4 @@ public class PinView extends SubsamplingScaleImageView {
             canvas.drawCircle((int) point.x, (int) point.y, 30, paint);
         }
     }
-
-
 }
