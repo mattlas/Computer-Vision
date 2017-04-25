@@ -3,6 +3,6 @@
 
 CMakeFiles/c__Project.dir/main.cpp.o
  /home/5dv115/Computer-Vision/c++Project/main.cpp
- vlfeat-0.9.20/vl/generic.h
- vlfeat-0.9.20/vl/host.h
- vlfeat-0.9.20/vl/random.h
+ lib/vlfeat-0.9.20/vl/generic.h
+ lib/vlfeat-0.9.20/vl/host.h
+ lib/vlfeat-0.9.20/vl/random.h

@@ -90,7 +90,7 @@ c__Project_EXTERNAL_OBJECTS =
 
 c__Project: CMakeFiles/c__Project.dir/main.cpp.o
 c__Project: CMakeFiles/c__Project.dir/build.make
-c__Project: vlfeat-0.9.20/bin/glnxa64/libvl.so
+c__Project: lib/vlfeat-0.9.20/bin/glnxa64/libvl.so
 c__Project: CMakeFiles/c__Project.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/5dv115/Computer-Vision/c++Project/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable c__Project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/c__Project.dir/link.txt --verbose=$(VERBOSE)
