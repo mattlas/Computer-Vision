@@ -4,15 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.os.Build;
-import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,14 +19,14 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     public FileHandler filehandler;
     private PinView imageView;
-    public Mark mark;
+    public Pin pin;
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -124,14 +119,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (imageView.isReady()) {
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-                    Toast.makeText(getApplicationContext(), "Single tap: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
 
-                    // Mark a tree
-                    //mark = new Mark(getApplicationContext());
-                    //mark.setPin(sCoord);
-
-                    // Pop up menu
-
+                    imageView.addPin(new Pin(sCoord));
+                    imageView.invalidate();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
