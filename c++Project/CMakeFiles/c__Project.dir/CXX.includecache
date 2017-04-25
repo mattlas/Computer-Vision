@@ -12,11 +12,11 @@ iostream
 vl/generic.h
 -
 
-vlfeat-0.9.20/vl/generic.h
+lib/vlfeat-0.9.20/vl/generic.h
 host.h
-vlfeat-0.9.20/vl/host.h
+lib/vlfeat-0.9.20/vl/host.h
 random.h
-vlfeat-0.9.20/vl/random.h
+lib/vlfeat-0.9.20/vl/random.h
 stdlib.h
 -
 stddef.h
@@ -26,9 +26,9 @@ time.h
 assert.h
 -
 
-vlfeat-0.9.20/vl/host.h
+lib/vlfeat-0.9.20/vl/host.h
 
-vlfeat-0.9.20/vl/random.h
+lib/vlfeat-0.9.20/vl/random.h
 host.h
-vlfeat-0.9.20/vl/host.h
+lib/vlfeat-0.9.20/vl/host.h
 
