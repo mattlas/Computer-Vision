@@ -123,32 +123,32 @@ TreeMarkupToolbox/fast:
 	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/build
 .PHONY : TreeMarkupToolbox/fast
 
-Main.o: Main.cpp.o
+src/Main.o: src/Main.cpp.o
 
-.PHONY : Main.o
+.PHONY : src/Main.o
 
 # target to build an object file
-Main.cpp.o:
-	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/Main.cpp.o
-.PHONY : Main.cpp.o
+src/Main.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.o
+.PHONY : src/Main.cpp.o
 
-Main.i: Main.cpp.i
+src/Main.i: src/Main.cpp.i
 
-.PHONY : Main.i
+.PHONY : src/Main.i
 
 # target to preprocess a source file
-Main.cpp.i:
-	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/Main.cpp.i
-.PHONY : Main.cpp.i
+src/Main.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.i
+.PHONY : src/Main.cpp.i
 
-Main.s: Main.cpp.s
+src/Main.s: src/Main.cpp.s
 
-.PHONY : Main.s
+.PHONY : src/Main.s
 
 # target to generate assembly for a file
-Main.cpp.s:
-	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/Main.cpp.s
-.PHONY : Main.cpp.s
+src/Main.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.s
+.PHONY : src/Main.cpp.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TreeMarkupToolbox"
-	@echo "... Main.o"
-	@echo "... Main.i"
-	@echo "... Main.s"
+	@echo "... src/Main.o"
+	@echo "... src/Main.i"
+	@echo "... src/Main.s"
 .PHONY : help
 
 

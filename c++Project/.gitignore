@@ -2,6 +2,6 @@
 /build/
 TreeMarkupToolbox
 .project
-CMakeCashe.txt
+CMakeCache.txt
 /CMakeFiles/
 cmake_install.cmake

@@ -1,20 +1,18 @@
 //============================================================================
 // Name        : TreeMarkupToolbox.cpp
-// Author      : MV
-// Version     :
+// Author      : Machine Vision UMU
+// Version     : 1.0
 // Copyright   : GNU
 // Description : Method for positioning field measured trees relative to image data for building a 3D model.
 //============================================================================
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 
-int main(void) {
-	puts("Program start");
+extern "C"{
+#include <vl/generic.h>
+}
 
-	std::cout << "Test and stuff";
-
-	puts("Program end");
-	return EXIT_SUCCESS;
+int main(){
+    VL_PRINT ("vlfeat loaded properly\n");
+    return 0;
 }
