@@ -24,8 +24,8 @@ public class PinView extends SubsamplingScaleImageView {
         super(context);
     }
 
-    public int x;
-    public int y;
+    public int x = 300;
+    public int y = 300;
 
     @Override
     public void onDraw(Canvas canvas) {
