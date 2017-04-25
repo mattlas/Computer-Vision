@@ -116,7 +116,7 @@ public class FileHandler {
         } catch (Exception e){
             Log.getStackTraceString(e);
         }
-        Log.d(TAG,lineList.toString());
+        Log.d(TAG,"File contents: "+lineList.toString());
         return lineList;
     }
 

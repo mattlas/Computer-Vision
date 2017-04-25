@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/c__Project.dir/main.cpp.o  -o c__Project  -L/home/5dv115/Computer-Vision/c++Project/vlfeat-0.9.20/bin/glnxa64 vlfeat-0.9.20/bin/glnxa64/libvl.so -Wl,-rpath,/home/5dv115/Computer-Vision/c++Project/vlfeat-0.9.20/bin/glnxa64:vlfeat-0.9.20/bin/glnxa64 
