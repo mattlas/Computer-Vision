@@ -6,19 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/5dv115/CLionProjects/c++Project/TestClass.cpp
-TestClass.h
-/home/5dv115/CLionProjects/c++Project/TestClass.h
-
-/home/5dv115/CLionProjects/c++Project/TestClass.h
-string
--
-
-/home/5dv115/CLionProjects/c++Project/main.cpp
+/home/5dv115/Computer-Vision/c++Project/main.cpp
 iostream
 -
-TestClass.h
-/home/5dv115/CLionProjects/c++Project/TestClass.h
 vl/generic.h
 -
 

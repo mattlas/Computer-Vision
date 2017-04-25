@@ -1,5 +1,4 @@
 #include <iostream>
-#include "TestClass.h"
 
 extern "C" {
 #include <vl/generic.h>
@@ -7,12 +6,9 @@ extern "C" {
 
 
 int main() {
-    TestClass* test = new TestClass();
-    test->set_string("test bib");
 
-    std::cout << test->get_string() << std::endl;
 
-    VL_PRINT ("Hello World vlfeat\n");
+    VL_PRINT ("Hello World vlfeat22\n");
 
 
 

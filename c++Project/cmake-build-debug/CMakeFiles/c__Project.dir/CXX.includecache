@@ -6,19 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/5dv115/CLionProjects/c++Project/TestClass.cpp
-TestClass.h
-/home/5dv115/CLionProjects/c++Project/TestClass.h
-
-/home/5dv115/CLionProjects/c++Project/TestClass.h
-string
+../vlfeat-0.9.20/vl/generic.h
+host.h
+../vlfeat-0.9.20/vl/host.h
+random.h
+../vlfeat-0.9.20/vl/random.h
+stdlib.h
+-
+stddef.h
+-
+time.h
+-
+assert.h
 -
 
-/home/5dv115/CLionProjects/c++Project/main.cpp
+../vlfeat-0.9.20/vl/host.h
+
+../vlfeat-0.9.20/vl/random.h
+host.h
+../vlfeat-0.9.20/vl/host.h
+
+/home/5dv115/Computer-Vision/c++Project/main.cpp
 iostream
 -
-TestClass.h
-/home/5dv115/CLionProjects/c++Project/TestClass.h
-string
+vl/generic.h
 -
 

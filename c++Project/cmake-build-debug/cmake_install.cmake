@@ -1,4 +1,4 @@
-# Install script for directory: /home/5dv115/CLionProjects/c++Project
+# Install script for directory: /home/5dv115/Computer-Vision/c++Project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/5dv115/CLionProjects/c++Project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/5dv115/Computer-Vision/c++Project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
