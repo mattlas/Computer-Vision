@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -47,6 +46,9 @@ public class PinView extends SubsamplingScaleImageView {
         pins.add(pin);
     }
 
+    public int x = 300;
+    public int y = 300;
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -60,8 +62,8 @@ public class PinView extends SubsamplingScaleImageView {
         for(Pin p : pins) {
             point = sourceToViewCoord(p.getPoint());
             canvas.drawCircle((int) point.x, (int) point.y, 30, paint);
-            Log.e(TAG, "Here");
         }
     }
+
 
 }
