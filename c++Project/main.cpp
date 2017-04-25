@@ -6,11 +6,6 @@ extern "C" {
 
 
 int main() {
-
-
-    VL_PRINT ("Hello World vlfeat22\n");
-
-
-
+    VL_PRINT ("vlfeat loaded properly\n");
     return 0;
 }
