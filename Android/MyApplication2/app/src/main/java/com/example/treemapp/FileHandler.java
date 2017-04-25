@@ -1,5 +1,8 @@
 package com.example.treemapp;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -8,10 +11,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
@@ -27,6 +33,7 @@ public class FileHandler {
     private FileWriter fw;
     private BufferedWriter bw;
     private File file;
+    private final String TAG = FileHandler.class.getSimpleName();
 
     public FileHandler(){
         try{
@@ -34,7 +41,13 @@ public class FileHandler {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
             filename = filename + dateFormat.format(date) + ".csv" ;
             file = new File(filename);
-            file.createNewFile(); // if file already exists will do nothing
+
+            Log.d(TAG,"Attempting to create/open file: "+filename);
+            if (file.createNewFile()){// if file already exists will do nothing
+                Log.d(TAG, "Existing file not found, new file created");
+            } else {
+                Log.d(TAG, "Existing file found and loaded");
+            }
 
             fw = new FileWriter(file,true);
             bw = new BufferedWriter(fw);
@@ -42,8 +55,8 @@ public class FileHandler {
             fr = new FileReader(file);
             br = new BufferedReader(fr);
 
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(IOException e){
+            Log.e(TAG, "Failed to create/open file "+filename+": "+e.getLocalizedMessage());
             //System.exit(-1);
         }
     }
@@ -64,6 +77,8 @@ public class FileHandler {
         }
     }
 
+
+
     /**
      * Closes the file. Only to be used on destruction of this class.
      */
@@ -74,7 +89,7 @@ public class FileHandler {
             br.close();
             fr.close();
         } catch (Exception e){
-            e.printStackTrace();
+            Log.getStackTraceString(e);
         }
     }
 
@@ -84,22 +99,38 @@ public class FileHandler {
         super.finalize();
     }
 
-    /* Do this later: reading data
-    public String readContents(){
+
+    /**
+     * Returns the entire file in list format.
+     * @return an ArrayList of String Arrays, one array for each line in the file, one String for each element
+     */
+    public ArrayList<String[]> readContents(){
+        ArrayList<String[]> lineList = new ArrayList<>();
         try {
-            return br.read();
+            String line;
+            br.reset();
+            while ((line = br.readLine()) != null){
+                lineList.add(line.split(","));
+            }
+            br.reset();
         } catch (Exception e){
-            e.printStackTrace();
+            Log.getStackTraceString(e);
         }
+        Log.d(TAG,lineList.toString());
+        return lineList;
     }
 
-    public String readLine(){
-        try {
-            return br.readLine();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    */
+
+    // Do we really need this one?
+//
+//    public String readLine(){
+//        try {
+//            return br.readLine();
+//        } catch (Exception e){
+//            Log.getStackTraceString(e);
+//            return null;
+//        }
+//    }
+
 
 }

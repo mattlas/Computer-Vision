@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <com.example.treemapp.PinView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="400dp"/>

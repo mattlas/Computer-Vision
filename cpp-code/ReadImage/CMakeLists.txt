@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+project( ReadImage )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( ReadImage ReadImage.cpp )
+target_link_libraries( ReadImage ${OpenCV_LIBS} ) 
+ 
