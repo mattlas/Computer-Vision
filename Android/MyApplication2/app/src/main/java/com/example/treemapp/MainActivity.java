@@ -2,10 +2,9 @@ package com.example.treemapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +22,11 @@ import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIE
 public class MainActivity extends Activity implements View.OnClickListener {
 
     public FileHandler filehandler;
-    private SubsamplingScaleImageView imageView;
+    private PinView imageView;
     public Mark mark;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Setting the image to display
 
-        imageView = (SubsamplingScaleImageView) findViewById(R.id.imageView);
+        imageView = (PinView) findViewById(R.id.imageView);
         imageView.setImage(ImageSource.resource(R.drawable.tree));
 
         //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
