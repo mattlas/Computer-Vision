@@ -15,7 +15,6 @@
 # Other generated files and directories
 VERSION
 docsrc/version.html
-bin
 results
 doc
 build
