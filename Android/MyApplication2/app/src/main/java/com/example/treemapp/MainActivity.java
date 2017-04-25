@@ -127,7 +127,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(getApplicationContext(), "Single tap: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
 
                     // Mark a tree
-                    imageView.setPinCoord((int)sCoord.x, (int)sCoord.y);
                     //mark = new Mark(getApplicationContext());
                     //mark.setPin(sCoord);
 
