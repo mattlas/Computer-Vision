@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/5dv115/Computer-Vision/c++Project/vlfeat-0.9.20 
+CXX_INCLUDES = -I/home/5dv115/Computer-Vision/c++Project/lib/vlfeat-0.9.20 
 
