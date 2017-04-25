@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(c__Project)
+project(TreeMarkupToolbox)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -8,6 +8,6 @@ set_property(TARGET vl PROPERTY IMPORTED_LOCATION "lib/vlfeat-0.9.20/bin/glnxa64
 include_directories(lib/vlfeat-0.9.20)
 link_directories(lib/vlfeat-0.9.20/bin/glnxa64)
 
-set(SOURCE_FILES main.cpp)
-add_executable(c__Project ${SOURCE_FILES})
-target_link_libraries(c__Project vl)
+set(SOURCE_FILES Main.cpp)
+add_executable(TreeMarkupToolbox ${SOURCE_FILES})
+target_link_libraries(TreeMarkupToolbox vl)

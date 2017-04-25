@@ -1,3 +1,0 @@
-/home/5dv115/Computer-Vision/c++Project/CMakeFiles/rebuild_cache.dir
-/home/5dv115/Computer-Vision/c++Project/CMakeFiles/edit_cache.dir
-/home/5dv115/Computer-Vision/c++Project/CMakeFiles/c__Project.dir
