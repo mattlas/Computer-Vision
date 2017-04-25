@@ -1,7 +1,15 @@
 package com.example.treemapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,12 +33,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private PinView imageView;
     public Mark mark;
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (checkPermission())
+            {
+                // Code for above or equal 23 API Oriented Device here if we need any
+            } else {
+                requestPermission(); // Code for permission
+            }
+        }
+        else
+        {
+            // Code for Below 23 API Oriented Device if we need any
+        }
 
         // Setting the image to display
         imageView = (PinView) findViewById(R.id.imageView);
@@ -44,7 +67,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Display image in its native orientation
         imageView.setOrientation(ORIENTATION_0);
 
-        // Filehandler
+
+
+        // Filehandler - needs permission before starting
         filehandler = new FileHandler();
         initialiseTreeDataSaving();
     }
@@ -64,16 +89,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
-                
+
                 Log.d(TAG,"Tree detail input popup opened");
-                // Just for debugging! it triggers a Log.d()
+
+
                 filehandler.readContents();
-                /*
-                 * TODO GUYS! I need your help in debugging this. I need to test the read from SD card but i never have permission to edit files.
-                 * Take a look at this: http://stackoverflow.com/questions/33162152/storage-permission-error-in-marshmallow
-                 * It worked for Karolina though... I hope i didnt fuck up the code :S
-                 * -A
-                 *
+                /* Just for debugging! it triggers a Log.d()
+                 * TODO remove this once its implemented elsewhere
                  */
 
 
@@ -146,11 +168,48 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    /**
+     * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
+     * @return true if app has permission, false if not
+     */
+    private boolean checkPermission(){
+
+        int result= ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Log.i(TAG,"Permission Granted");
+                } else {
+                    Log.w(TAG,"Permission Denied, no access to local drive");
+                }
+        }
+    }
 
     @Override
     public void onClick(View v) {
         return;
     }
+
+
 }
 
 
