@@ -30,4 +30,12 @@ public class Pin {
         return sPin;
     }
 
+    public int getX() {
+        return (int) sPin.x;
+    }
+
+    public int getY() {
+        return (int) sPin.y;
+    }
+
 }
