@@ -80,13 +80,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
         Log.d(TAG,"Tree detail input popup opened");
-        /* Just for debugging! it triggers a Log.d()
-            * TODO remove this once its implemented elsewhere
-        */
-
-        // used only for load function, or?
-        filehandler.readContents();
-
+        
         final EditText height = (EditText) mView.findViewById(R.id.inp_height);
         final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
         final EditText species = (EditText) mView.findViewById(R.id.inp_species);
