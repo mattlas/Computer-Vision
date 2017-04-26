@@ -13,6 +13,9 @@ public class Pin {
 
     private PointF sPin;
     private Bitmap pin;
+    private String height;
+    private String diameter;
+    private String species;
 
     /*
     * Make sure you are passing in image coordinates here
@@ -36,6 +39,13 @@ public class Pin {
 
     public int getY() {
         return (int) sPin.y;
+    }
+
+    public void setInputData(String height, String diameter, String species)
+    {
+        this.diameter = diameter;
+        this.height = height;
+        this.species = species;
     }
 
 }

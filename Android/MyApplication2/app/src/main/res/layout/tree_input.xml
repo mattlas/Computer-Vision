@@ -23,5 +23,10 @@
         android:layout_height="100dp"
         android:id="@+id/btn_save"
         android:text="Save"/>
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/btn_cancel"
+        android:text="Cancel"/>
 
 </LinearLayout>
