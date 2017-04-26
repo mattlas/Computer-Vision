@@ -34,6 +34,12 @@ public class Pin {
 
     }
 
+    public Pin(PointF sPin){
+        this("",sPin);
+    }
+
+
+
 
 
     public PointF getPoint() {

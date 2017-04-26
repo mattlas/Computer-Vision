@@ -23,6 +23,7 @@ public class PinView extends SubsamplingScaleImageView {
     private final String TAG = PinView.class.getSimpleName();
     private Paint paint;
     private List<Pin> pins;
+    private int pinIndex;
 
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -41,12 +42,15 @@ public class PinView extends SubsamplingScaleImageView {
         paint.setStrokeWidth(50);
 
         pins = new LinkedList<Pin>();
+        pinIndex=0;
     }
 
     public void addPin(Pin pin) {
+        pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (003;012;123 etc)
         pins.add(pin);
-
+        pinIndex++;
     }
+
 
     public void deletePin(Pin pin)
     {
