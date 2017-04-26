@@ -105,13 +105,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final EditText species = (EditText) mView.findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
 
+        mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
         dialog.show();
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
-                filehandler.addLine(data);
+                String data = getImageData() + height.getText() + "," + diameter.getText() + "," + species.getText() + "\n";
+                if(filehandler.addLine(data))
+                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                else
+                   Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }
