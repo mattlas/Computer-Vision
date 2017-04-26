@@ -47,6 +47,12 @@ public class PinView extends SubsamplingScaleImageView {
         pins.add(pin);
     }
 
+    public void deletePin(Pin pin)
+    {
+        pins.remove(pin);
+        pin = null;
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
