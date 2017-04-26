@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * This view is an extention of the SubsamplingScaleImageView where you can add
  * Created by oskar on 2017-04-24.
  */
 
