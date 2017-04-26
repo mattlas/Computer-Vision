@@ -76,39 +76,42 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return "\"img1.png\", 23, 45, ";
     }
 
-
+    /**Old version**/
     public void initialiseTreeDataSaving() {
         // inputting and saving the data
         Button mShowDialog = (Button) findViewById(R.id.showInput);
         mShowDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
+                popUpTreeInput();
+            }
+        });
+    }
 
-                Log.d(TAG,"Tree detail input popup opened");
+    /*New version*/
+    private void popUpTreeInput() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
+        Log.d(TAG,"Tree detail input popup opened");
 
-                filehandler.readContents();
-                /* Just for debugging! it triggers a Log.d()
-                 * TODO remove this once its implemented elsewhere
-                 */
+        /* Just for debugging! it triggers a Log.d()
+            * TODO remove this once its implemented elsewhere
+        */
+        filehandler.readContents();
 
+        final EditText height = (EditText) mView.findViewById(R.id.inp_height);
+        final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
+        final EditText species = (EditText) mView.findViewById(R.id.inp_species);
+        Button save = (Button) mView.findViewById(R.id.btn_save);
 
-                final EditText height = (EditText) mView.findViewById(R.id.inp_height);
-                final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
-                final EditText species = (EditText) mView.findViewById(R.id.inp_species);
-                Button save = (Button) mView.findViewById(R.id.btn_save);
-
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
-                        filehandler.addLine(data);
-                    }
-                });
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
+                filehandler.addLine(data);
             }
         });
     }
@@ -122,6 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
                     imageView.addPin(new Pin(sCoord));
+                    popUpTreeInput();
                     imageView.invalidate();
 
                 } else {
