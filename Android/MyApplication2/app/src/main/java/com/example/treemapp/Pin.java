@@ -15,6 +15,7 @@ public class Pin {
 
     private PointF sPin;
     private Bitmap pin;
+    private String id;
     private String height;
     private String diameter;
     private String species;
@@ -23,13 +24,17 @@ public class Pin {
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(PointF sPin) {
+    public Pin(String id, PointF sPin) {
         this.sPin = sPin;
+        this.id = id;
     }
 
-    public Pin(float x, float y) {
-        this.sPin = new PointF(x, y);
+    public Pin(String id, float x, float y) {
+        this(id, new PointF(x, y));
+
     }
+
+
 
     public PointF getPoint() {
         return sPin;
@@ -48,6 +53,26 @@ public class Pin {
         this.diameter = diameter;
         this.height = height;
         this.species = species;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pin pin = (Pin) o;
+
+        return id.equals(pin.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     /**
