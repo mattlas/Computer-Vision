@@ -72,12 +72,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Filehandler - needs permission before starting
         filehandler = new FileHandler();
+        imageView.setFileHandler(filehandler);
+        imageView.loadPinsFromFile();
     }
 
 
     protected String getImageData(){
-        // Dummy method, replace later with real image data
-        return "\"img1.png\", 23, 45, ";
+        // TODO replace with real image data
+        return "\"img1.png\"";
     }
 
     /*New version*/
@@ -103,7 +105,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
-                String data = getImageData() + height.getText() + "," + diameter.getText() + "," + species.getText() + "\n";
+                String data = pin.getCSV() + "," + getImageData() + "\n";
                 if(filehandler.addLine(data))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
@@ -138,6 +140,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     imageView.addPin(pin);
                     popUpTreeInput(pin);
                     imageView.invalidate();
+                    // TODO, talk about everything thats happening here, when exactly the pin is saved to the file!
+                    // I'm trying to make it save when it adds it with addPin, but maybe you guys have other plans?
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();

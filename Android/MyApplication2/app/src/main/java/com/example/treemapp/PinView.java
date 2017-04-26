@@ -24,6 +24,9 @@ public class PinView extends SubsamplingScaleImageView {
     private Paint paint;
     private List<Pin> pins;
     private int pinIndex;
+    private FileHandler fileHandler;
+
+    // I'm keeping the filehandler as an attribute to PinView to make interfacing between them easier.
 
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -45,18 +48,35 @@ public class PinView extends SubsamplingScaleImageView {
         pinIndex=0;
     }
 
+    public void setFileHandler(FileHandler f){
+        this.fileHandler=f;
+    }
+
     public void addPin(Pin pin) {
-        pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (003;012;123 etc)
+        pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (ie 003,012,123)
         pins.add(pin);
         pinIndex++;
+
+        fileHandler.addLine(pin.getCSV());
     }
 
 
     public void deletePin(Pin pin)
     {
         pins.remove(pin);
+
+        fileHandler.removeLine(pin.getId());
+
         pin = null;
     }
+
+    /**
+     * Loads the pins from the tree list into memory
+     */
+    public void loadPinsFromFile(){
+        pins = fileHandler.getPinList();
+    }
+
 
     @Override
     public void onDraw(Canvas canvas) {

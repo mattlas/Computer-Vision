@@ -76,6 +76,10 @@ public class Pin {
         this.id = id;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,7 +101,7 @@ public class Pin {
      * @return String representing the CSV line for the tree - "x,y,height,diameter,species"
      */
     public String getCSV(){
-        String s = sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species;
+        String s = id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species;
         return s;
     }
 
