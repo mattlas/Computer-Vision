@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -120,6 +121,24 @@ public class FileHandler {
         return lineList;
     }
 
+    /**
+     * Reads all existing trees on file and formats them for using on app startup
+     * @return a List of Pins that can be used for a PinView
+     */
+    public List<Pin> getPinList(){
+        ArrayList<String[]> lineList = this.readContents();
+        List<Pin> list = new ArrayList<>();
+
+        for (String line[] : lineList){
+            // For each tree on file, create and enter details of the new pin
+            Pin p = new Pin(line[0],Float.parseFloat(line[1]),Float.parseFloat(line[2]));
+            p.setInputData(line[3],line[4],line[5]);
+            list.add(p);
+        }
+
+        return list;
+
+    }
 
     // Do we really need this one?
 //

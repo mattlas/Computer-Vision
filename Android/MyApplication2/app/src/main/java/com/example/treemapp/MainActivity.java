@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
         Log.d(TAG,"Tree detail input popup opened");
-        
+
         final EditText height = (EditText) mView.findViewById(R.id.inp_height);
         final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
         final EditText species = (EditText) mView.findViewById(R.id.inp_species);
@@ -124,7 +124,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (imageView.isReady()) {
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-                    Pin pin = new Pin(sCoord);
+                    Pin pin = new Pin("DEBUG",sCoord);
+                    /*  TODO replace this with a proper id in the "addPin" method
+                     *
+                     */
                     imageView.addPin(pin);
                     popUpTreeInput(pin);
                     imageView.invalidate();
