@@ -13,6 +13,9 @@ public class Pin {
 
     private PointF sPin;
     private Bitmap pin;
+    private String height;
+    private String diameter;
+    private String species;
 
     /*
     * Make sure you are passing in image coordinates here
@@ -38,6 +41,7 @@ public class Pin {
         return (int) sPin.y;
     }
 
+
     /**
      * TODO, check that this works as expected
      * To see how close a point is to a point
@@ -47,6 +51,12 @@ public class Pin {
      */
     public double euclidianDistance(double x, double y) {
         return Math.sqrt((Math.pow(this.sPin.x - x, 2) + Math.pow(this.sPin.y - y, 2)));
+    }
+
+    public void setInputData(String height, String diameter, String species) {
+        this.diameter = diameter;
+        this.height = height;
+        this.species = species;
     }
 
 }
