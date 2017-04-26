@@ -1,4 +1,4 @@
-function [ data ] = m_img_list_for_android(imageIDs, impos, P, d);
+function [ dataStr ] = m_img_list_for_android(imageIDs, impos, P, d);
 %UNTITLED Summary of this function goes here
 % function for saving the file with data for android app
 %   Detailed explanation goes here

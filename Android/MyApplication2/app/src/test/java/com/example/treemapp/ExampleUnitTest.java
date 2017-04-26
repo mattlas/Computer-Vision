@@ -21,12 +21,16 @@ public class ExampleUnitTest {
     @Test
     public void mosaicToImage_isCorrect() {
 
-        int x = 0;
-        int y = 0;
+        float x = 5;
+        float y = 3;
 
-        ImageInfo im = new ImageInfo(1, 2, 3, 1, 2, 4, 1, 2, 5);
-        PointF point = im.convertFromMosaicCoordinateToOriginal(0, 0);
+        ImageInfo im = new ImageInfo(2, 0, 0, 0, 1, 0, 0, 0, 1);
+        float[] point = im.convertFromMosaicCoordinateToOriginal(x, y);
 
-        System.out.println("Converted from: " + Float.toString(x) + "," + Float.toString(y) + "to" + Float.toString(point.x) + ", " + Float.toString(point.y));
+        System.out.println("Converted from: " + Float.toString(x) + ", " + Float.toString(y) +
+                " to " + Float.toString(point[0]) + ", " + Float.toString(point[1]));
+
+        assertTrue(x * 2 == point[0]);
+        assertTrue(y == point[1]);
     }
 }
