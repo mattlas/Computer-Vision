@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,14 +55,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView = (PinView) findViewById(R.id.imageView);
         imageView.setImage(ImageSource.resource(R.drawable.tree));
 
+
+
+
         //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
+
+
+
 
         // Event handling
         initialiseEventHandling();
 
         // Display image in its native orientation
         imageView.setOrientation(ORIENTATION_0);
-
 
 
         // Filehandler - needs permission before starting
@@ -118,10 +124,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (imageView.isReady()) {
-                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-
-                    imageView.addPin(new Pin(sCoord));
-                    imageView.invalidate();
+                    //makePin(e);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
@@ -131,8 +134,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
-                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-                    Toast.makeText(getApplicationContext(), "Long press: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
+                    //PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+                    //Toast.makeText(getApplicationContext(), "Long press: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
+                    makePin(e);
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
@@ -155,6 +159,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
+    }
+
+    private void makePin(MotionEvent e) {
+        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+
+        imageView.addPin(new Pin(sCoord));
+        imageView.invalidate();
     }
 
     /**
