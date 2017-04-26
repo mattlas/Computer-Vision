@@ -72,22 +72,24 @@ class ImageInfo {
         return Math.sqrt((Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2)));
     }
 
-    public PointF convertFromMosaicCoordinateToOriginal(float x, float y) {
+    public float[] convertFromMosaicCoordinateToOriginal(float x, float y) {
         double[] mc = new double[3];
         mc[0] = x;
         mc[1] = y;
         //the z-coordinate but we don't have that information so 1 is apparently correct
-        mc[2] = 1;
+        mc[2] = 1f;
 
         RealMatrix mosaicCordinates = new Array2DRowRealMatrix(mc);
 
-        RealMatrix resultingMatrix = mosaicCordinates.multiply(inverseTransform);
+        RealMatrix resultingMatrix = inverseTransform.multiply(mosaicCordinates);
 
         float imageX, imageY;
         imageX = (float) resultingMatrix.getEntry(0, 0);
         imageY = (float) resultingMatrix.getEntry(1, 0);
         //ignoring the z-coordinate since we don't need it
 
-        return new PointF(imageX, imageY);
+        float[] originalCoordinate = {imageX, imageY};
+
+        return originalCoordinate;
     }
 }
