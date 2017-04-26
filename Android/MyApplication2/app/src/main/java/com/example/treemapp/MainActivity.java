@@ -53,9 +53,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Setting the image to display
         imageView = (PinView) findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.resource(R.drawable.tree));
+        //imageView.setImage(ImageSource.resource(R.drawable.tree));
+        imageView.setImage(ImageSource.uri("/Documents/GitHub/Computer-Vision/Android/Images"));
         imageView.setMaxScale(10f);
-
 
 
 
