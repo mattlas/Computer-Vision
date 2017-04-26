@@ -9,16 +9,4 @@
         android:layout_width="match_parent"
         android:layout_height="600dp"/>
 
-    <Button
-        android:id="@+id/showInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/finishStream"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish" />
-
 </LinearLayout>
