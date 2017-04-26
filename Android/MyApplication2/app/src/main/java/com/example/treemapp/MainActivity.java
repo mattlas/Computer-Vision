@@ -133,10 +133,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-                    Pin pin = new Pin("DEBUG",sCoord);
-                    /*  TODO replace this with a proper id in the "addPin" method
-                     *
-                     */
+                    Pin pin = new Pin(sCoord);
+
                     imageView.addPin(pin);
                     popUpTreeInput(pin);
                     imageView.invalidate();
