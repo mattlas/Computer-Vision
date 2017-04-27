@@ -6,6 +6,7 @@ import android.util.Log;
 
 import junit.framework.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.linear.*;
 
@@ -24,6 +25,7 @@ class ImageInfo {
     private String fileName;
     private List<String> neighbours;
     private RealMatrix inverseTransform;
+    private List neighbors;
 
     public ImageInfo(String[] words) {
         parseInfo(words);
@@ -52,6 +54,7 @@ class ImageInfo {
     }
 
     private void parseInfo(String[] words) {
+        neighbors = new ArrayList<>();
         this.fileName = words[0];
         this.x = Double.parseDouble(words[1]);
         this.y = Double.parseDouble(words[2]);
@@ -61,18 +64,36 @@ class ImageInfo {
 
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
-                entries[x][y] = Double.parseDouble(words[count++]);
+                entries[y][x] = Double.parseDouble(words[count++]);
             }
         }
 
         inverseTransform = new Array2DRowRealMatrix(entries);
+
+        while ( count < words.length ) {
+            neighbors.add(words[count]);
+            count++;
+        }
+    }
+
+    public String getFileName() {
+        return this.fileName;
     }
 
     public double euclidianDistance(double x, double y) {
         return Math.sqrt((Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2)));
     }
 
-    public float[] convertFromMosaicCoordinateToOriginal(float x, float y) {
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    //TODO, this is missing the translation and the rescaling
+    public float[] convertFromMosaicCoordinateToOriginal(double x, double y) {
         double[] mc = new double[3];
         mc[0] = x;
         mc[1] = y;
@@ -91,5 +112,13 @@ class ImageInfo {
         float[] originalCoordinate = {imageX, imageY};
 
         return originalCoordinate;
+    }
+
+    public RealMatrix getInverseTransformMatrix() {
+        return inverseTransform;
+    }
+
+    public List getNeighbors() {
+        return neighbors;
     }
 }

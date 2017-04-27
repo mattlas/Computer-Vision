@@ -56,12 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.setImage(ImageSource.resource(R.drawable.tree));
         imageView.setMaxScale(10f);
 
-
-
         //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
-
-
-
 
         // Event handling
         initialiseEventHandling();
