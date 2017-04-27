@@ -1,9 +1,10 @@
 package com.example.treemapp;
 
 import android.Manifest;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class FileHandler {
 
-    private String filename = "/sdcard/treeList_";
+    private String filename = Environment.getExternalStorageDirectory() + "/treelists/treeList_";
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
