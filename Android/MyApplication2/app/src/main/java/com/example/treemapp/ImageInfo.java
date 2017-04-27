@@ -23,9 +23,8 @@ class ImageInfo {
     private double x;
     private double y;
     private String fileName;
-    private List<String> neighbours;
+    private List<String> neighbors;
     private RealMatrix inverseTransform;
-    private List neighbors;
 
     public ImageInfo(String[] words) {
         parseInfo(words);
@@ -54,7 +53,7 @@ class ImageInfo {
     }
 
     private void parseInfo(String[] words) {
-        neighbors = new ArrayList<>();
+        neighbors = new ArrayList<String>();
         this.fileName = words[0];
         this.x = Double.parseDouble(words[1]);
         this.y = Double.parseDouble(words[2]);
@@ -62,9 +61,9 @@ class ImageInfo {
         double[][] entries = new double[3][3];
         int count = 3;
 
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 3; x++) {
-                entries[y][x] = Double.parseDouble(words[count++]);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                entries[x][y] = Double.parseDouble(words[count++]);
             }
         }
 
@@ -118,7 +117,7 @@ class ImageInfo {
         return inverseTransform;
     }
 
-    public List getNeighbors() {
+    public List<String> getNeighbors() {
         return neighbors;
     }
 }

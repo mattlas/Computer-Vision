@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -21,13 +22,17 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
+import java.io.File;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     public FileHandler filehandler;
+    private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
     public Pin pin;
+    private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -53,17 +58,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Setting the image to display
         imageView = (PinView) findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.resource(R.drawable.tree));
-        imageView.setMaxScale(10f);
 
-        //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
+        imageView.setMaxScale(10f);
+        imageView.setOrientation(ORIENTATION_0);
+
+        imageInfoListHandler = new ImageInfoListHandler();
+
+        String path = folderName + "mosaic.jpg";
+        File file = new File(path);
+
+        if (file.exists()) {
+            imageView.setImage(ImageSource.uri(path));
+        }
+        else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
 
         // Event handling
         initialiseEventHandling();
-
-        // Display image in its native orientation
-        imageView.setOrientation(ORIENTATION_0);
-
 
         // Filehandler - needs permission before starting
         filehandler = new FileHandler();
