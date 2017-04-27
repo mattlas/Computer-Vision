@@ -38,10 +38,6 @@ public class Pin {
         this("",sPin);
     }
 
-
-
-
-
     public PointF getPoint() {
         return sPin;
     }
