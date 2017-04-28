@@ -13,12 +13,14 @@ import android.util.AttributeSet;
  */
 public class Pin {
 
+    private final int collisionRadius;
     private PointF sPin;
     private Bitmap pin;
     private String id;
     private String height;
     private String diameter;
     private String species;
+    private int radius;
 
     /*
     * Make sure you are passing in image coordinates here
@@ -27,6 +29,8 @@ public class Pin {
     public Pin(String id, PointF sPin) {
         this.sPin = sPin;
         this.id = id;
+        this.radius = 20;
+        this.collisionRadius = 30;
     }
 
     public Pin(String id, float x, float y) {
@@ -101,5 +105,11 @@ public class Pin {
         return s;
     }
 
+    public int getCollisionRadius() {
+        return collisionRadius;
+    }
 
+    public int getRadius() {
+        return radius;
+    }
 }
