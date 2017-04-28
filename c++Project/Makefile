@@ -48,10 +48,10 @@ RM = /home/5dv115/clion-2017.1/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/5dv115/Computer-Vision/c++Project
+CMAKE_SOURCE_DIR = /home/lucero/Computer-Vision/c++Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/5dv115/Computer-Vision/c++Project
+CMAKE_BINARY_DIR = /home/lucero/Computer-Vision/c++Project
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles /home/5dv115/Computer-Vision/c++Project/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucero/Computer-Vision/c++Project/CMakeFiles /home/lucero/Computer-Vision/c++Project/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucero/Computer-Vision/c++Project/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

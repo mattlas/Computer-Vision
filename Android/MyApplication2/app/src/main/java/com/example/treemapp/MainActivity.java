@@ -3,9 +3,11 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -20,13 +22,17 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
+import java.io.File;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     public FileHandler filehandler;
+    private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
     public Pin pin;
+    private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -52,63 +58,73 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Setting the image to display
         imageView = (PinView) findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.resource(R.drawable.tree));
-        imageView.setMaxScale(10f);
 
-        //imageView.setImage(ImageSource.uri("/sdcard/DCIM/DSCM00123.JPG"));
+        imageView.setMaxScale(10f);
+        imageView.setOrientation(ORIENTATION_0);
+
+        imageInfoListHandler = new ImageInfoListHandler();
+
+        String path = folderName + "mosaic.jpg";
+        File file = new File(path);
+
+        if (file.exists()) {
+            imageView.setImage(ImageSource.uri(path));
+        }
+        else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
 
         // Event handling
         initialiseEventHandling();
 
-        // Display image in its native orientation
-        imageView.setOrientation(ORIENTATION_0);
-
-
-
         // Filehandler - needs permission before starting
         filehandler = new FileHandler();
-        initialiseTreeDataSaving();
+        imageView.setFileHandler(filehandler);
+        imageView.loadPinsFromFile();
     }
 
 
     protected String getImageData(){
-        // Dummy method, replace later with real image data
-        return "\"img1.png\", 23, 45, ";
+        // TODO replace with real image data
+        return "\"img1.png\"";
     }
 
+    /*New version*/
+    private void popUpTreeInput(final Pin pin) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
-    public void initialiseTreeDataSaving() {
-        // inputting and saving the data
-        Button mShowDialog = (Button) findViewById(R.id.showInput);
-        mShowDialog.setOnClickListener(new View.OnClickListener() {
+        Log.d(TAG,"Tree detail input popup opened");
+
+        final EditText height = (EditText) mView.findViewById(R.id.inp_height);
+        final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
+        final EditText species = (EditText) mView.findViewById(R.id.inp_species);
+        Button save = (Button) mView.findViewById(R.id.btn_save);
+        Button cancel = (Button) mView.findViewById(R.id.btn_cancel);
+
+        // show dialog
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        // when save clicked - save info to the file and to the pin list
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
+                pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
+                String data = pin.getCSV() + "," + getImageData() + "\n";
+                if(filehandler.addLine(data))
+                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                else
+                   Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
 
-                Log.d(TAG,"Tree detail input popup opened");
-
-
-                filehandler.readContents();
-                /* Just for debugging! it triggers a Log.d()
-                 * TODO remove this once its implemented elsewhere
-                 */
-
-
-                final EditText height = (EditText) mView.findViewById(R.id.inp_height);
-                final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
-                final EditText species = (EditText) mView.findViewById(R.id.inp_species);
-                Button save = (Button) mView.findViewById(R.id.btn_save);
-
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String data = getImageData() + "," + height.getText() + "," + diameter.getText() + "," + species.getText();
-                        filehandler.addLine(data);
-                    }
-                });
+        // when cancel clicked - don't save the info and delete the pin
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.deletePin(pin);
+                dialog.dismiss();
             }
         });
     }
@@ -119,10 +135,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (imageView.isReady()) {
+
+                    //makePin(e);
+
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-                    imageView.addPin(new Pin(sCoord));
+                    Pin pin = new Pin(sCoord);
+
+                    imageView.addPin(pin);
+                    popUpTreeInput(pin);
                     imageView.invalidate();
+                    // TODO, talk about everything thats happening here, when exactly the pin is saved to the file!
+                    // I'm trying to make it save when it adds it with addPin, but maybe you guys have other plans?
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
@@ -132,8 +156,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
-                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-                    Toast.makeText(getApplicationContext(), "Long press: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
+                    //PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+                    //Toast.makeText(getApplicationContext(), "Long press: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
+                    makePin(e);
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
@@ -156,6 +181,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
+    }
+
+    private void makePin(MotionEvent e) {
+        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+
+        imageView.addPin(new Pin(sCoord));
+        imageView.invalidate();
     }
 
     /**
