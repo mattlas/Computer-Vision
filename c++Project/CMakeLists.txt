@@ -9,6 +9,7 @@ set_property(TARGET vl PROPERTY IMPORTED_LOCATION "lib/vlfeat-0.9.20/bin/glnxa64
 include_directories(lib/vlfeat-0.9.20)
 link_directories(lib/vlfeat-0.9.20/bin/glnxa64)
 
-set(SOURCE_FILES src/Main.cpp)
+set(SOURCE_FILES src/Main.cpp src/FeaturePoints.cpp
+        src/FeaturePoints.h src/KeyPoint.h src/KeyPoint.cpp)
 add_executable(TreeMarkupToolbox ${SOURCE_FILES})
 target_link_libraries(TreeMarkupToolbox vl)

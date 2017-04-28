@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
+#include "KeyPoint.h"
 
 extern "C"{
 #include <vl/generic.h>
@@ -15,5 +16,8 @@ extern "C"{
 
 int main(){
     VL_PRINT ("vlfeat loaded properly\n");
+    FeaturePoints *points = new FeaturePoints();
+    points->testClass();
+    points->calculatePoints("filnamn");
     return 0;
 }
