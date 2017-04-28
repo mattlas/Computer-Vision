@@ -68,6 +68,44 @@ public class PinView extends SubsamplingScaleImageView {
         fileHandler.removeLine(pin.getId());
 
         pin = null;
+
+    }
+
+    public boolean listIsEmpty () {
+        if (pins == null || pins.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Pin getClosestPin (double x, double y) {
+        // Coordinates of tapped position: x, y
+        PointF pointF = new PointF();
+        pointF.set((float)x, (float)y);
+
+        // Coordinates of pins
+        PointF point;
+
+        double minimalDistance = 10000000;
+        Pin pin = new Pin(pointF);
+
+        // Check all pins in list, find pin with minimal distance to tabbed point
+        for(Pin p : pins) {
+            point = sourceToViewCoord(p.getPoint());
+            // Distance
+            double distance = Math.sqrt((Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2)));
+            if (distance < minimalDistance) {
+                minimalDistance = distance;
+                pin = p;
+            }
+        }
+        return pin;
+    }
+
+    public void changePinLocation (Pin pin) {
+
+
     }
 
     /**
@@ -90,7 +128,7 @@ public class PinView extends SubsamplingScaleImageView {
 
         for(Pin p : pins) {
             point = sourceToViewCoord(p.getPoint());
-            canvas.drawCircle((int) point.x, (int) point.y, 30, paint);
+            canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), paint);
         }
     }
 }
