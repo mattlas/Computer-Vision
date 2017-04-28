@@ -5,6 +5,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,12 +16,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -59,7 +66,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Setting the image to display
         imageView = (PinView) findViewById(R.id.imageView);
 
-        imageView.setMaxScale(10f);
+        imageView.setMaxScale(8f);
         imageView.setOrientation(ORIENTATION_0);
 
         imageInfoListHandler = new ImageInfoListHandler();
@@ -85,6 +92,59 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected String getImageData(){
         // TODO replace with real image data
         return "\"img1.png\"";
+    }
+
+
+    //opens up the perspective for a certain point
+    private void perspectiveViewPopUp(double x, double y) {
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.perspective, null);
+
+        Log.d(TAG,"Perspective popup opened");
+
+        final ImageView perspective1 = (ImageView) mView.findViewById(R.id.Perspective1);
+
+        ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
+
+        String fileLocation = imageInfoListHandler.loadImage(im);
+
+        File f = new File(fileLocation);
+
+        if (f.exists()) {
+            try {
+                Bitmap bmp = BitmapFactory.decodeFile(fileLocation);
+                Bitmap bmp2 = Bitmap.createScaledBitmap(bmp, 200, 200, true);
+                perspective1.setImageBitmap(bmp2);
+            }
+            catch (Exception e) {
+                Log.e(TAG, "could not set image to imageview", e);
+            }
+        }
+        else {
+            Toast toast = Toast.makeText(getApplicationContext(), "could not find file at:\'" +
+                    fileLocation + "'", Toast.LENGTH_LONG);
+        }
+
+        final Button cancel = (Button) mView.findViewById(R.id.btn_perspective_cancel);
+
+        // show perspectivePopUp
+        mBuilder.setView(mView);
+        final AlertDialog perspectivePopUp = mBuilder.create();
+
+        perspectivePopUp.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        perspectivePopUp.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+
+        perspectivePopUp.show();
+
+        // when cancel clicked - don't save the info and delete the pin
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                perspectivePopUp.dismiss();
+            }
+        });
     }
 
     /*New version*/
@@ -156,9 +216,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
-                    //PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-                    //Toast.makeText(getApplicationContext(), "Long press: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
-                    makePin(e);
+                    perspectiveViewPopUp(0, 0);
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
