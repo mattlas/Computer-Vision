@@ -11,10 +11,15 @@ extern "C" {
 #include <vl/generic.h>
 #include <vl/getopt_long.h>
 #include "src/generic-driver.h"
-
 }
 
-
+int main( int argc, char** argv ) {
+    VL_PRINT("vlfeat loaded properly\n");
+    FeaturePoints *points = new FeaturePoints();
+    points->testClass();
+    points->calculatePoints("filnamn");
+    return 0;
+}
 
 
 FeaturePoints::FeaturePoints(void) {
@@ -49,11 +54,8 @@ void FeaturePoints::calculatePoints(std::string) {
     vl_bool  force_output       = 0 ;
     vl_bool  force_orientations = 0 ;
 
-    VlFileMeta out  = {1, "%.sift",  VL_PROT_ASCII, "", 0} ;
-    VlFileMeta frm  = {0, "%.frame", VL_PROT_ASCII, "", 0} ;
-    VlFileMeta dsc  = {0, "%.descr", VL_PROT_ASCII, "", 0} ;
-    VlFileMeta met  = {0, "%.meta",  VL_PROT_ASCII, "", 0} ;
-    VlFileMeta gss  = {0, "%.pgm",   VL_PROT_ASCII, "", 0} ;
+
+    VlFileMeta dsc  = {1, "%.descr", VL_PROT_ASCII, "", 0} ;
     VlFileMeta ifr  = {0, "%.frame", VL_PROT_ASCII, "", 0} ;
     /* PROCESS IMAGE -------------------------- */
 
@@ -198,16 +200,11 @@ void FeaturePoints::calculatePoints(std::string) {
         /* now order by scale */
         qsort (ikeys, nikeys, 4 * sizeof(double), korder) ;
 
-        if (verbose) {
-            printf ("sift: read %d keypoints from '%s'\n", nikeys, ifr.name) ;
-        }
-
         /* close file */
         vl_file_meta_close (&ifr) ;
     }
 
     err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
-    err = vl_file_meta_open (&frm, basename, "wb") ; WERR(frm.name, writing) ;
 
 
     filt = vl_sift_new((int)pim.width, (int)pim.height, -1, 5, 4);
@@ -238,10 +235,6 @@ void FeaturePoints::calculatePoints(std::string) {
             keys  = vl_sift_get_keypoints     (filt) ;
             nkeys = vl_sift_get_nkeypoints (filt) ;
             i     = 0 ;
-
-            if (verbose > 1) {
-                printf ("sift: detected %d (unoriented) keypoints\n", nkeys) ;
-            }
         } else {
             nkeys = nikeys ;
         }
@@ -296,8 +289,6 @@ void FeaturePoints::calculatePoints(std::string) {
                     vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
                 }
                 fprintf(dsc.file, "\n") ;
-                std::cout << "keypoint: " << k << "desc: " << &descr << std::endl;
-
             }
         }
     }
