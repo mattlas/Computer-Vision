@@ -11,9 +11,11 @@
 #include <opencv2/highgui.hpp>
 
 #include <iostream>
-<<<<<<< HEAD
 #include "FeaturePoints.h"
-=======
+
+extern "C"{
+#include <vl/generic.h>
+}
 #include <string>
 
 using namespace cv;
@@ -37,22 +39,17 @@ void displayimage(Mat img)
     imshow( "Display window", img );                // Display the image
     waitKey(0); // Wait for a keystroke in the window
 }
->>>>>>> 753e8cf16b71d1e69ddbf30831a75c0d0c6782fc
 
-extern "C"{
-#include <vl/generic.h>
-}
 
-<<<<<<< HEAD
 int main(){
     VL_PRINT ("vlfeat loaded properly\n");
     FeaturePoints* points = new FeaturePoints();
     points->testClass();
     points->calculatePoints("filnamn");
     return 0;
-=======
-int main( int argc, char** argv )
+
 {
+/*    int main( int argc, char** argv ) {
     String imageName;
     Mat image;
     try
@@ -69,7 +66,6 @@ int main( int argc, char** argv )
     
     image=readimage(imageName);
     displayimage(image);
->>>>>>> 753e8cf16b71d1e69ddbf30831a75c0d0c6782fc
-}
+}*/
         
     
