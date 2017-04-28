@@ -5,7 +5,11 @@ for ID = 1:size(imageIDs)-1
     % 	neighbors = find(d(ID:end,ID))+ID-1;
     
     %               TEST
-    neighbors = ID+1;
+    if (ID < 2)
+        neighbors = ID+1;
+    else
+        neighbors = [ID+1; ID-1];
+    end
     
        
     
@@ -13,7 +17,7 @@ for ID = 1:size(imageIDs)-1
     
     for secID = neighbors'
         numMatches = 0;
-        matchThreshold = 1.7;
+        matchThreshold = 1.2;
         %         while numMatches < 100
         [matches, scores] = vl_ubcmatch(D{ID},D{secID},matchThreshold);
         numMatches = size(matches,2) ;
@@ -29,7 +33,7 @@ for ID = 1:size(imageIDs)-1
         % --------------------------------------------------------------------
         
         clear H score ok ;
-        for t = 1:500
+        for t = 1:1000
             % estimate homograpyh
             subset = vl_colsubset(1:numMatches, 4) ;
             A = [] ;
@@ -43,21 +47,23 @@ for ID = 1:size(imageIDs)-1
             X2_ = H{t} * X1 ;
             du = X2_(1,:)./X2_(3,:) - X2(1,:)./X2(3,:) ;
             dv = X2_(2,:)./X2_(3,:) - X2(2,:)./X2(3,:) ;
-            ok{t} = (du.*du + dv.*dv) < 4*4 ;
+            ok{t} = (du.*du + dv.*dv) < 6*6 ;
             score(t) = sum(ok{t}) ;
         end
         
         [score, best] = max(score) ;
-        H = H{best} ;
-        Hom{ID,secID} = H;
-%         W(ID,secID) = score;
+        H = H{best};
+        H = inv(H);
+        H = H / H (3,3);
+        Hm{ secID , ID } = H;
+        W(ID,secID) = score;
         ok = ok{best} ;
         
         % --------------------------------------------------------------------
         %                                                         Show matches
         % --------------------------------------------------------------------
         
-        
+%         
 %         im1 = imread(char(imageIDs{ID,1}));
 %         im1 = im2single(im1);
 %         im1g = im1;
@@ -92,5 +98,5 @@ for ID = 1:size(imageIDs)-1
         
     end
 end
-
+Hom = {Hm, W};
 end
