@@ -3,12 +3,14 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
+
 import android.content.pm.PackageManager;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +40,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    public Pin pin;
     private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -158,7 +159,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
         final EditText species = (EditText) mView.findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
-        Button cancel = (Button) mView.findViewById(R.id.btn_cancel);
+        Button delete = (Button) mView.findViewById(R.id.btn_cancel);
 
         // show dialog
         mBuilder.setView(mView);
@@ -179,8 +180,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        // when cancel clicked - don't save the info and delete the pin
-        cancel.setOnClickListener(new View.OnClickListener() {
+        // when delete clicked - don't save the info and delete the pin
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageView.deletePin(pin);
@@ -195,16 +196,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (imageView.isReady()) {
-
-                    //makePin(e);
-
+                    // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-                    Pin pin = new Pin(sCoord);
+                    // Always draw first pin!
+                    if (imageView.listIsEmpty() == true) {
+                        makePin(e);
+                    } else {
+                        // Closest pin to tapped position
+                        Pin closestPin = imageView.getClosestPin(sCoord.x, sCoord.y);
 
-                    imageView.addPin(pin);
-                    popUpTreeInput(pin);
-                    imageView.invalidate();
+                        // Distance between closest pin and tapped position
+                        double distance = closestPin.euclidianDistance(sCoord.x, sCoord.y);
+
+                        // If tabbed position is inside collision radius of a pin -> edit this pin
+                        if (distance < closestPin.getCollisionRadius()){
+                            // User should get notification!!!
+
+                            popUpTreeInput(closestPin);
+                            imageView.invalidate();
+                            // otherwise make new pin
+                        } else {
+                            makePin(e);
+                        }
+                    }
+
                     // TODO, talk about everything thats happening here, when exactly the pin is saved to the file!
                     // I'm trying to make it save when it adds it with addPin, but maybe you guys have other plans?
 
@@ -216,7 +232,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
-                    perspectiveViewPopUp(0, 0);
+                    //perspectiveViewPopUp(0, 0);
+                    // Drag Pin
+                    dragPin(e);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
@@ -244,9 +263,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-        imageView.addPin(new Pin(sCoord));
+        Pin pin = new Pin(sCoord);
+
+        imageView.addPin(pin);
+        popUpTreeInput(pin);
         imageView.invalidate();
     }
+
+    private void dragPin(MotionEvent e) {
+        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+        Pin pin = imageView.getClosestPin(sCoord.x, sCoord.y);
+        imageView.changePinLocation(pin);
+        popUpTreeInput(pin);
+        imageView.invalidate();
+    }
+
 
     /**
      * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
