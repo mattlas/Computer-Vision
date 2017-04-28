@@ -13,13 +13,13 @@ extern "C" {
 #include "src/generic-driver.h"
 }
 
-int main( int argc, char** argv ) {
+/*int main( int argc, char** argv ) {
     VL_PRINT("vlfeat loaded properly\n");
     FeaturePoints *points = new FeaturePoints();
     points->testClass();
     points->calculatePoints("filnamn");
     return 0;
-}
+}*/
 
 
 FeaturePoints::FeaturePoints(void) {
@@ -60,7 +60,7 @@ void FeaturePoints::calculatePoints(std::string) {
     /* PROCESS IMAGE -------------------------- */
 
     char basename [1024] ;
-    char const *name = "/home/5dv115/c13evk_scripts/test/DSC01087_geotag.pgm";
+    char const *name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
 
 
     FILE            *in    = 0 ;
@@ -75,6 +75,7 @@ void FeaturePoints::calculatePoints(std::string) {
 
     double           *ikeys = 0 ;
     int              nikeys = 0, ikeys_size = 0 ;
+    int nKeypoints = 0;
 
 
 
@@ -207,7 +208,7 @@ void FeaturePoints::calculatePoints(std::string) {
     err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
-    filt = vl_sift_new((int)pim.width, (int)pim.height, -1, 5, 4);
+    filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,1);
 
     i     = 0 ;
     first = 1 ;
@@ -240,7 +241,9 @@ void FeaturePoints::calculatePoints(std::string) {
         }
 
         /* for each keypoint ........................................ */
+
         for (; i < nkeys ; ++i) {
+            nKeypoints++;
             double                angles [4] ;
             int                   nangles ;
             VlSiftKeypoint        ik ;
@@ -290,8 +293,10 @@ void FeaturePoints::calculatePoints(std::string) {
                 }
                 fprintf(dsc.file, "\n") ;
             }
+
         }
     }
+    std::cout << "kepoints= " << nKeypoints << std::endl;
 
 
 
