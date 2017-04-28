@@ -43,4 +43,11 @@ public class ExampleInstrumentedTest {
 
         assertTrue(f.exists() && !f.isDirectory());
     }
+
+    @Test
+    public void checkIfImagesExists() {
+        ImageInfoListHandler iilh = new ImageInfoListHandler();
+        iilh.loadImage(iilh.findImageClosestTo(0, 0));
+    }
+
 }
