@@ -108,3 +108,7 @@ int mwe(){
 
 	return EXIT_SUCCESS;
 }
+
+int main(){
+   mwe();
+}
