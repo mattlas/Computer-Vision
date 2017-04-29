@@ -21,6 +21,7 @@ public class Pin {
     private String diameter;
     private String species;
     private int radius;
+    private boolean dragged = false;
 
     /*
     * Make sure you are passing in image coordinates here
@@ -54,6 +55,18 @@ public class Pin {
         return (int) sPin.y;
     }
 
+    /*Two different ways of setting position of the pin (mosaic-coordinates)*/
+    public void setPosition(double x, double y) {
+        sPin.set((float) x, (float) y);
+    }
+
+    public void setPosition(PointF position) {
+        setPosition(position.x, position.y);
+    }
+
+    public void setDragged(boolean dragged) {
+        this.dragged = dragged;
+    }
 
     /**
      * TODO, check that this works as expected
@@ -105,11 +118,21 @@ public class Pin {
         return s;
     }
 
+    /*How far away the user can touch the screen for the pin to consider itself touched*/
     public int getCollisionRadius() {
         return collisionRadius;
     }
 
+    /*How big the drawn circle should be*/
     public int getRadius() {
         return radius;
+    }
+
+    public void updatePositionInFile() {
+        //TODO, here we can update the file maybe
+    }
+
+    public boolean isDragged() {
+        return dragged;
     }
 }

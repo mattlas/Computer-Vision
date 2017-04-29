@@ -44,6 +44,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
+    private Pin dragPin = null;
+    private PointF latestTouch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +202,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
                     // Always draw first pin!
-                    if (imageView.listIsEmpty() == true) {
+                    if (imageView.listIsEmpty()) {
                         makePin(e);
                     } else {
                         // Closest pin to tapped position
@@ -234,7 +236,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (imageView.isReady()) {
                     //perspectiveViewPopUp(0, 0);
                     // Drag Pin
-                    dragPin(e);
+                    setUpDragPin(e);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
@@ -255,9 +257,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (dragPin != null) {
+
+                    latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
+                    dragPin.setPosition(latestTouch);
+
+                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                        dragPin.updatePositionInFile();
+                        dragPin.setDragged(false);
+                        dragPin = null;
+                        imageView.setPanEnabled(true);
+                        imageView.setZoomEnabled(true);
+                        imageView.invalidate();
+                    }
+
+                    imageView.invalidate();
+                }
+
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
+
+
     }
 
     private void makePin(MotionEvent e) {
@@ -270,14 +291,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.invalidate();
     }
 
-    private void dragPin(MotionEvent e) {
+    private void setUpDragPin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-        Pin pin = imageView.getClosestPin(sCoord.x, sCoord.y);
-        imageView.changePinLocation(pin);
-        popUpTreeInput(pin);
+        dragPin = imageView.getClosestPin(sCoord.x, sCoord.y);
+        dragPin.setDragged(true);
+        imageView.setPanEnabled(false);
+        imageView.setZoomEnabled(false);
         imageView.invalidate();
     }
-
 
     /**
      * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
