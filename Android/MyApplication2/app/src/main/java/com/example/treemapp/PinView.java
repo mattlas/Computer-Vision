@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
@@ -21,10 +20,11 @@ import java.util.List;
 public class PinView extends SubsamplingScaleImageView {
 
     private final String TAG = PinView.class.getSimpleName();
-    private Paint paint;
+    private Paint filled;
     private List<Pin> pins;
     private int pinIndex;
     private FileHandler fileHandler;
+    private Paint unfilled;
 
     // I'm keeping the filehandler as an attribute to PinView to make interfacing between them easier.
 
@@ -39,10 +39,16 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     public void init() {
-        paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setAlpha(255);
-        paint.setStrokeWidth(50);
+        filled = new Paint();
+        filled.setColor(Color.WHITE);
+        filled.setAlpha(255);
+        filled.setStrokeWidth(1);
+
+        unfilled = new Paint();
+        unfilled.setColor(Color.WHITE);
+        unfilled.setAlpha(255);
+        unfilled.setStrokeWidth(5);
+        unfilled.setStyle(Paint.Style.STROKE);
 
         pins = new LinkedList<Pin>();
         pinIndex=0;
@@ -66,19 +72,18 @@ public class PinView extends SubsamplingScaleImageView {
         pins.remove(pin);
 
         fileHandler.removeLine(pin.getId());
-
-        pin = null;
-
     }
 
     public boolean listIsEmpty () {
-        if (pins == null || pins.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return pins == null || pins.isEmpty();
     }
 
+    /**
+     * Used when editing pins
+     * @param x - mosaic coordinates
+     * @param y - mosaic coordinates
+     * @return the closest pin
+     */
     public Pin getClosestPin (double x, double y) {
         // Coordinates of tapped position: x, y
         PointF pointF = new PointF();
@@ -103,11 +108,6 @@ public class PinView extends SubsamplingScaleImageView {
         return pin;
     }
 
-    public void changePinLocation (Pin pin) {
-
-
-    }
-
     /**
      * Loads the pins from the tree list into memory
      */
@@ -128,7 +128,14 @@ public class PinView extends SubsamplingScaleImageView {
 
         for(Pin p : pins) {
             point = sourceToViewCoord(p.getPoint());
-            canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), paint);
+
+            if (p.isDragged()) {
+                canvas.drawCircle((int) point.x, (int) point.y, p.getCollisionRadius(), unfilled);
+                filled.setAlpha(128);
+            }
+            else filled.setAlpha(255);
+
+            canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), filled);
         }
     }
 }
