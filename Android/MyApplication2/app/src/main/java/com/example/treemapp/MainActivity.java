@@ -201,9 +201,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
-                    // Always draw first pin!
+                    // If there is no pins we are definitely creating a new one
                     if (imageView.listIsEmpty()) {
-                        makePin(e);
+                        makePin(e); //makes pin, creates menu
                     } else {
                         // Closest pin to tapped position
                         Pin closestPin = imageView.getClosestPin(sCoord.x, sCoord.y);
@@ -219,6 +219,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             imageView.invalidate();
                             // otherwise make new pin
                         } else {
+                            //If the user's presses not near an existing pin we make a new one
                             makePin(e);
                         }
                     }
@@ -245,40 +246,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 return super.onDoubleTap(e);
-                /*if (imageView.isReady()) {
-                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-                    Toast.makeText(getApplicationContext(), "Double tap: " + ((int)sCoord.x) + ", " + ((int)sCoord.y), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Double tap: Image not ready", Toast.LENGTH_SHORT).show();
-                }
-                return true;*/
             }
         });
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (dragPin != null) {
+                if (imageView.isReady()) {
+                    if (dragPin != null) {
+                        latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
+                        dragPin.setPosition(latestTouch);
 
-                    latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
-                    dragPin.setPosition(latestTouch);
+                        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            dragPin.updatePositionInFile();
+                            dragPin.setDragged(false);
+                            dragPin = null;
+                            imageView.setPanEnabled(true);
+                            imageView.setZoomEnabled(true);
+                            imageView.invalidate();
+                        }
 
-                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                        dragPin.updatePositionInFile();
-                        dragPin.setDragged(false);
-                        dragPin = null;
-                        imageView.setPanEnabled(true);
-                        imageView.setZoomEnabled(true);
                         imageView.invalidate();
                     }
-
-                    imageView.invalidate();
                 }
 
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
-
-
     }
 
     private void makePin(MotionEvent e) {
@@ -292,12 +285,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void setUpDragPin(MotionEvent e) {
-        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-        dragPin = imageView.getClosestPin(sCoord.x, sCoord.y);
-        dragPin.setDragged(true);
-        imageView.setPanEnabled(false);
-        imageView.setZoomEnabled(false);
-        imageView.invalidate();
+
+        if (!imageView.listIsEmpty()) {
+
+            PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+            dragPin = imageView.getClosestPin(sCoord.x, sCoord.y);
+            dragPin.setDragged(true);
+            imageView.setPanEnabled(false);
+            imageView.setZoomEnabled(false);
+
+            imageView.invalidate();
+        }
     }
 
     /**
