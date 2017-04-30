@@ -291,8 +291,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
             dragPin = imageView.getClosestPin(sCoord.x, sCoord.y);
             dragPin.setDragged(true);
-            imageView.setPanEnabled(false);
             imageView.setZoomEnabled(false);
+
+            /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
+              * deciced that you want to center the image aswell, so we will transform it back */
+            float scale = imageView.getScale();
+            PointF center = imageView.getCenter();
+
+            imageView.setPanEnabled(false);
+            imageView.setScaleAndCenter(scale, center);
 
             imageView.invalidate();
         }
