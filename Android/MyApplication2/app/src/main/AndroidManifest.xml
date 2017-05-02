@@ -23,7 +23,7 @@
 
         </activity>
 
-        <activity android:label="OriginalView" android:name=".OriginalImageActivity"/>
+        <activity android:name=".OriginalImageActivity"/>
 
     </application>
 
