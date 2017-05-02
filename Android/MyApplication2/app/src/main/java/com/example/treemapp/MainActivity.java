@@ -168,6 +168,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final EditText species = (EditText) mView.findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
+        Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
 
         // show dialog
         mBuilder.setView(mView);
@@ -198,7 +199,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
 
         // when preview clicked - open preview activity
-        delete.setOnClickListener(new View.OnClickListener() {
+        preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(MainActivity.this, OriginalImageActivity.class);
