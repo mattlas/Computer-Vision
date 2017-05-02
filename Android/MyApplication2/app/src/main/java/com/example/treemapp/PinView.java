@@ -66,16 +66,30 @@ public class PinView extends SubsamplingScaleImageView {
      */
     public void addPin(Pin pin) {
         pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (ie 003,012,123)
+        pin.setIntId(pinIndex);
         pins.add(pin);
         pinIndex++;
     }
 
+    /**
+     * Update the pin in the list and saves into the file
+     * @return true if saving worked fine
+     */
+    public boolean saveNewPin(Pin pin, String height, String diameter, String species){
+        pin.setInputData(height, diameter, species);
+        return fileHandler.addLine(pin.getCSV());
+    }
+
+    public boolean updatePin(Pin pin, String height, String diameter, String species){
+        pin.setInputData(height, diameter, species);
+        // TODO: edit the entry in the file, needed function
+        return fileHandler.addLine(pin.getCSV());
+    }
 
     public void deletePin(Pin pin)
     {
-        pins.remove(pin);
-
         fileHandler.removeLine(pin.getId());
+        pins.remove(pin);
     }
 
     public boolean listIsEmpty () {
@@ -122,9 +136,11 @@ public class PinView extends SubsamplingScaleImageView {
 
     /**
      * Loads the pins from the tree list into memory
+     * update the pin index
      */
     public void loadPinsFromFile(){
         pins = fileHandler.getPinList();
+        pinIndex = pins.get(pins.size()-1).getIntId();
     }
 
 
