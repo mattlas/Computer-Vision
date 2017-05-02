@@ -92,12 +92,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.loadPinsFromFile();
     }
 
-    private void launchActivity() {
-        Intent intent = new Intent(this, OriginalImageActivity.class);
-        startActivity(intent);
-    }
-
-
     //opens up the perspective for a certain point
     private void perspectiveViewPopUp(double x, double y) {
 
@@ -196,15 +190,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(MainActivity.this, OriginalImageActivity.class);
-                int [] xy = getOriginalImageCo(pin);
-                myIntent.putExtra("x", xy[0]); //Optional parameters
-                myIntent.putExtra("y", xy[1]);
-                MainActivity.this.startActivity(myIntent);
+                launchActivity();
             }
         });
 
     }
+
+
+    private void launchActivity() {
+        Intent intent = new Intent(this, OriginalImageActivity.class);
+        intent.putExtra("x", 20);
+        intent.putExtra("y", 20);
+        startActivity(intent);
+    }
+
 
     private int [] getOriginalImageCo(Pin pin){
         int [] coordinates = {1,1};

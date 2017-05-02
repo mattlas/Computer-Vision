@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
@@ -15,8 +16,23 @@ public class OriginalImageView extends android.support.v7.widget.AppCompatImageV
 
     public OriginalImageView(Context context) {
         super(context);
+        init();
+    }
+
+    public OriginalImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public OriginalImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
         paint = new Paint();
         paint.setColor(Color.WHITE);
+        
     }
 
     @Override
