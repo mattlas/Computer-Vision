@@ -105,7 +105,7 @@ public class Pin {
      * @return String representing the CSV line for the tree - "x,y,height,diameter,species"
      */
     public String getCSV(){
-        return id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species + "," + imageFileName;
+        return id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species + "," + imageFileName + "\n";
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/
