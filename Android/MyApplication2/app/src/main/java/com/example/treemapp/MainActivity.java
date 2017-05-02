@@ -168,7 +168,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
-                String data = pin.getCSV() + "\n";
+                String data = pin.getCSV();
+                // TODO adapt this to updating and fix updating
                 if(filehandler.addLine(data))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
@@ -240,9 +241,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             makePin(e);
                         }
                     }
-
-                    // TODO, talk about everything thats happening here, when exactly the pin is saved to the file!
-                    // I'm trying to make it save when it adds it with addPin, but maybe you guys have other plans?
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
