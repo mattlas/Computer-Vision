@@ -58,12 +58,14 @@ public class PinView extends SubsamplingScaleImageView {
         this.fileHandler=f;
     }
 
+    /**
+     * Adds a pin to the active pin list (DOESN'T save to the file)
+     * @param pin the pin to add to the list
+     */
     public void addPin(Pin pin) {
         pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (ie 003,012,123)
         pins.add(pin);
         pinIndex++;
-
-        fileHandler.addLine(pin.getCSV());
     }
 
 
@@ -93,7 +95,7 @@ public class PinView extends SubsamplingScaleImageView {
         PointF point;
 
         double minimalDistance = 10000000;
-        Pin pin = new Pin(pointF);
+        Pin pin = new Pin(pointF,"");
 
         // Check all pins in list, find pin with minimal distance to tabbed point
         for(Pin p : pins) {
@@ -137,5 +139,25 @@ public class PinView extends SubsamplingScaleImageView {
 
             canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), filled);
         }
+    }
+
+    public boolean updatePositionInFile(Pin pin) {
+
+        // First find the pin in the file
+        List<Pin> list = fileHandler.getPinList();
+        int lineToUpdate = -1;
+        for (int i = 0; lineToUpdate==-1 && i<list.size(); i++){
+            if (list.get(i).getId() == pin.getId()) {
+                lineToUpdate=i;
+            }
+        }
+
+        // then remove the line and put a new one back in
+        if (lineToUpdate != -1){
+            fileHandler.removeLine(lineToUpdate);
+            fileHandler.addLine(pin.getCSV());
+            return true;
+        }
+        else return false;
     }
 }

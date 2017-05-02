@@ -92,12 +92,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
 
-    protected String getImageData(){
-        // TODO replace with real image data
-        return "\"img1.png\"";
-    }
-
-
     //opens up the perspective for a certain point
     private void perspectiveViewPopUp(double x, double y) {
 
@@ -173,7 +167,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
-                String data = pin.getCSV() + "," + getImageData() + "\n";
+                String data = pin.getCSV() + "\n";
                 if(filehandler.addLine(data))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
@@ -257,7 +251,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                            dragPin.updatePositionInFile();
+                            imageView.updatePositionInFile(dragPin);
                             dragPin.setDragged(false);
                             dragPin = null;
                             imageView.setPanEnabled(true);
@@ -276,8 +270,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+        String filename = imageInfoListHandler.findImageClosestTo(sCoord.x,sCoord.y).getFileName();
 
-        Pin pin = new Pin(sCoord);
+        Pin pin = new Pin(sCoord, filename);
 
         imageView.addPin(pin);
         popUpTreeInput(pin);
