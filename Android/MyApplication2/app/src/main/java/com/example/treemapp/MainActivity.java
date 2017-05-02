@@ -196,7 +196,59 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+    /* editting the tree entry */
+    private void popUpTreeEdit(final Pin pin) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
 
+        Log.d(TAG,"Tree detail input popup opened");
+
+        final EditText height = (EditText) mView.findViewById(R.id.inp_height);
+        final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
+        final EditText species = (EditText) mView.findViewById(R.id.inp_species);
+        Button save = (Button) mView.findViewById(R.id.btn_save);
+        Button delete = (Button) mView.findViewById(R.id.btn_cancel);
+        Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
+
+        height.setText(pin.getHeight());
+        diameter.setText(pin.getDiameter());
+        species.setText(pin.getSpecies());
+
+        // show dialog
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        // when save clicked - save info to the pin list, change the line in the file
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
+                // TODO: update the entry in the file
+                dialog.dismiss();
+            }
+        });
+
+        // when delete clicked - don't save the info and delete the pin
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.deletePin(pin);
+                dialog.dismiss();
+            }
+        });
+
+        // when preview clicked - open preview activity
+        preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchActivity(pin);
+            }
+        });
+
+    }
+
+    /* launching the original image and preview activity*/
     private void launchActivity(Pin pin) {
         Intent intent = new Intent(this, OriginalImageActivity.class);
         //x and y are mosaic coordinates, we want mosaic-coordinates
@@ -211,12 +263,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         startActivity(intent);
     }
 
-
+    /* getting the coordinates of the pin on the original image*/
     private int [] getOriginalImageCo(Pin pin){
         int [] coordinates = {1,1};
         return coordinates;
     }
 
+    /*TODO: comment needed*/
     private void initialiseEventHandling() {
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -230,16 +283,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         makePin(e); //makes pin, creates menu
                     } else {
                         // Closest pin to tapped position
-                        Pin closestPin = imageView.getClosestPin(sCoord.x, sCoord.y);
-
-                        // Distance between closest pin and tapped position
-                        double distance = imageView.euclidanViewDistance(closestPin, sCoord.x, sCoord.y);
+                        Pin closestPin = imageView.getClosestPin(e.getX(), e.getY());
 
                         // If tabbed position is inside collision radius of a pin -> edit this pin
-                        if (distance < closestPin.getCollisionRadius()){
+                        if (imageView.euclidanViewDistance(closestPin, e.getX(), e.getY()) < closestPin.getCollisionRadius()){
                             // User should get notification!!!
 
-                            popUpTreeInput(closestPin);
+                            popUpTreeEdit(closestPin);
                             imageView.invalidate();
                             // otherwise make new pin
                         } else {
@@ -298,6 +348,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    /* adding the pin to the file and pin list*/
     private void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
         String filename = imageInfoListHandler.findImageClosestTo(sCoord.x,sCoord.y).getFileName();
@@ -309,6 +360,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.invalidate();
     }
 
+    /* function for dragging the pin*/
     private void setUpDragPin(MotionEvent e) {
 
         Pin p = imageView.getClosestPin(e.getX(), e.getY());
@@ -342,6 +394,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     }
+
 
     /**
      * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
@@ -383,7 +436,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         return;
     }
-
 
 }
 

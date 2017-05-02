@@ -57,6 +57,12 @@ public class Pin {
         return (int) sPin.y;
     }
 
+    public String getHeight() {return this.height;}
+
+    public String getDiameter() {return this.diameter;}
+
+    public String getSpecies() {return this.species;}
+
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
         sPin.set((float) x, (float) y);
