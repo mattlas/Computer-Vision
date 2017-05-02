@@ -38,17 +38,28 @@ public class FileHandler {
     private final String TAG = FileHandler.class.getSimpleName();
 
     public FileHandler() {
+        // First create the directory if it doesn't exist
+        try{
+            File dir=new File(Environment.getExternalStorageDirectory()+"/treelists");
+            if (dir.mkdir()){
+                Log.d(TAG, "Treelist directory created");
+            } else {
+                Log.d(TAG, "Opening existing treelist directory");
+            }
+
+        } catch (Exception e){
+            Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/treelists: " + e.getLocalizedMessage());
+        }
         try {
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             filename = filename + dateFormat.format(date) + ".csv";
             file = new File(filename);
 
-            Log.d(TAG, "Attempting to create/open file: " + filename);
             if (file.createNewFile()) {// if file already exists will do nothing
-                Log.d(TAG, "Existing file not found, new file created");
+                Log.d(TAG, "Existing file " + filename + " not found, new file created");
             } else {
-                Log.d(TAG, "Existing file found and loaded");
+                Log.d(TAG, "Existing file " + filename + " found and loaded");
             }
 
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -197,7 +208,7 @@ public class FileHandler {
 
         for (String line[] : lineList) {
             // For each tree on file, create and enter details of the new pin
-            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]));
+            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
             p.setInputData(line[3], line[4], line[5]);
             list.add(p);
         }
