@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +51,8 @@ public class PinView extends SubsamplingScaleImageView {
         unfilled.setStrokeWidth(5);
         unfilled.setStyle(Paint.Style.STROKE);
 
-        pins = new LinkedList<Pin>();
+        pins = new ArrayList<>();
+
         pinIndex=0;
     }
 
