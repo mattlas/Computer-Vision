@@ -21,26 +21,28 @@ public class Pin {
     private String diameter;
     private String species;
     private int radius;
+    private String imageFileName;
     private boolean dragged = false;
 
     /*
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(String id, PointF sPin) {
+    public Pin(String id, PointF sPin, String imageFileName) {
         this.sPin = sPin;
         this.id = id;
         this.radius = 20;
         this.collisionRadius = 30;
+        this.imageFileName = imageFileName;
     }
 
-    public Pin(String id, float x, float y) {
-        this(id, new PointF(x, y));
+    public Pin(String id, float x, float y, String imageFileName) {
+        this(id, new PointF(x, y), imageFileName);
 
     }
 
-    public Pin(PointF sPin){
-        this("",sPin);
+    public Pin(PointF sPin, String imageFileName){
+        this("",sPin,imageFileName);
     }
 
     public PointF getPoint() {
@@ -66,17 +68,6 @@ public class Pin {
 
     public void setDragged(boolean dragged) {
         this.dragged = dragged;
-    }
-
-    /**
-     * TODO, check that this works as expected
-     * To see how close a point is to a point
-     * @param x, the x position on the mosaic
-     * @param y, the y position on the mosaic
-     * @return the length from the point to this in screen distance
-     */
-    public double euclidianDistance(double x, double y) {
-        return Math.sqrt((Math.pow(this.sPin.x - x, 2) + Math.pow(this.sPin.y - y, 2)));
     }
 
     public void setInputData(String height, String diameter, String species) {
@@ -114,8 +105,7 @@ public class Pin {
      * @return String representing the CSV line for the tree - "x,y,height,diameter,species"
      */
     public String getCSV(){
-        String s = id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species;
-        return s;
+        return id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species + "," + imageFileName;
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/
@@ -128,11 +118,13 @@ public class Pin {
         return radius;
     }
 
-    public void updatePositionInFile() {
-        //TODO, here we can update the file maybe
-    }
+
 
     public boolean isDragged() {
         return dragged;
+    }
+
+    public String getImageFileName() {
+        return this.imageFileName;
     }
 }
