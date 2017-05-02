@@ -119,7 +119,7 @@ public class ImageInfoListHandler {
     }
 
     public ImageInfo findImageClosestTo(double x, double y) {
-        if (imageInfos.isEmpty()) return null;
+        if (imageInfos.isEmpty()) return new ImageInfo();
         double dis;
 
         Iterator<ImageInfo> it = imageInfos.values().iterator();

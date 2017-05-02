@@ -31,7 +31,7 @@ import java.util.List;
 
 public class FileHandler {
 
-    private String filename = Environment.getExternalStorageDirectory() + "/treelists/treeList_";
+    private String filename = Environment.getExternalStorageDirectory() + "/mosaic/treeList";
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
@@ -40,7 +40,7 @@ public class FileHandler {
     public FileHandler() {
         // First create the directory if it doesn't exist
         try{
-            File dir=new File(Environment.getExternalStorageDirectory()+"/treelists");
+            File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
                 Log.d(TAG, "Treelist directory created");
             } else {
@@ -51,9 +51,7 @@ public class FileHandler {
             Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/treelists: " + e.getLocalizedMessage());
         }
         try {
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            filename = filename + dateFormat.format(date) + ".csv";
+            filename = filename + ".csv";
             file = new File(filename);
 
             if (file.createNewFile()) {// if file already exists will do nothing
