@@ -30,6 +30,14 @@ class ImageInfo {
         parseInfo(words);
     }
 
+    public ImageInfo(){
+        this.fileName = "DEBUG_NO_IMAGE";
+        this.x=-1;
+        this.y=-1;
+        this.neighbors=new ArrayList<>();
+        this.inverseTransform = null;
+    }
+
     public ImageInfo(double... entries) {
         if (entries.length != 9) {
             Log.e(TAG, "There are supposed to be exactly 9 entries, you have: " + Integer.toString(entries.length));
