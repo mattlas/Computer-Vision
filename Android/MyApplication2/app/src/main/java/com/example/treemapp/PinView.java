@@ -82,8 +82,8 @@ public class PinView extends SubsamplingScaleImageView {
 
     /**
      * Used when editing pins
-     * @param x - mosaic coordinates
-     * @param y - mosaic coordinates
+     * @param x - screen coordinates
+     * @param y - screen coordinates
      * @return the closest pin
      */
     public Pin getClosestPin (double x, double y) {
@@ -108,6 +108,14 @@ public class PinView extends SubsamplingScaleImageView {
             }
         }
         return pin;
+    }
+
+    /*
+    * Compute distances in view coordinates (screen distance)
+    * */
+    public double euclidanViewDistance(Pin pin, float x, float y) {
+        PointF p = sourceToViewCoord(pin.getX(), pin.getY());
+        return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
     }
 
     /**

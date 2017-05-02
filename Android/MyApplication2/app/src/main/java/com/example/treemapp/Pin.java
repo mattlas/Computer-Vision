@@ -70,17 +70,6 @@ public class Pin {
         this.dragged = dragged;
     }
 
-    /**
-     * TODO, check that this works as expected
-     * To see how close a point is to a point
-     * @param x, the x position on the mosaic
-     * @param y, the y position on the mosaic
-     * @return the length from the point to this in screen distance
-     */
-    public double euclidianDistance(double x, double y) {
-        return Math.sqrt((Math.pow(this.sPin.x - x, 2) + Math.pow(this.sPin.y - y, 2)));
-    }
-
     public void setInputData(String height, String diameter, String species) {
         this.diameter = diameter;
         this.height = height;

@@ -22,6 +22,9 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:label="OriginalView" android:name=".OriginalImageActivity"/>
+
     </application>
 
 </manifest>
