@@ -191,17 +191,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchActivity();
+                launchActivity(pin);
             }
         });
 
     }
 
 
-    private void launchActivity() {
+    private void launchActivity(Pin pin) {
         Intent intent = new Intent(this, OriginalImageActivity.class);
-        intent.putExtra("x", 20);
-        intent.putExtra("y", 20);
+        //x and y are mosaic coordinates, we want mosaic-coordinates
+        PointF mosaicCoor = pin.getPoint();
+        ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
+        float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
+
+        intent.putExtra("x", origCoor[0]);
+        intent.putExtra("y", origCoor[1]);
+        intent.putExtra("fileName", imageInfoListHandler.loadImage(ii));
+
         startActivity(intent);
     }
 
