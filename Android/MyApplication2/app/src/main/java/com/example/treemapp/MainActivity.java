@@ -81,7 +81,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (file.exists()) {
             imageView.setImage(ImageSource.uri(path));
         }
-        else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+        else  { //if it is a png
+            path = folderName + "mosaic.png";
+            file = new File(path);
+
+            if (file.exists()) {
+                Log.d(TAG, "Found png");
+                imageView.setImage(ImageSource.uri(path));
+            }
+            else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+        }
 
         // Event handling
         initialiseEventHandling();
@@ -253,12 +262,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, OriginalImageActivity.class);
         //x and y are mosaic coordinates, we want mosaic-coordinates
         PointF mosaicCoor = pin.getPoint();
-        ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
-        float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
+        //ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
+        //float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
 
-        intent.putExtra("x", origCoor[0]);
-        intent.putExtra("y", origCoor[1]);
-        intent.putExtra("fileName", imageInfoListHandler.loadImage(ii));
+        //intent.putExtra("x", origCoor[0]);
+        //intent.putExtra("y", origCoor[1]);
+
+        //String fileName = imageInfoListHandler.loadImage(ii);
+        String fileName = "yoyo";
+        intent.putExtra("fileName", fileName);
 
         startActivity(intent);
     }
