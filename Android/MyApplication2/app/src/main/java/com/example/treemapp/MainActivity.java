@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.graphics.Bitmap;
@@ -89,6 +90,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         filehandler = new FileHandler();
         imageView.setFileHandler(filehandler);
         imageView.loadPinsFromFile();
+    }
+
+    private void launchActivity() {
+        Intent intent = new Intent(this, OriginalImageActivity.class);
+        startActivity(intent);
     }
 
 
@@ -184,8 +190,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         });
+
+        // when preview clicked - open preview activity
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, OriginalImageActivity.class);
+                int [] xy = getOriginalImageCo(pin);
+                myIntent.putExtra("x", xy[0]); //Optional parameters
+                myIntent.putExtra("y", xy[1]);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
     }
 
+    private int [] getOriginalImageCo(Pin pin){
+        int [] coordinates = {1,1};
+        return coordinates;
+    }
 
     private void initialiseEventHandling() {
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -203,7 +226,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Pin closestPin = imageView.getClosestPin(sCoord.x, sCoord.y);
 
                         // Distance between closest pin and tapped position
-                        double distance = closestPin.euclidianDistance(sCoord.x, sCoord.y);
+                        double distance = imageView.euclidanViewDistance(closestPin, sCoord.x, sCoord.y);
 
                         // If tabbed position is inside collision radius of a pin -> edit this pin
                         if (distance < closestPin.getCollisionRadius()){
@@ -281,23 +304,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void setUpDragPin(MotionEvent e) {
 
+        Pin p = imageView.getClosestPin(e.getX(), e.getY());
+        Toast t = Toast.makeText(getApplicationContext(), Double.toString(imageView.euclidanViewDistance(p, e.getX(), e.getY())), Toast.LENGTH_LONG);
+        t.show();
+
         if (!imageView.listIsEmpty()) {
 
-            PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-            dragPin = imageView.getClosestPin(sCoord.x, sCoord.y);
-            dragPin.setDragged(true);
-            imageView.setZoomEnabled(false);
+            dragPin = imageView.getClosestPin(e.getX(), e.getY());
 
-            /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
-              * deciced that you want to center the image aswell, so we will transform it back */
-            float scale = imageView.getScale();
-            PointF center = imageView.getCenter();
+            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()) < dragPin.getCollisionRadius()) {
 
-            imageView.setPanEnabled(false);
-            imageView.setScaleAndCenter(scale, center);
+                dragPin.setDragged(true);
+                imageView.setZoomEnabled(false);
 
-            imageView.invalidate();
+                /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
+                * deciced that you want to center the image aswell, so we will transform it back */
+                float scale = imageView.getScale();
+                PointF center = imageView.getCenter();
+
+                imageView.setPanEnabled(false);
+                imageView.setScaleAndCenter(scale, center);
+
+                imageView.invalidate();
+            }
+            else {
+                dragPin = null;
+            }
         }
+        else dragPin = null;
+
+
     }
 
     /**
