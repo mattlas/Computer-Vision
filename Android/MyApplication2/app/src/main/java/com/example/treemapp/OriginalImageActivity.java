@@ -24,9 +24,10 @@ public class OriginalImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         float x = intent.getFloatExtra("x", 2);
         float y = intent.getFloatExtra("y", 0);
+        String fileName = intent.getStringExtra("fileName");
 
         image.setXY(x, y);
-        image.setFileString(intent.getStringExtra("fileName"));
+        image.setFileString(fileName);
 
         mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
 
