@@ -196,8 +196,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         });
+
+        // when preview clicked - open preview activity
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, OriginalImageActivity.class);
+                int [] xy = getOriginalImageCo(pin);
+                myIntent.putExtra("x", xy[0]); //Optional parameters
+                myIntent.putExtra("y", xy[1]);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
     }
 
+    private int [] getOriginalImageCo(Pin pin){
+        int [] coordinates = {1,1};
+        return coordinates;
+    }
 
     private void initialiseEventHandling() {
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {

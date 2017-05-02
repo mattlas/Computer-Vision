@@ -1,6 +1,7 @@
 package com.example.treemapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ public class OriginalImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.original_image);
         OriginalImageView image = (OriginalImageView) findViewById(R.id.originalImageView);
+        Intent intent = getIntent();
+        int x = intent.getIntExtra("x",0);
+        int y = intent.getIntExtra("y",0);
 
         mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
 
