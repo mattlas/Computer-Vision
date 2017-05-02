@@ -18,16 +18,27 @@
         android:layout_height="50dp"
         android:id="@+id/inp_species"/>
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/btn_save"
-        android:text="Save"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/btn_save"
+            android:text="Save"/>
 
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="Delete" />
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/btn_preview_original"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Preview" />
+    </LinearLayout>
 
 </LinearLayout>
