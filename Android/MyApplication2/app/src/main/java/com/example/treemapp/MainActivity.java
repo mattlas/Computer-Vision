@@ -167,10 +167,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
-                String data = pin.getCSV();
-                // TODO adapt this to updating and fix updating
-                if(filehandler.addLine(data))
+                if(imageView.saveNewPin(pin, height.getText().toString(), diameter.getText().toString(), species.getText().toString()))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
@@ -224,8 +221,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pin.setInputData(height.getText().toString(), diameter.getText().toString(), species.getText().toString());
-                // TODO: update the entry in the file
+                if (imageView.updatePin(pin, height.getText().toString(), diameter.getText().toString(), species.getText().toString()))
+                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

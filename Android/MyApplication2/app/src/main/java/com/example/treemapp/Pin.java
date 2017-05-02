@@ -17,6 +17,7 @@ public class Pin {
     private PointF sPin;
     private Bitmap pin;
     private String id;
+    private int intId;
     private String height;
     private String diameter;
     private String species;
@@ -63,6 +64,8 @@ public class Pin {
 
     public String getSpecies() {return this.species;}
 
+    public int getIntId() {return this.intId}
+
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
         sPin.set((float) x, (float) y);
@@ -89,6 +92,8 @@ public class Pin {
     public String getId(){
         return this.id;
     }
+
+    public void setIntId(int id) { this.intId = id;}
 
     @Override
     public boolean equals(Object o) {
