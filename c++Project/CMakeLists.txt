@@ -13,3 +13,9 @@ set(SOURCE_FILES src/Main.cpp src/FeaturePoints.cpp
         src/FeaturePoints.h src/KeyPoint.h src/KeyPoint.cpp)
 add_executable(TreeMarkupToolbox ${SOURCE_FILES})
 target_link_libraries(TreeMarkupToolbox vl)
+
+# Find the QtWidgets library
+find_package(Qt5Widgets)
+
+# Use the Widgets module from Qt 5.
+target_link_libraries(TreeMarkupToolbox Qt5::Widgets)

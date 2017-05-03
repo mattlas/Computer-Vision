@@ -10,6 +10,10 @@
 #include "FeaturePoints.h"
 #include "KeyPoint.h"
 
+//Qt
+#include <qapplication.h>
+#include <qpushbutton.h>
+
 extern "C"{
 #include <vl/generic.h>
 }
@@ -19,5 +23,15 @@ int main(){
     FeaturePoints *points = new FeaturePoints();
     points->testClass();
     points->calculatePoints("filnamn");
+
+
+    QApplication a( argc, argv );
+
+    QPushButton hello( "Hello world!", 0 );
+    hello.resize( 100, 30 );
+
+    a.setMainWidget( &hello );
+    hello.show();
+
     return 0;
 }
