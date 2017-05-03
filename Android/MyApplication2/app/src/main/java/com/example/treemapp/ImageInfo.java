@@ -27,7 +27,7 @@ class ImageInfo {
     private RealMatrix inverseTransform;
 
     public ImageInfo(String[] words) {
-        parseInfo(words);
+            parseInfo(words);
     }
 
     public ImageInfo(){
