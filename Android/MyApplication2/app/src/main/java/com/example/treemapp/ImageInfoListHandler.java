@@ -1,9 +1,11 @@
 package com.example.treemapp;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
@@ -13,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,18 +87,25 @@ public class ImageInfoListHandler {
      * @param fileName no path, just the fileName
      * @return an imagesource which can be used to set in an image view
      */
-    public ImageSource loadImage(String fileName) {
+    public String loadImage(String fileName) {
         String location = imageFolderName + fileName;
-        return ImageSource.uri(location);
+
+        File file = new File(location);
+
+        if (!file.exists()) {
+            Log.e(TAG, "could not find file: '" + location +"'");
+        }
+
+        return location;
     }
 
-    public ImageSource loadImage(ImageInfo im) {
+    public String loadImage(ImageInfo im) {
         return loadImage(im.getFileName());
     }
 
     /*These two returns all neighbors to that image as ImageSources*/
-    public List<ImageSource> loadNeighboringImages(ImageInfo im) {
-        List<ImageSource> neighbors = new ArrayList<>();
+    public List<String> loadNeighboringImages(ImageInfo im) {
+        List<String> neighbors = new ArrayList<>();
 
         for (String neighborName: im.getNeighbors()) {
             neighbors.add(loadImage(neighborName));
@@ -104,12 +114,12 @@ public class ImageInfoListHandler {
         return neighbors;
     }
 
-    public List<ImageSource> loadNeighboringImages(String fileName) {
+    public List<String> loadNeighboringImages(String fileName) {
         return loadNeighboringImages(imageInfos.get(fileName));
     }
 
-    public ImageInfo findImageClosestTo(int x, int y) {
-        if (imageInfos.isEmpty()) return null;
+    public ImageInfo findImageClosestTo(double x, double y) {
+        if (imageInfos.isEmpty()) return new ImageInfo();
         double dis;
 
         Iterator<ImageInfo> it = imageInfos.values().iterator();

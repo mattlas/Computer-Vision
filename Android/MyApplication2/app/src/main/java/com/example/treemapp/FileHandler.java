@@ -31,24 +31,32 @@ import java.util.List;
 
 public class FileHandler {
 
-    private String filename = Environment.getExternalStorageDirectory() + "/treelists/treeList_";
+    private String filename = Environment.getExternalStorageDirectory() + "/mosaic/treelist.csv";
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
     private final String TAG = FileHandler.class.getSimpleName();
 
     public FileHandler() {
+        // First create the directory if it doesn't exist
+        try{
+            File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
+            if (dir.mkdir()){
+                Log.d(TAG, "Treelist directory created");
+            } else {
+                Log.d(TAG, "Opening existing treelist directory");
+            }
+
+        } catch (Exception e){
+            Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
+        }
         try {
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            filename = filename + dateFormat.format(date) + ".csv";
             file = new File(filename);
 
-            Log.d(TAG, "Attempting to create/open file: " + filename);
             if (file.createNewFile()) {// if file already exists will do nothing
-                Log.d(TAG, "Existing file not found, new file created");
+                Log.d(TAG, "Existing file " + filename + " not found, new file created");
             } else {
-                Log.d(TAG, "Existing file found and loaded");
+                Log.d(TAG, "Existing file " + filename + " found and loaded");
             }
 
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -71,6 +79,7 @@ public class FileHandler {
         try {
 
             bw.append(line);
+            this.save();
             return true;
 
         } catch (Exception e) {
@@ -133,9 +142,7 @@ public class FileHandler {
             // Replace the old file with the temp file
             success &= tempFile.renameTo(this.file);
 
-            br = new BufferedReader(new FileReader(this.file));
-            bw = new BufferedWriter(new FileWriter(this.file, true));
-
+            this.open();
             return success;
 
         } catch (Exception e) {
@@ -146,17 +153,6 @@ public class FileHandler {
     }
 
 
-    /**
-     * Closes the file. To be used mainly on destruction of this class.
-     */
-    public void close() {
-        try {
-            bw.close();
-            br.close();
-        } catch (Exception e) {
-            Log.getStackTraceString(e);
-        }
-    }
 
     @Override
     protected void finalize() throws Throwable {
@@ -167,18 +163,17 @@ public class FileHandler {
 
     /**
      * Returns the entire file in list format.
-     *
      * @return an ArrayList of String Arrays, one array for each line in the file, one String for each element
      */
     public ArrayList<String[]> readContents() {
         ArrayList<String[]> lineList = new ArrayList<>();
         try {
             String line;
-            br.reset();
+
             while ((line = br.readLine()) != null) {
                 lineList.add(line.split(","));
             }
-            br.reset();
+            this.save();
         } catch (Exception e) {
             Log.getStackTraceString(e);
         }
@@ -192,18 +187,53 @@ public class FileHandler {
      * @return a List of Pins that can be used for a PinView
      */
     public List<Pin> getPinList() {
-        ArrayList<String[]> lineList = this.readContents();
         List<Pin> list = new ArrayList<>();
 
+
+        ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             // For each tree on file, create and enter details of the new pin
-            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]));
+            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
             p.setInputData(line[3], line[4], line[5]);
             list.add(p);
         }
 
         return list;
 
+    }
+
+    /**
+     * Closes the BufferedReader / writer
+     */
+    protected void close() {
+        try {
+            bw.close();
+            br.close();
+        } catch (Exception e) {
+            Log.getStackTraceString(e);
+        }
+    }
+
+    /**
+     * Opens the BufferedReader / writer
+     */
+    protected void open(){
+        try {
+            bw = new BufferedWriter(new FileWriter(file, true));
+            br = new BufferedReader(new FileReader(file));
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to create/open file " + filename + ": " + e.getLocalizedMessage());
+            //System.exit(-1);
+        }
+    }
+
+    /**
+     * Closes and reopens the file
+     */
+    protected void save(){
+        this.close();
+        this.open();
     }
 
 }
