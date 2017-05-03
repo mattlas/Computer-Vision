@@ -26,7 +26,6 @@ import java.util.List;
  * @author Adam Kavanagh Coyne
  * @author Karolina Drobotowicz
  */
-// TODO test out the new line deletion functionality via PinView.deletePin()
 
 
 public class FileHandler {
