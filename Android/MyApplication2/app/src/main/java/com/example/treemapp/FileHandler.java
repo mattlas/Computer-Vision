@@ -156,9 +156,13 @@ public class FileHandler {
 
             // Replace the old file with the temp file
 
-            this.file.delete();
-            success &= tempFile.renameTo(this.file);
-            this.file=tempFile;
+            if (!(success &=this.file.delete())){
+                Log.e(TAG, "Error deleting file");
+            }
+            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+                Log.e(TAG, "Error renaming file");
+            }
+            this.file=new File(this.filename);
 
             this.open();
             return success;
@@ -209,9 +213,16 @@ public class FileHandler {
 
             // Replace the old file with the temp file
 
-            this.file.delete();
-            success &= tempFile.renameTo(this.file);
-            this.file=tempFile;
+            // Replace the old file with the temp file
+
+            if (!(success &=this.file.delete())){
+                Log.e(TAG, "Error deleting file");
+            }
+            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+                Log.e(TAG, "Error renaming file");
+            }
+            this.file=new File(this.filename);
+
             this.open();
             return success;
 
