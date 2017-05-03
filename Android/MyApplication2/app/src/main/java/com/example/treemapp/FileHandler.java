@@ -27,7 +27,6 @@ import java.util.List;
  * @author Karolina Drobotowicz
  */
 // TODO test out the new line deletion functionality via PinView.deletePin()
-// TODO Debug this more once the tablet is accessible. Saving and editing is still complicated, we need to keep a close eye on the csv file
 
 
 public class FileHandler {
@@ -42,7 +41,7 @@ public class FileHandler {
     public FileHandler() {
         // First create the directory if it doesn't exist
         try{
-            File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
+            File dir = new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
@@ -72,8 +71,6 @@ public class FileHandler {
         }
     }
 
-    // TODO debug this! it works fine but its not being CALLED for each pin creation (sometimes a pin is created but not saved to file)
-    // So basically we need to work back from this method (and not change the method itself
     /**
      * Adds a line to the file specified by "filename"
      *
