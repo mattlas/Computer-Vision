@@ -71,6 +71,8 @@ public class FileHandler {
         }
     }
 
+    // TODO debug this! it works fine but its not being CALLED for each pin creation (sometimes a pin is created but not saved to file)
+    // So basically we need to work back from this method (and not change the method itself
     /**
      * Adds a line to the file specified by "filename"
      *
@@ -128,7 +130,7 @@ public class FileHandler {
 
 
         try {
-            File tempFile = File.createTempFile("csvtransfer","tmp");
+            File tempFile = new File(this.filename+".tmp");
 
             // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
@@ -183,7 +185,7 @@ public class FileHandler {
     public boolean editLine(int lineIndex, String newLine) {
 
         try {
-            File tempFile = File.createTempFile("csvtransfer","tmp");
+            File tempFile = new File(this.filename+".tmp");
 
             // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
@@ -210,8 +212,6 @@ public class FileHandler {
 
             this.close();
             bwTemp.close();
-
-            // Replace the old file with the temp file
 
             // Replace the old file with the temp file
 
@@ -274,10 +274,15 @@ public class FileHandler {
 
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
-            // For each tree on file, create and enter details of the new pin
-            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
+            if (line.length == 7){
+                // For each tree on file, create and enter details of the new pin
+                Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
             p.setInputData(line[3], line[4], line[5]);
             list.add(p);
+            } else {
+                Log.e(TAG, "File format invalid");
+            }
+
         }
 
         return list;
