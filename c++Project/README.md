@@ -11,9 +11,11 @@ make
 ./TreeMarkupToolbox
 
 
-### Matlab in Linux
-(modify)
+### Call Matlab from C++ in Linux
+(Opens Matlab GUI NOT CORRECT)
+
 setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
+
 export LD_LIBRARY_PATH
 
 ### Compile LAPACK
