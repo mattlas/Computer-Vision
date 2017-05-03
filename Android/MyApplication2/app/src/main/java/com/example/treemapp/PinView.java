@@ -83,11 +83,10 @@ public class PinView extends SubsamplingScaleImageView {
     public boolean updatePin(Pin pin, String height, String diameter, String species){
         pin.setInputData(height, diameter, species);
         // TODO: edit the entry in the file, needed function
-        return fileHandler.addLine(pin.getCSV());
+        return this.updatePinInFile(pin);
     }
 
-    public void deletePin(Pin pin)
-    {
+    public void deletePin(Pin pin){
         fileHandler.removeLine(pin.getId());
         pins.remove(pin);
     }
@@ -140,7 +139,9 @@ public class PinView extends SubsamplingScaleImageView {
      */
     public void loadPinsFromFile(){
         pins = fileHandler.getPinList();
-        pinIndex = pins.get(pins.size()-1).getIntId();
+        if (pins.size() > 0) {
+            pinIndex = pins.get(pins.size() - 1).getIntId();
+        }
     }
 
     @Override
@@ -166,7 +167,7 @@ public class PinView extends SubsamplingScaleImageView {
         }
     }
 
-    public boolean updatePositionInFile(Pin pin) {
+    public boolean updatePinInFile(Pin pin) {
 
         // First find the pin in the file
         List<Pin> list = fileHandler.getPinList();
