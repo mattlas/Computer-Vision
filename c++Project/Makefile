@@ -123,6 +123,60 @@ TreeMarkupToolbox/fast:
 	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/build
 .PHONY : TreeMarkupToolbox/fast
 
+src/FeaturePoints.o: src/FeaturePoints.cpp.o
+
+.PHONY : src/FeaturePoints.o
+
+# target to build an object file
+src/FeaturePoints.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/FeaturePoints.cpp.o
+.PHONY : src/FeaturePoints.cpp.o
+
+src/FeaturePoints.i: src/FeaturePoints.cpp.i
+
+.PHONY : src/FeaturePoints.i
+
+# target to preprocess a source file
+src/FeaturePoints.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/FeaturePoints.cpp.i
+.PHONY : src/FeaturePoints.cpp.i
+
+src/FeaturePoints.s: src/FeaturePoints.cpp.s
+
+.PHONY : src/FeaturePoints.s
+
+# target to generate assembly for a file
+src/FeaturePoints.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/FeaturePoints.cpp.s
+.PHONY : src/FeaturePoints.cpp.s
+
+src/KeyPoint.o: src/KeyPoint.cpp.o
+
+.PHONY : src/KeyPoint.o
+
+# target to build an object file
+src/KeyPoint.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/KeyPoint.cpp.o
+.PHONY : src/KeyPoint.cpp.o
+
+src/KeyPoint.i: src/KeyPoint.cpp.i
+
+.PHONY : src/KeyPoint.i
+
+# target to preprocess a source file
+src/KeyPoint.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/KeyPoint.cpp.i
+.PHONY : src/KeyPoint.cpp.i
+
+src/KeyPoint.s: src/KeyPoint.cpp.s
+
+.PHONY : src/KeyPoint.s
+
+# target to generate assembly for a file
+src/KeyPoint.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/KeyPoint.cpp.s
+.PHONY : src/KeyPoint.cpp.s
+
 src/Main.o: src/Main.cpp.o
 
 .PHONY : src/Main.o
@@ -159,6 +213,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TreeMarkupToolbox"
+	@echo "... src/FeaturePoints.o"
+	@echo "... src/FeaturePoints.i"
+	@echo "... src/FeaturePoints.s"
+	@echo "... src/KeyPoint.o"
+	@echo "... src/KeyPoint.i"
+	@echo "... src/KeyPoint.s"
 	@echo "... src/Main.o"
 	@echo "... src/Main.i"
 	@echo "... src/Main.s"
