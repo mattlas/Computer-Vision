@@ -13,6 +13,7 @@ make
 
 ### Qt
 install latest Qt pack
+
 install OpenGL: sudo apt-get install mesa-common-dev
 
 ### Matlab in Linux

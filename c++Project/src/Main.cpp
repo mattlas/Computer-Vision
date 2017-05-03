@@ -11,8 +11,9 @@
 #include "KeyPoint.h"
 
 //Qt
-#include <qapplication.h>
-#include <qpushbutton.h>
+#include <QtGui>
+#include <QApplication>
+#include <QPushButton>
 
 extern "C"{
 #include <vl/generic.h>
@@ -24,12 +25,15 @@ int main(int argc, char **argv){
     //points->testClass();
     //points->calculatePoints("filnamn");
 
-    QApplication a(argc, argv);
+    //app is an object that governs the application
+    //make sure everything is initialized correctly
+    QApplication app(argc, argv);
 
-    QPushButton hello( "Hello world!", 0 );
-    hello.resize( 100, 30 );
+    //QPushButton is a widget
+    //the text of the button is Hello World
+    QPushButton *button = new QPushButton("Hello World");
+    //show the button
+    button->show();
 
-    hello.show();
-
-    return 0;
+    return app.exec();
 }
