@@ -65,6 +65,6 @@ Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mos
 
 #### RANSAC
 
-#### Bundle Adjustment
+#### Least-Squares
 
 #### Mosaic
