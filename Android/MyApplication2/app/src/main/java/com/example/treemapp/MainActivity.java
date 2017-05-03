@@ -104,9 +104,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.loadPinsFromFile();
     }
 
+
     //opens up the perspective for a certain point
     private void perspectiveViewPopUp(double x, double y) {
-
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.perspective, null);
 
@@ -133,6 +133,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         else {
             Toast toast = Toast.makeText(getApplicationContext(), "could not find file at:\'" +
                     fileLocation + "'", Toast.LENGTH_LONG);
+            toast.show();
         }
 
         final Button cancel = (Button) mView.findViewById(R.id.btn_perspective_cancel);
@@ -265,6 +266,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, OriginalImageActivity.class);
         //x and y are mosaic coordinates, we want mosaic-coordinates
         PointF mosaicCoor = pin.getPoint();
+
         if (imageInfoListHandler.didFindEverything()) {
             ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
             float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
@@ -378,9 +380,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     /* function for dragging the pin*/
     private void setUpDragPin(MotionEvent e) {
-
-        Pin p = imageView.getClosestPin(e.getX(), e.getY());
-        Toast t = Toast.makeText(getApplicationContext(), Double.toString(imageView.euclidanViewDistance(p, e.getX(), e.getY())), Toast.LENGTH_LONG);
+        PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
+        Toast t = Toast.makeText(getApplicationContext(),"Screen coordinates: " + Double.toString(e.getX()) +", " +  Double.toString(e.getY()) + "\nMosaic Coordinates: " + Double.toString(p.x) + ", " + Double.toString(p.y), Toast.LENGTH_LONG);
         t.show();
 
         if (!imageView.listIsEmpty()) {
