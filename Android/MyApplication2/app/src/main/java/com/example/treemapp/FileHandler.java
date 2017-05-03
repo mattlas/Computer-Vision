@@ -52,6 +52,7 @@ public class FileHandler {
         } catch (Exception e){
             Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
         }
+        // Then the file
         try {
             file = new File(filename);
 
