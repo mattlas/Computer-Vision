@@ -58,16 +58,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (checkPermission())
             {
                 // Code for above or equal 23 API Oriented Device here if we need any
-<<<<<<< HEAD
                 Log.d(TAG, "I have permission");
             } else {
                 Log.d(TAG, "I doesn't have permission");
                 requestPermission(); // Code for permission
                 Log.d(TAG, "I do have permission");
-=======
-            } else {
-                requestPermission(); // Code for permission
->>>>>>> a65dc693b060dd0c3d43948ab2a81e6b2024621c
             }
         }
         else
@@ -121,11 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
 
-<<<<<<< HEAD
-        String fileLocation = imageInfoListHandler.loadImage(im);
-=======
         String fileLocation = imageInfoListHandler.getImageFileName(im);
->>>>>>> a65dc693b060dd0c3d43948ab2a81e6b2024621c
 
         File f = new File(fileLocation);
 
@@ -200,11 +191,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
                 imageView.removePinFromList(pin);
-=======
-                imageView.deletePin(pin);
->>>>>>> a65dc693b060dd0c3d43948ab2a81e6b2024621c
                 dialog.dismiss();
             }
         });
@@ -278,18 +265,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, OriginalImageActivity.class);
         //x and y are mosaic coordinates, we want mosaic-coordinates
         PointF mosaicCoor = pin.getPoint();
-<<<<<<< HEAD
-        //ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
-        //float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
-
-        //intent.putExtra("x", origCoor[0]);
-        //intent.putExtra("y", origCoor[1]);
-
-        //String fileName = imageInfoListHandler.loadImage(ii);
-        String fileName = "yoyo";
-        intent.putExtra("fileName", fileName);
-=======
-
         if (imageInfoListHandler.didFindEverything()) {
             ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
             float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
@@ -303,7 +278,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Toast toast = Toast.makeText(getApplicationContext(), "ImageInfoListHandler could not find the image", Toast.LENGTH_LONG);
             toast.show();
         }
->>>>>>> a65dc693b060dd0c3d43948ab2a81e6b2024621c
 
         startActivity(intent);
     }
