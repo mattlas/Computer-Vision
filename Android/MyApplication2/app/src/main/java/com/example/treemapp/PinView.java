@@ -155,7 +155,7 @@ public class PinView extends SubsamplingScaleImageView {
     public void loadPinsFromFile(){
         pins = fileHandler.getPinList();
         if (pins.size() > 0) {
-            pinIndex = pins.get(pins.size() - 1).getIntId();
+            pinIndex = pins.get(pins.size() - 1).getIntId()+1;
         }
     }
 

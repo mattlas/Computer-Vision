@@ -83,7 +83,7 @@ public class FileHandler {
     public boolean addLine(String line) {
         try {
 
-            bw.append(line);
+            bw.append(line+LINE_SEPARATOR);
             this.save();
             return true;
 
@@ -198,6 +198,8 @@ public class FileHandler {
             String line;
             boolean success = false;
 
+            Log.d(TAG, this.file.getName());
+
             for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
@@ -206,7 +208,7 @@ public class FileHandler {
 
                 } else {
                     success = true;
-                    bwTemp.write(newLine + LINE_SEPARATOR);
+                    bwTemp.write(newLine+LINE_SEPARATOR);
                     Log.d(TAG,"Line "+i+" found and edited: '"+newLine+"'");
                 }
             }
@@ -215,7 +217,6 @@ public class FileHandler {
             bwTemp.close();
 
             // Replace the old file with the temp file
-
             if (!(success &=this.file.delete())){
                 Log.e(TAG, "Error deleting file");
             }
