@@ -191,7 +191,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageView.deletePin(pin);
+                imageView.removePinFromList(pin);
                 dialog.dismiss();
             }
         });
