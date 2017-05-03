@@ -143,7 +143,6 @@ public class PinView extends SubsamplingScaleImageView {
         pinIndex = pins.get(pins.size()-1).getIntId();
     }
 
-
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
