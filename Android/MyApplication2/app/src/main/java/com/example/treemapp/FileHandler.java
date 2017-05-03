@@ -191,6 +191,8 @@ public class FileHandler {
             String line;
             boolean success = false;
 
+            Log.d(TAG, this.file.getName());
+
             for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
@@ -212,6 +214,8 @@ public class FileHandler {
             this.file.delete();
             success &= tempFile.renameTo(this.file);
             this.file=tempFile;
+            String data1 = this.file.getName() + String.valueOf(success);
+            Log.d(TAG, data1);
             this.open();
             return success;
 
