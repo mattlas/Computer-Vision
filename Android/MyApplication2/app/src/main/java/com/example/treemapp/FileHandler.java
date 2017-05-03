@@ -170,6 +170,58 @@ public class FileHandler {
 
     }
 
+    /**
+     * Changes the line at lineIndex in csv file into the line
+     * @param lineIndex the index of the line to change
+     * @param newLine the new version of the line
+     * @return
+     */
+    public boolean editLine(int lineIndex, String newLine) {
+
+        try {
+            File tempFile = File.createTempFile("csvtransfer","tmp");
+
+            // Create a writer for the temp file
+            BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
+
+            // Write each line from the original file to the temp file except for the one to edit
+            br.reset();
+
+            Log.d(TAG, "edit function");
+            String line;
+            boolean success = false;
+
+            for (int i = 0; (line = br.readLine()) != null; i++) {
+
+                if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
+                    bwTemp.write(line+LINE_SEPARATOR);
+                    Log.d(TAG,"Line "+i+" found and copied: '"+line+"'");
+
+                } else {
+                    success = true;
+                    bwTemp.write(newLine + LINE_SEPARATOR);
+                    Log.d(TAG,"Line "+i+" found and edited: '"+newLine+"'");
+                }
+            }
+
+            this.close();
+            bwTemp.close();
+
+            // Replace the old file with the temp file
+
+            this.file.delete();
+            success &= tempFile.renameTo(this.file);
+            this.file=tempFile;
+            this.open();
+            return success;
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error deleting line " + lineIndex + ": " + e.getLocalizedMessage());
+            return false;
+        }
+
+    }
+
 
 
     @Override
@@ -204,6 +256,7 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
+    // TODO: debug the function
     public List<Pin> getPinList() {
         List<Pin> list = new ArrayList<>();
 

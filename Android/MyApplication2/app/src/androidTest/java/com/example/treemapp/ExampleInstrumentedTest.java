@@ -46,7 +46,9 @@ public class ExampleInstrumentedTest {
     @Test
     public void checkIfImagesExists() {
         ImageInfoListHandler iilh = new ImageInfoListHandler();
+
         iilh.getImageFileName(iilh.findImageClosestTo(0, 0));
+
     }
 
 }

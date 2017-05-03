@@ -58,8 +58,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (checkPermission())
             {
                 // Code for above or equal 23 API Oriented Device here if we need any
+                Log.d(TAG, "I have permission");
             } else {
+                Log.d(TAG, "I doesn't have permission");
                 requestPermission(); // Code for permission
+                Log.d(TAG, "I do have permission");
             }
         }
         else
@@ -189,7 +192,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageView.deletePin(pin);
+                imageView.removePinFromList(pin);
                 dialog.dismiss();
             }
         });

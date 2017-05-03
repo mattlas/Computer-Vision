@@ -30,6 +30,7 @@ public class ImageInfoListHandler {
     private final String TAG = ImageInfoListHandler.class.getSimpleName();
     private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
     private String imageFolderName = folderName + "images/";
+
     private boolean foundEverything;
 
     private HashMap<String, ImageInfo> imageInfos;
