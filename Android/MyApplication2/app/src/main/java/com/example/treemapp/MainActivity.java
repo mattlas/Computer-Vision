@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
 
-        String fileLocation = imageInfoListHandler.loadImage(im);
+        String fileLocation = imageInfoListHandler.getImageFileName(im);
 
         File f = new File(fileLocation);
 
@@ -262,15 +262,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, OriginalImageActivity.class);
         //x and y are mosaic coordinates, we want mosaic-coordinates
         PointF mosaicCoor = pin.getPoint();
-        //ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
-        //float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
 
-        //intent.putExtra("x", origCoor[0]);
-        //intent.putExtra("y", origCoor[1]);
+        if (imageInfoListHandler.didFindEverything()) {
+            ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
+            float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
 
-        //String fileName = imageInfoListHandler.loadImage(ii);
-        String fileName = "yoyo";
-        intent.putExtra("fileName", fileName);
+            intent.putExtra("x", origCoor[0]);
+            intent.putExtra("y", origCoor[1]);
+            intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
+        }
+        else {
+            intent.putExtra("fileName", "noImageFound.JPG");
+            Toast toast = Toast.makeText(getApplicationContext(), "ImageInfoListHandler could not find the image", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
         startActivity(intent);
     }
