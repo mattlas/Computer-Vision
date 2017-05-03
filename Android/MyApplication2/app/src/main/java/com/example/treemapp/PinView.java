@@ -90,6 +90,7 @@ public class PinView extends SubsamplingScaleImageView {
      * removes pin from the list and file
      * @param pin to be deleted
      */
+        // TODO: edit the entry in the file, needed function
     public void deletePin(Pin pin){
         fileHandler.removeLine(pin.getId());
         pins.remove(pin);
@@ -103,6 +104,7 @@ public class PinView extends SubsamplingScaleImageView {
     public void removePinFromList(Pin pin){
         pins.remove(pin);
     }
+
 
     public boolean listIsEmpty () {
         return pins == null || pins.isEmpty();
@@ -156,6 +158,7 @@ public class PinView extends SubsamplingScaleImageView {
             pinIndex = pins.get(pins.size() - 1).getIntId();
         }
     }
+
 
     @Override
     public void onDraw(Canvas canvas) {

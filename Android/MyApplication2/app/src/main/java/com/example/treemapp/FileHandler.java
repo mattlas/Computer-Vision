@@ -173,7 +173,7 @@ public class FileHandler {
     /**
      * Changes the line at lineIndex in csv file into the line
      * @param lineIndex the index of the line to change
-     * @param line the new version of the line
+     * @param newLine the new version of the line
      * @return
      */
     public boolean editLine(int lineIndex, String newLine) {
@@ -212,7 +212,6 @@ public class FileHandler {
             this.file.delete();
             success &= tempFile.renameTo(this.file);
             this.file=tempFile;
-
             this.open();
             return success;
 
