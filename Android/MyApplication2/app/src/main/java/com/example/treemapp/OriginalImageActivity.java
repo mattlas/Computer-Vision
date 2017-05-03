@@ -36,8 +36,6 @@ public class OriginalImageActivity extends AppCompatActivity {
         float y = intent.getFloatExtra("y", 0);
         String fileName = intent.getStringExtra("fileName");
 
-        Paint paint = new Paint();
-        paint.setColor(Color.BLUE);
 
         File bitmapFile = new File(fileName);
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -47,11 +45,9 @@ public class OriginalImageActivity extends AppCompatActivity {
 
         Canvas tempCanvas = new Canvas(tempBitmap);
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
-        tempCanvas.drawCircle(x, y, 20, paint);
-        Paint textPaint = new TextPaint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setShadowLayer(3, 2, 2, Color.BLACK);
-        tempCanvas.drawText(fileName, 20, 20, textPaint);
+        draw(x, y, fileName,tempCanvas);
+
+
 
         imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
@@ -64,5 +60,18 @@ public class OriginalImageActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void draw(float x, float y, String fileName, Canvas tempCanvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.BLUE);
+
+        tempCanvas.drawCircle(x, y, 20, paint);
+        Paint textPaint = new TextPaint();
+        textPaint.setColor(Color.WHITE);
+        textPaint.setShadowLayer(3, 2, 2, Color.BLACK);
+        tempCanvas.drawText(fileName, 20, 20, textPaint);
+        tempCanvas.drawLine(tempCanvas.getWidth() / 2, 0, tempCanvas.getWidth() / 2, tempCanvas.getHeight(), paint);
+        tempCanvas.drawLine(0, tempCanvas.getHeight() / 2, tempCanvas.getWidth(), tempCanvas.getHeight() / 2, paint);
     }
 }

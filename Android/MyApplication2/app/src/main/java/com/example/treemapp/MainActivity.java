@@ -194,6 +194,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 imageView.removePinFromList(pin);
                 dialog.dismiss();
+                imageView.invalidate();
             }
         });
 
@@ -258,7 +259,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 launchActivity(pin);
             }
         });
-
     }
 
     /* launching the original image and preview activity*/
@@ -381,7 +381,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /* function for dragging the pin*/
     private void setUpDragPin(MotionEvent e) {
         PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
-        Toast t = Toast.makeText(getApplicationContext(),"Screen coordinates: " + Double.toString(e.getX()) +", " +  Double.toString(e.getY()) + "\nMosaic Coordinates: " + Double.toString(p.x) + ", " + Double.toString(p.y), Toast.LENGTH_LONG);
+        Toast t = Toast.makeText(getApplicationContext(),"Screen coordinates: " + Double.toString(e.getX()) +", " +  Double.toString(e.getY()) +
+                "\nMosaic Coordinates: " + Double.toString(p.x) + ", " + Double.toString(p.y) + imageInfoListHandler.getImageFileName(imageInfoListHandler.findImageClosestTo(p.x, p.y)), Toast.LENGTH_LONG);
         t.show();
 
         if (!imageView.listIsEmpty()) {
@@ -408,8 +409,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         }
         else dragPin = null;
-
-
     }
 
 
