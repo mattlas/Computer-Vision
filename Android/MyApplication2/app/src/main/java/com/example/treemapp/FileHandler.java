@@ -22,20 +22,22 @@ import java.util.List;
 
 
 /**
- * This class handles creating, reading and writing of the treelist CSV file - the final output of the app, containing information for all the trees.
+ * This class handles creating, reading and writing of the treeList CSV file - the final output of the app, containing information for all the trees.
  * @author Adam Kavanagh Coyne
  * @author Karolina Drobotowicz
  */
 // TODO test out the new line deletion functionality via PinView.deletePin()
+// TODO Debug this more once the tablet is accessible. Saving and editing is still complicated, we need to keep a close eye on the csv file
 
 
 public class FileHandler {
 
-    private String filename = Environment.getExternalStorageDirectory() + "/mosaic/treelist.csv";
+    private String filename = Environment.getExternalStorageDirectory() + "/mosaic/treeList.csv";
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
     private final String TAG = FileHandler.class.getSimpleName();
+    private final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     public FileHandler() {
         // First create the directory if it doesn't exist
@@ -96,19 +98,29 @@ public class FileHandler {
     public boolean removeLine(String id) {
         ArrayList<String[]> lines = this.readContents();
 
+        int line = -1;
+
         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i)[0].equals(id)) {
-                return this.removeLine(i);
+                line=i;
             }
         }
 
-        Log.w(TAG, "Line not found in file for ID: '" + id + "'");
-        return false;
+        if (line != -1){
+            this.removeLine(line);
+            return true;
+        } else {
+            Log.w(TAG, "Line not found in file for ID: '" + id + "'");
+            return false;
+        }
 
     }
 
     /**
      * Removes a line from the CSV file of a certain line number
+     * TODO fix this. For some reason once a second pin is deleted, all the others dissapear.
+     * (My theory is that the temporary file gets reloaded even though it doesnt exist anymore)
+     *
      * @param lineIndex the line number to remove
      * @return true if the line was found and successfully removed, false if not found / not removed
      */
@@ -116,7 +128,7 @@ public class FileHandler {
 
 
         try {
-            File tempFile = File.createTempFile("tmp", "");
+            File tempFile = File.createTempFile("csvtransfer","tmp");
 
             // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
@@ -130,9 +142,12 @@ public class FileHandler {
             for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
-                    bwTemp.write(line);
+                    bwTemp.write(line+LINE_SEPARATOR);
+                    Log.d(TAG,"Line "+i+" found and copied: '"+line+"'");
+
                 } else {
                     success = true;
+                    Log.d(TAG,"Line "+i+" found and deleted: '"+line+"'");
                 }
             }
 
@@ -140,7 +155,10 @@ public class FileHandler {
             bwTemp.close();
 
             // Replace the old file with the temp file
+
+            this.file.delete();
             success &= tempFile.renameTo(this.file);
+            this.file=tempFile;
 
             this.open();
             return success;
@@ -221,6 +239,7 @@ public class FileHandler {
         try {
             bw = new BufferedWriter(new FileWriter(file, true));
             br = new BufferedReader(new FileReader(file));
+            br.mark(0);
 
         } catch (IOException e) {
             Log.e(TAG, "Failed to create/open file " + filename + ": " + e.getLocalizedMessage());
