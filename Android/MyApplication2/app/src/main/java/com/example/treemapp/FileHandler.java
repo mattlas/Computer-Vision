@@ -118,8 +118,6 @@ public class FileHandler {
 
     /**
      * Removes a line from the CSV file of a certain line number
-     * TODO fix this. For some reason once a second pin is deleted, all the others dissapear.
-     * (My theory is that the temporary file gets reloaded even though it doesnt exist anymore)
      *
      * @param lineIndex the line number to remove
      * @return true if the line was found and successfully removed, false if not found / not removed
@@ -128,26 +126,21 @@ public class FileHandler {
 
 
         try {
-            File tempFile = File.createTempFile("csvtransfer","tmp");
+            // Sorry if this gets a bit weird. This is the only way i can get it to work!
 
             // Create a writer for the temp file
+            File tempFile = new File(this.filename+".tmp");
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
 
-            // Write each line from the original file to the temp file except for the one to remove
-            br.reset();
-
             String line;
-            boolean success = false;
-
-            for (int i = 0; (line = br.readLine()) != null; i++) {
-
-                if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
-                    bwTemp.write(line+LINE_SEPARATOR);
-                    Log.d(TAG,"Line "+i+" found and copied: '"+line+"'");
-
+            boolean success=false;
+            // Write each line from the original file to the temp file except for the one to remove
+            for (int i=0; (line = br.readLine()) != null; i++) {
+                if (i == lineIndex){
+                    success=true;
+                    Log.d(TAG, "Line "+i+" found and deleted: \""+line+"\"");
                 } else {
-                    success = true;
-                    Log.d(TAG,"Line "+i+" found and deleted: '"+line+"'");
+                    bwTemp.write(line+LINE_SEPARATOR);
                 }
             }
 
@@ -155,13 +148,17 @@ public class FileHandler {
             bwTemp.close();
 
             // Replace the old file with the temp file
-
-            this.file.delete();
-            success &= tempFile.renameTo(this.file);
-            this.file=tempFile;
+            if (!(success &= this.file.delete())){
+                Log.w(TAG,"File deletion failed");
+            }
+            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+                Log.w(TAG,"File renaming failed");
+            }
+            this.file=new File(this.filename);
 
             this.open();
             return success;
+
 
         } catch (Exception e) {
             Log.e(TAG, "Error deleting line " + lineIndex + ": " + e.getLocalizedMessage());

@@ -30,6 +30,7 @@ public class ImageInfoListHandler {
     private final String TAG = ImageInfoListHandler.class.getSimpleName();
     private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
     private String imageFolderName = folderName + "images/";
+    private boolean foundEverything;
 
     private HashMap<String, ImageInfo> imageInfos;
 
@@ -38,15 +39,21 @@ public class ImageInfoListHandler {
         File file = new File(folderName + fileName);
         FileReader fileReader;
         imageInfos = new HashMap<>();
+        foundEverything = false;
 
         try {
             fileReader = new FileReader(file);
             parseFileToHashMap(fileReader);
+            foundEverything = true;
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Could not find file: '"+ fileName + "' in folder '" + folderName + "'");
         }
 
         Log.d(TAG, "loaded " + imageInfos.size() + " numbers of lines from imageList.csv");
+    }
+
+    public boolean didFindEverything() {
+        return foundEverything;
     }
 
     public void parseFileToHashMap(BufferedReader bf) {
@@ -99,7 +106,7 @@ public class ImageInfoListHandler {
         return location;
     }
 
-    public String loadImage(ImageInfo im) {
+    public String getImageFileName(ImageInfo im) {
         return loadImage(im.getFileName());
     }
 
