@@ -340,7 +340,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                            imageView.updatePositionInFile(dragPin);
+                            imageView.updatePinInFile(dragPin);
                             dragPin.setDragged(false);
                             dragPin = null;
                             imageView.setPanEnabled(true);
