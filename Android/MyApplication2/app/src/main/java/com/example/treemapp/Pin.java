@@ -113,7 +113,7 @@ public class Pin {
 
     /**
      * Gives part of the CSV format for the pin/tree (to be saved in the file)
-     * @return String representing the CSV line for the tree - "x,y,height,diameter,species"
+     * @return String representing the CSV line for the tree - "id,x,y,height,diameter,species,imageFileName"
      */
     public String getCSV(){
         return id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species + "," + imageFileName + "\n";
