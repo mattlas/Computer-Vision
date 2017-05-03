@@ -16,8 +16,7 @@ public class Pin {
     private final int collisionRadius;
     private PointF sPin;
     private Bitmap pin;
-    private String id;
-    private int intId;
+    private int id;
     private String height;
     private String diameter;
     private String species;
@@ -29,7 +28,7 @@ public class Pin {
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(String id, PointF sPin, String imageFileName) {
+    public Pin(int id, PointF sPin, String imageFileName) {
         this.sPin = sPin;
         this.id = id;
         this.radius = 20;
@@ -37,13 +36,13 @@ public class Pin {
         this.imageFileName = imageFileName;
     }
 
-    public Pin(String id, float x, float y, String imageFileName) {
+    public Pin(int id, float x, float y, String imageFileName) {
         this(id, new PointF(x, y), imageFileName);
 
     }
 
     public Pin(PointF sPin, String imageFileName){
-        this("",sPin,imageFileName);
+        this(-1,sPin,imageFileName);
     }
 
     public PointF getPoint() {
@@ -64,8 +63,6 @@ public class Pin {
 
     public String getSpecies() {return this.species;}
 
-    public int getIntId() {return this.intId;}
-
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
         sPin.set((float) x, (float) y);
@@ -85,15 +82,14 @@ public class Pin {
         this.species = species;
     }
 
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 
-    public String getId(){
+    public int getId(){
         return this.id;
     }
 
-    public void setIntId(int id) { this.intId = id;}
 
     @Override
     public boolean equals(Object o) {
@@ -102,13 +98,13 @@ public class Pin {
 
         Pin pin = (Pin) o;
 
-        return id.equals(pin.id);
+        return id == pin.id;
 
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id;
     }
 
     /**

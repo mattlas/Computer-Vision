@@ -44,9 +44,9 @@ public class FileHandler {
         try{
             File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
-                Log.d(TAG, "Treelist directory created");
+                Log.i(TAG, "Treelist directory created");
             } else {
-                Log.d(TAG, "Opening existing treelist directory");
+                Log.i(TAG, "Opening existing treelist directory");
             }
 
         } catch (Exception e){
@@ -57,9 +57,9 @@ public class FileHandler {
             file = new File(filename);
 
             if (file.createNewFile()) {// if file already exists will do nothing
-                Log.d(TAG, "Existing file " + filename + " not found, new file created");
+                Log.i(TAG, "Existing file " + filename + " not found, new file created");
             } else {
-                Log.d(TAG, "Existing file " + filename + " found and loaded");
+                Log.i(TAG, "Existing file " + filename + " found and loaded");
             }
 
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -98,13 +98,13 @@ public class FileHandler {
      * @param id the ID of the line to be removed
      * @return true if the line was found and successfully removed, false if not found.
      */
-    public boolean removeLine(String id) {
+    public boolean removeLineId(int id) {
         ArrayList<String[]> lines = this.readContents();
 
         int line = -1;
 
         for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i)[0].equals(id)) {
+            if (Integer.parseInt(lines.get(i)[0]) == id) {
                 line=i;
             }
         }
@@ -278,7 +278,7 @@ public class FileHandler {
         for (String line[] : lineList) {
             if (line.length == 7){
                 // For each tree on file, create and enter details of the new pin
-                Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
+                Pin p = new Pin(Integer.parseInt(line[0]), Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
             p.setInputData(line[3], line[4], line[5]);
             list.add(p);
             } else {
