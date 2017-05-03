@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
+    private PointF latestTouch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +172,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
+                    // tapped position
+                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+                    Pin pin = imageView.getClosestPin(sCoord.x, sCoord.y);
                     // Drag Pin
-                    dragPin(e);
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
@@ -192,6 +195,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                latestTouch = new PointF(motionEvent.getX(), motionEvent.getY());
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
@@ -203,14 +207,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Pin pin = new Pin(sCoord);
 
         imageView.addPin(pin);
-        popUpTreeInput(pin);
-        imageView.invalidate();
-    }
-
-    private void dragPin(MotionEvent e) {
-        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-        Pin pin = imageView.getClosestPin(sCoord.x, sCoord.y);
-        imageView.changePinLocation(pin);
         popUpTreeInput(pin);
         imageView.invalidate();
     }

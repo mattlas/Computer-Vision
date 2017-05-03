@@ -103,7 +103,7 @@ public class PinView extends SubsamplingScaleImageView {
         return pin;
     }
 
-    public void changePinLocation (Pin pin) {
+    public void changePinLocation (Pin pin, PointF point) {
 
 
     }
