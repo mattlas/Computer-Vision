@@ -1,5 +1,6 @@
 
 cmake_minimum_required(VERSION 3.5.1)
+
 project(TreeMarkupToolbox)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -15,7 +16,8 @@ add_executable(TreeMarkupToolbox ${SOURCE_FILES})
 target_link_libraries(TreeMarkupToolbox vl)
 
 # Find the QtWidgets library
+set(CMAKE_PREFIX_PATH /home/5dv115/Qt/5.8/gcc_64/lib/cmake/Qt5Widgets)
 find_package(Qt5Widgets)
-
-# Use the Widgets module from Qt 5.
 target_link_libraries(TreeMarkupToolbox Qt5::Widgets)
+
+

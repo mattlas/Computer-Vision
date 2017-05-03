@@ -11,6 +11,10 @@ make
 ./TreeMarkupToolbox
 
 
+### Qt
+install latest Qt pack
+install OpenGL: sudo apt-get install mesa-common-dev
+
 ### Matlab in Linux
 (modify)
 setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
