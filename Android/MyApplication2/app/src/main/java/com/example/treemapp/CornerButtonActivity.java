@@ -13,14 +13,19 @@ import android.widget.Toast;
 
 public class CornerButtonActivity extends AppCompatActivity {
 
+    private ImageButton leftBottomCorner;
+    private ImageButton rightBottomCorner;
+    private ImageButton leftTopCorner;
+    private ImageButton rightTopCorner;
+
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.corners);
 
-        ImageButton leftBottomCorner = (ImageButton) findViewById(R.id.btn_LeftBottomCorner);
-        ImageButton rightBottomCorner = (ImageButton) findViewById(R.id.btn_RightBottomCorner);
-        ImageButton leftTopCorner = (ImageButton) findViewById(R.id.btn_LeftBottomCorner);
-        ImageButton rightTopCorner = (ImageButton) findViewById(R.id.btn_RightTopCorner);
+        leftBottomCorner = (ImageButton) findViewById(R.id.btn_LeftBottomCorner);
+        rightBottomCorner = (ImageButton) findViewById(R.id.btn_RightBottomCorner);
+        leftTopCorner = (ImageButton) findViewById(R.id.btn_LeftBottomCorner);
+        rightTopCorner = (ImageButton) findViewById(R.id.btn_RightTopCorner);
     }
 
 }

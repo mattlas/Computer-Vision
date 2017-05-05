@@ -24,6 +24,7 @@
         </activity>
 
         <activity android:name=".OriginalImageActivity"/>
+        <activity android:name=".CornerButtonActivity"/>
 
     </application>
 
