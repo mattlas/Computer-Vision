@@ -39,7 +39,7 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-void FeaturePoints::calculatePoints(char const *name) {
+void FeaturePoints::calculatePoints(std::string) {
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
     double   peak_thresh  = -1 ;
@@ -60,7 +60,7 @@ void FeaturePoints::calculatePoints(char const *name) {
     /* PROCESS IMAGE -------------------------- */
 
     char basename [1024] ;
-    //char const *name = path;
+    char const *name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
 
 
     FILE            *in    = 0 ;

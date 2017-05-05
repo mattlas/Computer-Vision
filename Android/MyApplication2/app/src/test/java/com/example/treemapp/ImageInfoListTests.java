@@ -56,7 +56,11 @@ public class ImageInfoListTests {
         ImageInfoListHandler iilh = new ImageInfoListHandler();
         iilh.parseFileToHashMap(reader);
 
+        assertEquals("DSC01104_geotag.JPG", iilh.findImageClosestTo(2, 3).getFileName());
+        assertEquals("DSC01105_geotag.JPG", iilh.findImageClosestTo(-1, -1).getFileName());
         assertEquals("DSC01106_geotag.JPG", iilh.findImageClosestTo(8, 8).getFileName());
     }
+
+
 
 }

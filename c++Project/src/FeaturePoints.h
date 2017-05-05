@@ -9,6 +9,6 @@ class FeaturePoints {
 public:
     FeaturePoints(void);
     void testClass();
-    void calculatePoints(char const *name);
+    void calculatePoints(std::string);
 };
 #endif //C_PROJECT_FEATUREPOINTS_H

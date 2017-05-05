@@ -1,10 +1,6 @@
 package com.example.treemapp;
 
-import android.graphics.PointF;
-import android.nfc.Tag;
 import android.util.Log;
-
-import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +20,19 @@ class ImageInfo {
     private double y;
     private String fileName;
     private List<String> neighbors;
-    private RealMatrix inverseTransform;
+    private RealMatrix matrix;
+    private boolean isIdentity;
 
     public ImageInfo(String[] words) {
             parseInfo(words);
-    }
 
+    }
     public ImageInfo(){
         this.fileName = "DEBUG_NO_IMAGE";
         this.x=-1;
         this.y=-1;
         this.neighbors=new ArrayList<>();
-        this.inverseTransform = null;
+        this.matrix = null;
     }
 
     public ImageInfo(double... entries) {
@@ -53,11 +50,19 @@ class ImageInfo {
             }
         }
 
-        this.inverseTransform = new Array2DRowRealMatrix(entries2d);
+        this.matrix = new Array2DRowRealMatrix(entries2d);
+        setIsIdentity();
     }
 
-    public ImageInfo(double[][] inverseTransform) {
-        this.inverseTransform = new Array2DRowRealMatrix(inverseTransform);
+    public void setIsIdentity() {
+        double[][] arr = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        Array2DRowRealMatrix identity = new Array2DRowRealMatrix(arr);
+        isIdentity = identity.equals(matrix);
+    }
+
+    public ImageInfo(double[][] matrix) {
+        this.matrix = new Array2DRowRealMatrix(matrix);
+        setIsIdentity();
     }
 
     private void parseInfo(String[] words) {
@@ -75,12 +80,16 @@ class ImageInfo {
             }
         }
 
-        inverseTransform = new Array2DRowRealMatrix(entries);
+        matrix = new Array2DRowRealMatrix(entries);
+
+        setIsIdentity();
 
         while ( count < words.length ) {
             neighbors.add(words[count]);
             count++;
         }
+
+        setIsIdentity();
     }
 
     public String getFileName() {
@@ -109,7 +118,7 @@ class ImageInfo {
 
         RealMatrix mosaicCordinates = new Array2DRowRealMatrix(mc);
 
-        RealMatrix resultingMatrix = inverseTransform.multiply(mosaicCordinates);
+        RealMatrix resultingMatrix = matrix.multiply(mosaicCordinates);
 
         float imageX, imageY;
         imageX = (float) resultingMatrix.getEntry(0, 0);
@@ -122,10 +131,14 @@ class ImageInfo {
     }
 
     public RealMatrix getInverseTransformMatrix() {
-        return inverseTransform;
+        return matrix;
     }
 
     public List<String> getNeighbors() {
         return neighbors;
+    }
+
+    public boolean getIsIdentity() {
+        return isIdentity;
     }
 }
