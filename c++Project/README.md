@@ -8,7 +8,7 @@ cmake CMakeLists.txt
 
 make
 
-./TreeMarkupToolbox
+./TreeMarkupToolbox [path to pgm image file]
 
 ### Call Matlab from C++ in Linux
 (Opens Matlab GUI NOT CORRECT)
