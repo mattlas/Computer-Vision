@@ -18,13 +18,15 @@ setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
 export LD_LIBRARY_PATH
 
 ### Qt
-install latest Qt pack
+cd install
+
+./install/qt-unified-linux-x64-2.0.5-2-online.run
 
 install OpenGL: sudo apt-get install mesa-common-dev
 
 ### Compile OpenCV
 
-sudo bash opencv_install.sh
+sudo bash install/opencv_install.sh
 
 ### Compile LAPACK
 
@@ -53,6 +55,9 @@ libraries
 
 #### include 
 interface for the library *.h
+
+#### install
+install files/scripts for external libraries that isn't included in /lib/
 
 #### doc
 documentation of any kind
