@@ -117,8 +117,6 @@ public class FileHandler {
 
     /**
      * Removes a line from the CSV file of a certain line number
-     * TODO fix this. For some reason once a second pin is deleted, all the others dissapear.
-     * (My theory is that the temporary file gets reloaded even though it doesnt exist anymore)
      *
      * @param lineIndex the line number to remove
      * @return true if the line was found and successfully removed, false if not found / not removed
@@ -265,7 +263,6 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
-    // TODO: debug the function
     public List<Pin> getPinList() {
         List<Pin> list = new ArrayList<>();
 
