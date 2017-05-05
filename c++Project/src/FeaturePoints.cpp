@@ -4,12 +4,10 @@
 #define VL_SIFT_DRIVER_VERSION 0.1
 #include "FeaturePoints.h"
 #include <iostream>
-<<<<<<< HEAD
+
 #include <fstream>
 #include <string.h>
 
-=======
->>>>>>> c63c811949615e290290249c405c5b28c4623e75
 extern "C" {
 #include <vl/sift.h>
 #include <vl/stringop.h>
@@ -45,11 +43,7 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-<<<<<<< HEAD
 void FeaturePoints::calculatePoints(char const *path) {
-=======
-void FeaturePoints::calculatePoints(std::string) {
->>>>>>> c63c811949615e290290249c405c5b28c4623e75
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
     double   peak_thresh  = -1 ;
@@ -70,17 +64,12 @@ void FeaturePoints::calculatePoints(std::string) {
     /* PROCESS IMAGE -------------------------- */
 
     char basename [1024] ;
-<<<<<<< HEAD
     char const *name;
     if(strcmp(path, "")) {
     	name = path;
     } else {
     	name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
     }
-=======
-    char const *name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
-
->>>>>>> c63c811949615e290290249c405c5b28c4623e75
 
     FILE            *in    = 0 ;
     vl_uint8        *data  = 0 ;

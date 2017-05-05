@@ -8,15 +8,21 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
+
 #include "KeyPoint.h"
+
+// Qt
+#include <QtGui>
+#include <QApplication>
+#include <QPushButton>
 
 extern "C"{
 #include <vl/generic.h>
 }
 
-int main(){
+
+int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
-<<<<<<< HEAD
 
     // Qt
     QApplication app(argc, argv);
@@ -34,10 +40,4 @@ int main(){
     points->calculatePoints(path);
 
     return app.exec();
-=======
-    FeaturePoints *points = new FeaturePoints();
-    points->testClass();
-    points->calculatePoints("filnamn");
-    return 0;
->>>>>>> c63c811949615e290290249c405c5b28c4623e75
 }
