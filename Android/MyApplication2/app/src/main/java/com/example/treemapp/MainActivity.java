@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -118,6 +119,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         String fileLocation = imageInfoListHandler.getImageFileName(im);
 
+
         File f = new File(fileLocation);
 
         if (f.exists()) {
@@ -157,6 +159,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+
     /*New version*/
     private void popUpTreeInput(final Pin pin) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -170,6 +173,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
+        Button perspective = (Button) mView.findViewById(R.id.btn_perspective);
+
+        height.setHint("Height");
+        diameter.setHint("Diameter");
+        species.setHint("Species");
 
         // show dialog
         mBuilder.setView(mView);
@@ -206,6 +214,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        // when perspective clicked -> 4 errors in corners appear
+        perspective.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+
+                Intent intent = new Intent(MainActivity.this, CornerButtonActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
     }
 
     /* editting the tree entry */
@@ -222,9 +243,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
 
-        height.setText(pin.getHeight());
-        diameter.setText(pin.getDiameter());
-        species.setText(pin.getSpecies());
+
+        if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
+        else height.setHint("Height");
+
+        if (!pin.getDiameter().isEmpty()) diameter.setText(pin.getDiameter());
+        else diameter.setHint("Diameter");
+
+        if (!pin.getSpecies().isEmpty()) species.setText(pin.getSpecies());
+        else species.setHint("Species");
 
         // show dialog
         mBuilder.setView(mView);
@@ -287,7 +314,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Toast toast = Toast.makeText(getApplicationContext(), "ImageInfoListHandler could not find the image", Toast.LENGTH_LONG);
             toast.show();
         }
-
         startActivity(intent);
     }
 
@@ -334,10 +360,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onLongPress(MotionEvent e) {
                 if (imageView.isReady()) {
-                    //perspectiveViewPopUp(0, 0);
-                    // Drag Pin
                     setUpDragPin(e);
-
                 } else {
                     Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
                 }
@@ -350,6 +373,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 if (imageView.isReady()) {
                     if (dragPin != null) {
                         latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
@@ -367,7 +391,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         imageView.invalidate();
                     }
                 }
-
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         });
@@ -384,6 +407,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         popUpTreeInput(pin);
         imageView.invalidate();
     }
+
 
     /* function for dragging the pin*/
     private void setUpDragPin(MotionEvent e) {
@@ -426,11 +450,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private boolean checkPermission(){
 
         int result= ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return result == PackageManager.PERMISSION_GRANTED;
 
     }
 
