@@ -19,7 +19,7 @@ extern "C"{
 #include <vl/generic.h>
 }
 
-int main(){
+int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
 
     // Qt
