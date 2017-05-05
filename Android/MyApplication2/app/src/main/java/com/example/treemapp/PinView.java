@@ -66,8 +66,7 @@ public class PinView extends SubsamplingScaleImageView {
      * @param pin the pin to add to the list
      */
     public void addPin(Pin pin) {
-        pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (ie 003,012,123)
-        pin.setIntId(pinIndex);
+        pin.setId(pinIndex);
         pins.add(pin);
         pinIndex++;
     }
@@ -92,7 +91,7 @@ public class PinView extends SubsamplingScaleImageView {
      */
         // TODO: edit the entry in the file, needed function
     public void deletePin(Pin pin){
-        fileHandler.removeLine(pin.getId());
+        fileHandler.removeLineId(pin.getId());
         pins.remove(pin);
     }
 
@@ -155,7 +154,7 @@ public class PinView extends SubsamplingScaleImageView {
     public void loadPinsFromFile(){
         pins = fileHandler.getPinList();
         if (pins.size() > 0) {
-            pinIndex = pins.get(pins.size() - 1).getIntId();
+            pinIndex = pins.get(pins.size() - 1).getId()+1;
         }
     }
 
@@ -189,7 +188,7 @@ public class PinView extends SubsamplingScaleImageView {
         ArrayList<String[]> list = fileHandler.readContents();
         int lineToUpdate = -1;
         for (int i = 0; lineToUpdate==-1 && i<list.size(); i++){
-            if (list.get(i)[0].equals(pin.getId())) {
+            if (Integer.parseInt(list.get(i)[0])==pin.getId()) {
                 lineToUpdate=i;
             }
         }

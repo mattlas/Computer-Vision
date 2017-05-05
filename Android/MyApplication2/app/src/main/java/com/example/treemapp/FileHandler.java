@@ -26,8 +26,6 @@ import java.util.List;
  * @author Adam Kavanagh Coyne
  * @author Karolina Drobotowicz
  */
-// TODO test out the new line deletion functionality via PinView.deletePin()
-// TODO Debug this more once the tablet is accessible. Saving and editing is still complicated, we need to keep a close eye on the csv file
 
 
 public class FileHandler {
@@ -42,23 +40,24 @@ public class FileHandler {
     public FileHandler() {
         // First create the directory if it doesn't exist
         try{
-            File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
+            File dir = new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
-                Log.d(TAG, "Treelist directory created");
+                Log.i(TAG, "Treelist directory created");
             } else {
-                Log.d(TAG, "Opening existing treelist directory");
+                Log.i(TAG, "Opening existing treelist directory");
             }
 
         } catch (Exception e){
             Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
         }
+        // Then the file
         try {
             file = new File(filename);
 
             if (file.createNewFile()) {// if file already exists will do nothing
-                Log.d(TAG, "Existing file " + filename + " not found, new file created");
+                Log.i(TAG, "Existing file " + filename + " not found, new file created");
             } else {
-                Log.d(TAG, "Existing file " + filename + " found and loaded");
+                Log.i(TAG, "Existing file " + filename + " found and loaded");
             }
 
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -80,7 +79,7 @@ public class FileHandler {
     public boolean addLine(String line) {
         try {
 
-            bw.append(line);
+            bw.append(line+LINE_SEPARATOR);
             this.save();
             return true;
 
@@ -95,13 +94,13 @@ public class FileHandler {
      * @param id the ID of the line to be removed
      * @return true if the line was found and successfully removed, false if not found.
      */
-    public boolean removeLine(String id) {
+    public boolean removeLineId(int id) {
         ArrayList<String[]> lines = this.readContents();
 
         int line = -1;
 
         for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i)[0].equals(id)) {
+            if (Integer.parseInt(lines.get(i)[0]) == id) {
                 line=i;
             }
         }
@@ -126,10 +125,8 @@ public class FileHandler {
 
 
         try {
-            // Sorry if this gets a bit weird. This is the only way i can get it to work!
-
-            // Create a writer for the temp file
             File tempFile = new File(this.filename+".tmp");
+
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
 
             String line;
@@ -148,11 +145,12 @@ public class FileHandler {
             bwTemp.close();
 
             // Replace the old file with the temp file
-            if (!(success &= this.file.delete())){
-                Log.w(TAG,"File deletion failed");
+
+            if (!(success &=this.file.delete())){
+                Log.e(TAG, "Error deleting file");
             }
             if (!(success &= tempFile.renameTo(new File(this.filename)))){
-                Log.w(TAG,"File renaming failed");
+                Log.e(TAG, "Error renaming file");
             }
             this.file=new File(this.filename);
 
@@ -176,7 +174,7 @@ public class FileHandler {
     public boolean editLine(int lineIndex, String newLine) {
 
         try {
-            File tempFile = File.createTempFile("csvtransfer","tmp");
+            File tempFile = new File(this.filename+".tmp");
 
             // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
@@ -188,6 +186,8 @@ public class FileHandler {
             String line;
             boolean success = false;
 
+            Log.d(TAG, this.file.getName());
+
             for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
@@ -196,7 +196,7 @@ public class FileHandler {
 
                 } else {
                     success = true;
-                    bwTemp.write(newLine + LINE_SEPARATOR);
+                    bwTemp.write(newLine+LINE_SEPARATOR);
                     Log.d(TAG,"Line "+i+" found and edited: '"+newLine+"'");
                 }
             }
@@ -205,10 +205,14 @@ public class FileHandler {
             bwTemp.close();
 
             // Replace the old file with the temp file
+            if (!(success &=this.file.delete())){
+                Log.e(TAG, "Error deleting file");
+            }
+            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+                Log.e(TAG, "Error renaming file");
+            }
+            this.file=new File(this.filename);
 
-            this.file.delete();
-            success &= tempFile.renameTo(this.file);
-            this.file=tempFile;
             this.open();
             return success;
 
@@ -260,10 +264,15 @@ public class FileHandler {
 
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
-            // For each tree on file, create and enter details of the new pin
-            Pin p = new Pin(line[0], Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
+            if (line.length == 7){
+                // For each tree on file, create and enter details of the new pin
+                Pin p = new Pin(Integer.parseInt(line[0]), Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
             p.setInputData(line[3], line[4], line[5]);
             list.add(p);
+            } else {
+                Log.e(TAG, "File format invalid");
+            }
+
         }
 
         return list;

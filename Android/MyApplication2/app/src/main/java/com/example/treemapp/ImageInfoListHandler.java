@@ -132,6 +132,10 @@ public class ImageInfoListHandler {
         if (imageInfos.isEmpty()) return new ImageInfo();
         double dis;
 
+        //TODO remove this when they have fixed the file
+        x *= 4;
+        y *= 4;
+
         Iterator<ImageInfo> it = imageInfos.values().iterator();
 
         ImageInfo imageInfo = it.next();
@@ -148,8 +152,6 @@ public class ImageInfoListHandler {
                 currentMinDistance = dis;
                 closest = imageInfo;
             }
-
-            it.remove(); // avoids a ConcurrentModificationException
         }
 
         return closest;
