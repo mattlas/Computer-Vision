@@ -18,7 +18,7 @@ public:
 
     void writeKeyPoints();
 
-    void calculatePoints(char const *name);
+    void calculatePoints(char const *path);
 
 };
 #endif //C_PROJECT_FEATUREPOINTS_H
