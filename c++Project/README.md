@@ -36,6 +36,8 @@ wget http://www.netlib.org/lapack/lapack-3.7.0.tgz
 
 tar zxvf lapack-3.7.0.tgz
 
+cd lapack-3.7.0
+
 cp INSTALL/make.inc.gfortran make.inc
 
 make blaslib
