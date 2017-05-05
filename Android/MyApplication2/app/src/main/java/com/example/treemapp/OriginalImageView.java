@@ -42,15 +42,8 @@ public class OriginalImageView extends android.support.v7.widget.AppCompatImageV
 
     private void init() {
         paint = new Paint();
-<<<<<<< HEAD
+
         paint.setColor(Color.BLUE);
-=======
-<<<<<<< HEAD
-        paint.setColor(Color.WHITE);
-=======
-        paint.setColor(Color.BLUE);
->>>>>>> a65dc693b060dd0c3d43948ab2a81e6b2024621c
->>>>>>> 1459ed5ff6ef813ed662cfe96bcc6082736c73ee
     }
 
     @Override
