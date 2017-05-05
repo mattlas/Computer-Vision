@@ -89,7 +89,6 @@ public class PinView extends SubsamplingScaleImageView {
      * removes pin from the list and file
      * @param pin to be deleted
      */
-        // TODO: edit the entry in the file, needed function
     public void deletePin(Pin pin){
         fileHandler.removeLineId(pin.getId());
         pins.remove(pin);

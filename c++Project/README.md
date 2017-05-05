@@ -8,7 +8,7 @@ cmake CMakeLists.txt
 
 make
 
-./TreeMarkupToolbox
+./TreeMarkupToolbox [path to pgm image file]
 
 ### Call Matlab from C++ in Linux
 (Opens Matlab GUI NOT CORRECT)
@@ -16,6 +16,11 @@ make
 setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
 
 export LD_LIBRARY_PATH
+
+### Qt
+install latest Qt pack
+
+install OpenGL: sudo apt-get install mesa-common-dev
 
 ### Compile OpenCV
 

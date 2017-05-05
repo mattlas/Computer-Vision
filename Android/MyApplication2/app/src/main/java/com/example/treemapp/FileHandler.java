@@ -26,8 +26,6 @@ import java.util.List;
  * @author Adam Kavanagh Coyne
  * @author Karolina Drobotowicz
  */
-// TODO test out the new line deletion functionality via PinView.deletePin()
-// TODO Debug this more once the tablet is accessible. Saving and editing is still complicated, we need to keep a close eye on the csv file
 
 
 public class FileHandler {
@@ -42,7 +40,7 @@ public class FileHandler {
     public FileHandler() {
         // First create the directory if it doesn't exist
         try{
-            File dir=new File(Environment.getExternalStorageDirectory()+"/mosaic");
+            File dir = new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
@@ -72,8 +70,6 @@ public class FileHandler {
         }
     }
 
-    // TODO debug this! it works fine but its not being CALLED for each pin creation (sometimes a pin is created but not saved to file)
-    // So basically we need to work back from this method (and not change the method itself
     /**
      * Adds a line to the file specified by "filename"
      *
@@ -121,8 +117,6 @@ public class FileHandler {
 
     /**
      * Removes a line from the CSV file of a certain line number
-     * TODO fix this. For some reason once a second pin is deleted, all the others dissapear.
-     * (My theory is that the temporary file gets reloaded even though it doesnt exist anymore)
      *
      * @param lineIndex the line number to remove
      * @return true if the line was found and successfully removed, false if not found / not removed
@@ -269,7 +263,6 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
-    // TODO: debug the function
     public List<Pin> getPinList() {
         List<Pin> list = new ArrayList<>();
 

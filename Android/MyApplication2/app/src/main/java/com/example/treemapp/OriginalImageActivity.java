@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -25,6 +27,7 @@ import java.io.File;
 
 public class OriginalImageActivity extends AppCompatActivity {
     private Button mBtGoBack;
+    private static final String TAG = OriginalImageActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,28 +41,34 @@ public class OriginalImageActivity extends AppCompatActivity {
 
 
         File bitmapFile = new File(fileName);
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeFile(bitmapFile.getAbsolutePath(),bmOptions);
+        if (!bitmapFile.exists() || bitmapFile.isDirectory()){
 
-        Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+            Log.e(TAG, "Image not found: "+fileName);
+            finish();
 
-        Canvas tempCanvas = new Canvas(tempBitmap);
-        tempCanvas.drawBitmap(bitmap, 0, 0, null);
-        draw(x, y, fileName,tempCanvas);
+        } else {
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(bitmapFile.getAbsolutePath(), bmOptions);
+
+            Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+
+            Canvas tempCanvas = new Canvas(tempBitmap);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+            draw(x, y, fileName, tempCanvas);
 
 
+            imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
-        imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
+            mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
 
-        mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
-
-        mBtGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+            mBtGoBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
     }
 
     private void draw(float x, float y, String fileName, Canvas tempCanvas) {
