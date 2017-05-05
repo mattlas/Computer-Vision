@@ -34,6 +34,8 @@ public class ImageInfoListHandler {
     private boolean foundEverything;
 
     private HashMap<String, ImageInfo> imageInfos;
+    private float icx;
+    private float icy;
 
     public ImageInfoListHandler() {
         String fileName = "imageList.csv";
@@ -58,7 +60,7 @@ public class ImageInfoListHandler {
     }
 
     public void parseFileToHashMap(BufferedReader bf) {
-        if (!imageInfos.isEmpty()) imageInfos.clear();
+        if (!this.imageInfos.isEmpty()) this.imageInfos.clear();
 
         String line;
         ImageInfo imageInfo;
@@ -70,7 +72,13 @@ public class ImageInfoListHandler {
                 line = line.replaceAll("\"", "");
                 words = line.split(",");
                 imageInfo = new ImageInfo(words);
-                imageInfos.put(imageInfo.getFileName(), imageInfo);
+
+                if (imageInfo.getIsIdentity()) {
+                    this.icx = (float) imageInfo.getX() - 300f;
+                    this.icy = (float) imageInfo.getY() - 200f;
+                }
+
+                this.imageInfos.put(imageInfo.getFileName(), imageInfo);
 
                 lineNumber++;
             }
@@ -130,10 +138,6 @@ public class ImageInfoListHandler {
         if (imageInfos.isEmpty()) return new ImageInfo();
         double dis;
 
-        //TODO remove this when they have fixed the file
-        x *= 4;
-        y *= 4;
-
         Iterator<ImageInfo> it = imageInfos.values().iterator();
 
         ImageInfo imageInfo = it.next();
@@ -156,4 +160,10 @@ public class ImageInfoListHandler {
     }
 
 
+    public float[] getResultCoordinates(float x, float y) {
+        float[] coor = {x, y};
+        coor[0] -= this.icx;
+        coor[1] -= this.icy;
+        return coor;
+    }
 }

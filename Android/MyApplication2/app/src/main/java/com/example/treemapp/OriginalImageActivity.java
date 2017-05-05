@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -32,10 +33,9 @@ public class OriginalImageActivity extends AppCompatActivity {
         setContentView(R.layout.original_image);
         ImageView imageView = (ImageView) findViewById(R.id.originalImageView);
         Intent intent = getIntent();
-        float x = intent.getFloatExtra("x", 2);
-        float y = intent.getFloatExtra("y", 0);
+        float x = intent.getFloatExtra("x", 2); //just weird numbers so I know it does not work
+        float y = intent.getFloatExtra("y", 3);
         String fileName = intent.getStringExtra("fileName");
-
 
         File bitmapFile = new File(fileName);
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -47,10 +47,7 @@ public class OriginalImageActivity extends AppCompatActivity {
         tempCanvas.drawBitmap(bitmap, 0, 0, null);
         draw(x, y, fileName,tempCanvas);
 
-
-
         imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-
 
         mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
 
@@ -66,12 +63,15 @@ public class OriginalImageActivity extends AppCompatActivity {
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
 
-        tempCanvas.drawCircle(x, y, 20, paint);
         Paint textPaint = new TextPaint();
         textPaint.setColor(Color.WHITE);
         textPaint.setShadowLayer(3, 2, 2, Color.BLACK);
         tempCanvas.drawText(fileName, 20, 20, textPaint);
-        tempCanvas.drawLine(tempCanvas.getWidth() / 2, 0, tempCanvas.getWidth() / 2, tempCanvas.getHeight(), paint);
-        tempCanvas.drawLine(0, tempCanvas.getHeight() / 2, tempCanvas.getWidth(), tempCanvas.getHeight() / 2, paint);
+
+        tempCanvas.drawText(Float.toString(x) + ", " + Float.toString(y), 20, 40, textPaint);
+
+
+        tempCanvas.drawLine(x, 0, x, tempCanvas.getHeight(), paint);
+        tempCanvas.drawLine(0, y, tempCanvas.getWidth(), y, paint);
     }
 }

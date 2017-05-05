@@ -269,10 +269,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         if (imageInfoListHandler.didFindEverything()) {
             ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
-            float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(mosaicCoor.x, mosaicCoor.y);
 
-            intent.putExtra("x", origCoor[0]);
-            intent.putExtra("y", origCoor[1]);
+
+            float[] resultCoor = imageInfoListHandler.getResultCoordinates(mosaicCoor.x, mosaicCoor.y);
+
+            float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
+
+            float x = origCoor[0];
+            float y = origCoor[1];
+
+            intent.putExtra("x", x);
+            intent.putExtra("y", y);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {
