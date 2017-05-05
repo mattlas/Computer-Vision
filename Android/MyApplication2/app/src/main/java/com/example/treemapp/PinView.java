@@ -27,9 +27,7 @@ public class PinView extends SubsamplingScaleImageView {
     private int pinIndex;
     private FileHandler fileHandler;
     private Paint unfilled;
-
-    // I'm keeping the filehandler as an attribute to PinView to make interfacing between them easier.
-
+    
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
         init();
