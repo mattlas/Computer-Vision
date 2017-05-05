@@ -25,14 +25,16 @@
         android:maxLines="1"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
         <Button
+            android:id="@+id/btn_save"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/btn_save"
-            android:text="Save"/>
+            android:text="Save" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -45,6 +47,12 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:text="Preview" />
+
+        <Button
+            android:id="@+id/btn_perspective"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Perspective" />
     </LinearLayout>
 
 </LinearLayout>

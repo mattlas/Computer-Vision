@@ -127,24 +127,17 @@ public class FileHandler {
         try {
             File tempFile = new File(this.filename+".tmp");
 
-            // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
 
-            // Write each line from the original file to the temp file except for the one to remove
-            br.reset();
-
             String line;
-            boolean success = false;
-
-            for (int i = 0; (line = br.readLine()) != null; i++) {
-
-                if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file
-                    bwTemp.write(line+LINE_SEPARATOR);
-                    Log.d(TAG,"Line "+i+" found and copied: '"+line+"'");
-
+            boolean success=false;
+            // Write each line from the original file to the temp file except for the one to remove
+            for (int i=0; (line = br.readLine()) != null; i++) {
+                if (i == lineIndex){
+                    success=true;
+                    Log.d(TAG, "Line "+i+" found and deleted: \""+line+"\"");
                 } else {
-                    success = true;
-                    Log.d(TAG,"Line "+i+" found and deleted: '"+line+"'");
+                    bwTemp.write(line+LINE_SEPARATOR);
                 }
             }
 
@@ -163,6 +156,7 @@ public class FileHandler {
 
             this.open();
             return success;
+
 
         } catch (Exception e) {
             Log.e(TAG, "Error deleting line " + lineIndex + ": " + e.getLocalizedMessage());
