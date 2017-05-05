@@ -175,6 +175,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
         Button perspective = (Button) mView.findViewById(R.id.btn_perspective);
 
+        height.setHint("Height");
+        diameter.setHint("Diameter");
+        species.setHint("Species");
+
         // show dialog
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
@@ -239,9 +243,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
 
-        height.setText(pin.getHeight());
-        diameter.setText(pin.getDiameter());
-        species.setText(pin.getSpecies());
+
+        if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
+        else height.setHint("Height");
+
+        if (!pin.getDiameter().isEmpty()) diameter.setText(pin.getDiameter());
+        else diameter.setHint("Diameter");
+
+        if (!pin.getSpecies().isEmpty()) species.setText(pin.getSpecies());
+        else species.setHint("Species");
 
         // show dialog
         mBuilder.setView(mView);

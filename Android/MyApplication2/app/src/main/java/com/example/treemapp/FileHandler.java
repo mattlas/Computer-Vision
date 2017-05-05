@@ -257,7 +257,6 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
-    // TODO: debug the function
     public List<Pin> getPinList() {
         List<Pin> list = new ArrayList<>();
 
