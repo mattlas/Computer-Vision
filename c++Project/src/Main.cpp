@@ -30,5 +30,6 @@ int main(int argc, char **argv){
     FeaturePoints *points = new FeaturePoints();
     points->testClass();
     points->calculatePoints("filnamn");
-    return 0;
+
+    return app.exec();
 }
