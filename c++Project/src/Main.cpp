@@ -8,11 +8,13 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
+
 #include "KeyPoint.h"
 
 extern "C"{
 #include <vl/generic.h>
 }
+
 
 int main(){
     VL_PRINT ("vlfeat loaded properly\n");
