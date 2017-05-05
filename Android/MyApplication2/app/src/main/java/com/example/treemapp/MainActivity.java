@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -158,6 +159,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+
     /*New version*/
     private void popUpTreeInput(final Pin pin) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -171,6 +173,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
+        Button perspective = (Button) mView.findViewById(R.id.btn_perspective);
 
         // show dialog
         mBuilder.setView(mView);
@@ -204,6 +207,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 launchActivity(pin);
+            }
+        });
+
+        // when perspective clicked -> 4 errors in corners appear
+        perspective.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+
+                Intent intent = new Intent(MainActivity.this, CornerButtonActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
             }
         });
 
