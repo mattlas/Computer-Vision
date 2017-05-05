@@ -11,15 +11,27 @@
 
 #include "KeyPoint.h"
 
+// Qt
+#include <QtGui>
+#include <QApplication>
+#include <QPushButton>
+
 extern "C"{
 #include <vl/generic.h>
 }
 
 
-int main(){
+int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
+
+    // Qt
+    QApplication app(argc, argv);
+    QPushButton *button = new QPushButton("Hello World");
+    button->show();
+
     FeaturePoints *points = new FeaturePoints();
     points->testClass();
-    points->calculatePoints("filnamn");
-    return 0;
+    points->calculatePoints(argv[1]);
+
+    return app.exec();
 }

@@ -27,9 +27,7 @@ public class PinView extends SubsamplingScaleImageView {
     private int pinIndex;
     private FileHandler fileHandler;
     private Paint unfilled;
-
-    // I'm keeping the filehandler as an attribute to PinView to make interfacing between them easier.
-
+    
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
         init();
@@ -89,7 +87,6 @@ public class PinView extends SubsamplingScaleImageView {
      * removes pin from the list and file
      * @param pin to be deleted
      */
-        // TODO: edit the entry in the file, needed function
     public void deletePin(Pin pin){
         fileHandler.removeLineId(pin.getId());
         pins.remove(pin);

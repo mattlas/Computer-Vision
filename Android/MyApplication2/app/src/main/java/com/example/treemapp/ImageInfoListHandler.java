@@ -42,10 +42,12 @@ public class ImageInfoListHandler {
         imageInfos = new HashMap<>();
         foundEverything = false;
 
+
         try {
             fileReader = new FileReader(file);
             parseFileToHashMap(fileReader);
             foundEverything = true;
+
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Could not find file: '"+ fileName + "' in folder '" + folderName + "'");
         }
