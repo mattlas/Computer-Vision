@@ -202,14 +202,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         final NumberPicker height = (NumberPicker) mView.findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) mView.findViewById(R.id.inp_diameter);
-        final Spinner species = (Spinner) findViewById(R.id.inp_species);
+        final Spinner species = (Spinner) mView.findViewById(R.id.inp_species);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.trees_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        species.setAdapter(adapter);findViewById(R.id.inp_species);
+        if (species == null){
+            Log.e(TAG,"Species object is null");
+        }
+        else {
+            Log.d(TAG,"Species object exists");
+        }
+
+        species.setAdapter(adapter);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
