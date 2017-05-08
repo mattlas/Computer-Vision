@@ -1,24 +1,22 @@
 package com.example.treemapp;
 
-import android.Manifest;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import org.apache.commons.math3.linear.*;
+
 
 
 /**
@@ -257,17 +255,44 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
-    public List<Pin> getPinList() {
+    public List<Pin> getPinList(ImageInfoListHandler iil) {
         List<Pin> list = new ArrayList<>();
+        float mosaicX;
+        float mosaicY;
+        String fileName;
+        ImageInfo info;
 
 
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             if (line.length == 7){
+                fileName = line[6];
+
+                info = iil.findImageInfo(fileName);
+
+                RealMatrix transformMatrix = info.getTransformMatrix();
+                LUDecomposition s = new LUDecomposition(transformMatrix);
+
+                RealMatrix doubleInversed = s.getSolver().getInverse();
+
+                float origY;
+                float origX;
+
+                origX = Float.parseFloat(line[1]);
+                origY = Float.parseFloat(line[2]);
+
+                double[] coordArr = {origX, origY, 1};
+                RealMatrix coordMatrix = new Array2DRowRealMatrix(coordArr);
+
+                RealMatrix result = doubleInversed.multiply(coordMatrix);
+
+                mosaicX = (float) result.getEntry(0,0) + iil.getICX();
+                mosaicY = (float) result.getEntry(1,0) + iil.getICY();
+
                 // For each tree on file, create and enter details of the new pin
-                Pin p = new Pin(Integer.parseInt(line[0]), Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
-            p.setInputData(line[3], line[4], line[5]);
-            list.add(p);
+                Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, fileName);
+                p.setInputData(line[3], line[4], line[5]);
+                list.add(p);
             } else {
                 Log.e(TAG, "File format invalid");
             }

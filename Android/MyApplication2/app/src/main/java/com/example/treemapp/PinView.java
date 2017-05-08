@@ -121,7 +121,7 @@ public class PinView extends SubsamplingScaleImageView {
         PointF point;
 
         double minimalDistance = 10000000;
-        Pin pin = new Pin(pointF,"");
+        Pin pin = null;
 
         // Check all pins in list, find pin with minimal distance to tabbed point
         for(Pin p : pins) {
@@ -148,8 +148,8 @@ public class PinView extends SubsamplingScaleImageView {
      * Loads the pins from the tree list into memory
      * update the pin index
      */
-    public void loadPinsFromFile(){
-        pins = fileHandler.getPinList();
+    public void loadPinsFromFile(ImageInfoListHandler imageInfoListHandler){
+        pins = fileHandler.getPinList(imageInfoListHandler);
         if (pins.size() > 0) {
             pinIndex = pins.get(pins.size() - 1).getId()+1;
         }

@@ -130,7 +130,7 @@ class ImageInfo {
         return originalCoordinate;
     }
 
-    public RealMatrix getInverseTransformMatrix() {
+    public RealMatrix getTransformMatrix() {
         return matrix;
     }
 
