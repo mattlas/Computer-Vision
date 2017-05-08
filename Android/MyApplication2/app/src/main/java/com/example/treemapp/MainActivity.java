@@ -226,6 +226,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        dialog.setCanceledOnTouchOutside(false);
+
         // when preview clicked - open preview activity
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +248,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         });
-
     }
 
     /* editting the tree entry */
@@ -327,6 +328,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             intent.putExtra("x", x);
             intent.putExtra("y", y);
+            intent.putExtra("mx", mosaicCoor.x);
+            intent.putExtra("my", mosaicCoor.y);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {
