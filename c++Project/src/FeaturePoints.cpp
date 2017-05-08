@@ -37,7 +37,6 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-
 void FeaturePoints::calculatePoints(char const *path) {
 
     /* algorithm parameters */
@@ -374,7 +373,6 @@ void FeaturePoints::calculatePoints(char const *path) {
 
 /* quit */
 }
-
 
 void FeaturePoints::writeKeyPoints(char* name) {
     std::ofstream out_file;

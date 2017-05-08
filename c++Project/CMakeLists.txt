@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp ${PROJECT_SOURCE_DIR}/src/imaq.h ${PROJECT_SOURCE_DIR}/src/imaq.cpp)
-set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp)
+set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp src/ImageData.cpp src/ImageData.h)
 
 # OpenCV library
 #find_package( OpenCV REQUIRED )

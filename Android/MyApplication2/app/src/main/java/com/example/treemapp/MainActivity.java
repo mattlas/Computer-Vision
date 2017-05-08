@@ -3,17 +3,11 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-
-
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,33 +15,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import android.widget.ViewSwitcher;
-
 import com.davemorrissey.labs.subscaleview.ImageSource;
-
 import java.io.File;
-import java.net.ProtocolFamily;
+
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
@@ -197,9 +182,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d(TAG,"Tree detail input popup opened");
 
-        final EditText height = (EditText) mView.findViewById(R.id.inp_height);
-        final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
-        final EditText species = (EditText) mView.findViewById(R.id.inp_species);
+        final NumberPicker height = (NumberPicker) mView.findViewById(R.id.inp_height);
+        final NumberPicker diameter = (NumberPicker) mView.findViewById(R.id.inp_diameter);
+        final Spinner species = (Spinner) findViewById(R.id.inp_species);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.trees_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        species.setAdapter(adapter);findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
@@ -208,9 +200,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ImageButton perspectiveButton3 = (ImageButton) mView.findViewById(R.id.btn_perspective_3);
         ImageButton perspectiveButton4 = (ImageButton) mView.findViewById(R.id.btn_perspective_4);
 
-        height.setHint("Height");
-        diameter.setHint("Diameter");
-        species.setHint("Species");
 
         // show dialog
         mBuilder.setView(mView);
@@ -234,7 +223,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(imageView.saveNewPin(pin, height.getText().toString(), diameter.getText().toString(), species.getText().toString()))
+                if(imageView.saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
@@ -319,22 +308,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d(TAG,"Tree detail input popup opened");
 
-        final EditText height = (EditText) mView.findViewById(R.id.inp_height);
-        final EditText diameter = (EditText) mView.findViewById(R.id.inp_diameter);
-        final EditText species = (EditText) mView.findViewById(R.id.inp_species);
+        final NumberPicker height = (NumberPicker) mView.findViewById(R.id.inp_height);
+        final NumberPicker diameter = (NumberPicker) mView.findViewById(R.id.inp_diameter);
+        final Spinner species = (Spinner) findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
 
 
-        if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
+        /*if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
         else height.setHint("Height");
 
         if (!pin.getDiameter().isEmpty()) diameter.setText(pin.getDiameter());
         else diameter.setHint("Diameter");
 
         if (!pin.getSpecies().isEmpty()) species.setText(pin.getSpecies());
-        else species.setHint("Species");
+        else species.setHint("Species");*/
 
         // show dialog
         mBuilder.setView(mView);
@@ -345,7 +334,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageView.updatePin(pin, height.getText().toString(), diameter.getText().toString(), species.getText().toString()))
+                if (imageView.updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
