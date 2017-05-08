@@ -206,9 +206,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final AlertDialog dialog = mBuilder.create();
 
 
-
-
-
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
