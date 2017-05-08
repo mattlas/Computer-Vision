@@ -4,8 +4,11 @@
  * variable descriptor.
  */
 #include <string>
+#include <cstdint>
 #include <vector>
 #include "KeyPoint.h"
+
+
 #ifndef C_PROJECT_FEATUREPOINTS_H
 #define C_PROJECT_FEATUREPOINTS_H
 
@@ -37,10 +40,13 @@ private:
      */
     void writeKeyPoints(char *name);
 
+
     /**
      * writes descriptors to file
      * @param name
      */
     void writeDescriptors(char *name);
+
 };
 #endif //C_PROJECT_FEATUREPOINTS_H
+

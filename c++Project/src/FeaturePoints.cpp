@@ -4,6 +4,8 @@
 #include "FeaturePoints.h"
 #include <iostream>
 #include <fstream>
+#include <cstring>
+
 
 extern "C" {
 #include <vl/sift.h>
@@ -35,7 +37,9 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
+
 void FeaturePoints::calculatePoints(char const *path) {
+
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
     double   peak_thresh  = -1 ;
@@ -56,7 +60,16 @@ void FeaturePoints::calculatePoints(char const *path) {
     /* PROCESS IMAGE -------------------------- */
 
     char basename [1024] ;
-    char const *name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
+
+    //char const *name = path;
+
+
+    char const *name;
+    if(strcmp(path, "")) {
+    	name = path;
+    } else {
+    	name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
+    }
 
 
     FILE            *in    = 0 ;
@@ -283,6 +296,7 @@ void FeaturePoints::calculatePoints(char const *path) {
                 KeyPoint *keyPoint = new KeyPoint(k->x, k->y, k->sigma, k->s);
                 int l ;
 
+
                 std::vector<uint16_t> descriptor;
 
                 for (l = 0 ; l < 128 ; ++l) {
@@ -294,13 +308,16 @@ void FeaturePoints::calculatePoints(char const *path) {
                 keyPoints.push_back(*keyPoint);
                 descriptors.push_back(descriptor);
                 //fprintf(dsc.file, "\n") ;
+
             }
         }
     }
     std::cout << "kepoints= " << nKeypoints << std::endl;
+
     writeKeyPoints(basename);
     writeDescriptors(basename);
     std::cout << "done" << std::endl;
+
 
     done :
     /* release input keys buffer */
@@ -358,11 +375,13 @@ void FeaturePoints::calculatePoints(char const *path) {
 /* quit */
 }
 
+
 void FeaturePoints::writeKeyPoints(char* name) {
     std::ofstream out_file;
     std::string file_name = name;
     file_name.append("_keypoint.txt");
     out_file.open(file_name);
+
     for(ulong i=0; i < keyPoints.size(); i++){
         KeyPoint point = keyPoints.at(i);
         out_file << point.getX() << "   ";
@@ -404,7 +423,6 @@ const std::vector<std::vector<uint16_t>> &FeaturePoints::getDescriptors() const 
 void FeaturePoints::setDescriptors(const std::vector<std::vector<uint16_t>> &descriptors) {
     FeaturePoints::descriptors = descriptors;
 }
-
 
 
 
