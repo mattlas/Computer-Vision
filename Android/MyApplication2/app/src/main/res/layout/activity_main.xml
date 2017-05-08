@@ -138,12 +138,6 @@
                 android:layout_height="100dp"
                 android:text="Delete" />
 
-            <Button
-                android:id="@+id/btn_preview_original"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="Preview" />
-
         </LinearLayout>
 
 

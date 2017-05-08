@@ -214,7 +214,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         species.setAdapter(adapter);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
-        Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
         ImageButton perspectiveButton1 = (ImageButton) mView.findViewById(R.id.btn_perspective_1);
         ImageButton perspectiveButton2 = (ImageButton) mView.findViewById(R.id.btn_perspective_2);
         ImageButton perspectiveButton3 = (ImageButton) mView.findViewById(R.id.btn_perspective_3);
@@ -257,14 +256,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
 
         dialog.setCanceledOnTouchOutside(false);
-
-        // when preview clicked - open preview activity
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchActivity(pin);
-            }
-        });
 
         perspectiveButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -338,7 +329,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         species.setAdapter(adapter);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-        Button preview = (Button) findViewById(R.id.btn_preview_original);
         ImageButton perspectiveButton1 = (ImageButton) findViewById(R.id.btn_perspective_1);
         ImageButton perspectiveButton2 = (ImageButton) findViewById(R.id.btn_perspective_2);
         ImageButton perspectiveButton3 = (ImageButton) findViewById(R.id.btn_perspective_3);
@@ -369,14 +359,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
 
         //dialog.setCanceledOnTouchOutside(false);
-
-        // when preview clicked - open preview activity
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchActivity(pin);
-            }
-        });
 
         perspectiveButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -436,7 +418,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
-        Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
 
 
         /*if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
@@ -471,14 +452,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 imageView.deletePin(pin);
                 dialog.dismiss();
-            }
-        });
-
-        // when preview clicked - open preview activity
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchActivity(pin);
             }
         });
     }
@@ -522,14 +495,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 imageView.deletePin(pin);
                 overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        // when preview clicked - open preview activity
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchActivity(pin);
             }
         });
     }
