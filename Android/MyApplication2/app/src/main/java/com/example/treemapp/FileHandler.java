@@ -24,6 +24,11 @@ import java.util.List;
  * This class handles creating, reading and writing of the treeList CSV file - the final output of the app, containing information for all the trees.
  * @author Adam Kavanagh Coyne
  * @author Karolina Drobotowicz
+ *
+ * For each line in the CSV file, the format is as follows:
+ * id,x,y,height,diameter,species,imagefilename
+ *
+ * as of recent edits x and y are coordinates in the ORIGINAL IMAGE, not the mosaic
  */
 
 

@@ -204,12 +204,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        if (species == null){
-            Log.e(TAG,"Species object is null");
-        }
-        else {
-            Log.d(TAG,"Species object exists");
-        }
 
         species.setAdapter(adapter);
         Button save = (Button) mView.findViewById(R.id.btn_save);
@@ -317,7 +311,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void overlayedTreeInput(final Pin pin) {
-        Log.d(TAG,"Tree detail input popup opened");
+        Log.d(TAG,"Tree detail input overlay opened");
 
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
@@ -328,17 +322,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        if (species == null){
-            Log.e(TAG,"Species object is null");
-        }
-        else {
-            Log.d(TAG,"Species object exists");
-        }
 
         species.setAdapter(adapter);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-        Button preview = (Button) findViewById(R.id.btn_preview_original);
         ImageButton perspectiveButton1 = (ImageButton) findViewById(R.id.btn_perspective_1);
         ImageButton perspectiveButton2 = (ImageButton) findViewById(R.id.btn_perspective_2);
         ImageButton perspectiveButton3 = (ImageButton) findViewById(R.id.btn_perspective_3);
