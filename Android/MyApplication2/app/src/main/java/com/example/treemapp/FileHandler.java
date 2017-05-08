@@ -276,27 +276,39 @@ public class FileHandler {
 
                 info = iil.findImageInfo(fileName);
 
-                RealMatrix transformMatrix = info.getTransformMatrix();
-                LUDecomposition s = new LUDecomposition(transformMatrix);
-
-                RealMatrix doubleInversed = s.getSolver().getInverse();
-
                 float origY;
                 float origX;
 
                 origX = Float.parseFloat(line[1]);
                 origY = Float.parseFloat(line[2]);
 
-                double[] coordArr = {origX, origY, 1};
-                RealMatrix coordMatrix = new Array2DRowRealMatrix(coordArr);
+                if (info != null) {
 
-                RealMatrix result = doubleInversed.multiply(coordMatrix);
+                    RealMatrix transformMatrix = info.getTransformMatrix();
+                    LUDecomposition s = new LUDecomposition(transformMatrix);
 
-                mosaicX = (float) result.getEntry(0,0) + iil.getICX();
-                mosaicY = (float) result.getEntry(1,0) + iil.getICY();
+                    RealMatrix doubleInversed = s.getSolver().getInverse();
+
+                    double[] coordArr = {origX, origY, 1};
+                    RealMatrix coordMatrix = new Array2DRowRealMatrix(coordArr);
+
+                    RealMatrix result = doubleInversed.multiply(coordMatrix);
+
+                    mosaicX = (float) result.getEntry(0, 0) + iil.getICX();
+                    mosaicY = (float) result.getEntry(1, 0) + iil.getICY();
+
+                } else {
+                    // TODO make sure this is ok in the final build. Maybe improve error handling
+
+                    Log.e(TAG,"Image info not found (does the image file exist?)");
+
+                    mosaicX=origX;
+                    mosaicY=origY;
+                };
+
+
 
                 // For each tree on file, create and enter details of the new pin
-
 
                 Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, fileName);
                 p.setInputData(line[3], line[4], line[5]);

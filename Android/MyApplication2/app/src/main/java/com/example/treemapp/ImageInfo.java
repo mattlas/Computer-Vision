@@ -118,12 +118,23 @@ class ImageInfo {
 
         RealMatrix mosaicCordinates = new Array2DRowRealMatrix(mc);
 
-        RealMatrix resultingMatrix = matrix.multiply(mosaicCordinates);
-
         float imageX, imageY;
-        imageX = (float) resultingMatrix.getEntry(0, 0);
-        imageY = (float) resultingMatrix.getEntry(1, 0);
-        //ignoring the z-coordinate since we don't need it
+
+        if (matrix != null && mosaicCordinates != null) {
+
+            RealMatrix resultingMatrix = matrix.multiply(mosaicCordinates);
+
+            imageX = (float) resultingMatrix.getEntry(0, 0);
+            imageY = (float) resultingMatrix.getEntry(1, 0);
+            //ignoring the z-coordinate since we don't need it
+
+        } else {
+            // TODO improve error handling here
+            Log.e(TAG, "Matrix data or mosaic coordinates do not exist (does the image exist?)-Incorrect coordinates used");
+            imageX=(float) x;
+            imageY=(float) y;
+
+        }
 
         float[] originalCoordinate = {imageX, imageY};
 
