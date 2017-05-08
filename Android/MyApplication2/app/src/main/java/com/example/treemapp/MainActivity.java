@@ -545,8 +545,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 //viewSwitcher.showNext();
                 if (imageView.isReady()) {
-
-
                     // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
@@ -620,11 +618,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
         String filename = imageInfoListHandler.findImageClosestTo(sCoord.x,sCoord.y).getFileName();
 
-        Pin pin = new Pin(sCoord, filename);
+        Pin selectedPin = new Pin(sCoord, filename);
 
-        imageView.addPin(pin);
+        imageView.addPin(selectedPin);
         //popUpTreeInput(pin);
-        overlayedTreeInput(pin);
+        overlayedTreeInput(selectedPin);
         // Make overlayed view visible
         overlayedActivity.setVisibility(View.VISIBLE);
 
