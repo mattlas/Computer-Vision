@@ -39,6 +39,8 @@ import java.io.File;
 import com.shawnlin.numberpicker.NumberPicker;
 
 
+import org.apache.commons.math3.geometry.euclidean.threed.Line;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
@@ -67,7 +69,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // The activity to create the input
         overlayedActivity = (LinearLayout) findViewById(R.id.LinearLayout_Overlayed);
+
+        // fakeView - the layer under the input overlay to stop clicking on the map during
+        LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
+        fakeView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (overlayedActivity.getVisibility() == View.VISIBLE);
+            }
+        });
 
         /*mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -130,9 +142,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         filehandler = new FileHandler();
         imageView.setFileHandler(filehandler);
         imageView.loadPinsFromFile();
+
+
     }
 
 
+/*
     //opens up the perspective for a certain point
     public void perspectiveViewPopUp(double x, double y) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -186,7 +201,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
     }
-
+*/
 
     /*New version*/
     private void popUpTreeInput(final Pin pin) {
@@ -301,6 +316,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    /**
+     * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
+     * @param pin the tree/pin to add
+     */
     private void overlayedTreeInput(final Pin pin) {
         Log.d(TAG,"Tree detail input overlay opened");
 
