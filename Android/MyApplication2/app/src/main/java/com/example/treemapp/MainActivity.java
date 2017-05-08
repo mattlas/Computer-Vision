@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -328,7 +329,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Log.d(TAG,"Tree detail input overlay opened");
 
         String fileName = pin.getImageFileName();
-        List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
+        final List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
 
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
@@ -349,14 +350,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         for(int i = 0; i<4; i++){
             imgBtns[i] = (ImageButton) findViewById(btns[i]);
 
+            final int finalIndex = i;
             imgBtns[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                     // Open new activity
                     Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                    intent.putExtra("fileName", neighbors.get(finalIndex));
                     startActivity(intent);
                     overlayedActivity.setVisibility(View.INVISIBLE);
+                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 }
             });
 
@@ -527,12 +531,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             toast.show();
         }
         startActivity(intent);
-    }
-
-    /* getting the coordinates of the pin on the original image*/
-    private int [] getOriginalImageCo(Pin pin){
-        int [] coordinates = {1,1};
-        return coordinates;
     }
 
     /*TODO: comment needed*/

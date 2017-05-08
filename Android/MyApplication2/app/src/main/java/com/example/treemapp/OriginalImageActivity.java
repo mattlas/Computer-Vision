@@ -24,7 +24,7 @@ import java.io.File;
  */
 
 public class OriginalImageActivity extends AppCompatActivity {
-    private Button mBtGoBack;
+
     private static final String TAG = OriginalImageActivity.class.getSimpleName();
 
     @Override
@@ -40,6 +40,7 @@ public class OriginalImageActivity extends AppCompatActivity {
         float rx = intent.getFloatExtra("rx", -100000);
         float ry = intent.getFloatExtra("ry", -100000);
         String fileName = intent.getStringExtra("fileName");
+        Button mBtGoBack;
 
         File bitmapFile = new File(fileName);
         if (!bitmapFile.exists() || bitmapFile.isDirectory()){
@@ -56,16 +57,16 @@ public class OriginalImageActivity extends AppCompatActivity {
             tempCanvas.drawBitmap(bitmap, 0, 0, null);
             draw(x, y, mx, my, fileName,tempCanvas, rx, ry);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-
-            mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
-
-            mBtGoBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                }
-            });
         }
+
+        mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
+
+        mBtGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void draw(float x, float y, float mx, float my, String fileName, Canvas tempCanvas, float rx, float ry) {

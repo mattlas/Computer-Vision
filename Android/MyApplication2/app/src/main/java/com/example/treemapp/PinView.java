@@ -27,7 +27,8 @@ public class PinView extends SubsamplingScaleImageView {
     private int pinIndex;
     private FileHandler fileHandler;
     private Paint unfilled;
-    
+    private Paint smaller;
+
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
         init();
@@ -43,6 +44,11 @@ public class PinView extends SubsamplingScaleImageView {
         filled.setColor(Color.WHITE);
         filled.setAlpha(255);
         filled.setStrokeWidth(1);
+
+        smaller = new Paint();
+        smaller.setColor(Color.BLACK);
+        smaller.setAlpha(150);
+        smaller.setStrokeWidth(1);
 
         unfilled = new Paint();
         unfilled.setColor(Color.WHITE);
@@ -176,6 +182,7 @@ public class PinView extends SubsamplingScaleImageView {
             else filled.setAlpha(255);
 
             canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), filled);
+            canvas.drawCircle((int) point.x, (int) point.y, (int) (p.getRadius() * 0.75), smaller);
         }
     }
 
