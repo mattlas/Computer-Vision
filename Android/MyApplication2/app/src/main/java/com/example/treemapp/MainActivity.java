@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -12,14 +13,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 
 
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +34,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +46,7 @@ import android.widget.ArrayAdapter;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.io.File;
+import java.net.ProtocolFamily;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
@@ -56,14 +65,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
-    private PointF latestTouch = null;
+    public static PointF latestTouch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        /*mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -71,7 +80,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mPlanetTitles));
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
 
 
         if (Build.VERSION.SDK_INT >= 23)
@@ -127,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     //opens up the perspective for a certain point
-    private void perspectiveViewPopUp(double x, double y) {
+    public void perspectiveViewPopUp(double x, double y) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.perspective, null);
 
@@ -138,6 +147,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
 
         String fileLocation = imageInfoListHandler.getImageFileName(im);
+        imageInfoListHandler.loadNeighboringImages(im);
 
 
         File f = new File(fileLocation);
@@ -193,7 +203,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
-        Button perspective = (Button) mView.findViewById(R.id.btn_perspective);
+        ImageButton perspectiveButton1 = (ImageButton) mView.findViewById(R.id.btn_perspective_1);
+        ImageButton perspectiveButton2 = (ImageButton) mView.findViewById(R.id.btn_perspective_2);
+        ImageButton perspectiveButton3 = (ImageButton) mView.findViewById(R.id.btn_perspective_3);
+        ImageButton perspectiveButton4 = (ImageButton) mView.findViewById(R.id.btn_perspective_4);
 
         height.setHint("Height");
         diameter.setHint("Diameter");
@@ -202,6 +215,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // show dialog
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
+
+
+
+
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
         dialog.show();
 
         // when save clicked - save info to the file and to the pin list
@@ -226,6 +252,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        dialog.setCanceledOnTouchOutside(false);
+
         // when preview clicked - open preview activity
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,19 +262,54 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        // when perspective clicked -> 4 errors in corners appear
-        perspective.setOnClickListener(new View.OnClickListener() {
+        perspectiveButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                 // Open new activity
-
-                Intent intent = new Intent(MainActivity.this, CornerButtonActivity.class);
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
+
                 dialog.dismiss();
             }
         });
 
+        perspectiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
+
+
+        perspectiveButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
+
+        perspectiveButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
     }
 
     /* editting the tree entry */
@@ -327,6 +390,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             intent.putExtra("x", x);
             intent.putExtra("y", y);
+            intent.putExtra("mx", mosaicCoor.x);
+            intent.putExtra("my", mosaicCoor.y);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {

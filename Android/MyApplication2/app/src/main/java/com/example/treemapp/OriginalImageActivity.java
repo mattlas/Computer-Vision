@@ -23,7 +23,7 @@ import java.io.File;
 
 /**
  * Created by oskar on 2017-05-02.
- * This class (and the OriginalImageView class) were made primarily for debugging purposes
+ * This class were made primarily for debugging purposes
  */
 
 public class OriginalImageActivity extends AppCompatActivity {
@@ -38,6 +38,8 @@ public class OriginalImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         float x = intent.getFloatExtra("x", 2); //just weird numbers so I know it does not work
         float y = intent.getFloatExtra("y", 3);
+        float mx = intent.getFloatExtra("mx", -100000);
+        float my = intent.getFloatExtra("my", -100000);
         String fileName = intent.getStringExtra("fileName");
 
         File bitmapFile = new File(fileName);
@@ -49,6 +51,12 @@ public class OriginalImageActivity extends AppCompatActivity {
         } else {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(bitmapFile.getAbsolutePath(), bmOptions);
+            Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+
+            Canvas tempCanvas = new Canvas(tempBitmap);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+            draw(x, y, mx, my, fileName,tempCanvas);
+            imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
             mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
 
@@ -61,7 +69,7 @@ public class OriginalImageActivity extends AppCompatActivity {
         }
     }
 
-    private void draw(float x, float y, String fileName, Canvas tempCanvas) {
+    private void draw(float x, float y, float mx, float my, String fileName, Canvas tempCanvas) {
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
 
@@ -70,8 +78,8 @@ public class OriginalImageActivity extends AppCompatActivity {
         textPaint.setShadowLayer(3, 2, 2, Color.BLACK);
         tempCanvas.drawText(fileName, 20, 20, textPaint);
 
-        tempCanvas.drawText(Float.toString(x) + ", " + Float.toString(y), 20, 40, textPaint);
-
+        tempCanvas.drawText("original image: " + Float.toString(x) + ", " + Float.toString(y), 20, 40, textPaint);
+        tempCanvas.drawText("mosaic: " + Float.toString(mx) + ", " + Float.toString(my), 20, 60, textPaint);
 
         tempCanvas.drawLine(x, 0, x, tempCanvas.getHeight(), paint);
         tempCanvas.drawLine(0, y, tempCanvas.getWidth(), y, paint);
