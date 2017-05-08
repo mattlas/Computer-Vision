@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -266,8 +265,8 @@ public class FileHandler {
             if (line.length == 7){
                 // For each tree on file, create and enter details of the new pin
                 Pin p = new Pin(Integer.parseInt(line[0]), Float.parseFloat(line[1]), Float.parseFloat(line[2]), line[6]);
-            p.setInputData(line[3], line[4], line[5]);
-            list.add(p);
+                p.setInputData(line[3], line[4], line[5]);
+                list.add(p);
             } else {
                 Log.e(TAG, "File format invalid");
             }
