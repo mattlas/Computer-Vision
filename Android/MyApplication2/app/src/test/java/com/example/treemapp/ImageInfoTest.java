@@ -58,7 +58,7 @@ public class ImageInfoTest {
         ImageInfo im = new ImageInfo(words);
         assertTrue(im.getX() == 19);
         assertTrue(im.getY() == 22);
-        assertEquals(rm, im.getInverseTransformMatrix());
+        assertEquals(rm, im.getTransformMatrix());
         assertEquals(neighbors, im.getNeighbors());
     }
 }

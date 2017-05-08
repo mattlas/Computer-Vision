@@ -39,6 +39,8 @@ import java.io.File;
 import com.shawnlin.numberpicker.NumberPicker;
 
 
+import org.apache.commons.math3.geometry.euclidean.threed.Line;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
@@ -67,7 +69,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // The activity to create the input
         overlayedActivity = (LinearLayout) findViewById(R.id.LinearLayout_Overlayed);
+
+        // fakeView - the layer under the input overlay to stop clicking on the map during
+        LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
+        fakeView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (overlayedActivity.getVisibility() == View.VISIBLE);
+            }
+        });
 
         /*mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,10 +141,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Filehandler - needs permission before starting
         filehandler = new FileHandler();
         imageView.setFileHandler(filehandler);
-        imageView.loadPinsFromFile();
+
+        imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
 
+/*
     //opens up the perspective for a certain point
     public void perspectiveViewPopUp(double x, double y) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -186,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
     }
-
+*/
 
     /*New version*/
     private void popUpTreeInput(final Pin pin) {
@@ -204,12 +218,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        if (species == null){
-            Log.e(TAG,"Species object is null");
-        }
-        else {
-            Log.d(TAG,"Species object exists");
-        }
 
         species.setAdapter(adapter);
         Button save = (Button) mView.findViewById(R.id.btn_save);
@@ -307,8 +315,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    /**
+     * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
+     * @param pin the tree/pin to add
+     */
     private void overlayedTreeInput(final Pin pin) {
-        Log.d(TAG,"Tree detail input popup opened");
+        Log.d(TAG,"Tree detail input overlay opened");
 
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
@@ -319,12 +331,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        if (species == null){
-            Log.e(TAG,"Species object is null");
-        }
-        else {
-            Log.d(TAG,"Species object exists");
-        }
 
         species.setAdapter(adapter);
         Button save = (Button) findViewById(R.id.btn_save);
@@ -508,7 +514,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (imageInfoListHandler.didFindEverything()) {
             ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
 
-
             float[] resultCoor = imageInfoListHandler.getResultCoordinates(mosaicCoor.x, mosaicCoor.y);
 
             float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
@@ -616,13 +621,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /* adding the pin to the file and pin list*/
     private void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-        String filename = imageInfoListHandler.findImageClosestTo(sCoord.x,sCoord.y).getFileName();
 
-        Pin selectedPin = new Pin(sCoord, filename);
+        ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
+        String filename = ii.getFileName();
 
-        imageView.addPin(selectedPin);
+        float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
+
+        float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
+
+        Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
+
+        imageView.addPin(pin);
         //popUpTreeInput(pin);
-        overlayedTreeInput(selectedPin);
+        overlayedTreeInput(pin);
         // Make overlayed view visible
         overlayedActivity.setVisibility(View.VISIBLE);
 
