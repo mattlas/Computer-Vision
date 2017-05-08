@@ -3,11 +3,14 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Vibrator;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,22 +28,25 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
+
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
+import com.shawnlin.numberpicker.NumberPicker;
 
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private Vibrator v;
 
 
     public FileHandler filehandler;
@@ -67,6 +73,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 R.layout.drawer_list_item, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
+
+        v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         if (Build.VERSION.SDK_INT >= 23)
         {
@@ -211,8 +219,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // show dialog
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
-
-
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
@@ -385,6 +391,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             intent.putExtra("y", y);
             intent.putExtra("mx", mosaicCoor.x);
             intent.putExtra("my", mosaicCoor.y);
+            intent.putExtra("rx", resultCoor[0]);
+            intent.putExtra("ry", resultCoor[1]);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {
@@ -408,6 +416,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 //viewSwitcher.showNext();
                 if (imageView.isReady()) {
+                    // Make overlayed view visible
+
+
+                    /*
                     // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
@@ -429,7 +441,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             //If the user's presses not near an existing pin we make a new one
                             makePin(e);
                         }
-                    }
+                    }*/
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
@@ -503,6 +515,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);
+                v.vibrate(100);
 
                 /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
                 * deciced that you want to center the image aswell, so we will transform it back */

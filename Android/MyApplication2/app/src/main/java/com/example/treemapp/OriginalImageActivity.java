@@ -1,6 +1,5 @@
 package com.example.treemapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -36,10 +33,12 @@ public class OriginalImageActivity extends AppCompatActivity {
         setContentView(R.layout.original_image);
         ImageView imageView = (ImageView) findViewById(R.id.originalImageView);
         Intent intent = getIntent();
-        float x = intent.getFloatExtra("x", 2); //just weird numbers so I know it does not work
-        float y = intent.getFloatExtra("y", 3);
+        float x = intent.getFloatExtra("x", -1000000); //just weird numbers so I know it does not work
+        float y = intent.getFloatExtra("y", -1000000);
         float mx = intent.getFloatExtra("mx", -100000);
         float my = intent.getFloatExtra("my", -100000);
+        float rx = intent.getFloatExtra("rx", -100000);
+        float ry = intent.getFloatExtra("ry", -100000);
         String fileName = intent.getStringExtra("fileName");
 
         File bitmapFile = new File(fileName);
@@ -55,7 +54,7 @@ public class OriginalImageActivity extends AppCompatActivity {
 
             Canvas tempCanvas = new Canvas(tempBitmap);
             tempCanvas.drawBitmap(bitmap, 0, 0, null);
-            draw(x, y, mx, my, fileName,tempCanvas);
+            draw(x, y, mx, my, fileName,tempCanvas, rx, ry);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
             mBtGoBack = (Button) findViewById(R.id.btn_original_go_back);
@@ -69,7 +68,7 @@ public class OriginalImageActivity extends AppCompatActivity {
         }
     }
 
-    private void draw(float x, float y, float mx, float my, String fileName, Canvas tempCanvas) {
+    private void draw(float x, float y, float mx, float my, String fileName, Canvas tempCanvas, float rx, float ry) {
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
 
@@ -80,6 +79,10 @@ public class OriginalImageActivity extends AppCompatActivity {
 
         tempCanvas.drawText("original image: " + Float.toString(x) + ", " + Float.toString(y), 20, 40, textPaint);
         tempCanvas.drawText("mosaic: " + Float.toString(mx) + ", " + Float.toString(my), 20, 60, textPaint);
+
+        tempCanvas.drawText("result: " + Float.toString(rx) + ", " + Float.toString(ry), 20, 80, textPaint);
+
+
 
         tempCanvas.drawLine(x, 0, x, tempCanvas.getHeight(), paint);
         tempCanvas.drawLine(0, y, tempCanvas.getWidth(), y, paint);
