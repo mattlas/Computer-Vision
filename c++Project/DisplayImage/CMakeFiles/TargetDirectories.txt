@@ -1,3 +1,0 @@
-/home/lucero/Project course/DisplayImage/CMakeFiles/edit_cache.dir
-/home/lucero/Project course/DisplayImage/CMakeFiles/rebuild_cache.dir
-/home/lucero/Project course/DisplayImage/CMakeFiles/DisplayImage.dir
