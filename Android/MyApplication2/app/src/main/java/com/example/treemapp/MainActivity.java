@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
-    private PointF latestTouch = null;
+    public static PointF latestTouch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     //opens up the perspective for a certain point
-    private void perspectiveViewPopUp(double x, double y) {
+    public void perspectiveViewPopUp(double x, double y) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.perspective, null);
 
@@ -118,6 +118,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
 
         String fileLocation = imageInfoListHandler.getImageFileName(im);
+        imageInfoListHandler.loadNeighboringImages(im);
 
 
         File f = new File(fileLocation);
@@ -223,6 +224,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 Intent intent = new Intent(MainActivity.this, CornerButtonActivity.class);
                 startActivity(intent);
+
+                //ImageButton button  = (ImageButton) findViewById(R.id.btn_RightTopCorner);
+                //button.setVisibility(View.VISIBLE);
+
                 dialog.dismiss();
             }
         });
