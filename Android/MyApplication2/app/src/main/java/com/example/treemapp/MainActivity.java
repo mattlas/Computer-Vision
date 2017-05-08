@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Vibrator;
 
 import android.os.Build;
@@ -36,6 +38,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
+import java.net.URI;
+import java.util.List;
+
 import com.shawnlin.numberpicker.NumberPicker;
 
 
@@ -322,6 +327,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void overlayedTreeInput(final Pin pin) {
         Log.d(TAG,"Tree detail input overlay opened");
 
+        String fileName = pin.getImageFileName();
+        List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
+
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
@@ -335,11 +343,39 @@ public class MainActivity extends Activity implements View.OnClickListener {
         species.setAdapter(adapter);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-        ImageButton perspectiveButton1 = (ImageButton) findViewById(R.id.btn_perspective_1);
-        ImageButton perspectiveButton2 = (ImageButton) findViewById(R.id.btn_perspective_2);
-        ImageButton perspectiveButton3 = (ImageButton) findViewById(R.id.btn_perspective_3);
-        ImageButton perspectiveButton4 = (ImageButton) findViewById(R.id.btn_perspective_4);
 
+        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
+        ImageButton[] imgBtns = new ImageButton[4];
+        for(int i = 0; i<4; i++){
+            imgBtns[i] = (ImageButton) findViewById(btns[i]);
+
+            imgBtns[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                    // Open new activity
+                    Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                    startActivity(intent);
+                    overlayedActivity.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            if (neighbors.size() > i) {
+                File file = new File(neighbors.get(i));
+                if (file.exists()) {
+                    imgBtns[i].setImageURI(Uri.fromFile(file));
+                    imgBtns[i].setVisibility(ImageButton.VISIBLE);
+                    imgBtns[i].setHapticFeedbackEnabled(true);
+                }
+                else {
+                    Log.e(TAG, "COuld not find file: '" + file.toString() +  "'");
+                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                }
+            }
+            else {
+                imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+            }
+        }
 
         // when save clicked - save info to the file and to the pin list
         save.setOnClickListener(new View.OnClickListener() {
@@ -366,50 +402,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         //dialog.setCanceledOnTouchOutside(false);
 
-        perspectiveButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        perspectiveButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-
-        perspectiveButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        perspectiveButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
     }
 
     /* editting the tree entry */
