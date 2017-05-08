@@ -26,6 +26,8 @@ import android.view.View;
 
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -35,13 +37,12 @@ import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.ViewSwitcher;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
@@ -81,7 +82,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 R.layout.drawer_list_item, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
-
 
         if (Build.VERSION.SDK_INT >= 23)
         {
@@ -413,6 +413,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                //viewSwitcher.showNext();
                 if (imageView.isReady()) {
                     // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
