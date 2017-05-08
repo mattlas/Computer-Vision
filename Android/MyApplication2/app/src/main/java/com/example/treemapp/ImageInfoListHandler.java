@@ -70,15 +70,15 @@ public class ImageInfoListHandler {
         int lineNumber = 0;
 
         try {
+            String firstLine = bf.readLine();
+            words = firstLine.split(",");
+            this.icx = Float.parseFloat(words[0]);
+            this.icy = Float.parseFloat(words[1]);
+
             while((line = bf.readLine()) != null) {
                 line = line.replaceAll("\"", "");
                 words = line.split(",");
                 imageInfo = new ImageInfo(words);
-
-                if (imageInfo.getIsIdentity()) {
-                    this.icx = (float) imageInfo.getX() - 300f;
-                    this.icy = (float) imageInfo.getY() - 200f;
-                }
 
                 this.imageInfos.put(imageInfo.getFileName(), imageInfo);
 

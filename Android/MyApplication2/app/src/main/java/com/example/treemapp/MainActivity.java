@@ -216,10 +216,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
 
-
-
-
-
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
@@ -392,6 +388,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             intent.putExtra("y", y);
             intent.putExtra("mx", mosaicCoor.x);
             intent.putExtra("my", mosaicCoor.y);
+            intent.putExtra("rx", resultCoor[0]);
+            intent.putExtra("ry", resultCoor[1]);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {
