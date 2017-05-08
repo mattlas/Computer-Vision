@@ -8,7 +8,7 @@ cmake CMakeLists.txt
 
 make
 
-./TreeMarkupToolbox
+./TreeMarkupToolbox [path to pgm image file]
 
 ### Qt
 install latest Qt pack
@@ -22,35 +22,16 @@ setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
 
 export LD_LIBRARY_PATH
 
+### Qt
+cd install
+
+./install/qt-unified-linux-x64-2.0.5-2-online.run
+
+install OpenGL: sudo apt-get install mesa-common-dev
+
 ### Compile OpenCV
 
-(Still under construction)
-
-sudo apt-get update
-
-sudo apt-get upgrade
-
-sudo apt-get install build-essential
-
-sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-
-sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-
-sudo apt-get install libv4l-dev
-
-cd /usr/include/linux
-
-sudo ln -s ../libv4l1-videodev.h videodev.h
-
-cd ~/opencv
-
-mkdir release
-
-cd release
-
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-
-make -j$n //$n = number of cores or skip
+sudo bash install/opencv_install.sh
 
 ### Compile LAPACK
 
@@ -59,6 +40,8 @@ http://matrixprogramming.com/2011/04/using-lapack-from-c
 wget http://www.netlib.org/lapack/lapack-3.7.0.tgz
 
 tar zxvf lapack-3.7.0.tgz
+
+cd lapack-3.7.0
 
 cp INSTALL/make.inc.gfortran make.inc
 
@@ -79,6 +62,9 @@ libraries
 
 #### include 
 interface for the library *.h
+
+#### install
+install files/scripts for external libraries that isn't included in /lib/
 
 #### doc
 documentation of any kind

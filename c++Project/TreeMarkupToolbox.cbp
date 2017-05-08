@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="TreeMarkupToolbox"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/5dv115/Computer-Vision/c++Project"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/5dv115/Computer-Vision/c++Project"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/5dv115/Computer-Vision/c++Project"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TreeMarkupToolbox">
+				<Option output="/home/5dv115/Computer-Vision/c++Project/TreeMarkupToolbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/5dv115/Computer-Vision/c++Project"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/5dv115/Computer-Vision/c++Project/lib/vlfeat-0.9.20"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 TreeMarkupToolbox"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TreeMarkupToolbox/fast">
+				<Option output="/home/5dv115/Computer-Vision/c++Project/TreeMarkupToolbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/5dv115/Computer-Vision/c++Project"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/5dv115/Computer-Vision/c++Project/lib/vlfeat-0.9.20"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 TreeMarkupToolbox/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/5dv115/Computer-Vision/c++Project/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/src/FeaturePoints.cpp">
+			<Option target="TreeMarkupToolbox"/>
+		</Unit>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/src/FeaturePoints.h">
+			<Option target="TreeMarkupToolbox"/>
+		</Unit>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/src/KeyPoint.cpp">
+			<Option target="TreeMarkupToolbox"/>
+		</Unit>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/src/KeyPoint.h">
+			<Option target="TreeMarkupToolbox"/>
+		</Unit>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/src/Main.cpp">
+			<Option target="TreeMarkupToolbox"/>
+		</Unit>
+		<Unit filename="/home/5dv115/Computer-Vision/c++Project/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

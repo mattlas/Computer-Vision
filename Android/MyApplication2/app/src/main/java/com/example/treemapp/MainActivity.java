@@ -39,6 +39,10 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import android.support.v4.widget.DrawerLayout;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.io.File;
@@ -47,6 +51,11 @@ import java.net.ProtocolFamily;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+
+    private String[] mPlanetTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
 
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
@@ -62,6 +71,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
+
 
         if (Build.VERSION.SDK_INT >= 23)
         {
@@ -232,6 +252,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        dialog.setCanceledOnTouchOutside(false);
+
         // when preview clicked - open preview activity
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +285,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         });
+
 
         perspectiveButton3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,6 +390,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             intent.putExtra("x", x);
             intent.putExtra("y", y);
+            intent.putExtra("mx", mosaicCoor.x);
+            intent.putExtra("my", mosaicCoor.y);
             intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
         }
         else {
