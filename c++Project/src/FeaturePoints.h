@@ -10,13 +10,14 @@
 class FeaturePoints {
 public:
     FeaturePoints(void);
-    void testClass();
 
-    std::vector<KeyPoint> keyPoints;
-    std::vector<std::vector<uint8_t>> descriptors;
-
-    void writeKeyPoints();
 
     void calculatePoints(char const *path);
+
+private:
+    std::vector<KeyPoint> keyPoints;
+    std::vector<std::vector<uint16_t>> descriptors;
+    void writeKeyPoints(char *name);
+    void writeDescriptors(char *name);
 };
 #endif //C_PROJECT_FEATUREPOINTS_H

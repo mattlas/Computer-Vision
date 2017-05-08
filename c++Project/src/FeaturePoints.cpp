@@ -27,11 +27,6 @@ FeaturePoints::FeaturePoints(void) {
 
 }
 
-void FeaturePoints::testClass() {
-    std::cout << "FeaturePoint test function" << std::endl;
-}
-
-
 
 int korder (void const* a, void const* b) {
     double x = ((double*) a) [2] - ((double*) b) [2] ;
@@ -40,7 +35,7 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-void FeaturePoints::calculatePoints(std::string) {
+void FeaturePoints::calculatePoints(char const *path) {
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
     double   peak_thresh  = -1 ;
@@ -160,7 +155,7 @@ void FeaturePoints::calculatePoints(std::string) {
     if (ifr.active) {
 
         /* open file */
-        err = vl_file_meta_open (&ifr, basename, "rb") ;
+        //err = vl_file_meta_open (&ifr, basename, "rb") ;
         WERR(ifr.name, reading) ;
 
 #define QERR                                                            \
@@ -206,7 +201,7 @@ void FeaturePoints::calculatePoints(std::string) {
         vl_file_meta_close (&ifr) ;
     }
 
-    err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
+    //err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
     filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,0);
@@ -288,22 +283,24 @@ void FeaturePoints::calculatePoints(std::string) {
                 KeyPoint *keyPoint = new KeyPoint(k->x, k->y, k->sigma, k->s);
                 int l ;
 
-                std::vector<uint8_t> descriptor;
+                std::vector<uint16_t> descriptor;
+
                 for (l = 0 ; l < 128 ; ++l) {
                     double x = 512.0 * descr[l] ;
                     x = (x < 255.0) ? x : 255.0 ;
-                    descriptor.push_back((uint8_t)x);
-                    vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
-
+                    descriptor.push_back((uint16_t)x);
+                    //vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
                 }
                 keyPoints.push_back(*keyPoint);
                 descriptors.push_back(descriptor);
-                fprintf(dsc.file, "\n") ;
+                //fprintf(dsc.file, "\n") ;
             }
         }
     }
     std::cout << "kepoints= " << nKeypoints << std::endl;
-    writeKeyPoints();
+    writeKeyPoints(basename);
+    writeDescriptors(basename);
+    std::cout << "done" << std::endl;
 
     done :
     /* release input keys buffer */
@@ -361,9 +358,11 @@ void FeaturePoints::calculatePoints(std::string) {
 /* quit */
 }
 
-void FeaturePoints::writeKeyPoints() {
+void FeaturePoints::writeKeyPoints(char* name) {
     std::ofstream out_file;
-    out_file.open("keypoints.txt");
+    std::string file_name = name;
+    file_name.append("_keypoint.txt");
+    out_file.open(file_name);
     for(ulong i=0; i < keyPoints.size(); i++){
         KeyPoint point = keyPoints.at(i);
         out_file << point.getX() << "   ";
@@ -371,5 +370,25 @@ void FeaturePoints::writeKeyPoints() {
         out_file << point.getScale() << "   ";
         out_file << point.getOrientation() << "   " << std::endl;
     }
+    out_file.close();
 }
+
+void FeaturePoints::writeDescriptors(char* name) {
+    std::ofstream out_file;
+    std::string file_name = name;
+    file_name.append("_descriptor.txt");
+    out_file.open(file_name);
+    for(ulong i=0; i < descriptors.size(); i++){
+        std::vector<uint16_t> desc = (std::vector<uint16_t> &&) descriptors.at(i);
+        for(ulong j=0; j < desc.size() ; j++ ){
+            //fprintf(out_file, "%d    ",desc.at(j));
+            out_file << desc.at(j) << "    ";
+        }
+        out_file << std::endl;
+    }
+    out_file.close();
+}
+
+
+
 

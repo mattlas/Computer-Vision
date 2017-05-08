@@ -36,7 +36,6 @@ int main(int argc, char **argv){
     	path = std::string("").data();
     }
     FeaturePoints *points = new FeaturePoints();
-    points->testClass();
     points->calculatePoints(path);
 
     return app.exec();
