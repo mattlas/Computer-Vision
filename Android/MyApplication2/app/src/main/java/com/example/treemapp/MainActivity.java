@@ -141,9 +141,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Filehandler - needs permission before starting
         filehandler = new FileHandler();
         imageView.setFileHandler(filehandler);
-        imageView.loadPinsFromFile();
 
-
+        imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
 
@@ -515,7 +514,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (imageInfoListHandler.didFindEverything()) {
             ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
 
-
             float[] resultCoor = imageInfoListHandler.getResultCoordinates(mosaicCoor.x, mosaicCoor.y);
 
             float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
@@ -625,9 +623,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /* adding the pin to the file and pin list*/
     private void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-        String filename = imageInfoListHandler.findImageClosestTo(sCoord.x,sCoord.y).getFileName();
 
-        Pin pin = new Pin(sCoord, filename);
+        ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
+        String filename = ii.getFileName();
+
+        float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
+
+        float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
+
+        Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 
         imageView.addPin(pin);
         //popUpTreeInput(pin);

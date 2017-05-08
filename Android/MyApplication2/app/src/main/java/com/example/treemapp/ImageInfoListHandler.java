@@ -168,4 +168,12 @@ public class ImageInfoListHandler {
         coor[1] -= this.icy;
         return coor;
     }
+
+    public float getICX() {
+        return icx;
+    }
+
+    public float getICY() {
+        return icy;
+    }
 }
