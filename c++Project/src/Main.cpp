@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
+#include "ImageData.h"
 
 #include "KeyPoint.h"
 
@@ -38,7 +39,8 @@ int main(int argc, char **argv){
     }
     FeaturePoints *points = new FeaturePoints();
     points->calculatePoints(path);
-
-
+    ImageData *data = new ImageData();
+    data->addDirectory("/home/5dv115/c13evk_scripts/output");
+    data->startProcess();
     return app.exec();
 }
