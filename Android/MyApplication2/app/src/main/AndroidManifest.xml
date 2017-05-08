@@ -24,7 +24,7 @@
         </activity>
 
         <activity android:name=".OriginalImageActivity"/>
-        <activity android:name=".CornerButtonActivity"/>
+        <activity android:name=".PerspectiveButtonActivity"/>
 
     </application>
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -12,14 +13,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 
 
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,11 +34,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.io.File;
+import java.net.ProtocolFamily;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
@@ -174,7 +183,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
         Button preview = (Button) mView.findViewById(R.id.btn_preview_original);
-        Button perspective = (Button) mView.findViewById(R.id.btn_perspective);
+        ImageButton perspectiveButton1 = (ImageButton) mView.findViewById(R.id.btn_perspective_1);
+        ImageButton perspectiveButton2 = (ImageButton) mView.findViewById(R.id.btn_perspective_2);
+        ImageButton perspectiveButton3 = (ImageButton) mView.findViewById(R.id.btn_perspective_3);
+        ImageButton perspectiveButton4 = (ImageButton) mView.findViewById(R.id.btn_perspective_4);
 
         height.setHint("Height");
         diameter.setHint("Diameter");
@@ -183,6 +195,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // show dialog
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
+
+
+
+
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
         dialog.show();
 
         // when save clicked - save info to the file and to the pin list
@@ -215,23 +240,53 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        // when perspective clicked -> 4 errors in corners appear
-        perspective.setOnClickListener(new View.OnClickListener() {
+        perspectiveButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                 // Open new activity
-
-                Intent intent = new Intent(MainActivity.this, CornerButtonActivity.class);
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
-
-                //ImageButton button  = (ImageButton) findViewById(R.id.btn_RightTopCorner);
-                //button.setVisibility(View.VISIBLE);
 
                 dialog.dismiss();
             }
         });
 
+        perspectiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
+
+        perspectiveButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
+
+        perspectiveButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                // Open new activity
+                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
     }
 
     /* editting the tree entry */
