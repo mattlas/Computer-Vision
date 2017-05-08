@@ -13,7 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 
 
-import android.media.Image;
+import android.os.Vibrator;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,7 +21,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.Window;
@@ -34,27 +33,26 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
+
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.io.File;
-import java.net.ProtocolFamily;
+
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private Vibrator v;
 
 
     public FileHandler filehandler;
@@ -81,6 +79,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 R.layout.drawer_list_item, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
+
+        v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
 
         if (Build.VERSION.SDK_INT >= 23)
@@ -509,6 +509,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);
+                v.vibrate(100);
 
                 /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
                 * deciced that you want to center the image aswell, so we will transform it back */
