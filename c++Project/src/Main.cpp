@@ -29,9 +29,17 @@ int main(int argc, char **argv){
     QPushButton *button = new QPushButton("Hello World");
     button->show();
 
+
+    const char *path;
+    if(argc > 1){
+    	path = argv[1];
+    } else {
+    	path = std::string("").data();
+    }
     FeaturePoints *points = new FeaturePoints();
     points->testClass();
-    points->calculatePoints(argv[1]);
+    points->calculatePoints(path);
+
 
     return app.exec();
 }

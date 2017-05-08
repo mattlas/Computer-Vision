@@ -10,6 +10,11 @@ make
 
 ./TreeMarkupToolbox [path to pgm image file]
 
+### Qt
+install latest Qt pack
+
+install OpenGL: sudo apt-get install mesa-common-dev
+
 ### Call Matlab from C++ in Linux
 (Opens Matlab GUI NOT CORRECT)
 
