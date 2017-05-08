@@ -389,6 +389,22 @@ void FeaturePoints::writeDescriptors(char* name) {
     out_file.close();
 }
 
+const std::vector<KeyPoint> &FeaturePoints::getKeyPoints() const {
+    return keyPoints;
+}
+
+void FeaturePoints::setKeyPoints(const std::vector<KeyPoint> &keyPoints) {
+    FeaturePoints::keyPoints = keyPoints;
+}
+
+const std::vector<std::vector<uint16_t>> &FeaturePoints::getDescriptors() const {
+    return descriptors;
+}
+
+void FeaturePoints::setDescriptors(const std::vector<std::vector<uint16_t>> &descriptors) {
+    FeaturePoints::descriptors = descriptors;
+}
+
 
 
 
