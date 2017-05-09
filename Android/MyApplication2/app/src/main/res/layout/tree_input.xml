@@ -1,3 +1,4 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +9,7 @@
     android:visibility="invisible"
     tools:context=".ListDisplay">
 
-
+    <!-- data input -->
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
             android:weightSum="1">
 
             <Button
-                android:id="@+id/btn_Shap"
+                android:id="@+id/btn_Exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/exit_button"
@@ -100,6 +101,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="18dp" />
 
+
                 <com.shawnlin.numberpicker.NumberPicker
                     android:id="@+id/inp_diameter"
                     android:layout_width="wrap_content"
@@ -141,9 +143,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:layout_gravity="center_horizontal">
-
                 </Spinner>
-
 
             </LinearLayout>
 
@@ -185,7 +185,7 @@
 
 
 
-
+<!-- perspectives photos -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="150dp"

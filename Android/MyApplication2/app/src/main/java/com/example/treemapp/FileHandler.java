@@ -186,7 +186,6 @@ public class FileHandler {
             // Write each line from the original file to the temp file except for the one to edit
             br.reset();
 
-            Log.d(TAG, "edit function");
             String line;
             boolean success = false;
 
