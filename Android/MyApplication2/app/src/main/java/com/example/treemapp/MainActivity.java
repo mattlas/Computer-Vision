@@ -274,7 +274,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         perspectiveButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                 // Open new activity
                 Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
@@ -286,8 +285,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         perspectiveButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-                // Open new activity
+                //Open new activity
                 Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
 
@@ -299,7 +297,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         perspectiveButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                 // Open new activity
                 Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
@@ -311,7 +308,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         perspectiveButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                 // Open new activity
                 Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                 startActivity(intent);
@@ -354,7 +350,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             imgBtns[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
                     // Open new activity
                     Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
                     intent.putExtra("fileName", neighbors.get(finalIndex));
@@ -404,8 +399,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        //dialog.setCanceledOnTouchOutside(false);
-
     }
 
     /* editting the tree entry */
@@ -420,16 +413,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
         Button save = (Button) mView.findViewById(R.id.btn_save);
         Button delete = (Button) mView.findViewById(R.id.btn_cancel);
-
-
-        /*if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
-        else height.setHint("Height");
-
-        if (!pin.getDiameter().isEmpty()) diameter.setText(pin.getDiameter());
-        else diameter.setHint("Diameter");
-
-        if (!pin.getSpecies().isEmpty()) species.setText(pin.getSpecies());
-        else species.setHint("Species");*/
 
         // show dialog
         mBuilder.setView(mView);
@@ -466,17 +449,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-        Button preview = (Button) findViewById(R.id.btn_preview_original);
 
-
-        /*if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
-        else height.setHint("Height");
-
-        if (!pin.getDiameter().isEmpty()) diameter.setText(pin.getDiameter());
-        else diameter.setHint("Diameter");
-
-        if (!pin.getSpecies().isEmpty()) species.setText(pin.getSpecies());
-        else species.setHint("Species");*/
 
 
         // when save clicked - save info to the pin list, change the line in the file
@@ -624,9 +597,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 
         imageView.addPin(pin);
-        //popUpTreeInput(pin);
         overlayedTreeInput(pin);
-        // Make overlayed view visible
         overlayedActivity.setVisibility(View.VISIBLE);
 
         imageView.invalidate();
@@ -651,7 +622,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 v.vibrate(100);
 
                 /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
-                * deciced that you want to center the image aswell, so we will transform it back */
+                * decided that you want to center the image aswell, so we will transform it back */
                 float scale = imageView.getScale();
                 PointF center = imageView.getCenter();
 

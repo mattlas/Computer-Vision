@@ -150,6 +150,10 @@ class ImageInfo {
     }
 
     public List<String> getNeighbors() {
+        if (neighbors==null)
+        {
+            return new ArrayList<>();
+        }
         return neighbors;
     }
 

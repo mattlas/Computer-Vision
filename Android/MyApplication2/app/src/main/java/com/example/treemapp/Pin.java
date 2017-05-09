@@ -61,8 +61,6 @@ public class Pin {
 
     public String getSpecies() {return this.species;}
 
-    public int getIntId() {return this.intId;}
-
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
         sPin.set((float) x, (float) y);
