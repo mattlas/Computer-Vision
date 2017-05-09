@@ -309,7 +309,7 @@ void FeaturePoints::calculatePoints() {
             }
         }
     }
-    std::cout << "kepoints= " << nKeypoints << std::endl;
+    //std::cout << "kepoints= " << nKeypoints << std::endl;
 
     //writeKeyPoints(basename);
     //writeDescriptors(basename);

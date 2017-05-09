@@ -17,9 +17,6 @@ MosaicData::MosaicData(void) {
 void MosaicData::readPGMFromFolder() {
     for(std::string directory : directoryList){
         pgmFileNames = readDirectoryFiles(directory);
-        for ( std::string file : pgmFileNames) {
-            std::cout << file << std::endl;
-        }
     }
 
 }
