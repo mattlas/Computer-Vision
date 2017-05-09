@@ -13,7 +13,7 @@ import android.widget.ListView;
 public class ListDisplay extends Activity {
     // The array of strings
     String[] mobileArray = {"Android", "iPhone", "Blackberry"};
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +23,5 @@ public class ListDisplay extends Activity {
 
         ListView listView = (ListView) findViewById(R.id.mobile_list);
         listView.setAdapter(adapter);
-    }
+    }*/
 }
