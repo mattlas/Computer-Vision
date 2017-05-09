@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
@@ -175,6 +176,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Apply the adapter to the spinner
 
+        TextView tv = (TextView) findViewById(R.id.overlay_box_txt);
+        tv.setText("Add tree");
+
 
         Button perspExitBtn = (Button) findViewById(R.id.btn_perspective_cancel);
 
@@ -278,6 +282,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void overlayedTreeEdit(final Pin pin) {
         overlayedActivity.setVisibility(View.VISIBLE);
 
+
+
         Log.d(TAG,"Tree detail edit overlay opened");
 
         //TODO, put values here
@@ -289,6 +295,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
 
+        TextView tv = (TextView) findViewById(R.id.overlay_box_txt);
+        tv.setText("Edit tree");
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
