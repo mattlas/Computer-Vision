@@ -136,8 +136,10 @@ public class ImageInfoListHandler {
     public List<String> loadNeighboringImages(ImageInfo im) {
         List<String> neighbors = new ArrayList<>();
 
-        for (String neighborName: im.getNeighbors()) {
-            neighbors.add(loadImage(neighborName));
+        if (im != null) {
+            for (String neighborName : im.getNeighbors()) {
+                neighbors.add(loadImage(neighborName));
+            }
         }
 
         return neighbors;
