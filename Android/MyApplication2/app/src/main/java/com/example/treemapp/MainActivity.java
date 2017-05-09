@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import android.widget.Toast;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
-    private LinearLayout overlayedActivity;
+    private RelativeLayout overlayedActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // The activity to create the input
-        overlayedActivity = (LinearLayout) findViewById(R.id.LinearLayout_Overlayed);
+        overlayedActivity = (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed);
 
         // fakeView - the layer under the input overlay to stop clicking on the map during
         LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
