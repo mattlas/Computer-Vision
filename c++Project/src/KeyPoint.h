@@ -1,6 +1,7 @@
-//
-// Created by 5dv115 on 4/28/17.
-//
+/**
+ * Class to store information about a keyPoint. Keypoint stores the points coordinates in x,y. The scale of the
+ * Keypoint and the orientation (Orientation might not be accurate)
+ */
 
 #ifndef TREEMARKUPTOOLBOX_KEYPOINT_H
 #define TREEMARKUPTOOLBOX_KEYPOINT_H

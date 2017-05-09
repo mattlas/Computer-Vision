@@ -8,9 +8,8 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
-#include "ImageData.h"
+#include "MosaicData.h"
 
-#include "KeyPoint.h"
 
 // Qt
 #include <QtGui>
@@ -34,13 +33,16 @@ int main(int argc, char **argv){
     const char *path;
     if(argc > 1){
     	path = argv[1];
+
     } else {
-    	path = std::string("").data();
+        path = "/home/5dv115/c13evk_scripts/output";
     }
-    FeaturePoints *points = new FeaturePoints();
-    points->calculatePoints(path);
-    ImageData *data = new ImageData();
-    data->addDirectory("/home/5dv115/c13evk_scripts/output");
+    time_t start = time(0);
+    MosaicData *data = new MosaicData();
+    data->addDirectory(path);
     data->startProcess();
+    time_t end = time(0);
+    double time = difftime(end, start) * 1000.0;
+    std::cout << "time = " << time << std::endl;
     return app.exec();
 }
