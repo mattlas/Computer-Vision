@@ -327,7 +327,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         String fileName = pin.getImageFileName();
         final List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
-
+        final Button exitBtn = (Button) findViewById(R.id.btn_Exit);
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
@@ -342,6 +342,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
 
+        // chooose the photos for the buttons (diffrent perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton[] imgBtns = new ImageButton[4];
         for(int i = 0; i<4; i++){
@@ -392,6 +393,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // when delete clicked - don't save the info and delete the pin
         delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.removePinFromList(pin);
+                overlayedActivity.setVisibility(View.INVISIBLE);
+                imageView.invalidate();
+            }
+        });
+
+        // when X is clicked - the same as delete button
+        exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageView.removePinFromList(pin);

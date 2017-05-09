@@ -1,12 +1,15 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout_Overlayed"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:visibility="invisible"
     tools:context=".ListDisplay">
 
-
+    <!-- data input -->
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -24,7 +27,7 @@
             android:weightSum="1">
 
             <Button
-                android:id="@+id/btn_Shap"
+                android:id="@+id/btn_Exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/exit_button"
@@ -49,94 +52,94 @@
             android:background="#33000000"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Height (m)"
-                android:textColor="#FFFFFF" />
 
-            <com.shawnlin.numberpicker.NumberPicker
-                android:id="@+id/inp_height"
-                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Height (m)"
+                    android:textColor="#FFFFFF" />
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/inp_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_formatter="@string/format"
+                    app:np_max="9999999"
+                    app:np_min="0"
+                    app:np_orientation="horizontal"
+                    app:np_selectedTextColor="#FFFFFF"
+                    app:np_textColor="#FFFFFF"
+                    app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal"
-                app:np_dividerColor="@color/colorPrimary"
-                app:np_formatter="@string/format"
-                app:np_max="9999999"
-                app:np_min="0"
-                app:np_orientation="horizontal"
-                app:np_selectedTextColor="#FFFFFF"
-                app:np_textColor="#FFFFFF"
-                app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
+
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Diameter (cm)"
+                    android:textColor="#FFFFFF" />
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/inp_diameter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#FFFFFF"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_formatter="@string/format"
+                    app:np_max="1000"
+                    app:np_min="0"
+                    app:np_orientation="horizontal"
+                    app:np_selectedTextColor="#FFFFFF"
+                    app:np_textColor="#FFFFFF"
+                    app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="100dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Diameter (cm)"
-                android:textColor="#FFFFFF" />
+                android:orientation="vertical"
+                android:weightSum="1">
 
-            <com.shawnlin.numberpicker.NumberPicker
-                android:id="@+id/inp_diameter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal"
-                android:textColor="#FFFFFF"
-                app:np_dividerColor="@color/colorPrimary"
-                app:np_formatter="@string/format"
-                app:np_max="1000"
-                app:np_min="0"
-                app:np_orientation="horizontal"
-                app:np_selectedTextColor="#FFFFFF"
-                app:np_textColor="#FFFFFF"
-                app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Species: "
+                    android:textColor="#FFFFFF" />
+
+                <Spinner
+                    android:id="@+id/inp_species"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                </Spinner>
 
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Species: "
-                android:textColor="#FFFFFF" />
-
-            <Spinner
-                android:id="@+id/inp_species"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
-            </Spinner>
-
-
-        </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
@@ -169,7 +172,7 @@
 
 
 
-
+<!-- perspectives photos -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="150dp"
