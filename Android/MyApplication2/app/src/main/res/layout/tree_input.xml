@@ -14,7 +14,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#CC868686"
+        android:background="#FF868686"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -197,28 +197,28 @@
 
         <ImageButton
             android:id="@+id/btn_perspective_1"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_2"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_4"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_3"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
