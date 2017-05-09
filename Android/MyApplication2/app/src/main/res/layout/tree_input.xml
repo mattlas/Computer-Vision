@@ -1,44 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <EditText
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ListActivity" >
+
+    <ListView
+        android:id="@+id/mobile_list"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/inp_height"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/inp_diameter"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/inp_species"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/btn_save"
-            android:text="Save"/>
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Delete" />
-
-        <Button
-            android:id="@+id/btn_preview_original"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Preview" />
-    </LinearLayout>
+        android:layout_height="wrap_content"></ListView>
 
 </LinearLayout>
