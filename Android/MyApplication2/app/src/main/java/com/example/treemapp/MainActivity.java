@@ -342,12 +342,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
 
-            pin.setOrigCoor(origCoor[0], origCoor[1]);
+
         }
         else {
             Log.e(TAG, "No imageList file");
         }
-
+        pin.setOrigCoor(origCoor[0], origCoor[1]);
 
         //return is only so its easier to do unit test
         return origCoor;
@@ -445,7 +445,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                             updateOrigPositionInPin(dragPin);
+                            Log.d(TAG,"Pin original position updated, set to "+dragPin.getX()+"/"+dragPin.getY());
                             imageView.updatePinInFile(dragPin);
+                            Log.d(TAG,"Pin updated in file?");
                             dragPin.setDragged(false);
                             dragPin = null;
                             imageView.setPanEnabled(true);
@@ -484,9 +486,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /* function for dragging the pin*/
     private void setUpDragPin(MotionEvent e) {
         PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
-        Toast t = Toast.makeText(getApplicationContext(),"Screen coordinates: " + Double.toString(e.getX()) +", " +  Double.toString(e.getY()) +
-                "\nMosaic Coordinates: " + Double.toString(p.x) + ", " + Double.toString(p.y) + imageInfoListHandler.getImageFileName(imageInfoListHandler.findImageClosestTo(p.x, p.y)), Toast.LENGTH_LONG);
-        t.show();
+
 
         if (!imageView.listIsEmpty()) {
 
