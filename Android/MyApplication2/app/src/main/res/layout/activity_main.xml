@@ -32,4 +32,13 @@
 
     <include layout="@layout/tree_input"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/inp_fake_layer_2"
+        android:background="#10000000"
+        android:orientation="vertical"></LinearLayout>
+
+    <include layout="@layout/perspective"/>
+
 </FrameLayout>
