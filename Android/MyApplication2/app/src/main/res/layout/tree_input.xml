@@ -14,7 +14,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#CC868686"
+        android:background="#FF868686"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Add a tree"
+                android:textSize="24dp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF" />
 
         </RelativeLayout>
@@ -48,14 +50,13 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-
             android:background="#33000000"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
                 android:weightSum="1">
 
@@ -64,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Height (m)"
+                    android:textSize="18dp"
                     android:textColor="#FFFFFF" />
 
                 <com.shawnlin.numberpicker.NumberPicker
@@ -87,16 +89,18 @@
             <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
                 android:weightSum="1">
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Diameter (cm)"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="18dp" />
+
 
                 <com.shawnlin.numberpicker.NumberPicker
                     android:id="@+id/inp_diameter"
@@ -121,6 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:weightSum="1">
 
                 <TextView
@@ -128,16 +134,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Species: "
+                    android:textSize="18dp"
                     android:textColor="#FFFFFF" />
 
                 <Spinner
                     android:id="@+id/inp_species"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
                     android:layout_gravity="center_horizontal">
-
                 </Spinner>
-
 
             </LinearLayout>
 
@@ -153,15 +159,22 @@
             <Button
                 android:id="@+id/btn_save"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="88dp"
-                android:layout_height="36dp"
+                android:background="#00BA52"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16dp"
                 android:text="SAVE AND CLOSE" />
 
             <Button
                 android:id="@+id/btn_cancel"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="88dp"
-                android:layout_height="36dp"
+                android:background="#ED4D6E"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16dp"
                 android:text="DELETE" />
 
 
@@ -184,28 +197,28 @@
 
         <ImageButton
             android:id="@+id/btn_perspective_1"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_2"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_4"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>
 
         <ImageButton
             android:id="@+id/btn_perspective_3"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="5dp"/>

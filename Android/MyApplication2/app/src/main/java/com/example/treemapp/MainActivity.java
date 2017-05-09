@@ -2,15 +2,10 @@ package com.example.treemapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Vibrator;
 
 import android.os.Build;
@@ -19,11 +14,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.graphics.PointF;
@@ -40,7 +31,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
-import java.net.URI;
 import java.util.List;
 
 import com.shawnlin.numberpicker.NumberPicker;
@@ -180,9 +170,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.trees_array, android.R.layout.simple_spinner_item);
+                R.array.trees_array, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Apply the adapter to the spinner
 
 
@@ -290,9 +280,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d(TAG,"Tree detail edit overlay opened");
 
+        //TODO, put values here
+
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
+
+        height.setValue(Integer.parseInt(pin.getHeight()));
+        diameter.setValue(Integer.parseInt(pin.getDiameter()));
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -301,6 +297,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         species.setAdapter(adapter);
+        
+        species.setSelection(adapter.getPosition(pin.getSpecies()));
 
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
@@ -404,9 +402,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         // If tabbed position is inside collision radius of a pin -> edit this pin
                         if (imageView.euclidanViewDistance(closestPin, e.getX(), e.getY()) < closestPin.getCollisionRadius()){
-                            // User should get notification!!!
-
-                            //popUpTreeEdit(closestPin);
                             overlayedTreeEdit(closestPin);
                             imageView.invalidate();
                             // otherwise make new pin
