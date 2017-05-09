@@ -13,26 +13,29 @@
 #define C_PROJECT_FEATUREPOINTS_H
 
 class FeaturePoints {
+private:
+    std::vector<KeyPoint> keyPoints;
+    std::vector<std::vector<uint16_t>> descriptors;
+    std::string imageName;
+    int id;
+
 public:
     /**
      * Constructor
      */
-    FeaturePoints(void);
+    FeaturePoints(std::string name, int id);
 
     /**
      * The main method of this class, method calculated keypoints and stores them in the variables keyPonts
      * and descriptors.
      * @param path - The complete path to the image.
      */
-    void calculatePoints(char const *path);
+    void calculatePoints();
 
     const std::vector<KeyPoint> &getKeyPoints() const;
     void setKeyPoints(const std::vector<KeyPoint> &keyPoints);
     const std::vector<std::vector<uint16_t>> &getDescriptors() const;
     void setDescriptors(const std::vector<std::vector<uint16_t>> &descriptors);
-private:
-    std::vector<KeyPoint> keyPoints;
-    std::vector<std::vector<uint16_t>> descriptors;
 
     /**
      * writes keyPoints to file

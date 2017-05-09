@@ -2,21 +2,21 @@
 // Created by 5dv115 on 5/8/17.
 //
 
-#include "ImageData.h"
+#include "MosaicData.h"
 #include <cstring>
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <dirent.h>
 
-ImageData::ImageData(void) {
+MosaicData::MosaicData(void) {
 
 }
 
 
-void ImageData::readPGMFromFolder() {
-    for(std::string directory : directories){
-        pgmFileNames = GetDirectoryFiles(directory);
+void MosaicData::readPGMFromFolder() {
+    for(std::string directory : directoryList){
+        pgmFileNames = readDirectoryFiles(directory);
         for ( std::string file : pgmFileNames) {
             std::cout << file << std::endl;
         }
@@ -24,7 +24,7 @@ void ImageData::readPGMFromFolder() {
 
 }
 
-std::vector<std::string> ImageData::GetDirectoryFiles(const std::string& dir) {
+std::vector<std::string> MosaicData::readDirectoryFiles(const std::string &dir) {
     std::vector<std::string> files;
     std::shared_ptr<DIR> directory_ptr(opendir(dir.c_str()), [](DIR *dir) { dir && closedir(dir); });
     struct dirent *dirent_ptr;
@@ -46,11 +46,22 @@ std::vector<std::string> ImageData::GetDirectoryFiles(const std::string& dir) {
     return files;
 }
 
-void ImageData::addDirectory(std::string dir) {
-    directories.push_back(dir);
+void MosaicData::addDirectory(std::string dir) {
+    directoryList.push_back(dir);
 }
 
-void ImageData::startProcess() {
+void MosaicData::startProcess() {
     readPGMFromFolder();
-    //todo call FeaturePoints for each file in pgmFileNames
+    extractFeaturePoints();
+    int i = 0;
+}
+
+void MosaicData::extractFeaturePoints() {
+    int id = 0;
+    for(std::string file : pgmFileNames){
+        FeaturePoints *points = new FeaturePoints(file,id);
+        points->calculatePoints();
+        featurePointList.push_back(*points);
+        id++;
+    }
 }
