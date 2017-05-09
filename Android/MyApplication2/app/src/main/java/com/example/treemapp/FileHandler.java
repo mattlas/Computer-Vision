@@ -189,8 +189,6 @@ public class FileHandler {
             String line;
             boolean success = false;
 
-            Log.d(TAG, this.file.getName());
-
             for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 if (i != lineIndex) { // If the line isn't the one to remove, write it to the temp file

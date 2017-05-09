@@ -188,7 +188,6 @@ public class PinView extends SubsamplingScaleImageView {
 
     public boolean updatePinInFile(Pin pin) {
 
-        Log.d(TAG,"Updating pin:"+pin.toString());
         // First find the pin in the file
         ArrayList<String[]> list = fileHandler.readContents();
         int lineToUpdate = -1;

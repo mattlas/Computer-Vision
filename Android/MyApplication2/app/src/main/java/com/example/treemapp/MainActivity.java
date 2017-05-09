@@ -445,9 +445,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                             updateOrigPositionInPin(dragPin);
-                            Log.d(TAG,"Pin original position updated, set to "+dragPin.getX()+"/"+dragPin.getY());
                             imageView.updatePinInFile(dragPin);
-                            Log.d(TAG,"Pin updated in file?");
                             dragPin.setDragged(false);
                             dragPin = null;
                             imageView.setPanEnabled(true);
