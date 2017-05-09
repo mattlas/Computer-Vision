@@ -280,9 +280,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d(TAG,"Tree detail edit overlay opened");
 
+        //TODO, put values here
+
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
+
+        height.setValue(Integer.parseInt(pin.getHeight()));
+        diameter.setValue(Integer.parseInt(pin.getDiameter()));
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -291,6 +297,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         species.setAdapter(adapter);
+        
+        species.setSelection(adapter.getPosition(pin.getSpecies()));
 
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
@@ -394,9 +402,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         // If tabbed position is inside collision radius of a pin -> edit this pin
                         if (imageView.euclidanViewDistance(closestPin, e.getX(), e.getY()) < closestPin.getCollisionRadius()){
-                            // User should get notification!!!
-
-                            //popUpTreeEdit(closestPin);
                             overlayedTreeEdit(closestPin);
                             imageView.invalidate();
                             // otherwise make new pin
