@@ -466,7 +466,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-        Button preview = (Button) findViewById(R.id.btn_preview_original);
 
 
         /*if (!pin.getHeight().isEmpty()) height.setText(pin.getHeight());
