@@ -348,6 +348,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             imgBtns[i] = (ImageButton) findViewById(btns[i]);
 
             final int finalIndex = i;
+
             imgBtns[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -356,7 +357,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     intent.putExtra("fileName", neighbors.get(finalIndex));
                     startActivity(intent);
                     overlayedActivity.setVisibility(View.INVISIBLE);
-                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 }
             });
 
