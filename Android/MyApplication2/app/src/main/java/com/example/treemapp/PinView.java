@@ -188,6 +188,7 @@ public class PinView extends SubsamplingScaleImageView {
 
     public boolean updatePinInFile(Pin pin) {
 
+        Log.d(TAG,"Updating pin:"+pin.toString());
         // First find the pin in the file
         ArrayList<String[]> list = fileHandler.readContents();
         int lineToUpdate = -1;
@@ -198,8 +199,12 @@ public class PinView extends SubsamplingScaleImageView {
         }
 
         // then remove the line and put a new one back in
-        if (lineToUpdate != -1)
-            return fileHandler.editLine(lineToUpdate, pin.getCSV());
+        if (lineToUpdate != -1){
+            Log.d(TAG,"Line to edit found: "+lineToUpdate);
+
+
+
+            return fileHandler.editLine(lineToUpdate, pin.getCSV());}
         else return false;
     }
 }

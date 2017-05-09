@@ -11,7 +11,6 @@ public class Pin {
 
     private final int collisionRadius;
     private PointF sPin;
-    private Bitmap pin;
     private int id;
     private String height;
     private String diameter;
@@ -123,13 +122,26 @@ public class Pin {
         return radius;
     }
 
-
-
     public boolean isDragged() {
         return dragged;
     }
 
     public String getImageFileName() {
         return this.imageFileName;
+    }
+
+    @Override
+    public String toString() {
+        return "Pin{" +
+                "sPin=" + sPin.toString() +
+                ", id=" + id +
+                ", height='" + height + '\'' +
+                ", diameter='" + diameter + '\'' +
+                ", species='" + species + '\'' +
+                '}';
+    }
+
+    public void setOrigCoor(float x, float y) {
+        origCoor = new PointF(x, y);
     }
 }

@@ -83,7 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return (overlayedActivity.getVisibility() == View.VISIBLE);
+                return inputIsVisible();
             }
         });
 
@@ -322,6 +322,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * @param pin the tree/pin to add
      */
     private void overlayedTreeInput(final Pin pin) {
+        overlayedActivity.setVisibility(View.VISIBLE);
+
         Log.d(TAG,"Tree detail input overlay opened");
 
         String fileName = pin.getImageFileName();
@@ -336,8 +338,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-
         species.setAdapter(adapter);
+
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
 
@@ -367,7 +369,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     imgBtns[i].setHapticFeedbackEnabled(true);
                 }
                 else {
-                    Log.e(TAG, "COuld not find file: '" + file.toString() +  "'");
+                    Log.e(TAG, "Could not find file: '" + file.toString() +  "'");
                     imgBtns[i].setVisibility(ImageButton.INVISIBLE);
                 }
             }
@@ -380,6 +382,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateOrigPositionInPin(pin);
                 if(imageView.saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
                     Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
@@ -442,22 +445,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void overlayedTreeEdit(final Pin pin) {
-        Log.d(TAG,"Tree detail input popup opened");
+        overlayedActivity.setVisibility(View.VISIBLE);
+
+        Log.d(TAG,"Tree detail edit overlay opened");
 
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.trees_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        species.setAdapter(adapter);
+
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
-
-
 
         // when save clicked - save info to the pin list, change the line in the file
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageView.updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
-                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                if (imageView.updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString())){
+                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();}
                 else
                     Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 overlayedActivity.setVisibility(View.INVISIBLE);
@@ -470,8 +482,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View view) {
                 imageView.deletePin(pin);
                 overlayedActivity.setVisibility(View.INVISIBLE);
+                imageView.invalidate();
             }
         });
+    }
+
+    public boolean inputIsVisible(){
+        return overlayedActivity.getVisibility() == View.VISIBLE;
+    }
+
+    private float[] updateOrigPositionInPin(Pin pin) {
+        ImageInfo ii = imageInfoListHandler.findImageInfo(pin.getImageFileName());
+
+        float[] origCoor = {pin.getX(), pin.getY()};
+
+        if (ii != null) {
+            float[] resultCoor = imageInfoListHandler.getResultCoordinates(pin.getX(), pin.getY());
+
+            origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
+
+            pin.setOrigCoor(origCoor[0], origCoor[1]);
+        }
+        else {
+            Log.e(TAG, "No imageList file");
+        }
+
+
+        //return is only so its easier to do unit test
+        return origCoor;
     }
 
     /* launching the original image and preview activity*/
@@ -567,6 +605,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            updateOrigPositionInPin(dragPin);
                             imageView.updatePinInFile(dragPin);
                             dragPin.setDragged(false);
                             dragPin = null;
@@ -598,7 +637,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         imageView.addPin(pin);
         overlayedTreeInput(pin);
-        overlayedActivity.setVisibility(View.VISIBLE);
 
         imageView.invalidate();
     }
