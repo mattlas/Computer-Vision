@@ -34,6 +34,8 @@ public:
     void startProcess();
     void extractFeaturePoints();
 
+    void ubcMatch();
+
 private:
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
     void readPGMFromFolder();

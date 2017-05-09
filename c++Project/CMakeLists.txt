@@ -21,6 +21,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/vlfeat-0.9.20)
 link_directories(${PROJECT_SOURCE_DIR}/lib/vlfeat-0.9.20/bin/glnxa64)
 
 # Find the QtWidgets library
+set(CMAKE_PREFIX_PATH /home/5dv115/Qt/5.8/gcc_64/lib/cmake/Qt5Widgets)
 find_package(Qt5Widgets)
 
 

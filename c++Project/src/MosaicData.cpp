@@ -53,7 +53,7 @@ void MosaicData::addDirectory(std::string dir) {
 void MosaicData::startProcess() {
     readPGMFromFolder();
     extractFeaturePoints();
-    int i = 0;
+    ubcMatch();
 }
 
 void MosaicData::extractFeaturePoints() {
@@ -64,4 +64,9 @@ void MosaicData::extractFeaturePoints() {
         featurePointList.push_back(*points);
         id++;
     }
+}
+
+void MosaicData::ubcMatch() {
+
+    //TODO Match points with ubc match
 }
