@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public static PointF latestTouch = null;
 
     private RelativeLayout overlayedActivity;
+    private RelativeLayout perspectiveOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // The activity to create the input
         overlayedActivity = (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed);
+        perspectiveOverlay = (RelativeLayout) findViewById(R.id.Perspective_overlay);
 
         // fakeView - the layer under the input overlay to stop clicking on the map during
         LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
@@ -85,6 +87,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return (overlayedActivity.getVisibility() == View.VISIBLE);
+            }
+        });
+
+        // fakeView - the layer under the input overlay to stop clicking on the map during
+        LinearLayout fakeView2 = (LinearLayout) findViewById(R.id.inp_fake_layer_2);
+        fakeView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (perspectiveOverlay.getVisibility() == View.VISIBLE);
             }
         });
 
@@ -152,172 +163,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
-
-/*
-    //opens up the perspective for a certain point
-    public void perspectiveViewPopUp(double x, double y) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.perspective, null);
-
-        Log.d(TAG,"Perspective popup opened");
-
-        final ImageView perspective1 = (ImageView) mView.findViewById(R.id.Perspective1);
-
-        ImageInfo im = imageInfoListHandler.findImageClosestTo(x, y);
-
-        String fileLocation = imageInfoListHandler.getImageFileName(im);
-        imageInfoListHandler.loadNeighboringImages(im);
-
-
-        File f = new File(fileLocation);
-
-        if (f.exists()) {
-            try {
-                Bitmap bmp = BitmapFactory.decodeFile(fileLocation);
-                Bitmap bmp2 = Bitmap.createScaledBitmap(bmp, 200, 200, true);
-                perspective1.setImageBitmap(bmp2);
-            }
-            catch (Exception e) {
-                Log.e(TAG, "could not set image to imageview", e);
-            }
-        }
-        else {
-            Toast toast = Toast.makeText(getApplicationContext(), "could not find file at:\'" +
-                    fileLocation + "'", Toast.LENGTH_LONG);
-            toast.show();
-        }
-
-        final Button cancel = (Button) mView.findViewById(R.id.btn_perspective_cancel);
-
-        // show perspectivePopUp
-        mBuilder.setView(mView);
-        final AlertDialog perspectivePopUp = mBuilder.create();
-
-        perspectivePopUp.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        perspectivePopUp.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
-
-        perspectivePopUp.show();
-
-        // when cancel clicked - don't save the info and delete the pin
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                perspectivePopUp.dismiss();
-            }
-        });
-    }
-*/
-
-    /*New version*/
-    private void popUpTreeInput(final Pin pin) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
-
-        Log.d(TAG,"Tree detail input popup opened");
-
-        final NumberPicker height = (NumberPicker) mView.findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) mView.findViewById(R.id.inp_diameter);
-        final Spinner species = (Spinner) mView.findViewById(R.id.inp_species);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.trees_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-
-        species.setAdapter(adapter);
-        Button save = (Button) mView.findViewById(R.id.btn_save);
-        Button delete = (Button) mView.findViewById(R.id.btn_cancel);
-        ImageButton perspectiveButton1 = (ImageButton) mView.findViewById(R.id.btn_perspective_1);
-        ImageButton perspectiveButton2 = (ImageButton) mView.findViewById(R.id.btn_perspective_2);
-        ImageButton perspectiveButton3 = (ImageButton) mView.findViewById(R.id.btn_perspective_3);
-        ImageButton perspectiveButton4 = (ImageButton) mView.findViewById(R.id.btn_perspective_4);
-
-
-        // show dialog
-        mBuilder.setView(mView);
-        final AlertDialog dialog = mBuilder.create();
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.gravity = Gravity.BOTTOM;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        window.setAttributes(wlp);
-
-
-        dialog.show();
-
-        // when save clicked - save info to the file and to the pin list
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(imageView.saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
-                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
-                else
-                   Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        // when delete clicked - don't save the info and delete the pin
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.removePinFromList(pin);
-                dialog.dismiss();
-                imageView.invalidate();
-            }
-        });
-
-        dialog.setCanceledOnTouchOutside(false);
-
-        perspectiveButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-
-                dialog.dismiss();
-            }
-        });
-
-        perspectiveButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-
-                dialog.dismiss();
-            }
-        });
-
-
-        perspectiveButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-
-                dialog.dismiss();
-            }
-        });
-
-        perspectiveButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open new activity
-                Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                startActivity(intent);
-
-                dialog.dismiss();
-            }
-        });
-    }
-
     /**
      * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
      * @param pin the tree/pin to add
@@ -325,7 +170,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void overlayedTreeInput(final Pin pin) {
         Log.d(TAG,"Tree detail input overlay opened");
 
-        String fileName = pin.getImageFileName();
+        final String fileName = pin.getImageFileName();
         final List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
         final Button exitBtn = (Button) findViewById(R.id.btn_Exit);
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
@@ -338,6 +183,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
 
+        Button perspExitBtn = (Button) findViewById(R.id.btn_perspective_cancel);
         species.setAdapter(adapter);
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
@@ -350,26 +196,39 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             final int finalIndex = i;
 
-            imgBtns[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Open new activity
-                    Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                    intent.putExtra("fileName", neighbors.get(finalIndex));
-                    startActivity(intent);
-                    overlayedActivity.setVisibility(View.INVISIBLE);
-                }
-            });
-
             if (neighbors.size() > i) {
+
+                imgBtns[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Open new activity
+                        //Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
+                        //intent.putExtra("fileName", neighbors.get(finalIndex));
+                        //startActivity(intent);
+                        //overlayedActivity.setVisibility(View.INVISIBLE);
+
+                        String filePath;
+                        filePath = neighbors.get(finalIndex);
+
+                        if (filePath != null) {
+                            File file = new File(filePath);
+                            if (file.exists()) {
+                                ImageView im = (ImageView) perspectiveOverlay.findViewById(R.id.perspective_image);
+                                im.setImageURI(Uri.fromFile(file));
+                                perspectiveOverlay.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        else Log.e(TAG, "Filename does not exist: " + filePath);
+                    }
+                });
+
                 File file = new File(neighbors.get(i));
                 if (file.exists()) {
                     imgBtns[i].setImageURI(Uri.fromFile(file));
                     imgBtns[i].setVisibility(ImageButton.VISIBLE);
-                    imgBtns[i].setHapticFeedbackEnabled(true);
                 }
                 else {
-                    Log.e(TAG, "COuld not find file: '" + file.toString() +  "'");
+                    Log.e(TAG, "Could not find file: '" + file.toString() +  "'");
                     imgBtns[i].setVisibility(ImageButton.INVISIBLE);
                 }
             }
@@ -411,44 +270,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-    }
-
-    /* editting the tree entry */
-    private void popUpTreeEdit(final Pin pin) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.tree_input, null);
-
-        Log.d(TAG,"Tree detail input popup opened");
-
-        final NumberPicker height = (NumberPicker) mView.findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) mView.findViewById(R.id.inp_diameter);
-        final Spinner species = (Spinner) findViewById(R.id.inp_species);
-        Button save = (Button) mView.findViewById(R.id.btn_save);
-        Button delete = (Button) mView.findViewById(R.id.btn_cancel);
-
-        // show dialog
-        mBuilder.setView(mView);
-        final AlertDialog dialog = mBuilder.create();
-        dialog.show();
-
-        // when save clicked - save info to the pin list, change the line in the file
-        save.setOnClickListener(new View.OnClickListener() {
+        perspExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageView.updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
-                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        // when delete clicked - don't save the info and delete the pin
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.deletePin(pin);
-                dialog.dismiss();
+                perspectiveOverlay.setVisibility(View.INVISIBLE);
+                //imageView.invalidate();
             }
         });
     }
