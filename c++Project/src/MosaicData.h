@@ -13,6 +13,8 @@ class MosaicData {
 private:
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
+    std::string pgmFolder;
+    std::vector<std::string> fileNames;
     std::vector<FeaturePoints> featurePointList;
 
 public:
@@ -32,14 +34,17 @@ public:
      * OBS. The directoryList will need at least one directory for this function to work.
      */
     void startProcess();
+
     void extractFeaturePoints();
 
     void ubcMatch();
 
 private:
+    void readFiles();
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
     void readPGMFromFolder();
 
+    void convertToPGM();
 };
 
 

@@ -3,11 +3,10 @@
 //
 
 #include "MosaicData.h"
+#include "DirectoryReader.h"
 #include <cstring>
 #include <iostream>
-#include <vector>
 #include <memory>
-#include <dirent.h>
 
 MosaicData::MosaicData(void) {
 
@@ -15,32 +14,7 @@ MosaicData::MosaicData(void) {
 
 
 void MosaicData::readPGMFromFolder() {
-    for(std::string directory : directoryList){
-        pgmFileNames = readDirectoryFiles(directory);
-    }
-
-}
-
-std::vector<std::string> MosaicData::readDirectoryFiles(const std::string &dir) {
-    std::vector<std::string> files;
-    std::shared_ptr<DIR> directory_ptr(opendir(dir.c_str()), [](DIR *dir) { dir && closedir(dir); });
-    struct dirent *dirent_ptr;
-    if (!directory_ptr) {
-        std::cout << "Error opening : " << std::strerror(errno) << dir << std::endl;
-        return files;
-    }
-
-    while ((dirent_ptr = readdir(directory_ptr.get())) != nullptr) {
-        if((std::string(dirent_ptr->d_name)).front() != '.'){
-            std::string pathName = dir;
-            if(pathName.back() != '/'){
-                pathName.append("/");
-            }
-            pathName.append(std::string(dirent_ptr->d_name));
-            files.push_back(pathName);
-        }
-    }
-    return files;
+    pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
 }
 
 void MosaicData::addDirectory(std::string dir) {
@@ -48,6 +22,8 @@ void MosaicData::addDirectory(std::string dir) {
 }
 
 void MosaicData::startProcess() {
+    readFiles();
+    convertToPGM();
     readPGMFromFolder();
     extractFeaturePoints();
     ubcMatch();
@@ -66,4 +42,16 @@ void MosaicData::extractFeaturePoints() {
 void MosaicData::ubcMatch() {
 
     //TODO Match points with ubc match
+}
+
+void MosaicData::readFiles() {
+    for(std::string directory : directoryList){
+        std::vector<std::string> temp = DirectoryReader::readDirectory(directory);
+        fileNames.insert(std::end(fileNames), std::begin(temp), std::end(temp));
+    }
+}
+
+void MosaicData::convertToPGM() {
+    //TODO convert files, now located in the vector fileNames to a pgmfolder and save folder path to variable pgmFolder
+    pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
 }
