@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import android.widget.Toast;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
-    private LinearLayout overlayedActivity;
+    private RelativeLayout overlayedActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // The activity to create the input
-        overlayedActivity = (LinearLayout) findViewById(R.id.LinearLayout_Overlayed);
+        overlayedActivity = (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed);
 
         // fakeView - the layer under the input overlay to stop clicking on the map during
         LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
@@ -328,7 +329,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         String fileName = pin.getImageFileName();
         final List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
-
+        final Button exitBtn = (Button) findViewById(R.id.btn_Exit);
         final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
         final Spinner species = (Spinner) findViewById(R.id.inp_species);
@@ -343,12 +344,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button save = (Button) findViewById(R.id.btn_save);
         Button delete = (Button) findViewById(R.id.btn_cancel);
 
+        // chooose the photos for the buttons (diffrent perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton[] imgBtns = new ImageButton[4];
         for(int i = 0; i<4; i++){
             imgBtns[i] = (ImageButton) findViewById(btns[i]);
 
             final int finalIndex = i;
+
             imgBtns[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -357,7 +360,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     intent.putExtra("fileName", neighbors.get(finalIndex));
                     startActivity(intent);
                     overlayedActivity.setVisibility(View.INVISIBLE);
-                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 }
             });
 
@@ -394,6 +396,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // when delete clicked - don't save the info and delete the pin
         delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.removePinFromList(pin);
+                overlayedActivity.setVisibility(View.INVISIBLE);
+                imageView.invalidate();
+            }
+        });
+
+        // when X is clicked - the same as delete button
+        exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageView.removePinFromList(pin);
@@ -551,8 +563,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 //viewSwitcher.showNext();
                 if (imageView.isReady()) {
-
-
                     // Tapped position
                     PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
