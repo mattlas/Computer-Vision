@@ -20,6 +20,7 @@ class ImageInfo {
     private double y;
     private String fileName;
     private List<String> neighbors;
+    private List<Integer> neighborIndexes = new ArrayList<>();
     private RealMatrix matrix;
     private boolean isIdentity;
 
@@ -32,6 +33,7 @@ class ImageInfo {
         this.x=-1;
         this.y=-1;
         this.neighbors=new ArrayList<>();
+        this.neighborIndexes = new ArrayList<>();
         this.matrix = null;
     }
 
@@ -82,10 +84,12 @@ class ImageInfo {
 
         matrix = new Array2DRowRealMatrix(entries);
 
-        setIsIdentity();
+
 
         while ( count < words.length ) {
-            neighbors.add(words[count]);
+            String word = words[count];
+            Integer number = Integer.parseInt(word);
+            neighborIndexes.add(number);
             count++;
         }
 
@@ -151,5 +155,13 @@ class ImageInfo {
 
     public boolean getIsIdentity() {
         return isIdentity;
+    }
+
+    public List<Integer> getNeigborIndexes() {
+        return this.neighborIndexes;
+    }
+
+    public void addNeighborName(String s) {
+        this.neighbors.add(s);
     }
 }

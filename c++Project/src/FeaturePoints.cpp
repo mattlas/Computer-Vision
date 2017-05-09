@@ -25,10 +25,10 @@ extern "C" {
 }*/
 
 
-FeaturePoints::FeaturePoints(void) {
-
+FeaturePoints::FeaturePoints(std::string imageName, int id) {
+    this->imageName = imageName;
+    this->id = id;
 }
-
 
 int korder (void const* a, void const* b) {
     double x = ((double*) a) [2] - ((double*) b) [2] ;
@@ -37,7 +37,7 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-void FeaturePoints::calculatePoints(char const *path) {
+void FeaturePoints::calculatePoints() {
 
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
@@ -61,14 +61,12 @@ void FeaturePoints::calculatePoints(char const *path) {
     char basename [1024] ;
 
     //char const *name = path;
-
-
-    char const *name;
-    if(strcmp(path, "")) {
-    	name = path;
-    } else {
-    	name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
+    if(imageName.empty()) {
+        imageName = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
     }
+
+    char const *name = imageName.c_str();
+
 
 
     FILE            *in    = 0 ;
@@ -216,7 +214,7 @@ void FeaturePoints::calculatePoints(char const *path) {
     //err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
-    filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,0);
+    filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,1);
 
     i     = 0 ;
     first = 1 ;
@@ -311,11 +309,11 @@ void FeaturePoints::calculatePoints(char const *path) {
             }
         }
     }
-    std::cout << "kepoints= " << nKeypoints << std::endl;
+    //std::cout << "kepoints= " << nKeypoints << std::endl;
 
-    writeKeyPoints(basename);
-    writeDescriptors(basename);
-    std::cout << "done" << std::endl;
+    //writeKeyPoints(basename);
+    //writeDescriptors(basename);
+    //std::cout << "done" << std::endl;
 
 
     done :
@@ -376,7 +374,8 @@ void FeaturePoints::calculatePoints(char const *path) {
 
 void FeaturePoints::writeKeyPoints(char* name) {
     std::ofstream out_file;
-    std::string file_name = name;
+    std::string file_name = "outputfiles/";
+    file_name.append(name);
     file_name.append("_keypoint.txt");
     out_file.open(file_name);
 
@@ -392,7 +391,8 @@ void FeaturePoints::writeKeyPoints(char* name) {
 
 void FeaturePoints::writeDescriptors(char* name) {
     std::ofstream out_file;
-    std::string file_name = name;
+    std::string file_name = "outputfiles/";
+    file_name.append(name);
     file_name.append("_descriptor.txt");
     out_file.open(file_name);
     for(ulong i=0; i < descriptors.size(); i++){
@@ -421,6 +421,8 @@ const std::vector<std::vector<uint16_t>> &FeaturePoints::getDescriptors() const 
 void FeaturePoints::setDescriptors(const std::vector<std::vector<uint16_t>> &descriptors) {
     FeaturePoints::descriptors = descriptors;
 }
+
+
 
 
 

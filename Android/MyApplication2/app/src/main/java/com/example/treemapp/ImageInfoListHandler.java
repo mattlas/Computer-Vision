@@ -68,17 +68,18 @@ public class ImageInfoListHandler {
         ImageInfo imageInfo;
         String[] words;
         int lineNumber = 0;
-
+        List <String> names = new ArrayList<>();
+        names.add(null);
         try {
             String firstLine = bf.readLine();
             words = firstLine.split(",");
             this.icx = Float.parseFloat(words[0]);
             this.icy = Float.parseFloat(words[1]);
-
             while((line = bf.readLine()) != null) {
                 line = line.replaceAll("\"", "");
                 words = line.split(",");
                 imageInfo = new ImageInfo(words);
+                names.add(words[0]);
 
                 this.imageInfos.put(imageInfo.getFileName(), imageInfo);
 
@@ -88,6 +89,16 @@ public class ImageInfoListHandler {
 
             Log.e(TAG, "Could not read line: " + Integer.toString(lineNumber) +
                     "(or the line below or above that one) in the imageInfoList file", e);
+        }
+
+        for (String fileName:names){
+            if (fileName != null) {
+                ImageInfo ii = this.findImageInfo(fileName);
+                List<Integer> neighborsIndexes = ii.getNeigborIndexes();
+                for (Integer neighbor : neighborsIndexes) {
+                    if (neighbor < names.size()) ii.addNeighborName(names.get(neighbor));
+                }
+            }
         }
 
     }
