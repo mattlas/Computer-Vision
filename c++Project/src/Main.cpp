@@ -8,16 +8,39 @@
 
 #include <iostream>
 #include "FeaturePoints.h"
+#include "ImageData.h"
+
 #include "KeyPoint.h"
+
+// Qt
+#include <QtGui>
+#include <QApplication>
+#include <QPushButton>
 
 extern "C"{
 #include <vl/generic.h>
 }
 
-int main(){
+
+int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
+
+    // Qt
+    QApplication app(argc, argv);
+    QPushButton *button = new QPushButton("Hello World");
+    button->show();
+
+
+    const char *path;
+    if(argc > 1){
+    	path = argv[1];
+    } else {
+    	path = std::string("").data();
+    }
     FeaturePoints *points = new FeaturePoints();
-    points->testClass();
-    points->calculatePoints("filnamn");
-    return 0;
+    points->calculatePoints(path);
+    ImageData *data = new ImageData();
+    data->addDirectory("/home/5dv115/c13evk_scripts/output");
+    data->startProcess();
+    return app.exec();
 }

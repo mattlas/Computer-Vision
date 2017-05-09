@@ -34,6 +34,17 @@ public class ImageInfoTest {
     }
 
     @Test
+    public void checkIfIdentity() {
+
+        float x = 5;
+        float y = 3;
+
+        ImageInfo im = new ImageInfo(1, 0, 0, 0, 1, 0, 0, 0, 1);
+
+        assert(im.getIsIdentity());
+    }
+
+    @Test
     public void checkIfValuesCorrect() {
         String[] words = {"img2.jpg", "19","22",  "1","0","72","0","2.5","0","1.01","2","9.3"  , "img1.jpg", "img3.jpg"};
 
@@ -47,7 +58,7 @@ public class ImageInfoTest {
         ImageInfo im = new ImageInfo(words);
         assertTrue(im.getX() == 19);
         assertTrue(im.getY() == 22);
-        assertEquals(rm, im.getInverseTransformMatrix());
+        assertEquals(rm, im.getTransformMatrix());
         assertEquals(neighbors, im.getNeighbors());
     }
 }

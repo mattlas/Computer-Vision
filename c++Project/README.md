@@ -8,28 +8,49 @@ cmake CMakeLists.txt
 
 make
 
-./TreeMarkupToolbox
+./TreeMarkupToolbox [path to pgm image file]
 
+### Qt
+install latest Qt pack
 
-### Matlab in Linux
-(modify)
+install OpenGL: sudo apt-get install mesa-common-dev
+
+### Call Matlab from C++ in Linux
+(Opens Matlab GUI NOT CORRECT)
+
 setenv LD_LIBRARY_PATH matlabroot/bin/glnxa64:matlabroot/sys/os/glnxa64
+
 export LD_LIBRARY_PATH
 
+### Qt
+cd install
+
+./install/qt-unified-linux-x64-2.0.5-2-online.run
+
+install OpenGL: sudo apt-get install mesa-common-dev
+
+### Compile OpenCV
+
+sudo bash install/opencv_install.sh
+
 ### Compile LAPACK
+
 http://matrixprogramming.com/2011/04/using-lapack-from-c
 
 wget http://www.netlib.org/lapack/lapack-3.7.0.tgz
+
 tar zxvf lapack-3.7.0.tgz
+
+cd lapack-3.7.0
+
 cp INSTALL/make.inc.gfortran make.inc
+
 make blaslib
+
 make lapacklib
-ls *.a
-//You should see blas_LINUX.a  and lapack_LINUX.a
-mv blas_LINUX.a libblas.a
-mv lapack_LINUX.a liblapack.a
 
 ### File System
+
 #### src
 source for the application
 
@@ -42,13 +63,14 @@ libraries
 #### include 
 interface for the library *.h
 
+#### install
+install files/scripts for external libraries that isn't included in /lib/
+
 #### doc
 documentation of any kind
 
 #### spikes
 small tests for proof-of-concept
-
-
 
 ## Mosaic Pipeline
 Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mosaic
@@ -63,6 +85,6 @@ Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mos
 
 #### RANSAC
 
-#### Bundle Adjustment
+#### Least-Squares
 
 #### Mosaic

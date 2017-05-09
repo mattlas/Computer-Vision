@@ -2,11 +2,7 @@ package com.example.treemapp;
 
 import android.graphics.PointF;
 
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-
-import android.content.Context;
 import android.graphics.*;
-import android.util.AttributeSet;
 
 /**
  * Class representing both a saved tree and its representation as a pin on the map. To be used with PinView
@@ -16,34 +12,35 @@ public class Pin {
     private final int collisionRadius;
     private PointF sPin;
     private Bitmap pin;
-    private String id;
-    private int intId;
+    private int id;
     private String height;
     private String diameter;
     private String species;
     private int radius;
     private String imageFileName;
     private boolean dragged = false;
+    private PointF origCoor;
 
     /*
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(String id, PointF sPin, String imageFileName) {
+    public Pin(int id, PointF sPin, PointF origImage, String imageFileName) {
         this.sPin = sPin;
         this.id = id;
         this.radius = 20;
         this.collisionRadius = 30;
         this.imageFileName = imageFileName;
+        this.origCoor = origImage;
     }
 
-    public Pin(String id, float x, float y, String imageFileName) {
-        this(id, new PointF(x, y), imageFileName);
+    public Pin(int id, float x, float y, float ox, float oy, String imageFileName) {
+        this(id, new PointF(x, y), new PointF(ox, oy), imageFileName);
 
     }
 
-    public Pin(PointF sPin, String imageFileName){
-        this("",sPin,imageFileName);
+    public Pin(PointF sCoor, PointF oCoor, String imageFileName){
+        this(-1,sCoor, oCoor, imageFileName);
     }
 
     public PointF getPoint() {
@@ -85,15 +82,14 @@ public class Pin {
         this.species = species;
     }
 
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 
-    public String getId(){
+    public int getId(){
         return this.id;
     }
 
-    public void setIntId(int id) { this.intId = id;}
 
     @Override
     public boolean equals(Object o) {
@@ -102,21 +98,21 @@ public class Pin {
 
         Pin pin = (Pin) o;
 
-        return id.equals(pin.id);
+        return id == pin.id;
 
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id;
     }
 
     /**
      * Gives part of the CSV format for the pin/tree (to be saved in the file)
-     * @return String representing the CSV line for the tree - "x,y,height,diameter,species"
+     * @return String representing the CSV line for the tree - "id,x,y,height,diameter,species,imageFileName"
      */
     public String getCSV(){
-        return id+","+sPin.x + "," + sPin.y + "," + height + "," + diameter + "," + species + "," + imageFileName + "\n";
+        return id+","+ origCoor.x + "," + origCoor.y + "," + height + "," + diameter + "," + species + "," + imageFileName;
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/

@@ -10,4 +10,158 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
 
+
+
+
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Height: "/>
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/inp_height"
+                android:layout_centerInParent="true"
+                app:np_formatter="@string/format"
+                app:np_dividerColor="@color/colorPrimary"
+                app:np_max="9999999"
+                app:np_min="0"
+                app:np_selectedTextColor="@color/colorPrimary"
+                app:np_orientation="horizontal"
+                app:np_textColor="@color/colorPrimary"
+                app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" dm"/>
+
+            </LinearLayout>
+
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diameter: "/>
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/inp_diameter"
+                android:layout_centerInParent="true"
+                app:np_formatter="@string/format"
+                app:np_dividerColor="@color/colorPrimary"
+                app:np_max="1000"
+                app:np_min="0"
+                app:np_selectedTextColor="@color/colorPrimary"
+                app:np_orientation="horizontal"
+                app:np_textColor="@color/colorPrimary"
+                app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" cm"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Species: "/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/inp_species"></Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/btn_preview_original"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Preview" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageButton
+            android:id="@+id/btn_perspective_1"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/tree" />
+
+        <ImageButton
+            android:id="@+id/btn_perspective_2"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/tree" />
+
+        <ImageButton
+            android:id="@+id/btn_perspective_3"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/tree" />
+
+        <ImageButton
+            android:id="@+id/btn_perspective_4"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/tree" />
+
+    </LinearLayout>
+
 </LinearLayout>

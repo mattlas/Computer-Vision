@@ -1,10 +1,6 @@
 package com.example.treemapp;
 
-import android.graphics.PointF;
-import android.nfc.Tag;
 import android.util.Log;
-
-import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +20,21 @@ class ImageInfo {
     private double y;
     private String fileName;
     private List<String> neighbors;
-    private RealMatrix inverseTransform;
+    private List<Integer> neighborIndexes = new ArrayList<>();
+    private RealMatrix matrix;
+    private boolean isIdentity;
 
     public ImageInfo(String[] words) {
-        parseInfo(words);
-    }
+            parseInfo(words);
 
+    }
     public ImageInfo(){
         this.fileName = "DEBUG_NO_IMAGE";
         this.x=-1;
         this.y=-1;
         this.neighbors=new ArrayList<>();
-        this.inverseTransform = null;
+        this.neighborIndexes = new ArrayList<>();
+        this.matrix = null;
     }
 
     public ImageInfo(double... entries) {
@@ -53,11 +52,19 @@ class ImageInfo {
             }
         }
 
-        this.inverseTransform = new Array2DRowRealMatrix(entries2d);
+        this.matrix = new Array2DRowRealMatrix(entries2d);
+        setIsIdentity();
     }
 
-    public ImageInfo(double[][] inverseTransform) {
-        this.inverseTransform = new Array2DRowRealMatrix(inverseTransform);
+    public void setIsIdentity() {
+        double[][] arr = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        Array2DRowRealMatrix identity = new Array2DRowRealMatrix(arr);
+        isIdentity = identity.equals(matrix);
+    }
+
+    public ImageInfo(double[][] matrix) {
+        this.matrix = new Array2DRowRealMatrix(matrix);
+        setIsIdentity();
     }
 
     private void parseInfo(String[] words) {
@@ -75,12 +82,18 @@ class ImageInfo {
             }
         }
 
-        inverseTransform = new Array2DRowRealMatrix(entries);
+        matrix = new Array2DRowRealMatrix(entries);
+
+
 
         while ( count < words.length ) {
-            neighbors.add(words[count]);
+            String word = words[count];
+            Integer number = Integer.parseInt(word);
+            neighborIndexes.add(number);
             count++;
         }
+
+        setIsIdentity();
     }
 
     public String getFileName() {
@@ -109,23 +122,46 @@ class ImageInfo {
 
         RealMatrix mosaicCordinates = new Array2DRowRealMatrix(mc);
 
-        RealMatrix resultingMatrix = inverseTransform.multiply(mosaicCordinates);
-
         float imageX, imageY;
-        imageX = (float) resultingMatrix.getEntry(0, 0);
-        imageY = (float) resultingMatrix.getEntry(1, 0);
-        //ignoring the z-coordinate since we don't need it
+
+        if (matrix != null && mosaicCordinates != null) {
+
+            RealMatrix resultingMatrix = matrix.multiply(mosaicCordinates);
+
+            imageX = (float) resultingMatrix.getEntry(0, 0);
+            imageY = (float) resultingMatrix.getEntry(1, 0);
+            //ignoring the z-coordinate since we don't need it
+
+        } else {
+            // TODO improve error handling here
+            Log.e(TAG, "Matrix data or mosaic coordinates do not exist (does the image exist?)-Incorrect coordinates used");
+            imageX=(float) x;
+            imageY=(float) y;
+
+        }
 
         float[] originalCoordinate = {imageX, imageY};
 
         return originalCoordinate;
     }
 
-    public RealMatrix getInverseTransformMatrix() {
-        return inverseTransform;
+    public RealMatrix getTransformMatrix() {
+        return matrix;
     }
 
     public List<String> getNeighbors() {
         return neighbors;
+    }
+
+    public boolean getIsIdentity() {
+        return isIdentity;
+    }
+
+    public List<Integer> getNeigborIndexes() {
+        return this.neighborIndexes;
+    }
+
+    public void addNeighborName(String s) {
+        this.neighbors.add(s);
     }
 }
