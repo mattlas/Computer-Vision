@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ListDisplay" >
+
+    <ListView
+        android:id="@+id/mobile_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
 
 
 
@@ -135,25 +142,25 @@
             android:id="@+id/btn_perspective_1"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/tree" />
+            android:src="@drawable/tree" />
 
         <ImageButton
             android:id="@+id/btn_perspective_2"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/tree" />
+            android:src="@drawable/tree" />
 
         <ImageButton
             android:id="@+id/btn_perspective_3"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/tree" />
+            android:src="@drawable/tree" />
 
         <ImageButton
             android:id="@+id/btn_perspective_4"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/tree" />
+            android:src="@drawable/tree" />
 
     </LinearLayout>
 
