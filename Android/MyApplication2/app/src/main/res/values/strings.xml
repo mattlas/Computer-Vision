@@ -5,15 +5,11 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="trees_array">
-        <item>brzoza</item>
-        <item>gran</item>
-        <item>christmas tree</item>
-        <item>ent</item>
-        <item>Miłorząb</item>
-        <item>appelboom</item>
-        <item>picea</item>
-        <item>kiganja</item>
-        <item>chêne</item>
+        <item>Spruce</item>
+        <item>Pine</item>
+        <item>Birch</item>
+        <item>Oak</item>
+        <item>Other…</item>
     </string-array>
 
 </resources>

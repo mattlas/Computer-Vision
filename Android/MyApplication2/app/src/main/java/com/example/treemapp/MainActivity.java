@@ -3,9 +3,7 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Vibrator;
 
 import android.os.Build;
@@ -15,40 +13,25 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 
-import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ListView;
+
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
-import java.util.List;
 
-import com.shawnlin.numberpicker.NumberPicker;
-
-
-import org.apache.commons.math3.geometry.euclidean.threed.Line;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private String[] mPlanetTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private Vibrator v;
-
+    private Overlay overlay;
+    private Vibrator vibrator;
 
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
@@ -56,12 +39,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
-
-    private RelativeLayout overlayedActivity;
-    private RelativeLayout perspectiveOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,60 +49,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // The activity to create the input
-        overlayedActivity = (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed);
-        perspectiveOverlay = (RelativeLayout) findViewById(R.id.Perspective_overlay);
+        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
+                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
 
-        // fakeView - the layer under the input overlay to stop clicking on the map during
-        LinearLayout fakeView = (LinearLayout) findViewById(R.id.inp_fake_layer);
-        fakeView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return inputIsVisible();
-            }
-        });
+        vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-        // fakeView - the layer under the input overlay to stop clicking on the map during
-        LinearLayout fakeView2 = (LinearLayout) findViewById(R.id.inp_fake_layer_2);
-        fakeView2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (perspectiveOverlay.getVisibility() == View.VISIBLE);
-            }
-        });
-
-        /*mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
-
-        v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= 23)
-        {
-            if (checkPermission())
-            {
-                // Code for above or equal 23 API Oriented Device here if we need any
-                Log.d(TAG, "I have permission");
-            } else {
-                Log.d(TAG, "I doesn't have permission");
-                requestPermission(); // Code for permission
-                Log.d(TAG, "I do have permission");
-            }
+        if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
+            Log.d(TAG, "I doesn't have permission");
+            requestPermission(); // Code for permission
+            Log.d(TAG, "I do have permission");
         }
-        else
-        {
-            // Code for Below 23 API Oriented Device if we need any
-        }
+
+        filehandler = new FileHandler();
 
         // Setting the image to display
+        imageViewSetUp();
+
+        // Event handling
+        initialiseEventHandling();
+    }
+
+    private void imageViewSetUp() {
         imageView = (PinView) findViewById(R.id.imageView);
 
-        imageView.setMaxScale(8f);
+        imageView.setMaxScale(7f);
         imageView.setOrientation(ORIENTATION_0);
 
         imageInfoListHandler = new ImageInfoListHandler();
@@ -144,214 +94,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
             else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
         }
 
-        // Event handling
-        initialiseEventHandling();
-
         // Filehandler - needs permission before starting
-        filehandler = new FileHandler();
         imageView.setFileHandler(filehandler);
-
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
-    /**
-     * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
-     * @param pin the tree/pin to add
-     */
-    private void overlayedTreeInput(final Pin pin) {
-        overlayedActivity.setVisibility(View.VISIBLE);
-
-        Log.d(TAG,"Tree detail input overlay opened");
-
-        final String fileName = pin.getImageFileName();
-        final List<String> neighbors = imageInfoListHandler.loadNeighboringImages(fileName);
-        final Button exitBtn = (Button) findViewById(R.id.btn_Exit);
-        final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
-        final Spinner species = (Spinner) findViewById(R.id.inp_species);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.trees_array, R.layout.spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        // Apply the adapter to the spinner
-
-        TextView tv = (TextView) findViewById(R.id.overlay_box_txt);
-        tv.setText("Add tree");
-
-
-        Button perspExitBtn = (Button) findViewById(R.id.btn_perspective_cancel);
-
-        species.setAdapter(adapter);
-
-        Button save = (Button) findViewById(R.id.btn_save);
-        Button delete = (Button) findViewById(R.id.btn_cancel);
-
-        // chooose the photos for the buttons (diffrent perspectives)
-        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
-        ImageButton[] imgBtns = new ImageButton[4];
-        for(int i = 0; i<4; i++){
-            imgBtns[i] = (ImageButton) findViewById(btns[i]);
-
-            final int finalIndex = i;
-
-            if (neighbors.size() > i) {
-
-                imgBtns[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Open new activity
-                        //Intent intent = new Intent(MainActivity.this, PerspectiveButtonActivity.class);
-                        //intent.putExtra("fileName", neighbors.get(finalIndex));
-                        //startActivity(intent);
-                        //overlayedActivity.setVisibility(View.INVISIBLE);
-
-                        String filePath;
-                        filePath = neighbors.get(finalIndex);
-
-                        if (filePath != null) {
-                            File file = new File(filePath);
-                            if (file.exists()) {
-                                ImageView im = (ImageView) perspectiveOverlay.findViewById(R.id.perspective_image);
-                                im.setImageURI(Uri.fromFile(file));
-                                perspectiveOverlay.setVisibility(View.VISIBLE);
-                            }
-                        }
-                        else Log.e(TAG, "Filename does not exist: " + filePath);
-                    }
-                });
-
-                File file = new File(neighbors.get(i));
-                if (file.exists()) {
-                    imgBtns[i].setImageURI(Uri.fromFile(file));
-                    imgBtns[i].setVisibility(ImageButton.VISIBLE);
-                }
-                else {
-                    Log.e(TAG, "Could not find file: '" + file.toString() +  "'");
-                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
-                }
-            }
-            else {
-                imgBtns[i].setVisibility(ImageButton.INVISIBLE);
-            }
-        }
-
-        // when save clicked - save info to the file and to the pin list
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateOrigPositionInPin(pin);
-                if(imageView.saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString()))
-                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                // Make overlayed view visible
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        // when delete clicked - don't save the info and delete the pin
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.removePinFromList(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-                imageView.invalidate();
-            }
-        });
-
-        // when X is clicked - the same as delete button
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.removePinFromList(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-                imageView.invalidate();
-            }
-        });
-
-        perspExitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                perspectiveOverlay.setVisibility(View.INVISIBLE);
-                //imageView.invalidate();
-            }
-        });
-    }
-
-    private void overlayedTreeEdit(final Pin pin) {
-        overlayedActivity.setVisibility(View.VISIBLE);
-
-
-
-        Log.d(TAG,"Tree detail edit overlay opened");
-
-        //TODO, put values here
-
-        final NumberPicker height = (NumberPicker) findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) findViewById(R.id.inp_diameter);
-        final Spinner species = (Spinner) findViewById(R.id.inp_species);
-
-        height.setValue(Integer.parseInt(pin.getHeight()));
-        diameter.setValue(Integer.parseInt(pin.getDiameter()));
-
-        TextView tv = (TextView) findViewById(R.id.overlay_box_txt);
-        tv.setText("Edit tree");
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.trees_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        species.setAdapter(adapter);
-        
-        species.setSelection(adapter.getPosition(pin.getSpecies()));
-
-        Button save = (Button) findViewById(R.id.btn_save);
-        Button delete = (Button) findViewById(R.id.btn_cancel);
-
-        // when save clicked - save info to the pin list, change the line in the file
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imageView.updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), species.getSelectedItem().toString())){
-                    Toast.makeText(getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();}
-                else
-                    Toast.makeText(getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                overlayedActivity.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        // when delete clicked - don't save the info and delete the pin
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.deletePin(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
-                imageView.invalidate();
-            }
-        });
-    }
-
-    public boolean inputIsVisible(){
-        return overlayedActivity.getVisibility() == View.VISIBLE;
-    }
-
-    private float[] updateOrigPositionInPin(Pin pin) {
+    public float[] updateOrigPositionInPin(Pin pin) {
         ImageInfo ii = imageInfoListHandler.findImageInfo(pin.getImageFileName());
 
         float[] origCoor = {pin.getX(), pin.getY()};
 
         if (ii != null) {
             float[] resultCoor = imageInfoListHandler.getResultCoordinates(pin.getX(), pin.getY());
-
-            origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
-
-
+            origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
         }
         else {
-            Log.e(TAG, "No imageList file");
+            Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
         }
         pin.setOrigCoor(origCoor[0], origCoor[1]);
 
@@ -359,84 +117,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return origCoor;
     }
 
-    /* launching the original image and preview activity*/
-    private void launchActivity(Pin pin) {
-        Intent intent = new Intent(this, OriginalImageActivity.class);
-        //x and y are mosaic coordinates, we want mosaic-coordinates
-        PointF mosaicCoor = pin.getPoint();
-
-        if (imageInfoListHandler.didFindEverything()) {
-            ImageInfo ii = imageInfoListHandler.findImageClosestTo(mosaicCoor.x, mosaicCoor.y);
-
-            float[] resultCoor = imageInfoListHandler.getResultCoordinates(mosaicCoor.x, mosaicCoor.y);
-
-            float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
-
-            float x = origCoor[0];
-            float y = origCoor[1];
-
-            intent.putExtra("x", x);
-            intent.putExtra("y", y);
-            intent.putExtra("mx", mosaicCoor.x);
-            intent.putExtra("my", mosaicCoor.y);
-            intent.putExtra("rx", resultCoor[0]);
-            intent.putExtra("ry", resultCoor[1]);
-            intent.putExtra("fileName", imageInfoListHandler.getImageFileName(ii));
-        }
-        else {
-            intent.putExtra("fileName", "noImageFound.JPG");
-            Toast toast = Toast.makeText(getApplicationContext(), "ImageInfoListHandler could not find the image", Toast.LENGTH_LONG);
-            toast.show();
-        }
-        startActivity(intent);
-    }
-
-    /*TODO: comment needed*/
     private void initialiseEventHandling() {
-        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                //viewSwitcher.showNext();
-                if (imageView.isReady()) {
-                    // Tapped position
-                    PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+        final GestureDetector gestureDetector = new GestureDetector(this, new SuperGestureDetector(this));
 
-                    // If there is no pins we are definitely creating a new one
-                    if (imageView.listIsEmpty()) {
-                        makePin(e); //makes pin, creates menu
-                    } else {
-                        // Closest pin to tapped position
-                        Pin closestPin = imageView.getClosestPin(e.getX(), e.getY());
-
-                        // If tabbed position is inside collision radius of a pin -> edit this pin
-                        if (imageView.euclidanViewDistance(closestPin, e.getX(), e.getY()) < closestPin.getCollisionRadius()){
-                            overlayedTreeEdit(closestPin);
-                            imageView.invalidate();
-                            // otherwise make new pin
-                        } else {
-                            //If the user's presses not near an existing pin we make a new one
-                            makePin(e);
-                        }
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-            @Override
-            public void onLongPress(MotionEvent e) {
-                if (imageView.isReady()) {
-                    setUpDragPin(e);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                return super.onDoubleTap(e);
-            }
-        });
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -447,13 +130,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                            updateOrigPositionInPin(dragPin);
-                            imageView.updatePinInFile(dragPin);
-                            dragPin.setDragged(false);
-                            dragPin = null;
-                            imageView.setPanEnabled(true);
-                            imageView.setZoomEnabled(true);
-                            imageView.invalidate();
+                            dragPinRelease();
                         }
 
                         imageView.invalidate();
@@ -461,11 +138,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
                 return gestureDetector.onTouchEvent(motionEvent);
             }
+
+            private void dragPinRelease() {
+                updateOrigPositionInPin(dragPin);
+                imageView.updatePinInFile(dragPin);
+
+                dragPin.setDragged(false);
+                dragPin = null;
+
+                imageView.setPanEnabled(true);
+                imageView.setZoomEnabled(true);
+                imageView.invalidate();
+            }
         });
     }
 
-    /* adding the pin to the file and pin list*/
-    private void makePin(MotionEvent e) {
+    /* adding the pin to the file and pin list and shows the menu for the pin*/
+    void makePin(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
         ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
@@ -473,21 +162,35 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
 
-        float[] origCoor = ii.convertFromMosaicCoordinateToOriginal(resultCoor[0], resultCoor[1]);
+        float[] origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
 
         Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 
         imageView.addPin(pin);
-        overlayedTreeInput(pin);
+        overlay.create(pin);
 
         imageView.invalidate();
     }
 
+    /**
+     * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
+     * @return true if app has permission, false if not
+     */
+    private boolean checkPermission(){
+        int result= ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
 
-    /* function for dragging the pin*/
-    private void setUpDragPin(MotionEvent e) {
+    private void requestPermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    public void setUpDragPin(MotionEvent e) {
         PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
-
 
         if (!imageView.listIsEmpty()) {
 
@@ -497,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);
-                v.vibrate(100);
+                vibrator.vibrate(100);
 
                 /* When you set panEnabled to false, Dave Morrisey (who wrote the image view code).
                 * decided that you want to center the image aswell, so we will transform it back */
@@ -514,27 +217,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         }
         else dragPin = null;
-    }
-
-
-    /**
-     * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
-     * @return true if app has permission, false if not
-     */
-    private boolean checkPermission(){
-
-        int result= ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return result == PackageManager.PERMISSION_GRANTED;
-
-    }
-
-    private void requestPermission(){
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
-        }
     }
 
     @Override
@@ -554,6 +236,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return;
     }
 
+    public PinView getImageView() {
+        return imageView;
+    }
+
+    public ImageInfoListHandler getImageInfoListHandler() {
+        return imageInfoListHandler;
+    }
+
+    public Overlay getOverlay() {
+        return overlay;
+    }
 }
 
 

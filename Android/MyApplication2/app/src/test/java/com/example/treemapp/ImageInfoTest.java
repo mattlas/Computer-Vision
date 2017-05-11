@@ -22,7 +22,7 @@ public class ImageInfoTest {
         float y = 3;
 
         ImageInfo im = new ImageInfo(2, 0, 0, 0, 1, 0, 0, 0, 1);
-        float[] point = im.convertFromMosaicCoordinateToOriginal(x, y);
+        float[] point = im.convertFromIdentityCoordinatesToOriginal(x, y);
 
         /*
         System.out.println("Converted from: " + Float.toString(x) + ", " + Float.toString(y) +

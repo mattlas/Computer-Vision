@@ -113,7 +113,7 @@ class ImageInfo {
     }
 
     //TODO, this is missing the translation and the rescaling
-    public float[] convertFromMosaicCoordinateToOriginal(double x, double y) {
+    public float[] convertFromIdentityCoordinatesToOriginal(double x, double y) {
         double[] mc = new double[3];
         mc[0] = x;
         mc[1] = y;
