@@ -5,7 +5,6 @@
 run('vlfeat-0.9.20/toolbox/vl_setup')
 
 % Niclas' Bundle Adjustment toolkit
-run('dbat/code/dbatSetup')
 addpath machinevision-toolbox-matlab-master/
 addpath toolbox-common-matlab-master/
 
@@ -82,8 +81,8 @@ a = [1:size(pos,1)]'; b = num2str(a); c = cellstr(b);
 dy = -0.0001; dx = -0.0001; % displacement so the text does not overlay the data points
 text(pos(:,1)+dx, pos(:,2)+dy, c,'FontSize',8);
 
-promptfirst =  'What is the first position? ';
-promptlast =  'What is the last position? ';
+% promptfirst =  'What is the first position? ';
+% promptlast =  'What is the last position? ';
 
 % first = input(promptfirst);
 % last = input(promptlast);
@@ -100,32 +99,32 @@ d = d(first:last,first:last);
 subplot(2,1,1)
 scatter(pos(:,1)', pos(:,2)', 200, 'b', 'filled')
 drawnow;
-pause(3)
+% pause(3)
     
 %% Scatter plot of all the straight drone positions in XY plane for all of the images
 
-for i = 1:size(imageIDs,1)
-    cla(subplot(2,1,1))
-    subplot(2,1,1)
-    scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
-    axis equal
-    hold on
-    testpoint = i;
-    testneighbors = find(d(:,testpoint));
-    scatter(pos(testpoint,1)', pos(testpoint,2)',600, 'b','x')
-    scatter(pos(testneighbors,1)', pos(testneighbors,2)', 200, 'r', 'filled')
-    pause(0.02)
-end
-    cla(subplot(2,1,1))
-    subplot(2,1,1)
-    scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
-    axis equal
-    hold on
+% for i = 1:size(imageIDs,1)
+%     cla(subplot(2,1,1))
+%     subplot(2,1,1)
+%     scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
+%     axis equal
+%     hold on
+%     testpoint = i;
+%     testneighbors = find(d(:,testpoint));
+%     scatter(pos(testpoint,1)', pos(testpoint,2)',600, 'b','x')
+%     scatter(pos(testneighbors,1)', pos(testneighbors,2)', 200, 'r', 'filled')
+%     pause(0.02)
+% end
+%     cla(subplot(2,1,1))
+%     subplot(2,1,1)
+%     scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
+%     axis equal
+%     hold on
 
 
 %% WGS84 to XYZ
-pos = wgs2xyz(pos);
-pos = pos - pos(1, :);
+%pos = wgs2xyz(pos);
+%pos = pos - pos(1, :);
 
 
 %% SIFT / SURF of each image
@@ -141,7 +140,7 @@ for ids=1:6
         numFeatures = size(F{ids},2);
         octaveThreshold = octaveThreshold -1;
     end
-subplot(2,1,2)
+subplot(1,1,1)
 imshow(im);
     perm = randperm(size(F{ids},2)) ;
 sel = perm(1:70) ;
@@ -149,7 +148,9 @@ h1 = vl_plotframe(F{ids}(:,sel)) ;
 h2 = vl_plotframe(F{ids}(:,sel)) ;
 set(h1,'color','k','linewidth',3) ;
 set(h2,'color','y','linewidth',2) ;
-pause(0.5)
+hold on
+% h3 = vl_plotsiftdescriptor(D{ids}(:,sel), F{ids}(:,sel));
+pause(2)
 end
 cd ..
 

@@ -17,14 +17,14 @@ clear all
 close all
 
 % Read in the geotag text
-[imageIDs, pos, orient] = m_geotag('block04_cameraPositions.txt');
-
+% [imageIDs, pos, orient] = m_geotag('block04_cameraPositions.txt');
+% 
 % Calculate distance matrix
-[d, restr, ref] = m_distmat(pos, 3, 0.98, 0.8);
+% [d, restr, ref] = m_distmat(pos, 3, 0.98, 0.8);
 
 % Applying restrictions
-pos = pos( restr , : );
-imageIDs = imageIDs( restr , : );
+% pos = pos( restr , : );
+% imageIDs = imageIDs( restr , : );
 %% Support plots
 % figure(1)
 % scatter(pos(:,1)', pos(:,2)')
@@ -70,14 +70,14 @@ imageIDs = imageIDs( restr , : );
 
 
 % I only use 3 images with lots of neighbors
-first = 2;
-last = 6;
+% first = 251;
+% last = 290;
 % 2
 % 297
 %
 % % Narrow arrays to the straight parts
-pos = pos(first:last,:);
-imageIDs = imageIDs(first:last,1);
+% pos = pos(first:last,:);
+% imageIDs = imageIDs(first:last,1);
 
 
 % pos = pos([29; 72],:);
@@ -88,13 +88,22 @@ imageIDs = imageIDs(first:last,1);
 
 %% Create list of pairs Niclas-style
 
-[ d, ~, ref] = m_distmat(pos, 1.6, 0, 0);
-% ref = 1;
-% imageIDs = {'Strip11.png'; 'Strip21.png'};
-% d = ones(2) - eye(2);
-pairs = m_pairify(d);
+% [ d, ~, ref] = m_distmat(pos, 1.8, 0, 0);
+ref = 2;
+imageIDs = {'Strip1.png'; 
+            'Strip2.png';
+            'Strip3.png'};
+% pairs = m_pairify(d);
+pairs = [1 2; 2 3];
 
-
+% imageIDs = {'Strip1.png'; 
+%             'Strip2.png';
+%             'Strip3.png';
+%             'Strip4.png';
+%             'Strip5.png';
+%             'Strip6.png'};
+% % pairs = m_pairify(d);
+% pairs = [1 2; 2 3 ; 3 4 ; 4 5 ; 5 6];
 clear pos orient d
 
 %% WGS84 to XYZ
@@ -194,10 +203,11 @@ clear P0
 toc
 %% MOSAIC
 
+offset = [3000 3000];
 tic
 cd resized
 
-[canvas, impos, offset] = m_stitch(imageIDs, P, 'add');
+[canvas, impos] = m_stitch(imageIDs, P, 'set', offset);
 
 cd ..
 toc
@@ -206,9 +216,9 @@ figure(2)
 subplot(1,1,1)
 imshow(canvas)
 iptsetpref('ImshowBorder','tight');
-% hold on
-% scatter(impos(:,1)', impos(:,2)', 200, 'b', 'filled')
 imwrite(canvas, 'Strip6.png')
+%hold on
+%scatter(impos(:,1)', impos(:,2)', 200, 'b', 'filled')
 
 %% Export data
 tic

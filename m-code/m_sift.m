@@ -13,14 +13,24 @@ for ids=1:size(imageIDs)
     im = im2single(im);
     % Grayscale
     img = rgb2gray(im);
-    numFeatures = 0;
-    % Going until reaches threshold
-    while numFeatures < featureThreshold
-        [F{ids}, D{ids}] = vl_sift(img, 'FirstOctave', octTh, 'Magnif', 2, 'Levels', 5);
-        numFeatures = size(F{ids},2);
-        octTh = octTh -1;
-    end
+%     numFeatures = 0;
+    [F{ids}, D{ids}] = vl_sift(img, 'FirstOctave', octTh, 'Magnif', 2, 'Levels', 5);
+%     numFeatures = size(F{ids},2);
+%     
+%     % Have backup for too many solutions
+%     if numFeatures < featureThreshold
+%         octTh = 0;
+%         [F{ids}, D{ids}] = vl_sift(img, 'FirstOctave', octTh, 'Magnif', 2, 'Levels', 5);
+%     end
     
+%     subplot(1,1,1)
+%     imshow(img);
+%     perm = randperm(size(F{ids},2)) ;
+%     sel = perm(1:70) ;
+%     h1 = vl_plotframe(F{ids}(:,sel)) ;
+%     h2 = vl_plotframe(F{ids}(:,sel)) ;
+%     set(h1,'color','k','linewidth',3) ;
+%     set(h2,'color','y','linewidth',2) ;
     % Statistics
     
     AverageTh = ( AverageTh + octTh ) / 2;

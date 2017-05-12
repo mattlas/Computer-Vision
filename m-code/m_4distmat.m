@@ -1,4 +1,4 @@
-function [dm, restr] = m_4distmat( pos, n_th, h_th, d_th )
+function [dmlist, restr] = m_4distmat( pos, n_th, h_th, d_th )
 % Use positions and thresholds to create distance matrix.
 % 	INPUT:  position (imgIDs x 3)
 %           n_th (1)
@@ -42,8 +42,8 @@ restr = up & straight;
 dm = dm( restr , restr );
 
 % Make dm logical
-dm = sparse(((dm+eye(size(dm,2))) < neighborlimit));
-
+[~, I] = sort(dm,2);
+dmlist = I(:,2:5);
 % Plotting distance matrix
 % figure(1)
 % subplot(2,1,1)
