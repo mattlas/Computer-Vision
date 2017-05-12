@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +46,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void checkIfImagesExists() {
         ImageInfoListHandler iilh = new ImageInfoListHandler();
-        iilh.loadImage(iilh.findImageClosestTo(0, 0));
+        iilh.getImageFileName(iilh.findImageClosestTo(0, 0));
     }
 
 }

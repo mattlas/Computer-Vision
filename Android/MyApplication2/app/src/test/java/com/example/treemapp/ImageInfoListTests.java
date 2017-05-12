@@ -26,7 +26,7 @@ public class ImageInfoListTests {
     @Before
     public void initialize() {
         fileName = "DSC01104_geotag.JPG";
-        String identity = "1,0,0,0,1,0,0,0,1,";
+        String[] matrices = {"1,0,0,0,1,0,0,0,1,", "1,0,74,0,1,-12,0,0,1,", "1, 0,", "1,0,-12,0,1,-80,0,0,1,"};
         String[] fileNames = {fileName, "DSC01105_geotag.JPG", "DSC01106_geotag.JPG"};
         String[] coordinates = {",3,3,", ",1,2,", ",9,7,"};
         String randomNeighbors = "DSC01104_geotag.JPG,DSC01105_geotag.JPG,DSC01106_geotag.JPG,";
@@ -34,7 +34,7 @@ public class ImageInfoListTests {
         content = "";
 
         for (int i = 0; i < 3; i++) {
-            content += fileNames[i] + coordinates[i] + identity + randomNeighbors + '\n';
+            content += fileNames[i] + coordinates[i] + matrices[i] + randomNeighbors + '\n';
         }
 
         reader = new BufferedReader(new StringReader(content));
@@ -56,7 +56,11 @@ public class ImageInfoListTests {
         ImageInfoListHandler iilh = new ImageInfoListHandler();
         iilh.parseFileToHashMap(reader);
 
+        assertEquals("DSC01104_geotag.JPG", iilh.findImageClosestTo(2, 3).getFileName());
+        assertEquals("DSC01105_geotag.JPG", iilh.findImageClosestTo(-1, -1).getFileName());
         assertEquals("DSC01106_geotag.JPG", iilh.findImageClosestTo(8, 8).getFileName());
     }
+
+
 
 }

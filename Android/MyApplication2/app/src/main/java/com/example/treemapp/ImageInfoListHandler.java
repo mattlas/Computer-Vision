@@ -31,17 +31,25 @@ public class ImageInfoListHandler {
     private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
     private String imageFolderName = folderName + "images/";
 
+    private boolean foundEverything;
+
     private HashMap<String, ImageInfo> imageInfos;
+    private float icx;
+    private float icy;
 
     public ImageInfoListHandler() {
         String fileName = "imageList.csv";
         File file = new File(folderName + fileName);
         FileReader fileReader;
         imageInfos = new HashMap<>();
+        foundEverything = false;
+
 
         try {
             fileReader = new FileReader(file);
             parseFileToHashMap(fileReader);
+            foundEverything = true;
+
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Could not find file: '"+ fileName + "' in folder '" + folderName + "'");
         }
@@ -49,20 +57,31 @@ public class ImageInfoListHandler {
         Log.d(TAG, "loaded " + imageInfos.size() + " numbers of lines from imageList.csv");
     }
 
+    public boolean didFindEverything() {
+        return foundEverything;
+    }
+
     public void parseFileToHashMap(BufferedReader bf) {
-        if (!imageInfos.isEmpty()) imageInfos.clear();
+        if (!this.imageInfos.isEmpty()) this.imageInfos.clear();
 
         String line;
         ImageInfo imageInfo;
         String[] words;
         int lineNumber = 0;
-
+        List <String> names = new ArrayList<>();
+        names.add(null);
         try {
+            String firstLine = bf.readLine();
+            words = firstLine.split(",");
+            this.icx = Float.parseFloat(words[0]);
+            this.icy = Float.parseFloat(words[1]);
             while((line = bf.readLine()) != null) {
                 line = line.replaceAll("\"", "");
                 words = line.split(",");
                 imageInfo = new ImageInfo(words);
-                imageInfos.put(imageInfo.getFileName(), imageInfo);
+                names.add(words[0]);
+
+                this.imageInfos.put(imageInfo.getFileName(), imageInfo);
 
                 lineNumber++;
             }
@@ -70,6 +89,16 @@ public class ImageInfoListHandler {
 
             Log.e(TAG, "Could not read line: " + Integer.toString(lineNumber) +
                     "(or the line below or above that one) in the imageInfoList file", e);
+        }
+
+        for (String fileName:names){
+            if (fileName != null) {
+                ImageInfo ii = this.findImageInfo(fileName);
+                List<Integer> neighborsIndexes = ii.getNeigborIndexes();
+                for (Integer neighbor : neighborsIndexes) {
+                    if (neighbor < names.size()) ii.addNeighborName(names.get(neighbor));
+                }
+            }
         }
 
     }
@@ -99,7 +128,7 @@ public class ImageInfoListHandler {
         return location;
     }
 
-    public String loadImage(ImageInfo im) {
+    public String getImageFileName(ImageInfo im) {
         return loadImage(im.getFileName());
     }
 
@@ -107,8 +136,10 @@ public class ImageInfoListHandler {
     public List<String> loadNeighboringImages(ImageInfo im) {
         List<String> neighbors = new ArrayList<>();
 
-        for (String neighborName: im.getNeighbors()) {
-            neighbors.add(loadImage(neighborName));
+        if (im != null) {
+            for (String neighborName : im.getNeighbors()) {
+                neighbors.add(loadImage(neighborName));
+            }
         }
 
         return neighbors;
@@ -138,12 +169,24 @@ public class ImageInfoListHandler {
                 currentMinDistance = dis;
                 closest = imageInfo;
             }
-
-            it.remove(); // avoids a ConcurrentModificationException
         }
 
         return closest;
     }
 
 
+    public float[] getResultCoordinates(float x, float y) {
+        float[] coor = {x, y};
+        coor[0] -= this.icx;
+        coor[1] -= this.icy;
+        return coor;
+    }
+
+    public float getICX() {
+        return icx;
+    }
+
+    public float getICY() {
+        return icy;
+    }
 }

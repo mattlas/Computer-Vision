@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
@@ -26,8 +27,7 @@ public class PinView extends SubsamplingScaleImageView {
     private int pinIndex;
     private FileHandler fileHandler;
     private Paint unfilled;
-
-    // I'm keeping the filehandler as an attribute to PinView to make interfacing between them easier.
+    private Paint smaller;
 
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -44,6 +44,11 @@ public class PinView extends SubsamplingScaleImageView {
         filled.setColor(Color.WHITE);
         filled.setAlpha(255);
         filled.setStrokeWidth(1);
+
+        smaller = new Paint();
+        smaller.setColor(Color.BLACK);
+        smaller.setAlpha(150);
+        smaller.setStrokeWidth(1);
 
         unfilled = new Paint();
         unfilled.setColor(Color.WHITE);
@@ -65,8 +70,7 @@ public class PinView extends SubsamplingScaleImageView {
      * @param pin the pin to add to the list
      */
     public void addPin(Pin pin) {
-        pin.setId("tree-"+String.format("%03d",pinIndex)); // Padding the number with zeros (ie 003,012,123)
-        pin.setIntId(pinIndex);
+        pin.setId(pinIndex);
         pins.add(pin);
         pinIndex++;
     }
@@ -82,15 +86,27 @@ public class PinView extends SubsamplingScaleImageView {
 
     public boolean updatePin(Pin pin, String height, String diameter, String species){
         pin.setInputData(height, diameter, species);
-        // TODO: edit the entry in the file, needed function
-        return fileHandler.addLine(pin.getCSV());
+        return this.updatePinInFile(pin);
     }
 
-    public void deletePin(Pin pin)
-    {
-        fileHandler.removeLine(pin.getId());
+    /**
+     * removes pin from the list and file
+     * @param pin to be deleted
+     */
+    public void deletePin(Pin pin){
+        fileHandler.removeLineId(pin.getId());
         pins.remove(pin);
     }
+
+
+    /**
+     * removes pin from the list
+     * @param pin to be deleted
+     */
+    public void removePinFromList(Pin pin){
+        pins.remove(pin);
+    }
+
 
     public boolean listIsEmpty () {
         return pins == null || pins.isEmpty();
@@ -111,7 +127,7 @@ public class PinView extends SubsamplingScaleImageView {
         PointF point;
 
         double minimalDistance = 10000000;
-        Pin pin = new Pin(pointF,"");
+        Pin pin = null;
 
         // Check all pins in list, find pin with minimal distance to tabbed point
         for(Pin p : pins) {
@@ -138,9 +154,11 @@ public class PinView extends SubsamplingScaleImageView {
      * Loads the pins from the tree list into memory
      * update the pin index
      */
-    public void loadPinsFromFile(){
-        pins = fileHandler.getPinList();
-        pinIndex = pins.get(pins.size()-1).getIntId();
+    public void loadPinsFromFile(ImageInfoListHandler imageInfoListHandler){
+        pins = fileHandler.getPinList(imageInfoListHandler);
+        if (pins.size() > 0) {
+            pinIndex = pins.get(pins.size() - 1).getId()+1;
+        }
     }
 
 
@@ -164,26 +182,28 @@ public class PinView extends SubsamplingScaleImageView {
             else filled.setAlpha(255);
 
             canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), filled);
+            canvas.drawCircle((int) point.x, (int) point.y, (int) (p.getRadius() * 0.75), smaller);
         }
     }
 
-    public boolean updatePositionInFile(Pin pin) {
+    public boolean updatePinInFile(Pin pin) {
 
         // First find the pin in the file
-        List<Pin> list = fileHandler.getPinList();
+        ArrayList<String[]> list = fileHandler.readContents();
         int lineToUpdate = -1;
         for (int i = 0; lineToUpdate==-1 && i<list.size(); i++){
-            if (list.get(i).getId() == pin.getId()) {
+            if (Integer.parseInt(list.get(i)[0])==pin.getId()) {
                 lineToUpdate=i;
             }
         }
 
         // then remove the line and put a new one back in
         if (lineToUpdate != -1){
-            fileHandler.removeLine(lineToUpdate);
-            fileHandler.addLine(pin.getCSV());
-            return true;
-        }
+            Log.d(TAG,"Line to edit found: "+lineToUpdate);
+
+
+
+            return fileHandler.editLine(lineToUpdate, pin.getCSV());}
         else return false;
     }
 }

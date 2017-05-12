@@ -1,56 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/Perspective_overlay"
+    android:visibility="invisible"
     >
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/Perspectives"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:orientation="horizontal">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#37474F"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btn_perspective_cancel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/exit_button"
+                android:text="X" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Neighboring image"
+                android:textColor="#FFFFFF" />
+
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/Perspective1"
-            android:layout_width="wrap_content"
+            android:id="@+id/perspective_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
-            android:src="@drawable/pin"
-            />
+            android:src="@drawable/tree"
+            android:adjustViewBounds="true"
+            android:contentDescription="neighboring image" />
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/Perspective2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:src="@drawable/pin"
-            />
 
-        <ImageView
-            android:id="@+id/Perspective3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:src="@drawable/pin"
-            />
-
-        <ImageView
-            android:id="@+id/Perspective4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:src="@drawable/pin"
-            />
-
-    </GridLayout>
-
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/btn_perspective_cancel"
-        android:text="Cancel"/>
-
-</LinearLayout>
+</RelativeLayout>

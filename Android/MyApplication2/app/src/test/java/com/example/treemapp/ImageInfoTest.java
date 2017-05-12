@@ -22,7 +22,7 @@ public class ImageInfoTest {
         float y = 3;
 
         ImageInfo im = new ImageInfo(2, 0, 0, 0, 1, 0, 0, 0, 1);
-        float[] point = im.convertFromMosaicCoordinateToOriginal(x, y);
+        float[] point = im.convertFromIdentityCoordinatesToOriginal(x, y);
 
         /*
         System.out.println("Converted from: " + Float.toString(x) + ", " + Float.toString(y) +
@@ -31,6 +31,17 @@ public class ImageInfoTest {
 
         assertTrue(x * 2 == point[0]);
         assertTrue(y == point[1]);
+    }
+
+    @Test
+    public void checkIfIdentity() {
+
+        float x = 5;
+        float y = 3;
+
+        ImageInfo im = new ImageInfo(1, 0, 0, 0, 1, 0, 0, 0, 1);
+
+        assert(im.getIsIdentity());
     }
 
     @Test
@@ -47,7 +58,7 @@ public class ImageInfoTest {
         ImageInfo im = new ImageInfo(words);
         assertTrue(im.getX() == 19);
         assertTrue(im.getY() == 22);
-        assertEquals(rm, im.getInverseTransformMatrix());
+        assertEquals(rm, im.getTransformMatrix());
         assertEquals(neighbors, im.getNeighbors());
     }
 }

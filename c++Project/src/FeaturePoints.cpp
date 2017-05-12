@@ -1,9 +1,12 @@
 //
 // Created by 5dv115 on 4/26/17.
 //
-#define VL_SIFT_DRIVER_VERSION 0.1
 #include "FeaturePoints.h"
 #include <iostream>
+#include <fstream>
+#include <cstring>
+
+
 extern "C" {
 #include <vl/sift.h>
 #include <vl/stringop.h>
@@ -22,15 +25,10 @@ extern "C" {
 }*/
 
 
-FeaturePoints::FeaturePoints(void) {
-
+FeaturePoints::FeaturePoints(std::string imageName, int id) {
+    this->imageName = imageName;
+    this->id = id;
 }
-
-void FeaturePoints::testClass() {
-    std::cout << "FeaturePoint test function" << std::endl;
-}
-
-
 
 int korder (void const* a, void const* b) {
     double x = ((double*) a) [2] - ((double*) b) [2] ;
@@ -39,7 +37,8 @@ int korder (void const* a, void const* b) {
     return 0 ;
 }
 
-void FeaturePoints::calculatePoints(std::string) {
+void FeaturePoints::calculatePoints() {
+
     /* algorithm parameters */
     double   edge_thresh  = -1 ;
     double   peak_thresh  = -1 ;
@@ -60,7 +59,14 @@ void FeaturePoints::calculatePoints(std::string) {
     /* PROCESS IMAGE -------------------------- */
 
     char basename [1024] ;
-    char const *name = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
+
+    //char const *name = path;
+    if(imageName.empty()) {
+        imageName = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
+    }
+
+    char const *name = imageName.c_str();
+
 
 
     FILE            *in    = 0 ;
@@ -159,7 +165,7 @@ void FeaturePoints::calculatePoints(std::string) {
     if (ifr.active) {
 
         /* open file */
-        err = vl_file_meta_open (&ifr, basename, "rb") ;
+        //err = vl_file_meta_open (&ifr, basename, "rb") ;
         WERR(ifr.name, reading) ;
 
 #define QERR                                                            \
@@ -205,7 +211,7 @@ void FeaturePoints::calculatePoints(std::string) {
         vl_file_meta_close (&ifr) ;
     }
 
-    err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
+    //err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
     filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,1);
@@ -284,21 +290,30 @@ void FeaturePoints::calculatePoints(std::string) {
                 /* Descriptors */
                 vl_sift_calc_keypoint_descriptor
                         (filt, descr, k, angles [q]) ;
-
+                KeyPoint *keyPoint = new KeyPoint(k->x, k->y, k->sigma, k->s);
                 int l ;
+
+
+                std::vector<uint16_t> descriptor;
+
                 for (l = 0 ; l < 128 ; ++l) {
                     double x = 512.0 * descr[l] ;
                     x = (x < 255.0) ? x : 255.0 ;
-                    vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
+                    descriptor.push_back((uint16_t)x);
+                    //vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
                 }
-                fprintf(dsc.file, "\n") ;
-            }
+                keyPoints.push_back(*keyPoint);
+                descriptors.push_back(descriptor);
+                //fprintf(dsc.file, "\n") ;
 
+            }
         }
     }
-    std::cout << "kepoints= " << nKeypoints << std::endl;
+    //std::cout << "kepoints= " << nKeypoints << std::endl;
 
-
+    //writeKeyPoints(basename);
+    //writeDescriptors(basename);
+    //std::cout << "done" << std::endl;
 
 
     done :
@@ -356,6 +371,57 @@ void FeaturePoints::calculatePoints(std::string) {
 
 /* quit */
 }
+
+void FeaturePoints::writeKeyPoints(char* name) {
+    std::ofstream out_file;
+    std::string file_name = "outputfiles/";
+    file_name.append(name);
+    file_name.append("_keypoint.txt");
+    out_file.open(file_name);
+
+    for(ulong i=0; i < keyPoints.size(); i++){
+        KeyPoint point = keyPoints.at(i);
+        out_file << point.getX() << "   ";
+        out_file << point.getY() << "   ";
+        out_file << point.getScale() << "   ";
+        out_file << point.getOrientation() << "   " << std::endl;
+    }
+    out_file.close();
+}
+
+void FeaturePoints::writeDescriptors(char* name) {
+    std::ofstream out_file;
+    std::string file_name = "outputfiles/";
+    file_name.append(name);
+    file_name.append("_descriptor.txt");
+    out_file.open(file_name);
+    for(ulong i=0; i < descriptors.size(); i++){
+        std::vector<uint16_t> desc = (std::vector<uint16_t> &&) descriptors.at(i);
+        for(ulong j=0; j < desc.size() ; j++ ){
+            //fprintf(out_file, "%d    ",desc.at(j));
+            out_file << desc.at(j) << "    ";
+        }
+        out_file << std::endl;
+    }
+    out_file.close();
+}
+
+const std::vector<KeyPoint> &FeaturePoints::getKeyPoints() const {
+    return keyPoints;
+}
+
+void FeaturePoints::setKeyPoints(const std::vector<KeyPoint> &keyPoints) {
+    FeaturePoints::keyPoints = keyPoints;
+}
+
+const std::vector<std::vector<uint16_t>> &FeaturePoints::getDescriptors() const {
+    return descriptors;
+}
+
+void FeaturePoints::setDescriptors(const std::vector<std::vector<uint16_t>> &descriptors) {
+    FeaturePoints::descriptors = descriptors;
+}
+
 
 
 
