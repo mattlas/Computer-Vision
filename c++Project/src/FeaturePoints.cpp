@@ -2,19 +2,8 @@
 // Created by 5dv115 on 4/26/17.
 //
 #include "FeaturePoints.h"
-#include <iostream>
-#include <fstream>
-#include <cstring>
 
 
-extern "C" {
-#include <vl/sift.h>
-#include <vl/stringop.h>
-#include <vl/pgm.h>
-#include <vl/generic.h>
-#include <vl/getopt_long.h>
-#include "src/generic-driver.h"
-}
 
 /*int main( int argc, char** argv ) {
     VL_PRINT("vlfeat loaded properly\n");
@@ -214,7 +203,7 @@ void FeaturePoints::calculatePoints() {
     //err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
-    filt = vl_sift_new((int)pim.width, (int)pim.height, -1,5,1);
+    filt = vl_sift_new((int)pim.width, (int)pim.height, -1,LEVELS,FIRST_OCTAVE);
 
     i     = 0 ;
     first = 1 ;

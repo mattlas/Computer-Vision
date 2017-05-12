@@ -8,6 +8,10 @@
 #include <string>
 #include <vector>
 #include "FeaturePoints.h"
+#include <memory>
+//#include <thread>
+#include <pthread.h>
+#include <mutex>
 
 class MosaicData {
 private:
@@ -36,6 +40,11 @@ public:
     void startProcess();
 
     void extractFeaturePoints();
+
+    static void extractFeaturePointsThreaded(std::vector<std::string> pgmFileNames , std::vector<FeaturePoints> featurePointsList);
+
+    void createThreads();
+
 
     void ubcMatch();
 
