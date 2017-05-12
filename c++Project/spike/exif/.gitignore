@@ -1,2 +1,7 @@
 *
 !.gitignore
+!exif.cpp
+!exif.h
+!demo1.cpp
+!demo.cpp
+!demo1
