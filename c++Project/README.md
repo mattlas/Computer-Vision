@@ -27,6 +27,8 @@ cd install
 
 ./install/qt-unified-linux-x64-2.0.5-2-online.run
 
+install it under: /home/5dv115/Qt/5.8/...
+
 install OpenGL: sudo apt-get install mesa-common-dev
 
 ### Compile OpenCV
