@@ -25,6 +25,8 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
 
 
+import in.goodiebag.carouselpicker.CarouselPicker;
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
@@ -49,7 +51,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // The activity to create the input
-        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
+        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
                  (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
