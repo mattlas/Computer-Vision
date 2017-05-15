@@ -1,5 +1,7 @@
 package com.example.treemapp;
 
+import android.icu.text.Collator;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,17 +21,30 @@ public class Statista implements Serializable{
     public Statista(ArrayList<Pin> list) {
         this.pins = list;
         smallToLarge = new SmallToLarge();
+        List<String> speciesNames = new ArrayList<>();
 
         for (Pin p: pins) {
-            if (species.contains(p.getSpecies())) {
-                SpeciesCount s = species.get(species.indexOf(new SpeciesCount(p.getSpecies())));
+            SpeciesCount s = findMathchingSpecimen(p.getSpecies());
+
+            if (s != null) {
                 s.addTree();
+                speciesNames.add(p.getSpecies());
             }
             else {
                 species.add(new SpeciesCount(p.getSpecies()));
             }
         }
     }
+
+    private SpeciesCount findMathchingSpecimen(String specimen) {
+        for (SpeciesCount s : species) {
+            if (s.getSpecimen().equals(specimen)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<SpeciesCount> getSpeciesList(){
         return species;
     }
@@ -183,5 +198,8 @@ public class Statista implements Serializable{
         }
 
 
+        public String getSpecimen() {
+            return species;
+        }
     }
 }
