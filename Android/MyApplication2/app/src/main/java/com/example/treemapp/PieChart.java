@@ -23,6 +23,24 @@ public class PieChart extends AppCompatImageView {
     private float[] verts;
     private ArrayList<Statista.SpeciesCount> speciesCountList;
 
+/*    private final int[] colorScheme = {
+            0x50514F,
+            0xF25F5C,
+            0xFFE066,
+            0x247BA0,
+            0x70C1B3,
+    };*/
+
+private int[] colorScheme = {
+        Color.MAGENTA,
+        Color.CYAN,
+        Color.YELLOW,
+        Color.GREEN,
+        Color.RED
+
+
+};
+
     public PieChart(Context context) {
         super(context);
     }
@@ -61,52 +79,75 @@ public class PieChart extends AppCompatImageView {
         //int colors[] = {Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY};
 
         Paint p = new Paint();
-        p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.MAGENTA);
+        p.setStyle(Paint.Style.FILL);
         p.setStrokeWidth(8);
 
 
-        canvas.drawVertices(Canvas.VertexMode.TRIANGLE_FAN, verts.length, verts, 0, null, 0, colors, 0, null, 0, 0, p);
+        canvas.drawVertices(Canvas.VertexMode.TRIANGLES, verts.length, verts, 0, null, 0, colors, 0, null, 0, 0, p);
+
+        int size = 26;
+        float yy = height * 0.1f;
+        canvas.drawRect(width * 0.75f, yy - size/2, width * 0.75f + size, yy + size/2, p);
+        canvas.drawText("Birch", width *0.75f + 50, yy, p);
 
     }
 
     public int[] getColors(){
-        int[] colors = new int[length * 4 + 2];
-        colors[0]=Color.LTGRAY;
-        colors[1]=Color.LTGRAY;
-        for (int i = 2; i < colors.length; i += 4){
-            colors[i]=Color.YELLOW;
-            colors[i+1]=Color.BLUE;
-            colors[i+2]=Color.YELLOW;
-            colors[i+3]=Color.YELLOW;
+        int color1 = Color.CYAN;
+        int color2 = Color.MAGENTA;
+
+        int[] colors = new int[length * 6];
+
+
+        int total=getTotal();
+
+        int lastIndex=0;
+
+        for (int i = 0; i<speciesCountList.size(); i++){
+            Statista.SpeciesCount speciesCount = speciesCountList.get(i);
+            float triangles = speciesCount.getAmount() *colors.length/ total;
+            for (int j=lastIndex;j<triangles; j++){
+                colors[j]=colorScheme[i%5];
+                lastIndex=j;
+            }
         }
+
         return colors;
 
     }
+    public int getTotal(){
+        int total=0;
+        for (Statista.SpeciesCount speciesCount : speciesCountList){
+            total+=speciesCount.getAmount();
+        }
+        return total;
+    }
 
     public float[] getVerts() {
-        verts = new float[length * 4 + 2];
+        verts = new float[length * 6];
 
         float cx = width / 2;
         float cy = height / 2;
-        float radius = Math.min(width, height) * 0.375f;
+        float radius = Math.min(width, height) * 0.25f;
         float angle;
         float angle2;
 
-        verts[0] = cx;
-        verts[1] = cy;
+        for (int i = 0; i < verts.length; i += 6) {
+            angle = (i / (float) verts.length) * (float) Math.PI * 2;
+            angle2 = ((i + 6) / (float) verts.length) * (float) Math.PI * 2;
 
-        for (int i = 2; i < verts.length; i += 4) {
-            angle = (i / (float) length) * (float) Math.PI * 2;
-            angle2 = ((i + 2) / (float) length) * (float) Math.PI * 2;
+            verts[i] = cx;
+            verts[i+1] = cy;
+
 
             //first x and y
-            verts[i] = cx + (float) Math.cos(angle) * radius;
-            verts[i+1] = cy + (float) Math.sin(angle) * radius;
+            verts[i+2] = cx + (float) Math.cos(angle) * radius;
+            verts[i+3] = cy + (float) Math.sin(angle) * radius;
 
             //second x and y
-            verts[i+2] = cx + (float) Math.cos(angle2) * radius;
-            verts[i+3] = cy + (float) Math.sin(angle2) * radius;
+            verts[i+4] = cx + (float) Math.cos(angle2) * radius;
+            verts[i+5] = cy + (float) Math.sin(angle2) * radius;
         }
 
         return verts;
