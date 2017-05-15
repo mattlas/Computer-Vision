@@ -35,7 +35,7 @@ int main(int argc, char **argv){
     	path = argv[1];
 
     } else {
-        path = "/home/5dv115/c13evk_scripts/output"; //fix this
+        path = "/home/5dv115/c13evk_scripts/out_bigset"; //fix this
     }
     time_t start = time(0);
     MosaicData *data = new MosaicData();

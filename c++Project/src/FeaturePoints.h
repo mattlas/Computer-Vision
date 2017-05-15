@@ -12,7 +12,7 @@
 #ifndef C_PROJECT_FEATUREPOINTS_H
 #define C_PROJECT_FEATUREPOINTS_H
 #define LEVELS 5
-#define FIRST_OCTAVE 0
+#define FIRST_OCTAVE 1
 
 #include <iostream>
 #include <fstream>
