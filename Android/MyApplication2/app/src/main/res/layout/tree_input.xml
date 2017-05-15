@@ -1,8 +1,8 @@
-
+<!--  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout_Overlayed"
+    android:id="@+id/Tree_input_overlayed"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Add a tree"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:id="@+id/overlay_box_txt"
                 android:textColor="#FFFFFF" />
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Height (m)"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#FFFFFF" />
 
                 <com.shawnlin.numberpicker.NumberPicker
@@ -100,7 +100,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Diameter (cm)"
                     android:textColor="#FFFFFF"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
 
                 <com.shawnlin.numberpicker.NumberPicker
@@ -135,16 +135,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Species: "
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#FFFFFF" />
 
-                <Spinner
-                    android:id="@+id/inp_species"
-                    android:layout_width="wrap_content"
+                <in.goodiebag.carouselpicker.CarouselPicker
+                    android:id="@+id/carouselPicker"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-                    android:layout_gravity="center_horizontal">
-                </Spinner>
+                    app:items_visible="three"
+                    ></in.goodiebag.carouselpicker.CarouselPicker>
 
             </LinearLayout>
 
@@ -165,7 +164,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:text="SAVE AND CLOSE" />
 
             <Button
@@ -175,7 +174,7 @@
                 android:layout_width="170dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:text="DELETE" />
 
 

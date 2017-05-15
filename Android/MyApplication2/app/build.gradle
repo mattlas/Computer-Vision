@@ -35,4 +35,7 @@ dependencies {
     compile 'com.shawnlin:number-picker:2.4.3'
     compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
+
+    //Add library
+    compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
 }
