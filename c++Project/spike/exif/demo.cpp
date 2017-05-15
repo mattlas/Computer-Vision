@@ -34,13 +34,14 @@ exif::EXIFInfo read(const std::string &filepath){
 	}
 
 	// Dump EXIF information
-	printf("GPS Latitude         : %f deg\n", result.GeoLocation.Latitude);
-	printf("GPS Longitude        : %f deg\n", result.GeoLocation.Longitude);
-	printf("GPS Altitude         : %f m\n", result.GeoLocation.Altitude);
+
 	return result;
 }
 
 int main(){
-	read("geotaggedPhotos/DSC01035_geotag.JPG");
+	exif::EXIFInfo result = read("geotaggedPhotos/DSC01035_geotag.JPG");
+	printf("GPS Latitude         : %f deg\n", result.GeoLocation.Latitude);
+	printf("GPS Longitude        : %f deg\n", result.GeoLocation.Longitude);
+	printf("GPS Altitude         : %f m\n", result.GeoLocation.Altitude);
 	return 0;
 }
