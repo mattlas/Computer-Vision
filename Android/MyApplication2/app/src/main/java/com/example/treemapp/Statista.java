@@ -84,13 +84,22 @@ public class Statista {
         private final int[] values;
         private final double min;
         private final double max;
-        private double width;
+        private final double width;
+        private final int mostPopulated;
 
         public Histogram(int[] values, double min, double max, double width) {
             this.values = values;
             this.min = min;
             this.max = max;
             this.width = width;
+
+            int mostPopulated = 0;
+            for (int i = 0; i < values.length; i++) {
+                if (this.values[i] > mostPopulated) {
+                    mostPopulated = this.values[i];
+                }
+            }
+            this.mostPopulated = mostPopulated;
         }
 
         /*Sorted with the lowest ranges to the left and the heighest to the right*/
@@ -104,6 +113,10 @@ public class Statista {
 
         public int size() {
             return this.values.length;
+        }
+
+        public int mostPopulatedStableSize() {
+            return mostPopulated;
         }
 
         /**
