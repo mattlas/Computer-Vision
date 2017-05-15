@@ -16,6 +16,11 @@ install latest Qt pack
 install OpenGL: sudo apt-get install mesa-common-dev
 
 ### Call Matlab from C++ in Linux
+-MATLAB Coder translates Matlab code into c++
+-Only works for MATLAB functions, not scripts
+-Must know about input data types and set them directly
+
+### Create standalone application from Matlab code
 The guide below is an easy example of how to make a standalone exectable from MATLAB code:
 
 To skip problems with login, read the guide in MATLAB by pasting this link in the MATLAB command window:
