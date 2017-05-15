@@ -3,6 +3,7 @@ package com.example.treemapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,16 +14,27 @@ import java.util.List;
 public class Statista implements Serializable{
     private List<Pin> pins; //not allowed to modify in this class
     private SmallToLarge smallToLarge;
+    private ArrayList<SpeciesCount> species = new ArrayList<>();
 
-    public Statista(List<Pin> list) {
+    public Statista(ArrayList<Pin> list) {
         this.pins = list;
         smallToLarge = new SmallToLarge();
+
+        for (Pin p: pins) {
+            if (species.contains(p.getSpecies())) {
+                SpeciesCount s = species.get(species.indexOf(new SpeciesCount(p.getSpecies())));
+                s.addTree();
+            }
+            else {
+                species.add(new SpeciesCount(p.getSpecies()));
+            }
+        }
+    }
+    public ArrayList<SpeciesCount> getSpeciesList(){
+        return species;
     }
 
-    public Statista(){
-        this.pins=new ArrayList<>();
-        smallToLarge=new SmallToLarge();
-    }
+
 
 
 
@@ -71,7 +83,7 @@ public class Statista implements Serializable{
 
             while(value > currentStaplesTop) {
                 currentStaplesTop += widthOfOneStaple;
-                if (currentStaple >= amounts.length) break;
+                if (currentStaple >= amounts.length-1) break;
                 else currentStaple++;
             }
 
@@ -129,7 +141,7 @@ public class Statista implements Serializable{
             return this.values.length;
         }
 
-        public int mostPopulatedStableSize() {
+        public int mostPopulatedStapleSize() {
             return mostPopulated;
         }
 
@@ -144,5 +156,32 @@ public class Statista implements Serializable{
         public double getMin() {
             return min;
         }
+    }
+
+    public class SpeciesCount implements Serializable{
+        private final String species;
+        private int count;
+
+        public SpeciesCount(String species) {
+            this.species = species;
+            this.count = 1;
+        }
+
+        public void addTree() {
+            count++;
+        }
+
+        public int getAmount() {
+            return count;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+
+            return o.equals(species);
+        }
+
+
     }
 }

@@ -10,7 +10,12 @@
 
     <com.example.treemapp.HistogramView
         android:id="@+id/histogramView"
+        android:layout_width="1px"
+        android:layout_height="1px" />
+    <com.example.treemapp.PieChart
+        android:id="@+id/pieChart"
         android:layout_width="368dp"
-        android:layout_height="495dp" />
+        android:layout_height="495dp"
+        />
 
 </android.support.constraint.ConstraintLayout>
