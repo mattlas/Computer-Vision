@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
 
@@ -23,7 +24,10 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
+import java.util.ArrayList;
 
+
+import in.goodiebag.carouselpicker.CarouselPicker;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
@@ -49,7 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // The activity to create the input
-        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.RelativeLayout_Overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
+        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
                  (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -170,6 +174,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         overlay.create(pin);
 
         imageView.invalidate();
+    }
+
+    /**
+     * Goes to the StatisticsActivity
+     */
+    public void sendStats(View view){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        intent.putExtra("pinList", (ArrayList) imageView.getPins());
+        startActivity(intent);
     }
 
     /**
