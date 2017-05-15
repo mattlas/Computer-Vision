@@ -6,7 +6,9 @@
 #include "DirectoryReader.h"
 #include <cstring>
 #include <iostream>
-#include <memory>
+#include <thread>
+
+#define NUM_THREADS 4
 
 MosaicData::MosaicData(void) {
 
@@ -25,11 +27,13 @@ void MosaicData::startProcess() {
     readFiles();
     convertToPGM();
     readPGMFromFolder();
-    extractFeaturePoints();
+    //extractFeaturePoints();
+    createThreads();
     ubcMatch();
 }
 
 void MosaicData::extractFeaturePoints() {
+
     int id = 0;
     for(std::string file : pgmFileNames){
         FeaturePoints *points = new FeaturePoints(file,id);
@@ -54,4 +58,45 @@ void MosaicData::readFiles() {
 void MosaicData::convertToPGM() {
     //TODO convert files, now located in the vector fileNames to a pgmfolder and save folder path to variable pgmFolder
     pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
+}
+
+void MosaicData::extractFeaturePointsThreaded() {
+    while(!pgmFileNames.empty()){
+        readMutex.lock();
+        std::string name = (std::string) pgmFileNames.back();
+        pgmFileNames.pop_back();
+        readMutex.unlock();
+        FeaturePoints *point = new FeaturePoints(name,1);
+        point->calculatePoints();
+
+        writeMutex.lock();
+        featurePointList.push_back(*point);
+        writeMutex.unlock();
+
+    }
+
+}
+
+void MosaicData::createThreads() {
+    std::vector<std::thread> threads;
+    std::vector<std::string> tempList = pgmFileNames;
+
+    int rc;
+    int i;
+    MosaicData* mosaicData = this;
+    for( i=0; i < NUM_THREADS; i++ ){
+        std::thread t1(classWrapper,mosaicData);
+        threads.push_back(std::move(t1));
+
+    }
+    for(int j =0; j < threads.size(); j++){
+        std::thread t{std::move(threads.at(j))};
+        t.join();
+    }
+    pgmFileNames = tempList;
+
+}
+
+void MosaicData::classWrapper(MosaicData *mosaicData) {
+    mosaicData->extractFeaturePointsThreaded();
 }

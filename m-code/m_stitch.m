@@ -1,9 +1,11 @@
-function [canvas, center] = m_stitch( imageIDs, P , method)
+function [canvas, center, offs] = m_stitch( imageIDs, P , method)
 
 % Crop Factor
-cf = 0.2;
-canvas = zeros(3000,3000);
+cf = 0.25;
 center = zeros(size(imageIDs, 1), 2);
+tile = cell(size(imageIDs,1), 1);
+t = zeros(size(imageIDs,1), 2);
+imsize = zeros(size(imageIDs,1), 3);
 
 % Go through all the images
 for ids=1:size(imageIDs,1)
@@ -11,17 +13,32 @@ for ids=1:size(imageIDs,1)
     im = iread(char(imageIDs{ids,1}), 'double');
 %     im = ones(10);
     
-    %Cropping
-%     imsize = size(im);
-%     im = imcrop(im,[imsize(2)*cf imsize(1)*cf imsize(2)*(1-cf*2)  imsize(1)*(1-cf*2)]);
-    [tile,t] = homwarp(P{ids}, im, 'full');
+    [tile{ids},t(ids,:)] = homwarp(P(:,:,ids), im, 'full');
     
-    imsize = size(tile);
-    tile = imcrop(tile,[imsize(2)*cf imsize(1)*cf imsize(2)*(1-cf*2)  imsize(1)*(1-cf*2)]);
-
-    canvas = ipaste(canvas, tile, t + [1000 1000], method);
-    imshow(canvas)
-    center(ids, :) = t + [ imsize(2)*(1-cf*2)/2  imsize(1)*(1-cf*2)/2 ];
+    imsize(ids,:) = size(tile{ids});
+    tile{ids} = imcrop(tile{ids},[imsize(ids, 2)*cf imsize(ids, 1)*cf imsize(ids, 2)*(1-cf*2)  imsize(ids, 1)*(1-cf*2)]);
+    tile{ids}(:,:,4) = 1;
+    center(ids, :) = t(ids,:) + [ imsize(ids, 2)*(1-cf*2)/2  imsize(ids, 1)*(1-cf*2)/2 ];
 end
+imsize_ = max(imsize);
+offs = - min(t) + [2 2];
+offs_max = max(t) +  [ imsize_(1)*(1-cf) imsize_(2)*(1-cf) ] + [2 2];
+center = center + offs;
+t = t + offs;
+
+canvas = zeros( ceil(offs_max(2) + offs(2)), ...
+                ceil(offs_max(1) + offs(1)));
+            
+            % Probably an unnecessary for loop
+for ids = 1:size(imageIDs,1)
+    canvas = ipaste(canvas, tile{ids}, t(ids,:), method);
+end
+    canvas = canvas ./ canvas(:,:,4); 
+    
+    
+    
+%     imshow(canvas)
+% hold on
+% scatter(center(:,1)', center(:,2)', 200, 'b', 'filled')
 
 end

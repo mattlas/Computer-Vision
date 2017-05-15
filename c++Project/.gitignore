@@ -4,6 +4,9 @@ TreeMarkupToolbox
 .project
 CMakeCache.txt
 /CMakeFiles/
+/output/
 cmake_install.cmake
 DisplayImage/test1.pgm
 test1.descr
+TreeMarkupToolbox.layout
+.cproject

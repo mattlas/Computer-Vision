@@ -1,11 +1,11 @@
-function [dm, restr] = m_distmat( pos, n_th, h_th, d_th )
+function [dm, restr, ref] = m_distmat( pos, n_th, h_th, d_th )
 % Use positions and thresholds to create distance matrix.
 % 	INPUT:  position (imgIDs x 3)
 %           n_th (1)
 %               Threshold for how many neighbours we use
-%           h_th (1)
+%           h_th (0)
 %               Threshold for how many heighs
-%           d_th (1)
+%           d_th (0)
 %               Threshold for turning images
 
 
@@ -26,10 +26,12 @@ if nargin<4, d_th=0; end
 x = [pos(:,1)'; pos(:,2)'];
 IP = x' * x;
 dm = sqrt(bsxfun(@plus, diag(IP), diag(IP)') - 2 * IP);
-
 % Needed variables
 maxheight = max(pos(:,3));
-neighborlimit = mean(diag(dm,1)) * n_th;
+% Choosing neighbor limit from first 5 elements
+neighborlimit = dm(1, 2) * n_th;
+% Original neighbor limit using all the images
+% neighborlimit = mean(diag(dm,1)) * n_th;
 
 
 % Restrictions
@@ -40,10 +42,10 @@ restr = up & straight;
 
 % Applying restrictions
 dm = dm( restr , restr );
+[~, ref] = min(mean(dm,1),[],2);
 
 % Make dm logical
 dm = sparse(((dm+eye(size(dm,2))) < neighborlimit));
-
 % Plotting distance matrix
 % figure(1)
 % subplot(2,1,1)
@@ -51,12 +53,14 @@ dm = sparse(((dm+eye(size(dm,2))) < neighborlimit));
 % title('Plots from m distmat')
 
 % Plotting flight plan
-% subplot(2,1,2)
-% pos = pos( restr , : );
-% scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
-% axis equal
-% hold on
-% drawnow;
+subplot(1,1,1)
+clf;
+pos = pos( restr , : );
+scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
+axis equal
+hold on
+scatter(pos(ref,1)', pos(ref,2)', 500,  pos(ref, 3)/maxheight, 'r', 'filled')
+drawnow;
 
 % Statistics
 RatioOfUp = sum(up)/size(pos,1);

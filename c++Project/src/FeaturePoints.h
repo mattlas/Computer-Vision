@@ -11,6 +11,22 @@
 
 #ifndef C_PROJECT_FEATUREPOINTS_H
 #define C_PROJECT_FEATUREPOINTS_H
+#define LEVELS 5
+#define FIRST_OCTAVE 1
+
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+
+extern "C" {
+#include <vl/sift.h>
+#include <vl/stringop.h>
+#include <vl/pgm.h>
+#include <vl/generic.h>
+#include <vl/getopt_long.h>
+#include "src/generic-driver.h"
+}
 
 class FeaturePoints {
 private:
@@ -18,6 +34,8 @@ private:
     std::vector<std::vector<uint16_t>> descriptors;
     std::string imageName;
     int id;
+
+
 
 public:
     /**

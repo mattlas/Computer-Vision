@@ -8,6 +8,10 @@
 #include <string>
 #include <vector>
 #include "FeaturePoints.h"
+#include <memory>
+//#include <thread>
+#include <pthread.h>
+#include <mutex>
 
 class MosaicData {
 private:
@@ -16,6 +20,8 @@ private:
     std::string pgmFolder;
     std::vector<std::string> fileNames;
     std::vector<FeaturePoints> featurePointList;
+    std::mutex readMutex;
+    std::mutex writeMutex;
 
 public:
     /**
@@ -37,7 +43,14 @@ public:
 
     void extractFeaturePoints();
 
+    void extractFeaturePointsThreaded();
+
+    void createThreads();
+
+
     void ubcMatch();
+
+    static void classWrapper(MosaicData* mosaicData);
 
 private:
     void readFiles();
