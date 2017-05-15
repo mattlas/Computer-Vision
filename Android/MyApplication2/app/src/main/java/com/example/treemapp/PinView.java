@@ -23,12 +23,12 @@ public class PinView extends SubsamplingScaleImageView {
 
     private final String TAG = PinView.class.getSimpleName();
     private Paint filled;
-    private List<Pin> pins;
+    private ArrayList<Pin> pins;
     private int pinIndex;
     private FileHandler fileHandler;
     private Paint unfilled;
     private Paint smaller;
-    private Statista statista = new Statista();
+    private Statista statista;
 
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -38,6 +38,10 @@ public class PinView extends SubsamplingScaleImageView {
     public PinView(Context context) {
         super(context);
         init();
+    }
+
+    public ArrayList<Pin> getPins() {
+        return pins;
     }
 
     public void init() {
@@ -58,6 +62,7 @@ public class PinView extends SubsamplingScaleImageView {
         unfilled.setStyle(Paint.Style.STROKE);
 
         pins = new ArrayList<>();
+        statista = new Statista(pins);
 
         pinIndex=0;
     }
@@ -108,6 +113,9 @@ public class PinView extends SubsamplingScaleImageView {
         pins.remove(pin);
     }
 
+    public Statista getStatista() {
+        return statista;
+    }
 
     public boolean listIsEmpty () {
         return pins == null || pins.isEmpty();

@@ -4,13 +4,16 @@ import android.graphics.PointF;
 
 import android.graphics.*;
 
+import java.io.Serializable;
+
 /**
  * Class representing both a saved tree and its representation as a pin on the map. To be used with PinView
  */
-public class Pin {
+public class Pin implements Serializable{
 
     private final int collisionRadius;
-    private PointF sPin;
+    private float sx;
+    private float sy;
     private int id;
     private String height;
     private String diameter;
@@ -18,19 +21,23 @@ public class Pin {
     private int radius;
     private String imageFileName;
     private boolean dragged = false;
-    private PointF origCoor;
+    private float ox;
+    private float oy;
 
     /*
     * Make sure you are passing in image coordinates here
     * */
 
     public Pin(int id, PointF sPin, PointF origImage, String imageFileName) {
-        this.sPin = sPin;
+        this.sx = sPin.x;
+        this.sy = sPin.y;
+
         this.id = id;
         this.radius = 20;
         this.collisionRadius = 30;
         this.imageFileName = imageFileName;
-        this.origCoor = origImage;
+        this.ox = origImage.x;
+        this.oy = origImage.y;
     }
 
     public Pin(int id, float x, float y, float ox, float oy, String imageFileName) {
@@ -43,15 +50,15 @@ public class Pin {
     }
 
     public PointF getPoint() {
-        return sPin;
+        return new PointF(sx, sy);
     }
 
     public int getX() {
-        return (int) sPin.x;
+        return (int) sx;
     }
 
     public int getY() {
-        return (int) sPin.y;
+        return (int) sy;
     }
 
     public String getHeight() {return this.height;}
@@ -62,7 +69,8 @@ public class Pin {
 
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
-        sPin.set((float) x, (float) y);
+            sx = (float) x;
+            sy = (float) y;
     }
 
     public void setPosition(PointF position) {
@@ -109,7 +117,7 @@ public class Pin {
      * @return String representing the CSV line for the tree - "id,x,y,height,diameter,species,imageFileName"
      */
     public String getCSV(){
-        return id+","+ origCoor.x + "," + origCoor.y + "," + height + "," + diameter + "," + species + "," + imageFileName;
+        return id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + imageFileName;
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/
@@ -133,7 +141,7 @@ public class Pin {
     @Override
     public String toString() {
         return "Pin{" +
-                "sPin=" + sPin.toString() +
+                "sPin=" + sx +", " + sy +
                 ", id=" + id +
                 ", height='" + height + '\'' +
                 ", diameter='" + diameter + '\'' +
@@ -142,6 +150,7 @@ public class Pin {
     }
 
     public void setOrigCoor(float x, float y) {
-        origCoor = new PointF(x, y);
+        ox = x;
+        oy = y;
     }
 }

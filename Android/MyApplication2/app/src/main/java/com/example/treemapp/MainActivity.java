@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
+import java.util.ArrayList;
 
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
@@ -178,6 +179,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     public void sendStats(View view){
         Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        intent.putExtra("pinList", (ArrayList) imageView.getPins());
         startActivity(intent);
     }
 

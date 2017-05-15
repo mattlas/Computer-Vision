@@ -1,5 +1,6 @@
 package com.example.treemapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Computes a histogram for the withs of the trees in the pinList
  */
 
-public class Statista {
+public class Statista implements Serializable{
     private List<Pin> pins; //not allowed to modify in this class
     private SmallToLarge smallToLarge;
 
@@ -18,6 +19,12 @@ public class Statista {
         smallToLarge = new SmallToLarge();
     }
 
+    public Statista(){
+        this.pins=new ArrayList<>();
+        smallToLarge=new SmallToLarge();
+    }
+
+
 
     @SuppressWarnings("Since15")
     /**
@@ -25,6 +32,12 @@ public class Statista {
      * maxStaple is how many staples the histogram will have at most
      */
     public Histogram generateHistogram(int maxStaples) {
+
+        if (pins.isEmpty()) {
+            int[] arr = {0};
+            return new Histogram(arr, 0, 0, 0);
+        }
+
         List<Double> heights = new ArrayList<>();
         double height;
         double minHeight = 10000;
@@ -56,7 +69,7 @@ public class Statista {
         for (int i = 0; i < numberOfStaples || currentStaple >= numberOfStaples; ++i) {
             value = heights.get(i);
 
-            while(value > currentStaplesTop || currentStaple < numberOfStaples) {
+            while(value > currentStaplesTop || currentStaple < numberOfStaples && currentStaple < amounts.length - 2) {
                 currentStaplesTop += widthOfOneStaple;
                 currentStaple++;
             }
@@ -68,7 +81,7 @@ public class Statista {
         return new Histogram(amounts, heights.get(0), heights.get(heights.size()-1), widthOfOneStaple);
     }
 
-    private class SmallToLarge implements Comparator<Double> {
+    private class SmallToLarge implements Comparator<Double>, Serializable{
         public int compare(Double d, Double d2) {
             if (d < d2) return -1;
             if (d > d2) return 1;
@@ -80,7 +93,7 @@ public class Statista {
      * Created by oskar on 2017-05-15.
      * Holds the information about a histogram, min, max, widths and amounts for each staple
      */
-    public class Histogram {
+    public class Histogram implements Serializable{
         private final int[] values;
         private final double min;
         private final double max;

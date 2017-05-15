@@ -258,8 +258,8 @@ public class FileHandler {
      *
      * @return a List of Pins that can be used for a PinView
      */
-    public List<Pin> getPinList(ImageInfoListHandler iil) {
-        List<Pin> list = new ArrayList<>();
+    public ArrayList<Pin> getPinList(ImageInfoListHandler iil) {
+        ArrayList<Pin> list = new ArrayList<>();
         float mosaicX;
         float mosaicY;
         String fileName;
