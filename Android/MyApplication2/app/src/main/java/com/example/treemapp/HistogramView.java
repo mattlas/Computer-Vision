@@ -72,19 +72,10 @@ public class HistogramView extends AppCompatImageView {
             return;
         }
 
-        // Rectangles
-
-        // - First the axes
-
-        // Y axis
         Paint axesPaint=new Paint();
         axesPaint.setColor(axesColor);
         axesPaint.setStyle(Paint.Style.STROKE);
         axesPaint.setStrokeWidth(8);
-        canvas.drawLine(marginX,marginY,marginX,height-marginY,axesPaint);
-
-        // X axis
-        canvas.drawLine(marginX,height-marginY,width-marginX,height-marginY,axesPaint);
 
         // - Then the labels
 
@@ -113,15 +104,27 @@ public class HistogramView extends AppCompatImageView {
             int xText=marginX+i*xAxisLength/size;
             canvas.drawText(String.format("%.3g%n", Math.min(min+staple*i,max)),xText,yText,textPaint);
 
-            if (i<size) {
                 Rect r = new Rect(xText, height - marginY - scaledValue,xText+xAxisLength/size,height-marginY);
                 Paint rectPaint = new Paint();
+                //fill
                 rectPaint.setColor(Color.MAGENTA);
                 canvas.drawRect(r,rectPaint);
-            }
+                //border
+                rectPaint.setColor(Color.WHITE);
+                rectPaint.setStyle(Paint.Style.STROKE);
+                rectPaint.setStrokeWidth(3);
+                canvas.drawRect(r,rectPaint);
+
         }
 
         canvas.drawText(String.format("%.3g%n", Math.min(min+staple*i,max)),width-marginX,yText,textPaint);
+
+        // Axes
+
+        canvas.drawLine(marginX,marginY,marginX,height-marginY,axesPaint);
+
+        // X axis
+        canvas.drawLine(marginX,height-marginY,width-marginX,height-marginY,axesPaint);
     }
 
     @Override
