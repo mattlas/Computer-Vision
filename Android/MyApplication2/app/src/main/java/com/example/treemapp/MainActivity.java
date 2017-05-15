@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
 
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
+import java.util.ArrayList;
 
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -172,6 +174,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         overlay.create(pin);
 
         imageView.invalidate();
+    }
+
+    /**
+     * Goes to the StatisticsActivity
+     */
+    public void sendStats(View view){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        intent.putExtra("pinList", (ArrayList) imageView.getPins());
+        startActivity(intent);
     }
 
     /**

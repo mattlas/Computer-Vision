@@ -28,8 +28,9 @@ public class Overlay {
     private final MainActivity mainActivity;
 
     private final RelativeLayout overlayedActivity;
-    private final RelativeLayout perspectiveOverlay;
     private final LinearLayout fakeView;
+
+    private final RelativeLayout perspectiveOverlay;
     private final LinearLayout fakeView2;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
@@ -57,6 +58,7 @@ public class Overlay {
         });
     }
 
+    /*Checks if the input is currently invisble*/
     public boolean inputIsVisible(){
         return overlayedActivity.getVisibility() == View.VISIBLE;
     }
@@ -183,7 +185,10 @@ public class Overlay {
         });
     }
 
-    // Edit an already existing pin
+    /**
+     * Really similiar to create but gets the information from an old pin, allowing the user
+     * to edit the pin and in so editing the output file
+     */
     public void edit(final Pin pin) {
         overlayedActivity.setVisibility(View.VISIBLE);
 
