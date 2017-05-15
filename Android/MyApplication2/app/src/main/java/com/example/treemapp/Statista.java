@@ -59,9 +59,9 @@ public class Statista implements Serializable{
 
         heights.sort(smallToLarge);
 
-        double widthOfOneStaple = heights.get(heights.size()-1) / numberOfStaples;
         int currentStaple = 0;
-        double currentStaplesTop = widthOfOneStaple;
+        double widthOfOneStaple = (heights.get(heights.size()-1) - heights.get(0)) / numberOfStaples;
+        double currentStaplesTop = heights.get(0) + widthOfOneStaple;
         double value;
 
         int[] amounts = new int[numberOfStaples];
@@ -69,9 +69,10 @@ public class Statista implements Serializable{
         for (int i = 0; i < numberOfStaples || currentStaple >= numberOfStaples; ++i) {
             value = heights.get(i);
 
-            while(value > currentStaplesTop || currentStaple < numberOfStaples && currentStaple < amounts.length - 2) {
+            while(value > currentStaplesTop) {
                 currentStaplesTop += widthOfOneStaple;
-                currentStaple++;
+                if (currentStaple >= amounts.length) break;
+                else currentStaple++;
             }
 
             amounts[currentStaple]++;
