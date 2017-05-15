@@ -28,6 +28,7 @@ public class PinView extends SubsamplingScaleImageView {
     private FileHandler fileHandler;
     private Paint unfilled;
     private Paint smaller;
+    private Statista statista = new Statista();
 
     public PinView(Context context, AttributeSet attr) {
         super(context, attr);
