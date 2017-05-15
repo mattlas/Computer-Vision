@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
 
@@ -170,6 +171,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         overlay.create(pin);
 
         imageView.invalidate();
+    }
+
+    /**
+     * Goes to the StatisticsActivity
+     */
+    public void sendStats(View view){
+        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+        startActivity(intent);
     }
 
     /**
