@@ -29,6 +29,13 @@ Some notes on the guide:
 -To run the exectable the path to the runtime libs might have to be set:
 export LD_LIBRARY_PATH=MATLAB_Runtime_Root/v92/runtime/glnxa64:MATLAB_Runtime_Root/v92/bin/glnxa64:MATLAB_Runtime_Root/v92/sys/os/glnxa64
 
+OTHER INFORMATION
+Start guide:
+web(fullfile(docroot, 'compiler/index.html'))
+
+Compilation limitations:
+web(fullfile(docroot, 'compiler/limitations-about-what-may-be-compiled.html'))
+
 ### Qt
 cd install
 
