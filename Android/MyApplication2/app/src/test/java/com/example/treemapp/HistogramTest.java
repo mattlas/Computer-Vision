@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class HistogramTest {
     @Test
     public void createsHistogramCorrect() {
-        List<Pin> pins = new ArrayList<>();
+        ArrayList<Pin> pins = new ArrayList<>();
 
         Pin p;
 

@@ -17,6 +17,7 @@ import java.util.List;
 
 public class PieChart extends AppCompatImageView {
 
+    private static final int length = 64;
     private int width;
     private int height;
     private float[] verts;
@@ -53,11 +54,11 @@ public class PieChart extends AppCompatImageView {
     public void drawPieChart(Canvas canvas) {
 
         float[] verts = getVerts();
-
+        int[] colors = getColors();
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        //float[] verts = {this.width / 2, this.height / 2, 500, 20, 10, 500};
 
-        int colors[] = {Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY};
+        //float[] verts = {this.width / 2, this.height / 2, 500, 20, 10, 500};
+        //int colors[] = {Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY};
 
         Paint p = new Paint();
         p.setColor(Color.BLACK);
@@ -65,12 +66,25 @@ public class PieChart extends AppCompatImageView {
         p.setStrokeWidth(8);
 
 
-        canvas.drawVertices(Canvas.VertexMode.TRIANGLE_FAN, verts.length, verts, 0, null, 0, null, 0, null, 0, 0, p);
+        canvas.drawVertices(Canvas.VertexMode.TRIANGLE_FAN, verts.length, verts, 0, null, 0, colors, 0, null, 0, 0, p);
+
+    }
+
+    public int[] getColors(){
+        int[] colors = new int[length * 4 + 2];
+        colors[0]=Color.LTGRAY;
+        colors[1]=Color.LTGRAY;
+        for (int i = 2; i < colors.length; i += 4){
+            colors[i]=Color.YELLOW;
+            colors[i+1]=Color.BLUE;
+            colors[i+2]=Color.YELLOW;
+            colors[i+3]=Color.YELLOW;
+        }
+        return colors;
 
     }
 
     public float[] getVerts() {
-        int length = 64;
         verts = new float[length * 4 + 2];
 
         float cx = width / 2;

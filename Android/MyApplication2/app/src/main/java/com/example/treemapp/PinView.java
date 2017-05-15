@@ -62,7 +62,7 @@ public class PinView extends SubsamplingScaleImageView {
         unfilled.setStyle(Paint.Style.STROKE);
 
         pins = new ArrayList<>();
-        statista = new Statista(pins);
+        statista = new Statista((ArrayList) pins);
 
         pinIndex=0;
     }
