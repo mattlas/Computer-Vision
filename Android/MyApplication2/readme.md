@@ -16,7 +16,7 @@ The mobile app is built with Android Studio with:
 * **Target SDK version**: 25
 * **Gradle version**: 2.3.2
 
-All dependencies are found under /app/build.gradle.
+All dependencies are found under *app/build.gradle*.
 
 ### Installing
 
@@ -28,7 +28,7 @@ All dependencies are found under /app/build.gradle.
 
 ### Testing
 
-JUnit tests are found in */app/src/androidTest/java/com/example/treemapp* and */app/src/test/java/com/example/treemapp*. Run tests by opening the folder and running the app in Android Studio.
+JUnit tests are found in *app/src/androidTest/java/com/example/treemapp* and *app/src/test/java/com/example/treemapp*. Run tests by opening the folder and running the app in Android Studio.
 
 ## Authors
 
@@ -40,7 +40,7 @@ Also see the list of [contributors](https://github.com/mattlas/Computer-Vision/g
 
 MIT License
 
-Copyright (c) [2017] [Students of Project course in Machine Vision (57312VT17)]
+Copyright (c) [2017] [*Students of Project course in Machine Vision (57312VT17)*]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
