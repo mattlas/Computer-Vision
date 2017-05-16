@@ -146,6 +146,7 @@
                     android:layout_height="wrap_content"
                     app:items_visible="five"
                     android:textAlignment="center"
+                    android:theme="@style/carouselpicker_style"
                     ></in.goodiebag.carouselpicker.CarouselPicker>
 
             </LinearLayout>

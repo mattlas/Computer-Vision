@@ -98,11 +98,15 @@ public class HistogramView extends AppCompatImageView {
         int[] values=histogram.getValues();
         int i;
 
+        int maxStapleSize=histogram.mostPopulatedStapleSize();
+
         for (i=0; i<size; i++){
 
-            int scaledValue = values[i]*500;
+            int scaledValue = values[i]*yAxisLength/maxStapleSize;
             int xText=marginX+i*xAxisLength/size;
             canvas.drawText(String.format("%.3g%n", Math.min(min+staple*i,max)),xText,yText,textPaint);
+
+
 
                 Rect r = new Rect(xText, height - marginY - scaledValue,xText+xAxisLength/size,height-marginY);
                 Paint rectPaint = new Paint();
