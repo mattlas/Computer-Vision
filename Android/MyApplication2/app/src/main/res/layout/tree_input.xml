@@ -9,6 +9,8 @@
     android:visibility="invisible"
     tools:context=".ListDisplay">
 
+
+
     <!-- data input -->
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="350dp"
@@ -142,7 +144,8 @@
                     android:id="@+id/carouselPicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:items_visible="three"
+                    app:items_visible="five"
+                    android:textAlignment="center"
                     ></in.goodiebag.carouselpicker.CarouselPicker>
 
             </LinearLayout>

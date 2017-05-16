@@ -1,6 +1,7 @@
 package com.example.treemapp;
 
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -101,7 +102,9 @@ public class Overlay {
         textItems.add(new CarouselPicker.TextItem("Oak", 12));
         textItems.add(new CarouselPicker.TextItem("Other", 12));
         CarouselPicker.CarouselViewAdapter textAdapter =  new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
+
         carouselPicker.setAdapter(textAdapter);
+
 
         // Buttons to save inputs according to a pin/delete a pin
         Button save = (Button) mainActivity.findViewById(R.id.btn_save);
@@ -208,16 +211,14 @@ public class Overlay {
 
         //Carousse1 Picker with text to display the tree species
         List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("Spruce", 12));
-        textItems.add(new CarouselPicker.TextItem("Pine", 12));
-        textItems.add(new CarouselPicker.TextItem("Birch", 12));
-        textItems.add(new CarouselPicker.TextItem("Oak", 12));
-        textItems.add(new CarouselPicker.TextItem("Other", 12));
-        CarouselPicker.CarouselViewAdapter textAdapter =  new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
-        //Object object = textAdapter.instantiateItem(overlayedActivity, 0);
+        textItems.add(new CarouselPicker.TextItem("Spruce", 18));
+        textItems.add(new CarouselPicker.TextItem("Pine", 18));
+        textItems.add(new CarouselPicker.TextItem("Birch", 18));
+        textItems.add(new CarouselPicker.TextItem("Oak", 18));
+        textItems.add(new CarouselPicker.TextItem("Other", 18));
+        final CarouselPicker.CarouselViewAdapter textAdapter =  new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);
 
-        //textAdapter.setPrimaryItem(textItems, textAdapter.getItemPosition(pin.getSpecies()), object);
 
         Button save = (Button) overlayedActivity.findViewById(R.id.btn_save);
         Button delete = (Button) overlayedActivity.findViewById(R.id.btn_cancel);
