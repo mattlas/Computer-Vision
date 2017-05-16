@@ -12,23 +12,22 @@
 
 
 // Qt
-#include <QtGui>
+#include "mainwindow.h"
+//#include <QtGui>
 #include <QApplication>
-#include <QPushButton>
+#include <QMainWindow>
 
 extern "C"{
 #include <vl/generic.h>
 }
-
 
 int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
 
     // Qt
     QApplication app(argc, argv);
-    QPushButton *button = new QPushButton("Hello World");
-    button->show();
-
+    MainWindow w;
+    w.show();
 
     const char *path;
     if(argc > 1){

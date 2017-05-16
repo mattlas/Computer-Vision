@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/folder_icon.png</file>
+        <file>icons/trolltunga.jpg</file>
+    </qresource>
+</RCC>
