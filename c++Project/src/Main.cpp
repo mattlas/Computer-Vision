@@ -9,6 +9,8 @@
 #include <iostream>
 #include "FeaturePoints.h"
 #include "MosaicData.h"
+#include "DirectoryReader.h"
+#include "imaq.h"
 
 
 // Qt
@@ -30,18 +32,41 @@ int main(int argc, char **argv){
     button->show();
 
 
-    const char *path;
+    const char *ip_path;
     if(argc > 1){
-    	path = argv[1];
+    	ip_path = argv[1];
 
     } else {
-        path = "/home/5dv115/c13evk_scripts/out_bigset"; //fix this
+        ip_path = "/home/5dv115/c13evk_scripts/out_bigset"; //fix this
     }
+
+    const char *op_path;
+    if(argc > 1){
+        op_path = argv[1];
+
+    } else {
+        op_path = "/home/5dv115/c13evk_scripts/output";
+    }
+
+
     time_t start = time(0);
-    MosaicData *data = new MosaicData();
-    data->addDirectory(path);
-    data->startProcess();
+    std::cout <<  "Image acquisition Started" << std::endl ;
+    imaq im;
+    im.addDirectory(ip_path);
+    im.readJPGfromFolder();
+    im.convertToPGM();
+    std::cout <<  "Image acquisition done" << std::endl ;
+
+    // Feature points extraction
+    //MosaicData *data = new MosaicData();
+    //data->addDirectory(ip_path);
+    //data->startProcess();
     time_t end = time(0);
+
+    //MosaicData *data = new MosaicData();
+    //data->addDirectory(ip_path);
+    //data->startProcess();
+    //time_t end = time(0);
     double time = difftime(end, start) * 1000.0;
     std::cout << "time = " << time << std::endl;
     return app.exec();
