@@ -40,7 +40,7 @@ Also see the list of [contributors](https://github.com/mattlas/Computer-Vision/g
 
 MIT License
 
-Copyright (c) [2017] [*Students of Project course in Machine Vision (57312VT17)*]
+Copyright (c) 2017 *Students of Project course in Machine Vision (57312VT17)*
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
