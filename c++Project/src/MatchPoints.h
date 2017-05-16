@@ -14,10 +14,21 @@ extern "C" {
 //#include <toolbox/sift/vl_ubcmatch.c>
 }
 class MatchPoints {
+
+private:
+    std::vector<std::vector<uint16_t>> descriptor1;
+    std::vector<std::vector<uint16_t>> descriptor2;
+    FeaturePoints *point1;
+    FeaturePoints *point2;
+
 public:
     MatchPoints();
 
     MatchPoints(FeaturePoints *point1, FeaturePoints *point2);
+
+    void findMatches();
+
+    void squaredDistance();
 };
 
 
