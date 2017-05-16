@@ -37,7 +37,8 @@ int main(int argc, char **argv){
     	ip_path = argv[1];
 
     } else {
-        ip_path = "/home/5dv115/c13evk_scripts/out_bigset"; //fix this
+        ip_path = "/home/5dv115/Computer-Vision/c++Project/test/"; //fix this
+        //ip_path = "/home/5dv115/c13evk_scripts/out_bigset"; //fix this
     }
 
     const char *op_path;
@@ -54,7 +55,7 @@ int main(int argc, char **argv){
     imaq im;
     im.addDirectory(ip_path);
     im.readJPGfromFolder();
-    im.convertToPGM();
+    //im.convertToPGM();
     std::cout <<  "Image acquisition done" << std::endl ;
 
     // Feature points extraction
