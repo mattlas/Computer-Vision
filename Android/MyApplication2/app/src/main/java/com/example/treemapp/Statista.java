@@ -69,9 +69,15 @@ public class Statista implements Serializable{
         double height;
         double minHeight = 10000;
         double maxHeight = 0;
+        int uniqueValuesCount = 0;
 
         for (Pin p : pins) {
             height = Double.parseDouble(p.getHeight());
+
+            if (!heights.contains(height)) {
+                uniqueValuesCount++;
+            }
+
             heights.add(height);
 
             if (height > maxHeight) {
@@ -82,7 +88,7 @@ public class Statista implements Serializable{
             }
         }
 
-        int numberOfStaples = Math.min(heights.size(), maxStaples);
+        int numberOfStaples = Math.min(uniqueValuesCount, Math.min(heights.size(), maxStaples));
 
         heights.sort(smallToLarge);
 
@@ -93,7 +99,7 @@ public class Statista implements Serializable{
 
         int[] amounts = new int[numberOfStaples];
 
-        for (int i = 0; i < numberOfStaples || currentStaple >= numberOfStaples; ++i) {
+        for (int i = 0; i < heights.size() || currentStaple >= numberOfStaples; ++i) {
             value = heights.get(i);
 
             while(value > currentStaplesTop) {

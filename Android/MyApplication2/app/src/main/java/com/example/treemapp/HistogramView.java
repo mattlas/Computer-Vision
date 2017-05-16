@@ -32,6 +32,15 @@ public class HistogramView extends AppCompatImageView {
     private int height;
 
 
+    private final int[] colorScheme = {
+            0xFF50514F,
+            0xFFF25F5C,
+            0xFFFFE066,
+            0xFF247BA0,
+            0xFF70C1B3,
+    };
+
+
     public Statista.Histogram histogram;
     private boolean ready = false;
 
@@ -102,16 +111,14 @@ public class HistogramView extends AppCompatImageView {
 
         for (i=0; i<size; i++){
 
-            int scaledValue = values[i]*yAxisLength/maxStapleSize;
+            int scaledValue = values[i] * yAxisLength/maxStapleSize;
             int xText=marginX+i*xAxisLength/size;
             canvas.drawText(String.format("%.3g%n", Math.min(min+staple*i,max)),xText,yText,textPaint);
-
-
 
                 Rect r = new Rect(xText, height - marginY - scaledValue,xText+xAxisLength/size,height-marginY);
                 Paint rectPaint = new Paint();
                 //fill
-                rectPaint.setColor(Color.MAGENTA);
+                rectPaint.setColor(colorScheme[i%colorScheme.length]);
                 canvas.drawRect(r,rectPaint);
                 //border
                 rectPaint.setColor(Color.WHITE);
