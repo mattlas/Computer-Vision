@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -23,23 +24,14 @@ public class PieChart extends AppCompatImageView {
     private float[] verts;
     private ArrayList<Statista.SpeciesCount> speciesCountList;
 
-/*    private final int[] colorScheme = {
-            0x50514F,
-            0xF25F5C,
-            0xFFE066,
-            0x247BA0,
-            0x70C1B3,
-    };*/
+    private final int[] colorScheme = {
+            0xFF50514F,
+            0xFFF25F5C,
+            0xFFFFE066,
+            0xFF247BA0,
+            0xFF70C1B3,
+    };
 
-private int[] colorScheme = {
-        Color.MAGENTA,
-        Color.CYAN,
-        Color.YELLOW,
-        Color.GREEN,
-        Color.RED
-
-
-};
 
     public PieChart(Context context) {
         super(context);
@@ -79,26 +71,36 @@ private int[] colorScheme = {
         //int colors[] = {Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY};
 
         Paint p = new Paint();
-        p.setColor(Color.MAGENTA);
         p.setStyle(Paint.Style.FILL);
         p.setStrokeWidth(8);
+
+
+        TextPaint tp = new TextPaint();
+        tp.setTextSize(32f);
+        tp.setTextAlign(Paint.Align.LEFT);
+        int yAlign = -(int) (tp.getFontMetrics().top + tp.getFontMetrics().bottom) / 2;
 
 
         canvas.drawVertices(Canvas.VertexMode.TRIANGLES, verts.length, verts, 0, null, 0, colors, 0, null, 0, 0, p);
 
         int size = 26;
         float yy = height * 0.1f;
-        canvas.drawRect(width * 0.75f, yy - size/2, width * 0.75f + size, yy + size/2, p);
-        canvas.drawText("Birch", width *0.75f + 50, yy, p);
+        int offsetY;
+        int count;
 
+        for (int i = 0; i < speciesCountList.size(); i++) {
+            offsetY = i * 50;
+            count = speciesCountList.get(i).getAmount();
+            p.setColor(colorScheme[i%colorScheme.length]);
+            tp.setColor(p.getColor());
+
+            canvas.drawRect(width * 0.65f, yy + (offsetY) - size / 2, width * 0.65f + size, yy + (offsetY) + size / 2, p);
+            canvas.drawText(speciesCountList.get(i).getSpecimen() + ": " + count, width * 0.65f + 50, yy + offsetY + yAlign, tp);
+        }
     }
 
     public int[] getColors(){
-        int color1 = Color.CYAN;
-        int color2 = Color.MAGENTA;
-
         int[] colors = new int[length * 6];
-
 
         int total=getTotal();
 
@@ -106,16 +108,20 @@ private int[] colorScheme = {
 
         for (int i = 0; i<speciesCountList.size(); i++){
             Statista.SpeciesCount speciesCount = speciesCountList.get(i);
-            float triangles = speciesCount.getAmount() *colors.length/ total;
-            for (int j=lastIndex;j<triangles; j++){
-                colors[j]=colorScheme[i%5];
-                lastIndex=j;
+            int triangles = speciesCount.getAmount() * (colors.length/2) / total;
+            triangles = Math.round(triangles / 6f) * 6; //to avoid blurring
+
+            int j;
+            for (j=0; j<triangles && (j + lastIndex) < colors.length; j++){
+                colors[j + lastIndex]=colorScheme[i%colorScheme.length]; //the mod part is only if there are more than 5 colors
             }
+            lastIndex += j;
         }
 
-        return colors;
 
+        return colors;
     }
+
     public int getTotal(){
         int total=0;
         for (Statista.SpeciesCount speciesCount : speciesCountList){
@@ -127,9 +133,9 @@ private int[] colorScheme = {
     public float[] getVerts() {
         verts = new float[length * 6];
 
-        float cx = width / 2;
-        float cy = height / 2;
-        float radius = Math.min(width, height) * 0.25f;
+        float cx = width * .31f;
+        float cy = height * .31f;
+        float radius = Math.min(width, height) * 0.3f;
         float angle;
         float angle2;
 
