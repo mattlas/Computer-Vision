@@ -9,8 +9,7 @@ set(CMAKE_AUTORCC ON)
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-#set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp ${PROJECT_SOURCE_DIR}/src/imaq.h ${PROJECT_SOURCE_DIR}/src/imaq.cpp)
-set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/mainwindow.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp src/MosaicData.cpp src/MosaicData.h src/DirectoryReader.cpp src/DirectoryReader.h src/MatchPoints.cpp src/MatchPoints.h)
+set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/mainwindow.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp src/MosaicData.cpp src/MosaicData.h src/DirectoryReader.cpp src/DirectoryReader.h src/MatchPoints.cpp src/MatchPoints.h ${PROJECT_SOURCE_DIR}/src/imaq.h ${PROJECT_SOURCE_DIR}/src/imaq.cpp)
 
 # OpenCV library
 find_package( OpenCV REQUIRED )
@@ -41,4 +40,4 @@ find_package(Threads REQUIRED)
 # Project files
 add_executable(TreeMarkupToolbox ${SOURCE_FILES} ${UI_RESOURCES})
 #target_link_libraries(TreeMarkupToolbox vl Qt5::Widgets ${OpenCV_LIBS})
-target_link_libraries(TreeMarkupToolbox vl Qt5::Widgets Threads::Threads)
+target_link_libraries(TreeMarkupToolbox vl Qt5::Widgets ${OpenCV_LIBS} Threads::Threads)

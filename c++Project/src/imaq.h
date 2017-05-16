@@ -1,15 +1,25 @@
 #include <string>
-#ifndef C_PROJECT_FEATUREPOINTS_H
-#define C_PROJECT_FEATUREPOINTS_H
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
 
+#include <iostream>
+
+using namespace cv;
 class imaq
 {
 private:
     Mat image;
     Mat grayImage;
+    std::vector<std::string> directoryList;
+    std::vector<std::string> jpgFileNames;
+    std::string jpgFolder;
 public:
     Mat readImage(String);
     void displayImage(Mat);
-    void write2pgm(Mat);
+    void write2pgm(Mat,std::string );
     Mat rgb2gray(Mat);
+    void readJPGfromFolder();
+    void addDirectory(std::string);
+    void convertToPGM();
 };
