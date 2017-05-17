@@ -25,10 +25,13 @@
             android:id="@+id/relativeLayout">
 
             <ImageButton
-                android:src="@drawable/close-icon"
                 android:id="@+id/btn_Exit"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/close_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +75,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/right-arrow"
+                android:src="@drawable/right_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignEnd="@+id/btn_save" />
 

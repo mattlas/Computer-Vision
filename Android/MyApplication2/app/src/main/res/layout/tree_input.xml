@@ -26,12 +26,14 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_Exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/exit_button"
-                android:text="X" />
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/close_icon" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -101,6 +101,7 @@ public class Overlay {
         textItems.add(new CarouselPicker.TextItem("Oak", 12));
         textItems.add(new CarouselPicker.TextItem("Other", 12));
         CarouselPicker.CarouselViewAdapter textAdapter =  new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
+        textAdapter.setPrimaryItem(carouselPicker, 3, textAdapter.instantiateItem(carouselPicker, 3));
         carouselPicker.setAdapter(textAdapter);
 
         // Buttons to save inputs according to a pin/delete a pin
