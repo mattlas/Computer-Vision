@@ -1,9 +1,6 @@
-#include "exif.h"
-
-#include <stdio.h>
-#include <vector>
 #include <algorithm>
 #include <cstdint>
+#include "exif.h"
 
 using std::string;
 
