@@ -95,13 +95,12 @@ void imaq::convertToPGM(std:: string op_dir)
         std::stringstream ss;
         std::string name = "testPGM_";
         std::string type = ".pgm";
-        std::string filename = ss.str();
         ss<<op_dir<<'/'<<name<<(i + 1)<<type;
-
+//        ss<<name<<(i + 1)<<type;
         std::string fullPath = ss.str();
         ss.str("");
 
-        write2pgm(imaq::grayImage,fullPath);
+        write2pgm(imaq::image,fullPath);
         i++;
     }
     std::cout <<  "Converted " <<i<< " files" <<std::endl ;
