@@ -4,27 +4,30 @@
 
 #include "MosaicData.h"
 #include "DirectoryReader.h"
+#include "MatchPoints.h"
 #include <thread>
 
 #define NUM_THREADS 4
 
 MosaicData::MosaicData(void) {
     im = new imaq();
-    if(!(im == new imaq)){
-        std::cout << "out of memmory ERROR" << std::endl;
-    }
 }
 
 
 
 
 void MosaicData::startProcess(const char *ip_path, const char *op_path) {
+    std::cout << "readFiles" << std::endl;
     readFiles(ip_path);
+    std::cout << "convert to pgm " << std::endl;
     convertToPGM(op_path);
     delete im;
-    //readPGMFromFolder();
-    //extractFeaturePoints();
-    createThreads();
+    std::cout << "read pgm" << std::endl;
+    readPGMFromFolder();
+    extractFeaturePoints();
+    std::cout << "create threads" << std::endl;
+    //createThreads();
+    std::cout << "ubc match" << std::endl;
     ubcMatch();
 }
 
@@ -40,8 +43,7 @@ void MosaicData::extractFeaturePoints() {
 }
 
 void MosaicData::ubcMatch() {
-
-    //TODO Match points with ubc match
+    MatchPoints *matcher = new MatchPoints(featurePointList.at(0), featurePointList.at(1));
 }
 
 void MosaicData::readFiles(const char *ip_path) {
