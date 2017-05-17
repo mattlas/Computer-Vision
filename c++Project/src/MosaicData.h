@@ -20,6 +20,8 @@ private:
     std::string pgmFolder;
     std::vector<std::string> fileNames;
     std::vector<FeaturePoints> featurePointList;
+    std::mutex readMutex;
+    std::mutex writeMutex;
 
 public:
     /**
@@ -41,12 +43,14 @@ public:
 
     void extractFeaturePoints();
 
-    static void extractFeaturePointsThreaded(std::vector<std::string> pgmFileNames , std::vector<FeaturePoints> featurePointsList);
+    void extractFeaturePointsThreaded();
 
     void createThreads();
 
 
     void ubcMatch();
+
+    static void classWrapper(MosaicData* mosaicData);
 
 private:
     void readFiles();

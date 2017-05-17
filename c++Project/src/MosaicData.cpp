@@ -8,7 +8,7 @@
 #include <iostream>
 #include <thread>
 
-#define NUM_THREADS 3
+#define NUM_THREADS 4
 
 MosaicData::MosaicData(void) {
 
@@ -27,8 +27,8 @@ void MosaicData::startProcess() {
     readFiles();
     convertToPGM();
     readPGMFromFolder();
-    extractFeaturePoints();
-    //createThreads();
+    //extractFeaturePoints();
+    createThreads();
     ubcMatch();
 }
 
@@ -60,48 +60,43 @@ void MosaicData::convertToPGM() {
     pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
 }
 
-void MosaicData::extractFeaturePointsThreaded(std::vector<std::string> pgmFileNames , std::vector<FeaturePoints> featurePointList) {
-    std::vector<std::string> tempList = pgmFileNames; //shares reference, should be copied.
-    std::mutex readMutex;
-    std::mutex writeMutex;
-    while(!tempList.empty()){
+void MosaicData::extractFeaturePointsThreaded() {
+    while(!pgmFileNames.empty()){
         readMutex.lock();
-        std::cout << "locked" << std::endl;
-        std::string name = (std::string) tempList.back();
-        tempList.pop_back();
+        std::string name = (std::string) pgmFileNames.back();
+        pgmFileNames.pop_back();
         readMutex.unlock();
-        std::cout << "unlocked" << std::endl;
         FeaturePoints *point = new FeaturePoints(name,1);
         point->calculatePoints();
+
         writeMutex.lock();
         featurePointList.push_back(*point);
         writeMutex.unlock();
+
     }
 
 }
 
 void MosaicData::createThreads() {
     std::vector<std::thread> threads;
+    std::vector<std::string> tempList = pgmFileNames;
 
     int rc;
     int i;
-
+    MosaicData* mosaicData = this;
     for( i=0; i < NUM_THREADS; i++ ){
-        std::cout << "main() : creating thread, " << i << std::endl;
-        std::thread t1(extractFeaturePointsThreaded,pgmFileNames,featurePointList);
+        std::thread t1(classWrapper,mosaicData);
         threads.push_back(std::move(t1));
 
-        /*rc = pthread_create(&threads[i], NULL, &extractFeaturePointsThreaded, (void*)i);
-
-        if (rc){
-            std::cout << "Error:unable to create thread," << rc << std::endl;
-            exit(-1);
-        }*/
     }
     for(int j =0; j < threads.size(); j++){
         std::thread t{std::move(threads.at(j))};
         t.join();
     }
+    pgmFileNames = tempList;
 
+}
 
+void MosaicData::classWrapper(MosaicData *mosaicData) {
+    mosaicData->extractFeaturePointsThreaded();
 }
