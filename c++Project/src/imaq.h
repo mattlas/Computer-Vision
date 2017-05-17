@@ -15,11 +15,12 @@ private:
     std::vector<std::string> jpgFileNames;
     std::string jpgFolder;
 public:
-    Mat readImage(String);
+    Mat readImage(std::string);
     void displayImage(Mat);
     void write2pgm(Mat,std::string );
     Mat rgb2gray(Mat);
     void readJPGfromFolder();
     void addDirectory(std::string);
-    void convertToPGM();
+    void convertToPGM(std::string);
+    void createDIR(std::string);
 };

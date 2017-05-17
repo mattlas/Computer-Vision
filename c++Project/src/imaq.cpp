@@ -14,52 +14,51 @@
 
 
 using namespace cv;
-void imaq::readJPGfromFolder() {                      // Read all images from a folder
-    int ct = 0;
-    std::string folderName = "PGMdir";
-    std::string folderCreateCommand = "mkdir " + folderName;
+void imaq::readJPGfromFolder() {                      // Read all image file names from a folder and store it in a variable
 
-    //system(folderCreateCommand.c_str());
-
-    jpgFileNames = DirectoryReader::readDirectory(jpgFolder);
-    std::cout <<  "Loading files from folder" << jpgFolder<<std::endl ;
+    imaq::jpgFileNames = DirectoryReader::readDirectory(imaq::jpgFolder);
+    std::cout <<  "Loading files from folder" << imaq::jpgFolder<<std::endl ;
     std::cout <<  "Files loaded to jpgFileNames" << std::endl ;
-    //std::cout <<  (std::string)jpgFileNames << std::endl ;
-
-    std::string fname=jpgFolder;
-
-    fname.append("test%d.jpg");                    // To read from folder: "{src}/test1.jpg", etc in sequence
-
-    VideoCapture cap(fname);
-    while( cap.isOpened() )
-    {
-        std::stringstream ss;
-
-
-        std::string name = "testPGM_";
-        std::string type = ".pgm";
-        std::string filename = ss.str();
-
-        ss<<folderName<<"/"<<name<<(ct + 1)<<type;
-
-        std::string fullPath = ss.str();
-        ss.str("");
-
-
-        Mat img;
-        cap.read(img);
-        std::cout <<  "Image opened" << std::endl ;
-
-        //imaq::image=readImage(file_name);
-        imaq::grayImage=rgb2gray(img);
-        std::cout <<  imaq::grayImage << std::endl ;
-
-    //    std::cout <<  "Converted to Grayscale";
-        write2pgm(img,fullPath);
-        ct++;
-        if (ct>2)
-        {break;}
+    for(std::string file_name : imaq::jpgFileNames){
+        std::cout <<  file_name << std::endl ;
     }
+
+//    int ct = 0;
+//    std::string fname=imaq::jpgFolder;
+//
+//    fname.append("test%d.jpg");                    // To read from folder: "{src}/test1.jpg", etc in sequence
+//
+//    VideoCapture cap(fname);
+//    while( cap.isOpened() )
+//    {
+//        std::stringstream ss;
+//
+//
+//        std::string name = "testPGM_";
+//        std::string type = ".pgm";
+//        std::string filename = ss.str();
+//
+//        ss<<folderName<<"/"<<name<<(ct + 1)<<type;
+//
+//        std::string fullPath = ss.str();
+//        ss.str("");
+//
+//
+//        Mat img;
+//        cap.read(img);
+//        std::cout <<  "Image opened" << std::endl ;
+//
+//        //imaq::image=readImage(file_name);
+//        imaq::grayImage=rgb2gray(img);
+//        std::cout <<  imaq::grayImage << std::endl ;
+//
+//    //    std::cout <<  "Converted to Grayscale";
+//        write2pgm(img,fullPath);
+//        ct++;
+//        if (ct>2)
+//        {break;}
+//    }
+
 }
 
 void imaq::addDirectory(std::string dir) {
@@ -70,22 +69,44 @@ void imaq::addDirectory(std::string dir) {
 
 }
 
-void imaq::convertToPGM()
+void imaq::createDIR(std::string fname) {
+    std::string folderCreateCommand;
+    if(fname=='\0'){
+        std::string folderName = "PGMdir";
+        folderCreateCommand = "mkdir " + folderName;
+    }
+    else{
+        folderCreateCommand = "mkdir " + fname;
+    }
+    system(folderCreateCommand.c_str());
+}
+
+void imaq::convertToPGM(std:: string op_dir)
 {
     std::cout <<  "Conversion to PGM started" << std::endl ;
     int i=0;
-    for(std::string file_name : jpgFileNames){
-        std::cout <<  "Conversion to PGM started" << std::endl ;
-        imaq::image=readImage(file_name);
-        imaq::grayImage=rgb2gray(image);
+    for(std::string file_name : imaq::jpgFileNames){
+//        std::cout <<  "Converting " <<file_name<< std::endl ;
+        imaq::image=imread(file_name,CV_LOAD_IMAGE_GRAYSCALE);
+//        std::cout <<  imaq::image<< std::endl ;
+//        cvtColor(imaq::image,imaq::grayImage,COLOR_RGB2GRAY);
+//        imaq::grayImage=rgb2gray(imaq::image);
 
-        std::string name = "testPGM";
-        name.append(".pgm");
-        write2pgm(grayImage,name);
+        std::stringstream ss;
+        std::string name = "testPGM_";
+        std::string type = ".pgm";
+        std::string filename = ss.str();
+        ss<<op_dir<<'/'<<name<<(i + 1)<<type;
+
+        std::string fullPath = ss.str();
+        ss.str("");
+
+        write2pgm(imaq::grayImage,fullPath);
         i++;
     }
+    std::cout <<  "Converted " <<i<< " files" <<std::endl ;
 }
-Mat imaq::readImage(String img_name)
+Mat imaq::readImage(std::string img_name)
 {
     imaq::image = imread(img_name, IMREAD_COLOR);           // Read a image from a file
     if ( !imaq::image.data )                                // If image cannot be found
@@ -120,7 +141,8 @@ void imaq::write2pgm(Mat img_data,std::string file_name)
 
 Mat imaq::rgb2gray(Mat img_data)                            // Input img_data in RGB format
 {
-    cvtColor(img_data,imaq::grayImage,COLOR_RGB2GRAY);
-
+    Mat new_gray;
+    cvtColor(img_data,new_gray,COLOR_RGB2GRAY);
+    return new_gray;
 }
 

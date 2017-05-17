@@ -27,9 +27,9 @@ int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
 
     // Qt
-    QApplication app(argc, argv);
-    MainWindow w;
-    w.show();
+//    QApplication app(argc, argv);
+//    MainWindow w;
+//    w.show();
 
     const char *ip_path;
     if(argc > 1){
@@ -45,7 +45,7 @@ int main(int argc, char **argv){
         op_path = argv[1];
 
     } else {
-        op_path = "/home/5dv115/c13evk_scripts/output";
+        op_path = "/home/5dv115/Computer-Vision/c++Project/PGMdir";
     }
 
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv){
     imaq im;
     im.addDirectory(ip_path);
     im.readJPGfromFolder();
-    //im.convertToPGM();
+    im.convertToPGM(op_path);
     std::cout <<  "Image acquisition done" << std::endl ;
 
     // Feature points extraction
@@ -69,5 +69,5 @@ int main(int argc, char **argv){
     //time_t end = time(0);
     double time = difftime(end, start) * 1000.0;
     std::cout << "time = " << time << std::endl;
-    return app.exec();
+//    return app.exec();
 }
