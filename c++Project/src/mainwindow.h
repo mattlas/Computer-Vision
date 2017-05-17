@@ -27,6 +27,7 @@ public:
     QString qpath;
 
 
+
 private slots:
     void on_button_browse_clicked();
 
