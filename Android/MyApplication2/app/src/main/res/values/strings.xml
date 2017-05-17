@@ -3,8 +3,9 @@
     <string name="title_activity_my_scrolling">MyScrollingActivity</string>
     <string name="format">%d</string>
     <string name="action_settings">Settings</string>
-    <string name="open_menu">Opens side menu</string>
-    <string name="close_menu">Closes the side menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="trees_array">
         <item>Spruce</item>

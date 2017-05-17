@@ -1,61 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <LinearLayout
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="right"
-        android:elevation="3dp">
-
-    <ImageButton
-        android:id="@+id/imageButton_graph"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:srcCompat="@drawable/graph" />
-
-    <ImageButton
-        android:id="@+id/imageButton_export"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:srcCompat="@drawable/graph" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.example.treemapp.PinView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <!-- This is an invisible layer to prevent interacting with the mosaic during input -->
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/inp_fake_layer"
-        android:background="#10000000"
-        android:orientation="vertical"></LinearLayout>
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
-    <include layout="@layout/tree_input"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/inp_fake_layer_2"
-        android:background="#10000000"
-        android:orientation="vertical"></LinearLayout>
-
-    <include layout="@layout/perspective"/>
-
-</FrameLayout>
+</android.support.v4.widget.DrawerLayout>
