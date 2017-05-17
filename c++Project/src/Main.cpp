@@ -11,6 +11,7 @@
 #include "MosaicData.h"
 #include "DirectoryReader.h"
 //#include "imaq.h"
+#include <string>
 
 
 // Qt
@@ -30,14 +31,14 @@ int main(int argc, char **argv){
 //    QApplication app(argc, argv);
 //    MainWindow w;
 //    w.show();
-
     const char *ip_path;
     if(argc > 1){
     	ip_path = argv[1];
 
     } else {
         //ip_path = "/home/5dv115/Computer-Vision/c++Project/test/"; //fix this
-        ip_path = "/home/5dv115/c13evk_scripts/pict"; //fix this
+//        ip_path = "/home/5dv115/c13evk_scripts/pict"; //fix this
+        ip_path=(std::string)MainWindow::qpath;
     }
 
     const char *op_path;
@@ -46,7 +47,8 @@ int main(int argc, char **argv){
 
     } else {
         //op_path = "/home/5dv115/Computer-Vision/c++Project/PGMdir";
-        op_path = "/home/5dv115/c13evk_scripts/pict_out";
+//        op_path = "/home/5dv115/c13evk_scripts/pict_out";
+        op_path=(std::string)MainWindow::qpath;
     }
 
 
