@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Vibrator;
 
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -84,6 +86,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Event handling
         initialiseEventHandling();
+
+        // init buttons
+        buttonsSetUp();
     }
 
     private void initMenu() {
@@ -168,6 +173,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
+    private void buttonsSetUp(){
+        ImageButton statisticsBtn = (ImageButton) findViewById(R.id.imageButton_graph);
+        ImageButton exportBtn = (ImageButton) findViewById(R.id.imageButton_export);
+
+        statisticsBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View w){
+                sendStats();
+            }
+        });
+
+        exportBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View w){
+                export();
+            }
+        });
+    }
+
+    /**
+     * Goes to sharing activity
+     */
+    private void export(){
+        // TODO try on tablet
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        Uri csv = filehandler.getUri();
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, csv);
+        sharingIntent.setType("text/html");
+        startActivity(sharingIntent);
+    }
+
     public float[] updateOrigPositionInPin(Pin pin) {
         ImageInfo ii = imageInfoListHandler.findImageInfo(pin.getImageFileName());
 
@@ -244,7 +279,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /**
      * Goes to the StatisticsActivity
      */
-    public void sendStats(View view){
+    public void sendStats(){
         Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
         intent.putExtra("pinList", (ArrayList) imageView.getPins());
         startActivity(intent);

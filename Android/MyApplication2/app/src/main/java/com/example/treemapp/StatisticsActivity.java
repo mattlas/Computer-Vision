@@ -23,6 +23,9 @@ public class StatisticsActivity extends AppCompatActivity {
         statista = new Statista((ArrayList<Pin>) getIntent().getSerializableExtra("pinList"));
 
         histogramView = (HistogramView) findViewById(R.id.histogramView);
+        // TODO this line cause the error
+        /*java.lang.NoSuchMethodError: No interface method sort(Ljava/util/Comparator;)V in class Ljava/util/List; or its super classes (declaration of 'java.util.List' appears in /system/framework/core-libart.jar)
+                                                                          at com.example.treemapp.Statista.generateHistogram(Statista.java:93)*/
         histogramView.setHistogram(statista);
 
         pieChart = (PieChart) findViewById(R.id.pieChart);

@@ -1,5 +1,6 @@
 package com.example.treemapp;
 
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -224,6 +225,9 @@ public class FileHandler {
 
     }
 
+    public Uri getUri(){
+        return  Uri.fromFile(file);
+    }
 
 
     @Override
