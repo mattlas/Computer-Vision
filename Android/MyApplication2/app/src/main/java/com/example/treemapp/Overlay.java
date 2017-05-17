@@ -84,7 +84,7 @@ public class Overlay {
 
         // Button to close the input menu
         Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
-        
+
         // Apply the adapter to the spinner
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
