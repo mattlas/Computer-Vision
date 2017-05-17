@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "FeaturePoints.h"
+#include "imaq.h"
 #include <memory>
 //#include <thread>
 #include <pthread.h>
@@ -22,6 +23,8 @@ private:
     std::vector<FeaturePoints> featurePointList;
     std::mutex readMutex;
     std::mutex writeMutex;
+
+    imaq *im = NULL;
 
 public:
     /**
@@ -39,7 +42,7 @@ public:
      * Start the pipeline process.
      * OBS. The directoryList will need at least one directory for this function to work.
      */
-    void startProcess();
+    void startProcess(const char *string, const char *string1);
 
     void extractFeaturePoints();
 
@@ -53,11 +56,11 @@ public:
     static void classWrapper(MosaicData* mosaicData);
 
 private:
-    void readFiles();
+    void readFiles(const char *string);
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
     void readPGMFromFolder();
 
-    void convertToPGM();
+    void convertToPGM(const char *string);
 };
 
 

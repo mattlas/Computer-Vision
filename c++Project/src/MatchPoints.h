@@ -4,7 +4,7 @@
 
 #ifndef TREEMARKUPTOOLBOX_MATCHPOINTS_H
 #define TREEMARKUPTOOLBOX_MATCHPOINTS_H
-
+#define THRESHOLD 0.6;
 
 
 #include "FeaturePoints.h"
@@ -21,6 +21,9 @@ private:
     FeaturePoints *point1;
     FeaturePoints *point2;
 
+    //std::vector<std::vector> matches;
+    int numberMatches;
+
 public:
     MatchPoints();
 
@@ -28,7 +31,7 @@ public:
 
     void findMatches();
 
-    void squaredDistance();
+    int squaredDistance(ulong point, ulong keyPoint);
 };
 
 
