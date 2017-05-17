@@ -107,7 +107,7 @@ public class HistogramView extends AppCompatImageView {
         int[] values=histogram.getValues();
         int i;
 
-        int maxStapleSize=(int)staple;//histogram.mostPopulatedStapleSize();
+        int maxStapleSize=histogram.mostPopulatedStapleSize();
 
         for (i=0; i<size; i++){
 
