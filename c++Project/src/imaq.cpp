@@ -17,8 +17,8 @@ using namespace cv;
 void imaq::readJPGfromFolder() {                      // Read all image file names from a folder and store it in a variable
 
     imaq::jpgFileNames = DirectoryReader::readDirectory(imaq::jpgFolder);
-    std::cout <<  "Loading files from folder" << imaq::jpgFolder<<std::endl ;
-    std::cout <<  "Files loaded to jpgFileNames" << std::endl ;
+//    std::cout <<  "Loading files from folder" << imaq::jpgFolder<<std::endl ;
+//    std::cout <<  "Files loaded to jpgFileNames" << std::endl ;
     for(std::string file_name : imaq::jpgFileNames){
         std::cout <<  file_name << std::endl ;
     }
@@ -63,8 +63,8 @@ void imaq::readJPGfromFolder() {                      // Read all image file nam
 
 void imaq::addDirectory(std::string dir) {
     directoryList.push_back(dir);
-    std::cout <<  "Input directory added" << std::endl ;
-    std::cout<<dir<<std::endl;
+//    std::cout <<  "Input directory added" << std::endl ;
+//   std::cout<<dir<<std::endl;
     jpgFolder=dir;
 
 }
@@ -83,7 +83,7 @@ void imaq::createDIR(std::string fname) {
 
 void imaq::convertToPGM(std:: string op_dir)
 {
-    std::cout <<  "Conversion to PGM started" << std::endl ;
+//    std::cout <<  "Conversion to PGM started" << std::endl ;
     int i=0;
     for(std::string file_name : imaq::jpgFileNames){
 //        std::cout <<  "Converting " <<file_name<< std::endl ;
@@ -103,7 +103,7 @@ void imaq::convertToPGM(std:: string op_dir)
         write2pgm(imaq::image,fullPath);
         i++;
     }
-    std::cout <<  "Converted " <<i<< " files" <<std::endl ;
+//    std::cout <<  "Converted " <<i<< " files" <<std::endl ;
 }
 Mat imaq::readImage(std::string img_name)
 {
@@ -134,7 +134,7 @@ void imaq::write2pgm(Mat img_data,std::string file_name)
     std::vector<int> pgm_params;
     pgm_params.push_back((int &&) CV_IMWRITE_PXM_BINARY);
     pgm_params.push_back(1);
-    std::cout <<  "Writing file to folder" <<file_name<<std::endl ;
+//    std::cout <<  "Writing file to folder" <<file_name<<std::endl ;
     imwrite(file_name, img_data, pgm_params);
 }
 

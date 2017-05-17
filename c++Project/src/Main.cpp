@@ -57,6 +57,7 @@ int main(int argc, char **argv){
 
     //data->addDirectory(ip_path);
     data->startProcess(ip_path, op_path);
+    delete data;
     time_t end = time(0);
 
     //MosaicData *data = new MosaicData();
@@ -65,5 +66,6 @@ int main(int argc, char **argv){
     //time_t end = time(0);
     double time = difftime(end, start) * 1000.0;
     std::cout << "time = " << time << std::endl;
+    return 0;
 //    return app.exec();
 }
