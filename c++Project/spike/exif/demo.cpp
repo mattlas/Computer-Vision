@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <memory>
 #include <cstring>
 #include <iostream>
 #include "exif.h"
