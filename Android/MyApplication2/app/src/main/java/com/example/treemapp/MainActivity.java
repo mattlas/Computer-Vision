@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //for lena
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long i{
+        public void onItemClick(AdapterView<?> parent, View view, int position, long i){
 
             ///selectItem(position);
         }
