@@ -93,6 +93,7 @@ public class Overlay {
         Button save = (Button) mainActivity.findViewById(R.id.btn_save);
         Button delete = (Button) mainActivity.findViewById(R.id.btn_cancel);
 
+        /* // This isnt working!!! it cant find the images, imgBtns is always null
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton[] imgBtns = new ImageButton[4];
@@ -124,9 +125,12 @@ public class Overlay {
                     imgBtns[i].setVisibility(ImageButton.INVISIBLE);
                 }
             } else {
-                imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                if (imgBtns != null) {
+                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                }
             }
-        }
+
+        }*/
 
         // When save clicked - save info to the file and to the pin list
         save.setOnClickListener(new View.OnClickListener() {
