@@ -1,13 +1,10 @@
-#include "exif.h"
-
-#include <stdio.h>
-#include <vector>
 #include <algorithm>
 #include <cstdint>
+#include "exif.h"
 
 using std::string;
 
-namespace {
+namespace{
 
 struct Rational{
 	uint32_t numerator, denominator;

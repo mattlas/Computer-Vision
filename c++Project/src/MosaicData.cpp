@@ -4,31 +4,30 @@
 
 #include "MosaicData.h"
 #include "DirectoryReader.h"
-#include <cstring>
-#include <iostream>
+#include "MatchPoints.h"
 #include <thread>
 
-#define NUM_THREADS 3
+#define NUM_THREADS 4
 
 MosaicData::MosaicData(void) {
-
+    im = new imaq();
 }
 
 
-void MosaicData::readPGMFromFolder() {
-    pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
-}
 
-void MosaicData::addDirectory(std::string dir) {
-    directoryList.push_back(dir);
-}
 
-void MosaicData::startProcess() {
-    readFiles();
-    convertToPGM();
+void MosaicData::startProcess(const char *ip_path, const char *op_path) {
+    std::cout << "readFiles" << std::endl;
+    readFiles(ip_path);
+    std::cout << "convert to pgm " << std::endl;
+    convertToPGM(op_path);
+    delete im;
+    std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
     extractFeaturePoints();
+    std::cout << "create threads" << std::endl;
     //createThreads();
+    std::cout << "ubc match" << std::endl;
     ubcMatch();
 }
 
@@ -44,64 +43,69 @@ void MosaicData::extractFeaturePoints() {
 }
 
 void MosaicData::ubcMatch() {
-
-    //TODO Match points with ubc match
+    MatchPoints *matcher = new MatchPoints(featurePointList.at(0), featurePointList.at(1));
 }
 
-void MosaicData::readFiles() {
-    for(std::string directory : directoryList){
+void MosaicData::readFiles(const char *ip_path) {
+    im->addDirectory(ip_path);
+    im->readJPGfromFolder();
+    /*for(std::string directory : directoryList){
         std::vector<std::string> temp = DirectoryReader::readDirectory(directory);
         fileNames.insert(std::end(fileNames), std::begin(temp), std::end(temp));
-    }
+    }*/
 }
 
-void MosaicData::convertToPGM() {
-    //TODO convert files, now located in the vector fileNames to a pgmfolder and save folder path to variable pgmFolder
-    pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
+void MosaicData::convertToPGM(const char *op_path) {
+    im->convertToPGM(op_path);
+    pgmFolder = op_path;
+    //pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
 }
 
-void MosaicData::extractFeaturePointsThreaded(std::vector<std::string> pgmFileNames , std::vector<FeaturePoints> featurePointList) {
-    std::vector<std::string> tempList = pgmFileNames; //shares reference, should be copied.
-    std::mutex readMutex;
-    std::mutex writeMutex;
-    while(!tempList.empty()){
+void MosaicData::extractFeaturePointsThreaded() {
+    while(!pgmFileNames.empty()){
         readMutex.lock();
-        std::cout << "locked" << std::endl;
-        std::string name = (std::string) tempList.back();
-        tempList.pop_back();
+        std::string name = (std::string) pgmFileNames.back();
+        pgmFileNames.pop_back();
         readMutex.unlock();
-        std::cout << "unlocked" << std::endl;
         FeaturePoints *point = new FeaturePoints(name,1);
         point->calculatePoints();
+
         writeMutex.lock();
         featurePointList.push_back(*point);
         writeMutex.unlock();
+
     }
 
 }
 
 void MosaicData::createThreads() {
     std::vector<std::thread> threads;
+    std::vector<std::string> tempList = pgmFileNames;
 
     int rc;
     int i;
-
+    MosaicData* mosaicData = this;
     for( i=0; i < NUM_THREADS; i++ ){
-        std::cout << "main() : creating thread, " << i << std::endl;
-        std::thread t1(extractFeaturePointsThreaded,pgmFileNames,featurePointList);
+        std::thread t1(classWrapper,mosaicData);
         threads.push_back(std::move(t1));
 
-        /*rc = pthread_create(&threads[i], NULL, &extractFeaturePointsThreaded, (void*)i);
-
-        if (rc){
-            std::cout << "Error:unable to create thread," << rc << std::endl;
-            exit(-1);
-        }*/
     }
     for(int j =0; j < threads.size(); j++){
         std::thread t{std::move(threads.at(j))};
         t.join();
     }
+    pgmFileNames = tempList;
 
+}
 
+void MosaicData::classWrapper(MosaicData *mosaicData) {
+    mosaicData->extractFeaturePointsThreaded();
+}
+
+void MosaicData::readPGMFromFolder() {
+    pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
+}
+
+void MosaicData::addDirectory(std::string dir) {
+    directoryList.push_back(dir);
 }

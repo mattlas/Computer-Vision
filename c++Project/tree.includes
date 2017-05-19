@@ -1,0 +1,11 @@
+lib/lapack-3.7.0/CBLAS/include
+lib/lapack-3.7.0/LAPACKE/example
+lib/lapack-3.7.0/LAPACKE/include
+lib/vlfeat-0.9.20/src
+lib/vlfeat-0.9.20/toolbox
+lib/vlfeat-0.9.20/toolbox/misc
+lib/vlfeat-0.9.20/vl
+spike/exif
+spike/vl-test/src
+src
+.

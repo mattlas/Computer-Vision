@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/5dv115/Computer-Vision/c++Project
+CMAKE_SOURCE_DIR = /home/5dv115/Documents/project/Computer-Vision/c++Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/5dv115/Computer-Vision/c++Project
+CMAKE_BINARY_DIR = /home/5dv115/Documents/project/Computer-Vision/c++Project
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles /home/5dv115/Computer-Vision/c++Project/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Documents/project/Computer-Vision/c++Project/CMakeFiles /home/5dv115/Documents/project/Computer-Vision/c++Project/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Computer-Vision/c++Project/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/5dv115/Documents/project/Computer-Vision/c++Project/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -122,6 +122,100 @@ TreeMarkupToolbox: cmake_check_build_system
 TreeMarkupToolbox/fast:
 	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/build
 .PHONY : TreeMarkupToolbox/fast
+
+#=============================================================================
+# Target rules for targets named TreeMarkupToolbox_automoc
+
+# Build rule for target.
+TreeMarkupToolbox_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TreeMarkupToolbox_automoc
+.PHONY : TreeMarkupToolbox_automoc
+
+# fast build rule for target.
+TreeMarkupToolbox_automoc/fast:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox_automoc.dir/build.make CMakeFiles/TreeMarkupToolbox_automoc.dir/build
+.PHONY : TreeMarkupToolbox_automoc/fast
+
+TreeMarkupToolbox_automoc.o: TreeMarkupToolbox_automoc.cpp.o
+
+.PHONY : TreeMarkupToolbox_automoc.o
+
+# target to build an object file
+TreeMarkupToolbox_automoc.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/TreeMarkupToolbox_automoc.cpp.o
+.PHONY : TreeMarkupToolbox_automoc.cpp.o
+
+TreeMarkupToolbox_automoc.i: TreeMarkupToolbox_automoc.cpp.i
+
+.PHONY : TreeMarkupToolbox_automoc.i
+
+# target to preprocess a source file
+TreeMarkupToolbox_automoc.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/TreeMarkupToolbox_automoc.cpp.i
+.PHONY : TreeMarkupToolbox_automoc.cpp.i
+
+TreeMarkupToolbox_automoc.s: TreeMarkupToolbox_automoc.cpp.s
+
+.PHONY : TreeMarkupToolbox_automoc.s
+
+# target to generate assembly for a file
+TreeMarkupToolbox_automoc.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/TreeMarkupToolbox_automoc.cpp.s
+.PHONY : TreeMarkupToolbox_automoc.cpp.s
+
+qrc_resources.o: qrc_resources.cpp.o
+
+.PHONY : qrc_resources.o
+
+# target to build an object file
+qrc_resources.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/qrc_resources.cpp.o
+.PHONY : qrc_resources.cpp.o
+
+qrc_resources.i: qrc_resources.cpp.i
+
+.PHONY : qrc_resources.i
+
+# target to preprocess a source file
+qrc_resources.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/qrc_resources.cpp.i
+.PHONY : qrc_resources.cpp.i
+
+qrc_resources.s: qrc_resources.cpp.s
+
+.PHONY : qrc_resources.s
+
+# target to generate assembly for a file
+qrc_resources.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/qrc_resources.cpp.s
+.PHONY : qrc_resources.cpp.s
+
+src/DirectoryReader.o: src/DirectoryReader.cpp.o
+
+.PHONY : src/DirectoryReader.o
+
+# target to build an object file
+src/DirectoryReader.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/DirectoryReader.cpp.o
+.PHONY : src/DirectoryReader.cpp.o
+
+src/DirectoryReader.i: src/DirectoryReader.cpp.i
+
+.PHONY : src/DirectoryReader.i
+
+# target to preprocess a source file
+src/DirectoryReader.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/DirectoryReader.cpp.i
+.PHONY : src/DirectoryReader.cpp.i
+
+src/DirectoryReader.s: src/DirectoryReader.cpp.s
+
+.PHONY : src/DirectoryReader.s
+
+# target to generate assembly for a file
+src/DirectoryReader.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/DirectoryReader.cpp.s
+.PHONY : src/DirectoryReader.cpp.s
 
 src/FeaturePoints.o: src/FeaturePoints.cpp.o
 
@@ -204,6 +298,87 @@ src/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/Main.cpp.s
 .PHONY : src/Main.cpp.s
 
+src/MatchPoints.o: src/MatchPoints.cpp.o
+
+.PHONY : src/MatchPoints.o
+
+# target to build an object file
+src/MatchPoints.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MatchPoints.cpp.o
+.PHONY : src/MatchPoints.cpp.o
+
+src/MatchPoints.i: src/MatchPoints.cpp.i
+
+.PHONY : src/MatchPoints.i
+
+# target to preprocess a source file
+src/MatchPoints.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MatchPoints.cpp.i
+.PHONY : src/MatchPoints.cpp.i
+
+src/MatchPoints.s: src/MatchPoints.cpp.s
+
+.PHONY : src/MatchPoints.s
+
+# target to generate assembly for a file
+src/MatchPoints.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MatchPoints.cpp.s
+.PHONY : src/MatchPoints.cpp.s
+
+src/MosaicData.o: src/MosaicData.cpp.o
+
+.PHONY : src/MosaicData.o
+
+# target to build an object file
+src/MosaicData.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MosaicData.cpp.o
+.PHONY : src/MosaicData.cpp.o
+
+src/MosaicData.i: src/MosaicData.cpp.i
+
+.PHONY : src/MosaicData.i
+
+# target to preprocess a source file
+src/MosaicData.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MosaicData.cpp.i
+.PHONY : src/MosaicData.cpp.i
+
+src/MosaicData.s: src/MosaicData.cpp.s
+
+.PHONY : src/MosaicData.s
+
+# target to generate assembly for a file
+src/MosaicData.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/MosaicData.cpp.s
+.PHONY : src/MosaicData.cpp.s
+
+src/mainwindow.o: src/mainwindow.cpp.o
+
+.PHONY : src/mainwindow.o
+
+# target to build an object file
+src/mainwindow.cpp.o:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/mainwindow.cpp.o
+.PHONY : src/mainwindow.cpp.o
+
+src/mainwindow.i: src/mainwindow.cpp.i
+
+.PHONY : src/mainwindow.i
+
+# target to preprocess a source file
+src/mainwindow.cpp.i:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/mainwindow.cpp.i
+.PHONY : src/mainwindow.cpp.i
+
+src/mainwindow.s: src/mainwindow.cpp.s
+
+.PHONY : src/mainwindow.s
+
+# target to generate assembly for a file
+src/mainwindow.cpp.s:
+	$(MAKE) -f CMakeFiles/TreeMarkupToolbox.dir/build.make CMakeFiles/TreeMarkupToolbox.dir/src/mainwindow.cpp.s
+.PHONY : src/mainwindow.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,6 +388,16 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TreeMarkupToolbox"
+	@echo "... TreeMarkupToolbox_automoc"
+	@echo "... TreeMarkupToolbox_automoc.o"
+	@echo "... TreeMarkupToolbox_automoc.i"
+	@echo "... TreeMarkupToolbox_automoc.s"
+	@echo "... qrc_resources.o"
+	@echo "... qrc_resources.i"
+	@echo "... qrc_resources.s"
+	@echo "... src/DirectoryReader.o"
+	@echo "... src/DirectoryReader.i"
+	@echo "... src/DirectoryReader.s"
 	@echo "... src/FeaturePoints.o"
 	@echo "... src/FeaturePoints.i"
 	@echo "... src/FeaturePoints.s"
@@ -222,6 +407,15 @@ help:
 	@echo "... src/Main.o"
 	@echo "... src/Main.i"
 	@echo "... src/Main.s"
+	@echo "... src/MatchPoints.o"
+	@echo "... src/MatchPoints.i"
+	@echo "... src/MatchPoints.s"
+	@echo "... src/MosaicData.o"
+	@echo "... src/MosaicData.i"
+	@echo "... src/MosaicData.s"
+	@echo "... src/mainwindow.o"
+	@echo "... src/mainwindow.i"
+	@echo "... src/mainwindow.s"
 .PHONY : help
 
 
