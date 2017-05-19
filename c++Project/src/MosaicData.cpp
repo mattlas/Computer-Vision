@@ -9,18 +9,21 @@
 
 #define NUM_THREADS 4
 
-MosaicData::MosaicData(void) {
+MosaicData::MosaicData(std::string input_path, std::string pgm_path) {
+    this->input_path = input_path;
+    this->pgm_path = pgm_path;
     im = new imaq();
 }
 
 
 
 
-void MosaicData::startProcess(const char *ip_path, const char *op_path) {
+void MosaicData::startProcess() {
     std::cout << "readFiles" << std::endl;
-    readFiles(ip_path);
+    readFiles(input_path);
     std::cout << "convert to pgm " << std::endl;
-    convertToPGM(op_path);
+    convertToPGM(pgm_path);
+    createImages();
     delete im;
     std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
@@ -46,7 +49,7 @@ void MosaicData::ubcMatch() {
     MatchPoints *matcher = new MatchPoints(featurePointList.at(0), featurePointList.at(1));
 }
 
-void MosaicData::readFiles(const char *ip_path) {
+void MosaicData::readFiles(std::string ip_path) {
     im->addDirectory(ip_path);
     im->readJPGfromFolder();
     /*for(std::string directory : directoryList){
@@ -55,7 +58,7 @@ void MosaicData::readFiles(const char *ip_path) {
     }*/
 }
 
-void MosaicData::convertToPGM(const char *op_path) {
+void MosaicData::convertToPGM(std::string op_path) {
     im->convertToPGM(op_path);
     pgmFolder = op_path;
     //pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
@@ -108,4 +111,13 @@ void MosaicData::readPGMFromFolder() {
 
 void MosaicData::addDirectory(std::string dir) {
     directoryList.push_back(dir);
+}
+
+void MosaicData::createImages() {
+    int id = 1;
+    for(std::string file : pgmFileNames){
+        //ImageData *imageData = new ImageData(id);
+        //imageList.insert()
+    }
+
 }

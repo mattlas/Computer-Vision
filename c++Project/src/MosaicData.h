@@ -9,13 +9,16 @@
 #include <vector>
 #include "FeaturePoints.h"
 #include "imaq.h"
+//#include "ImageData.h"
 #include <memory>
 //#include <thread>
 #include <pthread.h>
 #include <mutex>
+#include <bits/unordered_map.h>
 
 class MosaicData {
 private:
+    //std::unordered_map<int,ImageData> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;
@@ -23,6 +26,11 @@ private:
     std::vector<FeaturePoints> featurePointList;
     std::mutex readMutex;
     std::mutex writeMutex;
+    std::string input_path;
+    std::string pgm_path;
+
+
+
 
     imaq *im = NULL;
 
@@ -30,7 +38,7 @@ public:
     /**
      * Constructor - an empty constructor called to initiate class.
      */
-    MosaicData(void);
+    MosaicData(std::string input_path, std::string pgm_path);
 
     /**
      * Add the directory to the directoryList
@@ -42,7 +50,7 @@ public:
      * Start the pipeline process.
      * OBS. The directoryList will need at least one directory for this function to work.
      */
-    void startProcess(const char *string, const char *string1);
+    void startProcess();
 
     void extractFeaturePoints();
 
@@ -56,11 +64,13 @@ public:
     static void classWrapper(MosaicData* mosaicData);
 
 private:
-    void readFiles(const char *string);
+    void readFiles(std::string string);
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
     void readPGMFromFolder();
 
-    void convertToPGM(const char *string);
+    void convertToPGM(std::string string);
+
+    void createImages();
 };
 
 
