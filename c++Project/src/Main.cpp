@@ -44,15 +44,16 @@ int main(int argc, char **argv){
 //        ip_path=(std::string)MainWindow::qpath;
 //    }
 //
-    std::string op_path;
+    std::string output_path;  //Path were to output the images
+    std::string input_path;  //Path were to read the images from
 //    if(argc > 1){
 //        op_path = argv[2];
 //
 //    } else {
         //op_path = "/home/5dv115/Computer-Vision/c++Project/PGMdir";
 //        op_path = "/home/5dv115/c13evk_scripts/pict_out";
-        op_path=w.QstringToString(w.qpath);
-    std::cout << "String =" << op_path << std::endl;
+    output_path=w.QstringToString(w.qpath);
+    std::cout << "String =" << output_path << std::endl;
         //    }
 
 
