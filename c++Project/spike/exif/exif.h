@@ -93,6 +93,7 @@ public:
 		clear();
 	}
 };
+EXIFInfo read(const std::string &filepath);
 }
 #define PARSE_EXIF_SUCCESS                    0
 #define PARSE_EXIF_ERROR_NO_JPEG              1982
