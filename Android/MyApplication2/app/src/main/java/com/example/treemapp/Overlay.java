@@ -26,19 +26,20 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 public class Overlay {
     private final MainActivity mainActivity;
 
-    private final RelativeLayout overlayedActivity;
+    private final RelativeLayout inputOverlay;
     private final LinearLayout fakeView;
 
-    private final RelativeLayout perspectiveOverlay;
+    private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
+    private PinView originalView;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
                  //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
-    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout perspectiveOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
+    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
 
         this.mainActivity = mainActivity;
-        this.overlayedActivity = overlayedActivity;
-        this.perspectiveOverlay = perspectiveOverlay;
+        this.inputOverlay = overlayedActivity;
+        this.imagePickerOverlay = imagePickerOverlay;
         this.fakeView = fakeView;
         this.fakeView2 = fakeView2;
 
@@ -52,14 +53,14 @@ public class Overlay {
         this.fakeView2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return (perspectiveOverlay.getVisibility() == View.VISIBLE);
+                return (imagePickerOverlay.getVisibility() == View.VISIBLE);
             }
         });
     }
 
     /*Checks if the input is currently invisble*/
     public boolean inputIsVisible(){
-        return overlayedActivity.getVisibility() == View.VISIBLE;
+        return inputOverlay.getVisibility() == View.VISIBLE;
     }
 
     /**
@@ -67,8 +68,8 @@ public class Overlay {
      *
      * @param pin the tree/pin to add
      */
-    public void create(final Pin pin) {
-        overlayedActivity.setVisibility(View.VISIBLE);
+    public void initInputOverlay(final Pin pin) {
+        inputOverlay.setVisibility(View.VISIBLE);
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
@@ -93,45 +94,6 @@ public class Overlay {
         Button save = (Button) mainActivity.findViewById(R.id.btn_save);
         Button delete = (Button) mainActivity.findViewById(R.id.btn_cancel);
 
-        /* // This isnt working!!! it cant find the images, imgBtns is always null
-        // Chooose the photos for the buttons (different perspectives)
-        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
-        ImageButton[] imgBtns = new ImageButton[4];
-        for (int i = 0; i < 4; i++) {
-            imgBtns[i] = (ImageButton) mainActivity.findViewById(btns[i]);
-            final int finalIndex = i;
-            if (neighbors.size() > i) {
-                imgBtns[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String filePath;
-                        filePath = neighbors.get(finalIndex);
-                        if (filePath != null) {
-                            File file = new File(filePath);
-                            if (file.exists()) {
-                                ImageView im = (ImageView) perspectiveOverlay.findViewById(R.id.perspective_image);
-                                im.setImageURI(Uri.fromFile(file));
-                                perspectiveOverlay.setVisibility(View.VISIBLE);
-                            }
-                        } else Log.e(MainActivity.TAG, "Filename does not exist: " + filePath);
-                    }
-                });
-                File file = new File(neighbors.get(i));
-                if (file.exists()) {
-                    imgBtns[i].setImageURI(Uri.fromFile(file));
-                    imgBtns[i].setVisibility(ImageButton.VISIBLE);
-                } else {
-                    Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
-                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
-                }
-            } else {
-                if (imgBtns != null) {
-                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
-                }
-            }
-
-        }*/
-
         // When save clicked - save info to the file and to the pin list
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +104,7 @@ public class Overlay {
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 // Make overlayed view visible
-                overlayedActivity.setVisibility(View.INVISIBLE);
+                inputOverlay.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -151,7 +113,7 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.getImageView().removePinFromList(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
+                inputOverlay.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
         });
@@ -161,7 +123,7 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.getImageView().removePinFromList(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
+                inputOverlay.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
         });
@@ -169,31 +131,31 @@ public class Overlay {
         perspExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perspectiveOverlay.setVisibility(View.INVISIBLE);
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
                 //imageView.invalidate();
             }
         });
     }
 
     /**
-     * Really similiar to create but gets the information from an old pin, allowing the user
+     * Really similiar to initInputOverlay but gets the information from an old pin, allowing the user
      * to edit the pin and in so editing the output file
      */
     public void edit(final Pin pin) {
-        overlayedActivity.setVisibility(View.VISIBLE);
+        inputOverlay.setVisibility(View.VISIBLE);
 
         Log.d(mainActivity.TAG,"Tree detail edit overlay opened");
 
         //TODO, put values here
 
-        final NumberPicker height = (NumberPicker) overlayedActivity.findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) overlayedActivity.findViewById(R.id.inp_diameter);
+        final NumberPicker height = (NumberPicker) inputOverlay.findViewById(R.id.inp_height);
+        final NumberPicker diameter = (NumberPicker) inputOverlay.findViewById(R.id.inp_diameter);
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker);
 
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
 
-        TextView tv = (TextView) overlayedActivity.findViewById(R.id.overlay_box_txt);
+        TextView tv = (TextView) inputOverlay.findViewById(R.id.overlay_box_txt);
         tv.setText("Edit tree");
 
 
@@ -206,8 +168,8 @@ public class Overlay {
         Toast.makeText(mainActivity.getApplicationContext(), "Data saved." + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
         carouselPicker.setCurrentItem(getSpeciesPosition(formerSpecies, speciesList));
 
-        Button save = (Button) overlayedActivity.findViewById(R.id.btn_save);
-        Button delete = (Button) overlayedActivity.findViewById(R.id.btn_cancel);
+        Button save = (Button) inputOverlay.findViewById(R.id.btn_save);
+        Button delete = (Button) inputOverlay.findViewById(R.id.btn_cancel);
 
         // when save clicked - save info to the pin list, change the line in the file
         save.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +179,7 @@ public class Overlay {
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();}
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                overlayedActivity.setVisibility(View.INVISIBLE);
+                inputOverlay.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -226,7 +188,7 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.getImageView().deletePin(pin);
-                overlayedActivity.setVisibility(View.INVISIBLE);
+                inputOverlay.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
         });
@@ -270,6 +232,58 @@ public class Overlay {
         }
         return position;
     }
+
+    public void initImagePickerOverlay(final Pin pin){
+
+        final String fileName = pin.getImageFileName();
+        final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+
+
+
+        // Chooose the photos for the buttons (different perspectives)
+        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
+        ImageButton[] imgBtns = new ImageButton[4];
+        for (int i = 0; i < 4; i++) {
+            imgBtns[i] = (ImageButton) mainActivity.findViewById(btns[i]);
+            final int finalIndex = i;
+            if (neighbors.size() > i) {
+                imgBtns[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String filePath;
+                        filePath = neighbors.get(finalIndex);
+                        if (filePath != null) {
+                            File file = new File(filePath);
+                            if (file.exists()) {
+                                ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
+                                im.setImageURI(Uri.fromFile(file));
+                                imagePickerOverlay.setVisibility(View.VISIBLE);
+                            }
+                        } else Log.e(MainActivity.TAG, "Filename does not exist: " + filePath);
+                    }
+                });
+                File file = new File(neighbors.get(i));
+                if (file.exists()) {
+                    imgBtns[i].setImageURI(Uri.fromFile(file));
+                    imgBtns[i].setVisibility(ImageButton.VISIBLE);
+                } else {
+                    Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
+                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                }
+            } else {
+                if (imgBtns != null) {
+                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                }
+            }
+
+            imagePickerOverlay.setVisibility(View.VISIBLE);
+
+        }
+
+
+    }
+
+
 
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {

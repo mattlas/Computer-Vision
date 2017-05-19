@@ -1,7 +1,6 @@
 package com.example.treemapp;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,25 +11,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.app.FragmentManager;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -41,8 +38,6 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import java.io.File;
 import java.util.ArrayList;
 
-
-import in.goodiebag.carouselpicker.CarouselPicker;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
@@ -70,15 +65,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // The activity to create the input
-        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
+        // The activity to initInputOverlay the input
+        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
                  (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
-
-
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -94,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Event handling
         initialiseEventHandling();
 
-        // init buttons
-        buttonsSetUp();
     }
 
     private void initMenu() {
@@ -143,22 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
-    private void buttonsSetUp(){
-        ImageButton statisticsBtn = (ImageButton) findViewById(R.id.imageButton_graph);
-        ImageButton exportBtn = (ImageButton) findViewById(R.id.imageButton_export);
-
-        statisticsBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View w){
-                sendStats();
-            }
-        });
-
-        exportBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View w){
-                export();
-            }
-        });
-    }
 
     /**
      * Goes to sharing activity
@@ -228,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /* adding the pin to the file and pin list and shows the menu for the pin*/
-    void makePin(MotionEvent e) {
+    void showOriginals(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
         ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
@@ -240,8 +215,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 
-        imageView.addPin(pin);
-        overlay.create(pin);
+        overlay.initImagePickerOverlay(pin);
+
+        // TODO add on save
+        //imageView.addPin(pin);
+        //overlay.initInputOverlay(pin);
 
         imageView.invalidate();
     }
@@ -337,9 +315,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.nav_send){
+        if (id == R.id.nav_send) {
             export();
         }
+        else if (id == R.id.nav_statistics) {
+            StatFragment sf = new StatFragment();
+            sf.init(new Statista(imageView.getPins()));
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
+        }else if (id == R.id.nav_home) {
+            getFragmentManager().popBackStack();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

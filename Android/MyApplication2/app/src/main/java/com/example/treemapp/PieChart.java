@@ -118,19 +118,22 @@ public class PieChart extends AppCompatImageView {
         int total=getTotal();
 
         int lastIndex=0;
+        float limit=0;
+        float startValue = 0;
 
         for (int i = 0; i<speciesCountList.size(); i++){
             Statista.SpeciesCount speciesCount = speciesCountList.get(i);
-            int triangles = speciesCount.getAmount() * (colors.length/2) / total;
-            triangles = Math.round(triangles / 6f) * 6; //to avoid blurring
 
-            int j;
-            for (j=0; j<triangles && (j + lastIndex) < colors.length; j++){
-                colors[j + lastIndex]=colorScheme[i%colorScheme.length]; //the mod part is only if there are more than 5 colors
+            limit += speciesCount.getAmount() *  (colors.length/12) / (float) total;
+
+            float j;
+            for (j = startValue; j < limit && (j + limit) < colors.length; j+=1){
+                for (int vertex = 0; vertex < 6; vertex++) {
+                    colors[(int) Math.floor(j) * 6 + vertex] = colorScheme[i % colorScheme.length]; //the mod part is only if there are more than 5 colors
+                }
             }
-            lastIndex += j;
+            startValue = limit;
         }
-
 
         return colors;
     }

@@ -43,7 +43,7 @@ public class FileHandler {
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     public FileHandler() {
-        // First create the directory if it doesn't exist
+        // First initInputOverlay the directory if it doesn't exist
         try{
             File dir = new File(Environment.getExternalStorageDirectory()+"/mosaic");
             if (dir.mkdir()){
@@ -53,7 +53,7 @@ public class FileHandler {
             }
 
         } catch (Exception e){
-            Log.e(TAG, "Failed to create/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
         }
         // Then the file
         try {
@@ -70,7 +70,7 @@ public class FileHandler {
             br = new BufferedReader(new FileReader(file));
 
         } catch (IOException e) {
-            Log.e(TAG, "Failed to create/open file " + filename + ": " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open file " + filename + ": " + e.getLocalizedMessage());
             //System.exit(-1);
         }
     }
@@ -309,7 +309,7 @@ public class FileHandler {
 
 
 
-                // For each tree on file, create and enter details of the new pin
+                // For each tree on file, initInputOverlay and enter details of the new pin
 
                 Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, fileName);
                 p.setInputData(line[3], line[4], line[5]);
@@ -346,7 +346,7 @@ public class FileHandler {
             br.mark(0);
 
         } catch (IOException e) {
-            Log.e(TAG, "Failed to create/open file " + filename + ": " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open file " + filename + ": " + e.getLocalizedMessage());
             //System.exit(-1);
         }
     }
