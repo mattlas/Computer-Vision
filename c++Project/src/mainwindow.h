@@ -13,11 +13,8 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-
     bool saveImages;
     std::string path;
-
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -25,8 +22,7 @@ public:
     std::string QstringToString(QString value);
     ~MainWindow();
     QString qpath;
-
-
+    bool wait_path = 1;
 
 private slots:
     void on_button_browse_clicked();

@@ -46,7 +46,6 @@ bool MainWindow::saveImagesOnPC(bool g)
 }
 
 std::string MainWindow::QstringToString(QString qstring_1)
-
 {
     std::string text = qstring_1.toUtf8().constData(); //it should work but not sure, it needs some testing.
     return text;
@@ -58,8 +57,9 @@ void MainWindow::on_button_next_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     QThread *thread = new QThread;
     MosaicData *md = new MosaicData();
+    md->addDirectory(this->path);
     md->moveToThread(thread);
-    connect(thread, SIGNAL(started()), md, SLOT(addDirectory(std::string)));
+    connect(thread, SIGNAL(started()), md, SLOT(startProcess(const char*,const char*));
     connect(md, SIGNAL(finished()), thread, SLOT(quit()));
     connect(md, SIGNAL(finished()), md, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
