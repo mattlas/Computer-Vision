@@ -16,7 +16,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.app.FragmentManager;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -77,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
-
-
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -335,7 +336,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_send) {
+            export();
+        }
+        else if (id == R.id.nav_statistics) {
+            StatFragment sf = new StatFragment();
+            sf.init(new Statista(imageView.getPins()));
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
+        }else if (id == R.id.nav_home) {
+            getFragmentManager().popBackStack();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
