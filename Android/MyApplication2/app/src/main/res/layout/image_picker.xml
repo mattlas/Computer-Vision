@@ -109,14 +109,14 @@
             android:layout_margin="10dp"/>
 
         <ImageButton
-            android:id="@+id/btn_perspective_4"
+            android:id="@+id/btn_perspective_3"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:layout_margin="10dp"/>
 
         <ImageButton
-            android:id="@+id/btn_perspective_3"
+            android:id="@+id/btn_perspective_4"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
