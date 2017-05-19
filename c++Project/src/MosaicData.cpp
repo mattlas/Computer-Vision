@@ -15,9 +15,6 @@ MosaicData::MosaicData(std::string input_path, std::string pgm_path) {
     im = new imaq();
 }
 
-
-
-
 void MosaicData::startProcess() {
     std::cout << "readFiles" << std::endl;
     readFiles(input_path);
@@ -29,9 +26,11 @@ void MosaicData::startProcess() {
     readPGMFromFolder();
     extractFeaturePoints();
     std::cout << "create threads" << std::endl;
-    //createThreads();
+    createThreads();
     std::cout << "ubc match" << std::endl;
     ubcMatch();
+    std::cout << "ubc match done" << std::endl;
+    emit finished();
 }
 
 void MosaicData::extractFeaturePoints() {
@@ -59,6 +58,7 @@ void MosaicData::readFiles(std::string ip_path) {
 }
 
 void MosaicData::convertToPGM(std::string op_path) {
+
     im->convertToPGM(op_path);
     pgmFolder = op_path;
     //pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
@@ -76,9 +76,7 @@ void MosaicData::extractFeaturePointsThreaded() {
         writeMutex.lock();
         featurePointList.push_back(*point);
         writeMutex.unlock();
-
     }
-
 }
 
 void MosaicData::createThreads() {

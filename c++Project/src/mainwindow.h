@@ -13,8 +13,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    bool saveImages;
-    std::string path;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -22,7 +20,7 @@ public:
     std::string QstringToString(QString value);
     ~MainWindow();
     QString qpath;
-    bool wait_path = 1;
+    std::string path;
 
 private slots:
     void on_button_browse_clicked();
@@ -31,7 +29,7 @@ private slots:
 
     void on_button_create_clicked();
 
-    void on_button_next_4_clicked();
+    void gotoPageMosaicSaved();
 
     void on_label_linkActivated(const QString &link);
 

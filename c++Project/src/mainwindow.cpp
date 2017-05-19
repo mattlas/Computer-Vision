@@ -4,6 +4,7 @@
 #include "QButtonGroup"
 #include "QString"
 #include "QThread"
+#include "QDir"
 #include "MosaicData.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -46,7 +47,6 @@ bool MainWindow::saveImagesOnPC(bool g)
 }
 
 std::string MainWindow::QstringToString(QString qstring_1)
-
 {
     std::string text = qstring_1.toUtf8().constData(); //it should work but not sure, it needs some testing.
     return text;
@@ -56,43 +56,32 @@ std::string MainWindow::QstringToString(QString qstring_1)
 void MainWindow::on_button_next_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
-    QThread *thread = new QThread;
-    MosaicData *md = new MosaicData();
-    md->moveToThread(thread);
-    connect(thread, SIGNAL(started()), md, SLOT(addDirectory(std::string)));
-    connect(md, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(md, SIGNAL(finished()), md, SLOT(deleteLater()));
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
 }
 
 void MainWindow::on_button_create_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 
-    if(ui->radioButton_yes->isChecked())
-    {
-        this->saveImages=saveImagesOnPC(1);
+    QDir dir("/home/5dv115/temp");
+    if (!dir.exists()) {
+        dir.mkdir("/home/5dv115/temp");
     }
 
-    if(ui->radioButton_no->isChecked())
-    {
-        this->saveImages=saveImagesOnPC(0);
-    }
-
-    this->wait_path = 1;
-
+    QThread *thread = new QThread;
+    MosaicData *md = new MosaicData(this->path, "/home/5dv115/temp");
+    md->addDirectory(this->path);
+    md->moveToThread(thread);
+    connect(thread, SIGNAL(started()), md, SLOT(startProcess()));
+    connect(md, SIGNAL(finished()), this, SLOT(gotoPageMosaicSaved()));
+    connect(md, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(md, SIGNAL(finished()), md, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
 }
 
-void MainWindow::on_button_next_4_clicked()
+void MainWindow::gotoPageMosaicSaved()
 {
     ui->stackedWidget->setCurrentIndex(3);
-
-   // if (this->qpath.isEmpty()!=0)
-   // {
-   // ui->label->setText(this->qpath);
-   // ui->label->repaint();
-    //}
 }
 
 void MainWindow::on_label_linkActivated(const QString &link)
