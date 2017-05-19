@@ -4,8 +4,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import static com.example.treemapp.R.id.imageView;
-
 /**
  * Created by oskar on 2017-05-11.
  */
@@ -24,7 +22,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
         if (main.getImageView().isReady()) {
             // If there is no pins we are definitely creating a new one
             if (main.getImageView().listIsEmpty()) {
-                main.makePin(pos); //makes pin, creates menu
+                main.showOriginals(pos); //makes pin, creates menu
             } else {
                 // Closest pin to tapped position
                 Pin closestPin = main.getImageView().getClosestPin(pos.getX(), pos.getY());
@@ -36,7 +34,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
                     // otherwise make new pin
                 } else {
                     //If the user's presses not near an existing pin we make a new one
-                    main.makePin(pos);
+                    main.showOriginals(pos);
                 }
             }
 

@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/Image_picker_overlayed"
+    android:visibility="invisible"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Container -->
@@ -45,13 +47,14 @@
         </RelativeLayout>
 
         <!-- Main image-->
-        <ImageView
-            android:background="@drawable/border_background"
+
+        <com.example.treemapp.PinView
+            android:id="@+id/originalView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="90dp"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true" />
 
         <!-- Save & Close btm-->
         <RelativeLayout

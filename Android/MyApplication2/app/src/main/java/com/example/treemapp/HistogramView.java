@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Created by adam on 5/15/17.
+ * Displays a Histogram to describe a distribution.
  */
 
 public class HistogramView extends AppCompatImageView {
@@ -58,11 +59,11 @@ public class HistogramView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public HistogramView(Context context, Statista stats){
-        this(context);
-        this.histogram=stats.generateHistogram(MAX_STAPLES);
-    }
 
+    /**
+     * Defines the Histogram object from a Statista object. Must be called after creation.
+     * @param statista a valid statistics object
+     */
     public void setHistogram(Statista statista){
         this.histogram=statista.generateHistogram(MAX_STAPLES);
         ready = true;
@@ -74,6 +75,10 @@ public class HistogramView extends AppCompatImageView {
     }
 
 
+    /**
+     * Draws the histogram to a Canvas object
+     * @param canvas the destination Canvas
+     */
     private void drawHistogram(Canvas canvas){
 
 
