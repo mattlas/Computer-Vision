@@ -335,13 +335,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        int id = item.getItemId();
+
+        if(id == R.id.nav_send){
+            export();
+        }
+        return true;
     }
 
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //selectItem(position);
+        public void onItemClick(AdapterView<?> parent, View view, int position, long i{
+
+            ///selectItem(position);
         }
     }
 }
