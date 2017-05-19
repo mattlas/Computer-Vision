@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 5dv115 on 5/15/17.
+ * Created by adam on 5/15/17.
+ * This class allows the display of a PieChart describing species distribution. It requires a SpeciesCount from the Statista object.
  */
 
 public class PieChart extends AppCompatImageView {
@@ -24,6 +25,9 @@ public class PieChart extends AppCompatImageView {
     private float[] verts;
     private ArrayList<Statista.SpeciesCount> speciesCountList;
 
+    /**
+     * The list of colors to be used in the pie. Maybe could be changed so that each tree has an assigned color.
+     */
     private final int[] colorScheme = {
             0xFF50514F,
             0xFFF25F5C,
@@ -45,6 +49,10 @@ public class PieChart extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
+    /**
+     * Sets the species list. Must be called with a valid Statista object before use; defines the information to be displayed.
+     * @param speciesCountList
+     */
     public void setSpeciesList(ArrayList<Statista.SpeciesCount> speciesCountList){
         this.speciesCountList=speciesCountList;
     }
@@ -61,14 +69,15 @@ public class PieChart extends AppCompatImageView {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
+    /**
+     * Draws the pie chart to a Canvas object. The chart is made of 64 triangle sectors.
+     * @param canvas the destination Canvas of the drawing
+     */
     public void drawPieChart(Canvas canvas) {
 
         float[] verts = getVerts();
         int[] colors = getColors();
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-        //float[] verts = {this.width / 2, this.height / 2, 500, 20, 10, 500};
-        //int colors[] = {Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY, Color.LTGRAY};
 
         Paint p = new Paint();
         p.setStyle(Paint.Style.FILL);
@@ -99,6 +108,10 @@ public class PieChart extends AppCompatImageView {
         }
     }
 
+    /**
+     * Finds the colors to be displayed for each sector of the pie. Called by drawPieChart.
+     * @return the list of colors to be displayed.
+     */
     public int[] getColors(){
         int[] colors = new int[length * 6];
 
@@ -122,6 +135,10 @@ public class PieChart extends AppCompatImageView {
         return colors;
     }
 
+    /**
+     * Finds the total amount of trees in the sample given. Used to equally distribute colors along the pie.
+     * @return the total amount of trees (all species included).
+     */
     public int getTotal(){
         int total=0;
         for (Statista.SpeciesCount speciesCount : speciesCountList){
@@ -130,6 +147,10 @@ public class PieChart extends AppCompatImageView {
         return total;
     }
 
+    /**
+     * Finds the vertices to be used for the drawing of the PieChart. Corresponds to a sequence of (x,y) coordinates
+     * @return the list of coordinates for each point of each triangle sector
+     */
     public float[] getVerts() {
         verts = new float[length * 6];
 
