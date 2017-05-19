@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Event handling
         initialiseEventHandling();
 
-        // init buttons
-        buttonsSetUp();
     }
 
     private void initMenu() {
@@ -143,22 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
 
-    private void buttonsSetUp(){
-        ImageButton statisticsBtn = (ImageButton) findViewById(R.id.imageButton_graph);
-        ImageButton exportBtn = (ImageButton) findViewById(R.id.imageButton_export);
-
-        statisticsBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View w){
-                sendStats();
-            }
-        });
-
-        exportBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View w){
-                export();
-            }
-        });
-    }
 
     /**
      * Goes to sharing activity
