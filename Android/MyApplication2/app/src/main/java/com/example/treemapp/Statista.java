@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * Created by oskar on 2017-05-15.
+ * Stores and processes all of the statistics of the tree set.
+ * Computes data for a PieChart and Histogram.
  * Computes a histogram for the withs of the trees in the pinList
  */
 
