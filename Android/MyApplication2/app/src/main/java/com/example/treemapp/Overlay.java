@@ -31,6 +31,7 @@ public class Overlay {
 
     private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
+    private PinView originalView;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
                  //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
@@ -233,12 +234,12 @@ public class Overlay {
     }
 
     public void initImagePickerOverlay(final Pin pin){
-        imagePickerOverlay.setVisibility(View.VISIBLE);
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
 
-        // This isnt working!!! it cant find the images, imgBtns is always null
+
+
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton[] imgBtns = new ImageButton[4];
@@ -275,10 +276,15 @@ public class Overlay {
                 }
             }
 
+            imagePickerOverlay.setVisibility(View.VISIBLE);
+
         }
 
 
     }
+
+
+
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
         List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
