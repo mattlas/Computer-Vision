@@ -22,6 +22,7 @@ import com.shawnlin.numberpicker.NumberPicker;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 
@@ -86,7 +87,7 @@ public class Overlay {
         tv.setText("Add tree");
 
         // Button to close the input menu
-        Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
+        //Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
 
         // Apply the adapter to the spinner
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
@@ -129,7 +130,7 @@ public class Overlay {
                 mainActivity.getImageView().invalidate();
             }
         });
-
+        /*
         perspExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +138,7 @@ public class Overlay {
                 //imageView.invalidate();
             }
         });
+        */
     }
 
     /**
@@ -159,7 +161,6 @@ public class Overlay {
 
         TextView tv = (TextView) inputOverlay.findViewById(R.id.overlay_box_txt);
         tv.setText("Edit tree");
-
 
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
@@ -237,11 +238,18 @@ public class Overlay {
 
     public void initImagePickerOverlay(final Pin pin) {
 
+        imagePickerOverlay.setVisibility(View.VISIBLE);
+
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
 
+        //this converts from fileName to full path to the file
+        String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
+
         OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
-        main.setImage(ImageSource.uri(pin.getImageFileName()));
+
+        main.setPin(pin);
+        main.setImage(ImageSource.uri(fullFileName));
         main.setVisibility(View.VISIBLE);
 
         // Chooose the photos for the buttons (different perspectives)
@@ -249,7 +257,6 @@ public class Overlay {
         ImageButton imgBtn;
         for (int i = 0; i < 4; i++) {
             imgBtn = (ImageButton) mainActivity.findViewById(btns[i]);
-
 
             if (neighbors.size() > i) {
                 final String filePath = neighbors.get(i);
@@ -284,7 +291,27 @@ public class Overlay {
 
         }
 
-        imagePickerOverlay.setVisibility(View.VISIBLE);
+
+        ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
+
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add closing event
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
+            }
+        });
+
+        Button button = (Button)  imagePickerOverlay.findViewById(R.id.btn_continue_to_input);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO do stuff
+                Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
+                t.show();
+            }
+        });
     }
 
 

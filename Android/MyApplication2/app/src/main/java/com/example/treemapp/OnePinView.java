@@ -26,7 +26,6 @@ public class OnePinView extends SubsamplingScaleImageView {
     private Paint filled;
     private Pin pin;
     private Paint unfilled;
-    private Paint smaller;
 
     public OnePinView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -42,10 +41,13 @@ public class OnePinView extends SubsamplingScaleImageView {
         return pin;
     }
 
-    public void setPinXandY(float x, float y) {
+
+    public PointF setPinXandY(float x, float y) {
         if (pin != null) {
-            pin.setPosition(x, y);
+            //pin.setPosition(x, y);
+            pin.setOrigCoor(x, y); // we can update this as we are on the original image
         }
+        return new PointF(pin.getOrigX(), pin.getOrigY());
     }
 
     public void init() {
@@ -54,10 +56,11 @@ public class OnePinView extends SubsamplingScaleImageView {
         filled.setAlpha(255);
         filled.setStrokeWidth(1);
 
-        smaller = new Paint();
-        smaller.setColor(Color.BLACK);
-        smaller.setAlpha(150);
-        smaller.setStrokeWidth(1);
+        unfilled = new Paint();
+        unfilled.setColor(Color.WHITE);
+        unfilled.setAlpha(255);
+        unfilled.setStrokeWidth(5);
+        unfilled.setStyle(Paint.Style.STROKE);
 
         pin = null;
     }
@@ -70,27 +73,25 @@ public class OnePinView extends SubsamplingScaleImageView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isReady()) {
-            return;
+        if (pin != null && isReady()) {
+            PointF point = sourceToViewCoord(pin.getOrigX(), pin.getOrigY());
+
+            if (pin.isDragged()) {
+                canvas.drawCircle((int) point.x, (int) point.y, pin.getCollisionRadius(), unfilled);
+                filled.setAlpha(128);
+            } else filled.setAlpha(255);
+
+            drawPin(canvas, pin);
         }
-
-        PointF point;
-
-        point = sourceToViewCoord(pin.getPoint());
-
-        if (pin.isDragged()) {
-            canvas.drawCircle((int) point.x, (int) point.y, pin.getCollisionRadius(), unfilled);
-            filled.setAlpha(128);
-        }
-        else filled.setAlpha(255);
-
-        drawPin(canvas, pin);
     }
 
     public void drawPin(Canvas canvas, Pin pin){
         // First see if the species exists as a pin
 
-        PointF point = sourceToViewCoord(pin.getPoint());
+        //PointF point = sourceToViewCoord(pin.getPoint());
+        PointF point = sourceToViewCoord(pin.getOrigX(), pin.getOrigY());
+
+        //TODO, convert from mosaic to original
 
         int drawableName=R.drawable.alder;
 
@@ -139,5 +140,9 @@ public class OnePinView extends SubsamplingScaleImageView {
         }
         */
 
+    }
+
+    public void setPin(Pin pin) {
+        this.pin = pin;
     }
 }
