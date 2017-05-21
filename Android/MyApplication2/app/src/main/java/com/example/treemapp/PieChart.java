@@ -24,6 +24,7 @@ public class PieChart extends AppCompatImageView {
     private int height;
     private float[] verts;
     private ArrayList<Statista.SpeciesCount> speciesCountList;
+    private boolean ready = false;
 
     /**
      * The list of colors to be used in the pie. Maybe could be changed so that each tree has an assigned color.
@@ -35,6 +36,7 @@ public class PieChart extends AppCompatImageView {
             0xFF247BA0,
             0xFF70C1B3,
     };
+
 
 
     public PieChart(Context context) {
@@ -55,11 +57,12 @@ public class PieChart extends AppCompatImageView {
      */
     public void setSpeciesList(ArrayList<Statista.SpeciesCount> speciesCountList){
         this.speciesCountList=speciesCountList;
+        this.ready = true;
     }
 
     @Override
     public void onDraw(Canvas canvas){
-        drawPieChart(canvas);
+        if (ready) drawPieChart(canvas);
     }
 
     @Override

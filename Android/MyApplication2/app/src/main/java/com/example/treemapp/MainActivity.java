@@ -319,6 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             export();
         }
         else if (id == R.id.nav_statistics) {
+
             StatFragment sf = new StatFragment();
             sf.init(new Statista(imageView.getPins()));
 
@@ -341,7 +342,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
-
             ///selectItem(position);
         }
     }
