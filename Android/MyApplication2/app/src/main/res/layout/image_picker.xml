@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/Image_picker_overlayed"
-    android:visibility="invisible"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:visibility="invisible">
 
     <!-- Container -->
     <RelativeLayout
@@ -48,7 +47,7 @@
 
         <!-- Main image-->
 
-        <com.example.treemapp.PinView
+        <com.example.treemapp.OnePinView
             android:id="@+id/originalView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
