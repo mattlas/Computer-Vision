@@ -9,7 +9,9 @@
 
 #include "FeaturePoints.h"
 #include "KeyPoint.h"
-
+#include "opencv2/core.hpp"
+//#include "opencv2/xfeatures2d.hpp"
+//#include "opencv2/features2d.hpp"
 
 extern "C" {
 //#include <toolbox/sift/vl_ubcmatch.c>
@@ -23,6 +25,10 @@ private:
     FeaturePoints point2;
 
     std::vector<std::vector<int>> matchedIndex;
+    std::vector<cv::Point2f> match1;
+    std::vector<cv::Point2f> match2;
+    cv::Mat homography;
+private:
     //std::vector<std::vector<KeyPoint>> matchedPoints;
     int numberMatches;
 
@@ -34,6 +40,13 @@ public:
     void findMatches();
 
     int squaredDistance(ulong point, ulong keyPoint);
+
+    void createHomography();
+
+    const cv::Mat &getHomography() const;
+
+    void setHomography(const cv::Mat &homography);
+
 };
 
 
