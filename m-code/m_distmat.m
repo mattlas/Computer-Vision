@@ -1,23 +1,16 @@
-function [dm, restr, ref] = m_distmat( pos, n_th, h_th, d_th )
+
+function [dm, ref] = m_distmat( pos )
 % Use positions and thresholds to create distance matrix.
 % 	INPUT:  position (imgIDs x 3)
 %           n_th (1)
 %               Threshold for how many neighbours we use
-%           h_th (0)
-%               Threshold for how many heighs
-%           d_th (0)
-%               Threshold for turning images
-
 
 % 	OUTPUT: image names (imgIDs x 1), 
-%           corresponding positions (imgIDs x 3), 
-%           orientations (imgIDs x 3)
+%           corresponding positions (imgIDs x 3)
 
 %   Our Example:
-%       [d, restr] = m_distmat(pos, 1.8, 0.98, 0.8);
+%       [d] = m_distmat(pos, 1.8, 0.98, 0.8);
 
-if nargin<3, h_th=0; end
-if nargin<4, d_th=0; end
 
 
 %% Distance matrix
@@ -25,37 +18,43 @@ if nargin<4, d_th=0; end
 % A. Donda's solution
 x = [pos(:,1)'; pos(:,2)'];
 IP = x' * x;
-dm = sqrt(bsxfun(@plus, diag(IP), diag(IP)') - 2 * IP);
-% Needed variables
+
 maxheight = max(pos(:,3));
-% Choosing neighbor limit from first 5 elements
-neighborlimit = dm(1, 2) * n_th;
-% Original neighbor limit using all the images
-% neighborlimit = mean(diag(dm,1)) * n_th;
+
+dm_ = sqrt(bsxfun(@plus, diag(IP), diag(IP)') - 2 * IP);
+[~, ref] = min(mean(dm_,1),[],2);
+
+dm = zeros(size(dm_));
+
+dm_ = triu(dm_);
+dm_(dm_==0) = NaN;
+
+[val, j] = min(dm_, [], 2);
+j = j(1:end-1);
+i = [1:length(j)]';
+
+% Closest neighbor list
+minima = sub2ind(size(dm_), i, j);
+dm(minima) = 1;
+
+% Average neigbor limit
+n_th = 1.2;
+neighborlimit = mean(val(1:end-1)) * n_th;
+dm(dm_ < neighborlimit) = 1;
+% Fo sho' include the last image
+dm(end-1, end) = 1;
+
+dm = dm + dm';
 
 
-% Restrictions
-up = pos(:, 3) >  maxheight * h_th;
-straight = [diag(dm,1);1] > mean(diag(dm,1))*d_th;
-restr = up & straight;
-
-
-% Applying restrictions
-dm = dm( restr , restr );
-[~, ref] = min(mean(dm,1),[],2);
-
-% Make dm logical
-dm = sparse(((dm+eye(size(dm,2))) < neighborlimit));
 % Plotting distance matrix
 % figure(1)
-% subplot(2,1,1)
 % spy(dm)
 % title('Plots from m distmat')
 
 % Plotting flight plan
-subplot(1,1,1)
+figure(1)
 clf;
-pos = pos( restr , : );
 scatter(pos(:,1)', pos(:,2)', 200,  pos(:, 3)/maxheight)
 axis equal
 hold on
@@ -63,6 +62,5 @@ scatter(pos(ref,1)', pos(ref,2)', 500,  pos(ref, 3)/maxheight, 'r', 'filled')
 drawnow;
 
 % Statistics
-RatioOfUp = sum(up)/size(pos,1);
-AverageOfNeighbor = mean(sum(dm));
+AverageOfNeighbor = mean(sum(dm))/2
 end
