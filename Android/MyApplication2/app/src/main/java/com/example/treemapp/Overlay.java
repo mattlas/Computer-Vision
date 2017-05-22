@@ -1,6 +1,5 @@
 package com.example.treemapp;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -16,15 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
+
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class Overlay {
     private final MainActivity mainActivity;
@@ -247,10 +246,18 @@ public class Overlay {
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
         OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        main.setZoomEnabled(true);
+        main.setMaxScale(7f);
+        main.setOrientation(ORIENTATION_0);
+
+        main.setScaleAndCenter(2, main.getCenter());
+
+        //main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
         main.setImage(ImageSource.uri(fullFileName));
         main.setVisibility(View.VISIBLE);
+
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
