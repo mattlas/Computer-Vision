@@ -42,6 +42,15 @@ public class OnePinView extends SubsamplingScaleImageView {
     }
 
 
+    /*
+    * Compute distances in view coordinates (screen distance)
+    * */
+    public double euclidanViewDistance(Pin pin, float x, float y) {
+        PointF p = sourceToViewCoord(pin.getX(), pin.getY());
+        return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
+    }
+
+
     public PointF setPinXandY(float x, float y) {
         if (pin != null) {
             //pin.setPosition(x, y);

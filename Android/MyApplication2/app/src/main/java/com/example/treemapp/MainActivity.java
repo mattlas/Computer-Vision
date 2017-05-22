@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (imageView.isReady()) {
-                    if (dragPin != null) {
+                    if (dragPin != null) { // TODO fix the area for dragging the pin - it's still set to a circle around the point, should be a rectangle where the pin icon is
                         latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
                         dragPin.setPosition(latestTouch);
 

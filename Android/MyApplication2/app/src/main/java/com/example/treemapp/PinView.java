@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -204,7 +206,7 @@ public class PinView extends SubsamplingScaleImageView {
 
         boolean fileExists = true;
 
-        String species="Spruce";
+        String species="Other";
 
         if (pin.getSpecies() != null) {
             species=pin.getSpecies();
@@ -223,13 +225,20 @@ public class PinView extends SubsamplingScaleImageView {
                 break;
             case "Birch": drawableName=R.drawable.birch;
                 break;
+            case "Oak": drawableName=R.drawable.oak;
+                break;
+            case "Other":   //Pass to next line
+            default : drawableName=R.drawable.empty;
+                break;
         }
 
 
+        int pinWidth=pin.getRadius()*3;
+
         if (fileExists) { // draw the pin
-            Drawable d = getResources().getDrawable(drawableName);
-            int w=pin.getRadius();
-            int h=d.getIntrinsicHeight()*pin.getRadius()/d.getIntrinsicWidth();
+            Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
+            int w=pinWidth;
+            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
 
             int left=(int)point.x-(w/2);
             int top=(int)point.y-h;
