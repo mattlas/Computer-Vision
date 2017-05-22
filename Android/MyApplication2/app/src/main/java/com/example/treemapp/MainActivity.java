@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName
-            = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName = FileLocation.getSD() + "mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();

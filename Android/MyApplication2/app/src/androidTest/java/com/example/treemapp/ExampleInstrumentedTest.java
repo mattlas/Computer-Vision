@@ -32,13 +32,13 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void checkIfMosaicFolderExists() {
-        File f = new File(Environment.getExternalStorageDirectory().toString() + "/mosaic");
+        File f = new File(FileLocation.getSD() + "mosaic");
         assertTrue(f.isDirectory());
     }
 
     @Test
     public void checkIfMosaicImageExists() {
-        File f = new File(Environment.getExternalStorageDirectory() + "/mosaic/mosiac.jpg");
+        File f = new File(FileLocation.getSD() + "mosaic/mosiac.jpg");
 
         assertTrue(f.exists() && !f.isDirectory());
     }
