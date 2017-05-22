@@ -1,8 +1,8 @@
-function [ F, D ] = m_sift( imageIDs, octaveThreshold, featureThreshold)
+function [ F, D ] = m_sift( imageIDs, octaveThreshold)
 % Pre-allocation
 F = cell(size(imageIDs,1), 1);
 D = cell(size(imageIDs,1), 1);
-AverageTh = 0;
+% AverageTh = 0;
 % Go through all the images
 for ids=1:size(imageIDs)
     % Set up threshold
@@ -14,7 +14,7 @@ for ids=1:size(imageIDs)
     % Grayscale
     img = rgb2gray(im);
 %     numFeatures = 0;
-    [F{ids}, D{ids}] = vl_sift(img, 'FirstOctave', octTh, 'Magnif', 2, 'Levels', 5);
+    [F{ids}, D{ids}] = vl_sift(img, 'FirstOctave', octTh,  'Levels', 3);
 %     numFeatures = size(F{ids},2);
 %     
 %     % Have backup for too many solutions
@@ -25,15 +25,17 @@ for ids=1:size(imageIDs)
     
 %     subplot(1,1,1)
 %     imshow(img);
+%     text(20, -10, num2str(size(F{ids},2)))
 %     perm = randperm(size(F{ids},2)) ;
 %     sel = perm(1:70) ;
 %     h1 = vl_plotframe(F{ids}(:,sel)) ;
 %     h2 = vl_plotframe(F{ids}(:,sel)) ;
 %     set(h1,'color','k','linewidth',3) ;
 %     set(h2,'color','y','linewidth',2) ;
+%     pause(2)
     % Statistics
     
-    AverageTh = ( AverageTh + octTh ) / 2;
+%     AverageTh = ( AverageTh + octTh ) / 2;
 end
 
 end

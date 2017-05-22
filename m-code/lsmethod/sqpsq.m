@@ -40,7 +40,7 @@ while (1)
     X=[X,x];
     % Evaluate functions and jacobians.
     [c,A]=feval(con,x,params{:});
-    [r,J]=feval(fun,x,params{:});
+    [r,JJ, J]=feval(fun,x,params{:});
     C=[C,c];
 
     % Construct the system matrix.

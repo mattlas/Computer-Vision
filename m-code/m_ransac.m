@@ -1,19 +1,19 @@
 function [ Hom ] = m_ransac(imageIDs, F, D, pairs)
 Hm = zeros(3,3,size(pairs,1));
-W = zeros(3,3,size(pairs,1));
+W = zeros(size(pairs,1), 1);
 
 for iter = 1:size(pairs,1)
     i = pairs(iter,1);
     j = pairs(iter,2);
     
     numMatches = 0;
-    matchThreshold = 1.4;
-    %         while numMatches < 100
-    [matches, scores] = vl_ubcmatch(D{i},D{j},matchThreshold);
-    scores = scores./max(scores);
-    numMatches = size(matches,2) ;
-    matchThreshold = matchThreshold -0.2;
-    %         end
+    matchThreshold = 1.5;
+%     while numMatches < 200
+        [matches, scores] = vl_ubcmatch(D{i},D{j},matchThreshold);
+        numMatches = size(matches,2) ;
+        matchThreshold = matchThreshold -0.2;
+        scores = scores./(max(scores));
+%     end
     
     Pi = F{i}(1:2,matches(1,:)) ;
     Pj = F{j}(1:2,matches(2,:)) ;
@@ -37,8 +37,8 @@ for iter = 1:size(pairs,1)
     % Iteration counter
     ii=0;
     % Threshold for transform matches and inlier ratio
-    t = 17*17;
-    ts =  0.05;
+    t = 10*10;
+    ts =  0.2;
     ta = 0.2;
     pp=0.99;
     % Initial consensus set size
@@ -47,10 +47,10 @@ for iter = 1:size(pairs,1)
     
     
     % Fixed for loop
-    %     for ii = 1 : 1000
-    
-    % Adaptive RANSAC
-    while ii<N
+%     for ii = 1 : 5000
+        
+        % Adaptive RANSAC
+            while ii<N
         % Choosing suitable random points
         rand_ = randi(size(Pi,2),[1 2]);
         ran1 = rand_(1);
@@ -72,7 +72,7 @@ for iter = 1:size(pairs,1)
         H(1:2,1:2) = S * R;
         H(1:2,3) = T;
         HX2_ = H * hPi ;
-        du = HX2_(1,:)./HX2_(3,:)- Pj(1,:);
+        du = HX2_(1,:)./HX2_(3,:) - Pj(1,:);
         dv = HX2_(2,:)./HX2_(3,:) - Pj(2,:);
         
         % First condition, for distances
@@ -80,13 +80,13 @@ for iter = 1:size(pairs,1)
         %         Third condition for angle
         
         
-%         ok = (du.*du + dv.*dv) < t;
-                ok = (du.*du + dv.*dv) < t & ...
-                    abs ( 1 - (S * scalei ./ scalej) ) <ts & ...
-                    abs(angdiff(theta+thetai, thetaj)) < ta;
-                
-                % Introducing weights
-                ok = ok .* scores;
+                ok = (du.*du + dv.*dv) < t;
+%         ok = (du.*du + dv.*dv) < t & ...
+%             abs ( 1 - (S * scalei ./ scalej) ) <ts & ...
+%             abs(angdiff(theta+thetai, thetaj)) < ta;
+%         
+        % Introducing weights
+%         ok = ok .* scores;
         % Size of consensus set
         CS_n=sum(ok);
         if CS_n > CS_0
@@ -94,15 +94,16 @@ for iter = 1:size(pairs,1)
             CS_0 = CS_n;
             % Updating best homography FROM i TO j
             Hm(:,:,iter) = H;
-            W(:,:,iter) = CS_n;
             best = ok;
+            %             W(iter, 1) = CS_n;
+            W(iter, 1) = sum(best>0);
             N_n=log10(1-pp)/log10(1-(CS_n/n)^2);
             N = N_n;
-            pairs(iter,1) / pairs(end, 1)
-%             [   iter; ...
-%                 sum((du.*du + dv.*dv) < t); ...
-%                 sum(abs ( 1 - (S * scalei ./ scalej) ) < 0.05); ...
-%                 sum(abs ( 2*pi - wrapTo2Pi((theta+thetai) - thetaj)) < 0.2)]
+            %             pairs(iter,1) / pairs(end, 1)
+            %             [   iter; ...
+            %                 sum((du.*du + dv.*dv) < t); ...
+            %                 sum(abs ( 1 - (S * scalei ./ scalej) ) < 0.05); ...
+            %                 sum(abs ( 2*pi - wrapTo2Pi((theta+thetai) - thetaj)) < 0.2)]
         end
         % Updating maximum number of iterations
         if ( CS_n == 0 )
@@ -114,80 +115,44 @@ for iter = 1:size(pairs,1)
         
     end
     
-    % --------------------------------------------------------------------
-    %                                         RANSAC with homography model
-    % --------------------------------------------------------------------
-    %         clear H score ok ;
-    %
-    %         for t = 1:1000
-    %             % estimate homograpyh
-    %             subset = vl_colsubset(1:numMatches, 2) ;
-    %             A = [] ;
-    %             for i = subset
-    %                 A = cat(1, A, kron(HX1(:,i)', vl_hat(HX2(:,i)))) ;
-    %             end
-    %             [U,S,V] = svd(A) ;
-    %             H{t} = reshape(V(:,9),3,3);
-    %
-    %             % score homography
-    %             HX2_ = H{t} * HX1 ;
-    %             du = HX2_(1,:)./HX2_(3,:) - HX2(1,:)./HX2(3,:) ;
-    %             dv = HX2_(2,:)./HX2_(3,:) - HX2(2,:)./HX2(3,:) ;
-    %             ok{t} = (du.*du + dv.*dv) < 1;
-    %             score(t) = sum(ok{t}) ;
-    %         end
-    %
-    %         [score, best] = max(score) ;
-    %         H = H{best};
-    %         %         H = inv(H);
-    %         H = H / H (3,3);
-    %             Hm(:,:,iter) = H;
-    %             W(:,:,iter) = score;
-    %         ok = ok{best} ;
     
     % --------------------------------------------------------------------
     %                                                         Show matches
     % --------------------------------------------------------------------
+%     im1 = imread(char(imageIDs{i,1}));
+%     im1 = im2single(im1);
+%     im1g = im1;
+%     im2 = imread(char(imageIDs{j,1}));
+%     im2 = im2single(im2);
+%     im2g = im2;
+%     
+%     dh1 = max(size(im2g,1)-size(im1g,1),0) ;
+%     dh2 = max(size(im1g,1)-size(im2g,1),0) ;
+%     
+%     figure(1) ; clf ;
+%     subplot(2,1,1) ;
+%     imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
+%     o = size(im1g,2) ;
+%     line([F{i}(1,matches(1,:));F{j}(1,matches(2,:))+o], ...
+%         [F{i}(2,matches(1,:));F{j}(2,matches(2,:))]) ;
+%     title(sprintf('%d tentative matches with pairs: %d %d', numMatches, pairs(iter, 1), pairs(iter, 2))) ;
+%     axis image off ;
+%     
+%     subplot(2,1,2) ;
+%     imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
+%     o = size(im1,2) ;
+%     line([F{i}(1,matches(1,best > 0));F{j}(1,matches(2,best > 0))+o], ...
+%         [F{i}(2,matches(1,best > 0));F{j}(2,matches(2,best > 0))]) ;
+%     title(sprintf('%d (%.2f%%) inliner matches out of %d', ...
+%         sum(best > 0), ...
+%         100*sum(best > 0)/numMatches, ...
+%         numMatches)) ;
+%     axis image off ;
+%     drawnow ;
+%     pause(0.5)
     
     
-%         im1 = imrea d(char(imageIDs{i,1}));
-%         im1 = im2single(im1);
-%         im1g = im1;
-%         im2 = imread(char(imageIDs{j,1}));
-%         im2 = im2single(im2);
-%         im2g = im2;
-%     
-%         dh1 = max(size(im2g,1)-size(im1g,1),0) ;
-%         dh2 = max(size(im1g,1)-size(im2g,1),0) ;
-%     
-%         figure(1) ; clf ;
-%         subplot(2,1,1) ;
-%         imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
-%         o = size(im1g,2) ;
-%         line([F{i}(1,matches(1,:));F{j}(1,matches(2,:))+o], ...
-%             [F{i}(2,matches(1,:));F{j}(2,matches(2,:))]) ;
-%         title(sprintf('%d tentative matches with pairs: %d %d', numMatches, pairs(iter, 1), pairs(iter, 2))) ;
-%         axis image off ;
-%     
-%         subplot(2,1,2) ;
-%         imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
-%         o = size(im1,2) ;
-%         line([F{i}(1,matches(1,best));F{j}(1,matches(2,best))+o], ...
-%             [F{i}(2,matches(1,best));F{j}(2,matches(2,best))]) ;
-%         title(sprintf('%d (%.2f%%) inliner matches out of %d', ...
-%             sum(best), ...
-%             100*sum(best)/numMatches, ...
-%             numMatches)) ;
-%         axis image off ;
-%         drawno                  w ;
-%         
-%             Ptest(1:3,1:3,1) = H;
-%             Ptest(1:3,1:3,2) = eye(3);
-%             [canvas, impos] = m_stitch({imageIDs{i};imageIDs{j}}, Ptest, 'mean', [0 0]);
-%             figure(2)
-%             subplot(1,1,1)
-%             imshow(canvas)
-    %         pause
 end
+W = W .* (W > 10);
 Hom = {Hm, W};
 end

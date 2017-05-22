@@ -15,9 +15,14 @@
 //#include <thread>
 #include <pthread.h>
 #include <mutex>
+
 #include <unordered_map>
 
-class MosaicData {
+#include "QObject"
+//#include <bits/unordered_map.h>
+
+class MosaicData{
+
 private:
     std::unordered_map<int,ImageData> imageList;
     std::vector<std::string> directoryList;
@@ -30,9 +35,6 @@ private:
     std::string input_path;
     std::string pgm_path;
 
-
-
-
     imaq *im = NULL;
 
 public:
@@ -41,6 +43,7 @@ public:
      */
     MosaicData(std::string input_path, std::string pgm_path);
 
+public slots:
     /**
      * Add the directory to the directoryList
      * @param dir
@@ -59,7 +62,6 @@ public:
 
     void createThreads();
 
-
     void ubcMatch();
 
     static void classWrapper(MosaicData* mosaicData);
@@ -72,6 +74,9 @@ private:
     void convertToPGM(std::string string);
 
     void createImages();
+
+signals:
+    void finished();
 };
 
 

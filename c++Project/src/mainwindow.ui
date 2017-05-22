@@ -75,7 +75,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="page">
+    <widget class="QWidget" name="PickFolder">
      <widget class="QPushButton" name="button_next">
       <property name="geometry">
        <rect>
@@ -162,7 +162,7 @@ font: 12pt &quot;Noto Sans CJK KR&quot;;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_2">
+    <widget class="QWidget" name="CopyImages">
      <widget class="QPushButton" name="button_create">
       <property name="geometry">
        <rect>
@@ -245,7 +245,7 @@ color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_3">
+    <widget class="QWidget" name="Progress">
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
@@ -272,21 +272,8 @@ color: rgb(255, 255, 255);</string>
        <number>24</number>
       </property>
      </widget>
-     <widget class="QPushButton" name="button_next_4">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>200</y>
-        <width>85</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
     </widget>
-    <widget class="QWidget" name="page_4">
+    <widget class="QWidget" name="MosaicSaved">
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
@@ -353,7 +340,7 @@ color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_5">
+    <widget class="QWidget" name="Error">
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>

@@ -77,12 +77,14 @@ function out = ipaste(canvas, pattern, topleft, varargin)
     end
     switch opt.mode
     case 'set'       
+        pattern(find(pattern == 0)) = NaN;
         old = out(top:top+ph-1,left:left+pw-1,:);
         old(~isnan(pattern)) = pattern(~isnan(pattern));
         out(top:top+ph-1,left:left+pw-1,:) = old;
     case 'add'
         out(top:top+ph-1,left:left+pw-1,:) = out(top:top+ph-1,left:left+pw-1,:) +pattern;
     case 'mean'
+        pattern(find(pattern == 0)) = NaN;
         old = out(top:top+ph-1,left:left+pw-1,:);
         mass = ~isnan(pattern) + ~isnan(old);
         pattern(isnan(pattern)) = 0;
