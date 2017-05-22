@@ -1,6 +1,5 @@
 package com.example.treemapp;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -16,17 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 
-import static android.content.ContentValues.TAG;
+
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class Overlay {
     private static final String TAG = Overlay.class.getSimpleName();
@@ -105,12 +103,15 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.updateOrigPositionInPin(pin);
+                mainActivity.getImageView().addPin(pin);
+                mainActivity.getImageView().invalidate();
                 if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList)))
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 // Make overlayed view visible
                 inputOverlay.setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -250,10 +251,18 @@ public class Overlay {
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
         OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        main.setZoomEnabled(true);
+        main.setMaxScale(7f);
+        main.setOrientation(ORIENTATION_0);
+
+        main.setScaleAndCenter(2, main.getCenter());
+
+        //main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
         main.setImage(ImageSource.uri(fullFileName));
         main.setVisibility(View.VISIBLE);
+
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -270,7 +279,9 @@ public class Overlay {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                im.setImageURI(Uri.fromFile(file));
+                                if (im != null) {
+                                    im.setImageURI(Uri.fromFile(file));
+                                }
                                 //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
@@ -313,7 +324,10 @@ public class Overlay {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO do stuff
+
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                initInputOverlay(pin);
+
                 Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
                 t.show();
             }
