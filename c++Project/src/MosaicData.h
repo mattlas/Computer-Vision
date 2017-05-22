@@ -26,6 +26,7 @@ class MosaicData : public QObject{
 
 private:
     std::unordered_map<int,ImageData> imageList;
+    //std::vector<ImageData> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;

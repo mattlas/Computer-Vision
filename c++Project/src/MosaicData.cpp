@@ -68,8 +68,10 @@ void MosaicData::convertToPGM(std::string op_path) {
 }
 
 void MosaicData::extractFeaturePointsThreaded() {
+
     while(!pgmFileNames.empty()){
         readMutex.lock();
+
         std::string name = (std::string) pgmFileNames.back();
         pgmFileNames.pop_back();
         readMutex.unlock();
@@ -121,6 +123,8 @@ void MosaicData::createImages() {
         ImageData *imageData = new ImageData(tempID);
         imageData->setPath(file);
         imageList[tempID]=*imageData;
+
+        //imageList.insert(imageList.begin() ,imageData);
 
         tempID++;
     }
