@@ -116,7 +116,7 @@ void MosaicData::addDirectory(std::string dir) {
 void MosaicData::createImages() {
     int id = 1;
     for(std::string file : pgmFileNames){
-        //ImageData *imageData = new ImageData(id);
+        ImageData *imageData = new ImageData(id);
         //imageList.insert()
     }
 

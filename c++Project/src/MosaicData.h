@@ -7,18 +7,19 @@
 
 #include <string>
 #include <vector>
+#include "KeyPoint.h"
 #include "FeaturePoints.h"
 #include "imaq.h"
-//#include "ImageData.h"
+#include "ImageData.h"
 #include <memory>
 //#include <thread>
 #include <pthread.h>
 #include <mutex>
-#include <bits/unordered_map.h>
+#include <unordered_map>
 
 class MosaicData {
 private:
-    //std::unordered_map<int,ImageData> imageList;
+    std::unordered_map<int,ImageData> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;

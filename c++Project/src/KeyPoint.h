@@ -14,7 +14,7 @@ private:
     float orientation;
 public:
     KeyPoint(void);
-    KeyPoint(float, float,float, float);
+    KeyPoint(float x, float y, float scale, float orientation) : x(x) , y(y), scale(scale), orientation(orientation) {}
 
     float getX() const;
 

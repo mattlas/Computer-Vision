@@ -8,14 +8,6 @@ KeyPoint::KeyPoint(void) {
 
 }
 
-KeyPoint::KeyPoint(float x, float y, float scale, float orientation) {
-    this->x = x;
-    this->y = y;
-    this->scale = scale;
-    this->orientation = orientation;
-}
-
-
 float KeyPoint::getX() const {
     return x;
 }
@@ -47,3 +39,10 @@ float KeyPoint::getOrientation() const {
 void KeyPoint::setOrientation(float orientation) {
     KeyPoint::orientation = orientation;
 }
+
+
+
+
+
+
+
