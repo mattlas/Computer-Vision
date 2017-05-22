@@ -53,7 +53,6 @@ public class OnePinView extends SubsamplingScaleImageView {
 
     public PointF setPinXandY(float x, float y) {
         if (pin != null) {
-            //pin.setPosition(x, y);
             pin.setOrigCoor(x, y); // we can update this as we are on the original image
             new PointF(pin.getOrigX(), pin.getOrigY());
         }
