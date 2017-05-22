@@ -36,16 +36,18 @@ public class Overlay {
     private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
     private PinView originalView;
+    private Settings settings;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
     //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
-    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
+    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
 
         this.mainActivity = mainActivity;
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.fakeView = fakeView;
         this.fakeView2 = fakeView2;
+        this.settings = settings;
 
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -324,15 +326,7 @@ public class Overlay {
 
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
-        List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("Spruce", 12));
-        textItems.add(new CarouselPicker.TextItem("Pine", 12));
-        textItems.add(new CarouselPicker.TextItem("Birch", 12));
-        textItems.add(new CarouselPicker.TextItem("Oak", 12));
-        textItems.add(new CarouselPicker.TextItem("Alder", 12));
-        textItems.add(new CarouselPicker.TextItem("Aspen", 12));
-        textItems.add(new CarouselPicker.TextItem("Other", 12));
-        return textItems;
+        return settings.getTreesSpeciesChosen();
     }
 
     @NonNull
