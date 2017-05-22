@@ -21,7 +21,8 @@
 #include "QObject"
 //#include <bits/unordered_map.h>
 
-class MosaicData{
+class MosaicData : public QObject{
+    Q_OBJECT
 
 private:
     std::unordered_map<int,ImageData> imageList;

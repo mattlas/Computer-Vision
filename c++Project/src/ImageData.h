@@ -6,7 +6,6 @@
 #define TREEMARKUPTOOLBOX_IMAGEDATA_H
 
 #include <string>
-#include "KeyPoint.h"
 #include "FeaturePoints.h"
 #include <memory>
 
@@ -17,14 +16,25 @@ class ImageData {
 private:
     int id;
     std::string path;
-    //std::vector<std::unique_ptr<KeyPoint>> files;
-    std::vector<FeaturePoints> featurePoints;
+    FeaturePoints* featurePoints;
 
 
 public:
+    ImageData();
+
     ImageData(int id);
 
+    int getId() const;
 
+    void setId(int id);
+
+    const std::string &getPath() const;
+
+    void setPath(const std::string &path);
+
+    FeaturePoints *getFeaturePoints() const;
+
+    void setFeaturePoints(FeaturePoints *featurePoints);
 
 };
 

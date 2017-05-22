@@ -20,13 +20,14 @@ void MosaicData::startProcess() {
     readFiles(input_path);
     std::cout << "convert to pgm " << std::endl;
     convertToPGM(pgm_path);
-    createImages();
     delete im;
     std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
+    createImages();
+    std::cout << "extracting featurepoints" << std::endl;
     extractFeaturePoints();
     std::cout << "create threads" << std::endl;
-    createThreads();
+    //createThreads();
     std::cout << "ubc match" << std::endl;
     ubcMatch();
     std::cout << "ubc match done" << std::endl;
@@ -40,6 +41,8 @@ void MosaicData::extractFeaturePoints() {
         FeaturePoints *points = new FeaturePoints(file,id);
         points->calculatePoints();
         featurePointList.push_back(*points);
+        imageList[id].setFeaturePoints(points);
+
         id++;
     }
 }
@@ -112,10 +115,14 @@ void MosaicData::addDirectory(std::string dir) {
 }
 
 void MosaicData::createImages() {
-    int id = 1;
+    int tempID = 0;
+
     for(std::string file : pgmFileNames){
-        ImageData *imageData = new ImageData(id);
-        //imageList.insert()
+        ImageData *imageData = new ImageData(tempID);
+        imageData->setPath(file);
+        imageList[tempID]=*imageData;
+
+        tempID++;
     }
 
 }

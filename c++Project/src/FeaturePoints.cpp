@@ -16,7 +16,6 @@
 
 FeaturePoints::FeaturePoints(std::string imageName, int id) {
     this->imageName = imageName;
-    this->id = id;
 }
 
 int korder (void const* a, void const* b) {

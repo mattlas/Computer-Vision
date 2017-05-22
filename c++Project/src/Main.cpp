@@ -25,12 +25,14 @@ extern "C"{
 
 int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
-
+    MosaicData *data = new MosaicData("/home/5dv115/c13evk_scripts/pict","/home/5dv115/c13evk_scripts/pict_out" );
+    data->startProcess();
     // Qt
-    QApplication app(argc, argv);
+   /* QApplication app(argc, argv);
 
     MainWindow w;
-    w.show();
+    w.show();*/
+
 
 //    const char *ip_path;
 //    if(argc > 1){
@@ -72,5 +74,5 @@ int main(int argc, char **argv){
 //    double time = difftime(end, start) * 1000.0;
 //    std::cout << "time = " << time << std::endl;
 //    return 0;*/
-    return app.exec();
+    //return app.exec();
 }

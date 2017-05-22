@@ -33,9 +33,6 @@ private:
     std::vector<KeyPoint> keyPoints;
     std::vector<std::vector<uint16_t>> descriptors;
     std::string imageName;
-    int id;
-
-
 
 public:
     /**
