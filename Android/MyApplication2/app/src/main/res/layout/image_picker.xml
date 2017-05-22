@@ -53,6 +53,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="90dp"
+            android:background="@drawable/border_blue"
+
             android:layout_alignParentTop="true" />
 
         <!-- Continue button-->
@@ -101,6 +103,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -108,6 +111,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -115,6 +119,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -122,6 +127,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
     </LinearLayout>
 
