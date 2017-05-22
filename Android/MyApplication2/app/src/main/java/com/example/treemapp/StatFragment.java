@@ -16,7 +16,6 @@ public class StatFragment extends Fragment {
     private HistogramView histogramView;
     private PieChart pieChart;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
