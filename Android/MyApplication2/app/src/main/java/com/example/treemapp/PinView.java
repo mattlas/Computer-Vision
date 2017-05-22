@@ -202,7 +202,7 @@ public class PinView extends SubsamplingScaleImageView {
 
         PointF point = sourceToViewCoord(pin.getPoint());
 
-        int drawableName=R.drawable.alder;
+        int drawableName;
 
         boolean fileExists = true;
 
