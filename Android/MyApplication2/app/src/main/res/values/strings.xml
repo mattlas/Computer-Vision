@@ -7,13 +7,15 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string-array name="trees_array">
-        <item>Spruce</item>
-        <item>Pine</item>
-        <item>Birch</item>
-        <item>Oak</item>
-        <item>Other…</item>
-    </string-array>
+    <!--trees species-->
+    <string name="pine">pine</string>
+    <string name="spruce">spruce</string>
+    <string name="birch">birch</string>
+    <string name="oak">oak</string>
+    <string name="alder">alder</string>
+    <string name="aspen">aspen</string>
+
+
     <string name="title_activity_statistics">StatisticsActivity</string>
 
 </resources>
