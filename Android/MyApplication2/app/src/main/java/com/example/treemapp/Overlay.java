@@ -239,7 +239,7 @@ public class Overlay {
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
-        OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        final OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
         main.setZoomEnabled(true);
         main.setMaxScale(7f);
         main.setOrientation(ORIENTATION_0);
@@ -249,30 +249,45 @@ public class Overlay {
         main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
-        main.setImage(ImageSource.uri(fullFileName));
+        main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
         main.setVisibility(View.VISIBLE);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton imgBtn;
-        for (int i = 0; i < 4; i++) {
-            imgBtn = (ImageButton) mainActivity.findViewById(btns[i]);
+        for (int i = -1; i < 3; i++) {
+            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
 
+            final String filePath;
             if (neighbors.size() > i) {
-                final String filePath = neighbors.get(i);
+                // First ImageButton: original
+
+
+                if (i == -1) {
+                    filePath = fullFileName;
+
+                    // Rest: it's neighbors
+                } else {
+                    filePath = neighbors.get(i);
+
+                }
+
+                //filePath = neighbors.get(i);
+
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                if (im != null) {
-                                    im.setImageURI(Uri.fromFile(file));
-                                }
-                                //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
+                                // Switch to perspective image
+                                main.setImage(ImageSource.uri(filePath));
+                                main.setVisibility(View.VISIBLE);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
+
+
+
                     }
                 });
 
@@ -284,7 +299,6 @@ public class Overlay {
                     Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
                 }
-
             } else {
                 if (imgBtn != null) {
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
