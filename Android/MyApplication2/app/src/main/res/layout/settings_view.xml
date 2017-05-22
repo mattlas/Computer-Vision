@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.treemapp.StatisticsActivity"
+    tools:showIn="@layout/activity_statistics"
+    android:clickable="true"
+    android:weightSum="3"
+
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="#FFFFFFFF"
+
+    >
+
+    <!-- Chechbox for trees -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <CheckBox android:id="@+id/chb_pine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pine"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_spruce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spruce"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_birch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/birch"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_oak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oak"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_alder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alder"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_aspen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aspen"
+            android:onClick="onCheckboxClicked"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Overlay overlay;
     private Vibrator vibrator;
 
+    private Settings settings;
+
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
+
+        settings = new Settings();
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -332,6 +336,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .commit();
         }else if (id == R.id.nav_home) {
             getFragmentManager().popBackStack();
+        }else if (id == R.id.nav_manage){
+            SettingsFragment sf = new SettingsFragment();
+            sf.init(settings);
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -345,6 +359,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
             ///selectItem(position);
         }
+    }
+
+    /**
+     * Run  whenever one of checkboxes are clicked
+     * @param view
+     */
+    public void onCheckboxClicked(View view) {
+
     }
 }
 
