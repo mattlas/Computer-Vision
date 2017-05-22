@@ -15,7 +15,6 @@ public class StatFragment extends Fragment {
     Statista statista = null;
     private HistogramView histogramView;
     private PieChart pieChart;
-    private boolean statistaSet = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

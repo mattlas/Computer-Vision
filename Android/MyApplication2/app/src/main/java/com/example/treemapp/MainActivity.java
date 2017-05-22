@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Vibrator;
 
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.app.FragmentManager;
 import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -47,11 +49,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Overlay overlay;
     private Vibrator vibrator;
 
+    private Settings settings;
+
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName
-            = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName = FileLocation.getSD() + "mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
+
+        settings = new Settings();
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -257,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!imageView.listIsEmpty()) {
 
             dragPin = imageView.getClosestPin(e.getX(), e.getY());
-
+            Log.d(TAG, "y="+e.getY());
             if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
@@ -332,6 +337,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .commit();
         }else if (id == R.id.nav_home) {
             getFragmentManager().popBackStack();
+        }else if (id == R.id.nav_manage){
+            SettingsFragment sf = new SettingsFragment();
+            sf.init(settings);
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -345,6 +360,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
             ///selectItem(position);
         }
+    }
+
+    /**
+     * Run  whenever one of checkboxes are clicked
+     * @param view
+     */
+    public void onCheckboxClicked(View view) {
+
     }
 }
 

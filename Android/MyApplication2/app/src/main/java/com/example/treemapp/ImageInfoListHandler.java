@@ -28,7 +28,7 @@ import java.util.List;
 public class ImageInfoListHandler {
 
     private final String TAG = ImageInfoListHandler.class.getSimpleName();
-    private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName = FileLocation.getSD() + "mosaic/";
     private String imageFolderName = folderName + "images/";
 
     private boolean foundEverything;
@@ -38,6 +38,7 @@ public class ImageInfoListHandler {
     private float icy;
 
     public ImageInfoListHandler() {
+
         String fileName = "imageList.csv";
         File file = new File(folderName + fileName);
         FileReader fileReader;
