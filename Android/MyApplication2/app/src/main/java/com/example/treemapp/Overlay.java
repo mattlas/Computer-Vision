@@ -101,12 +101,15 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.updateOrigPositionInPin(pin);
+                mainActivity.getImageView().addPin(pin);
+                mainActivity.getImageView().invalidate();
                 if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList)))
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 // Make overlayed view visible
                 inputOverlay.setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -274,7 +277,9 @@ public class Overlay {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                im.setImageURI(Uri.fromFile(file));
+                                if (im != null) {
+                                    im.setImageURI(Uri.fromFile(file));
+                                }
                                 //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
@@ -314,7 +319,10 @@ public class Overlay {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO do stuff
+
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                initInputOverlay(pin);
+
                 Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
                 t.show();
             }
