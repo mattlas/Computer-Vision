@@ -50,21 +50,10 @@ public class Overlay {
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return inputIsVisible();
+                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE;
             }
         });
 
-        this.fakeView2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (imagePickerOverlay.getVisibility() == View.VISIBLE);
-            }
-        });
-    }
-
-    /*Checks if the input is currently invisble*/
-    public boolean inputIsVisible() {
-        return inputOverlay.getVisibility() == View.VISIBLE;
     }
 
     /**
@@ -257,12 +246,11 @@ public class Overlay {
 
         main.setScaleAndCenter(2, main.getCenter());
 
-        //main.setOnTouchListener(new OriginalOnTouchListener(main));
+        main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
         main.setImage(ImageSource.uri(fullFileName));
         main.setVisibility(View.VISIBLE);
-
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
