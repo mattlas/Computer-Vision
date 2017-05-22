@@ -225,6 +225,10 @@ public class FileHandler {
 
     }
 
+    /**
+     * TODO send content URI instead of file URI (to avoid throwing an exception)     * also some javadoc!!
+     * @return
+     */
     public Uri getUri(){
         return  Uri.fromFile(file);
     }

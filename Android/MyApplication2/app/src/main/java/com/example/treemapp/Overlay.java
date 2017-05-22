@@ -26,7 +26,10 @@ import java.util.zip.Inflater;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 
+import static android.content.ContentValues.TAG;
+
 public class Overlay {
+    private static final String TAG = Overlay.class.getSimpleName();
     private final MainActivity mainActivity;
 
     private final RelativeLayout inputOverlay;
@@ -286,7 +289,10 @@ public class Overlay {
             } else {
                 if (imgBtn != null) {
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
+                } else {
+                    Log.e(TAG, "Image button null (image may not exist)");
                 }
+
             }
 
         }
@@ -321,6 +327,8 @@ public class Overlay {
         textItems.add(new CarouselPicker.TextItem("Pine", 12));
         textItems.add(new CarouselPicker.TextItem("Birch", 12));
         textItems.add(new CarouselPicker.TextItem("Oak", 12));
+        textItems.add(new CarouselPicker.TextItem("Alder", 12));
+        textItems.add(new CarouselPicker.TextItem("Aspen", 12));
         textItems.add(new CarouselPicker.TextItem("Other", 12));
         return textItems;
     }
