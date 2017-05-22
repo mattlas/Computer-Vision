@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -190,9 +193,71 @@ public class PinView extends SubsamplingScaleImageView {
             }
             else filled.setAlpha(255);
 
-            canvas.drawCircle((int) point.x, (int) point.y, p.getRadius(), filled);
-            canvas.drawCircle((int) point.x, (int) point.y, (int) (p.getRadius() * 0.75), smaller);
+            drawPin(canvas, p);
         }
+    }
+
+    public void drawPin(Canvas canvas, Pin pin){
+        // First see if the species exists as a pin
+
+        PointF point = sourceToViewCoord(pin.getPoint());
+
+        int drawableName=R.drawable.alder;
+
+        boolean fileExists = true;
+
+        String species="Other";
+
+        if (pin.getSpecies() != null) {
+            species=pin.getSpecies();
+        }
+
+        switch (species){
+            case "Spruce": drawableName=R.drawable.spruce;
+                break;
+            case "Pine": drawableName=R.drawable.pine;
+                break;
+            case "Alder": drawableName=R.drawable.alder;
+                break;
+            case "Aspen": drawableName=R.drawable.aspen;
+                break;
+            case "Rowan": drawableName=R.drawable.rowan;
+                break;
+            case "Birch": drawableName=R.drawable.birch;
+                break;
+            case "Oak": drawableName=R.drawable.oak;
+                break;
+            case "Other":   //Pass to next line
+            default : drawableName=R.drawable.empty;
+                break;
+        }
+
+
+        int pinWidth=pin.getRadius()*3;
+
+        if (fileExists) { // draw the pin
+            Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
+            int w=pinWidth;
+            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
+
+            int left=(int)point.x-(w/2);
+            int top=(int)point.y-h;
+            int right=left+w;
+            int bottom=(int)point.y;
+
+            d.setBounds(left, top, right, bottom);
+            d.draw(canvas);
+        }
+
+        /*
+        else{
+            // if not just draw a circle
+            filled.setAlpha(255);
+            canvas.drawCircle((int) point.x, (int) point.y, pin.getRadius(), filled);
+            canvas.drawCircle((int) point.x, (int) point.y, (int) (pin.getRadius() * 0.75), smaller);
+        }
+        */
+
     }
 
     public boolean updatePinInFile(Pin pin) {

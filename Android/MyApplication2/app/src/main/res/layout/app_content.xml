@@ -21,7 +21,9 @@
         android:layout_height="match_parent"
         android:id="@+id/inp_fake_layer"
         android:background="#10000000"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:visibility="visible"
+        ></LinearLayout>
 
     <include layout="@layout/image_picker"/>
 
@@ -30,7 +32,8 @@
         android:layout_height="match_parent"
         android:id="@+id/inp_fake_layer_2"
         android:background="#10000000"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:visibility="invisible"></LinearLayout>
 
     <include layout="@layout/tree_input"/>
 

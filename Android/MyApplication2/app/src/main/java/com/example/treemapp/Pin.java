@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.graphics.PointF;
 
 import android.graphics.*;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -28,12 +29,12 @@ public class Pin implements Serializable{
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(int id, PointF sPin, PointF origImage, String imageFileName) {
+    public Pin(int id, @NonNull PointF sPin, @NonNull PointF origImage, String imageFileName) {
         this.sx = sPin.x;
         this.sy = sPin.y;
 
         this.id = id;
-        this.radius = 20;
+        this.radius = 30;
         this.collisionRadius = 30;
         this.imageFileName = imageFileName;
         this.ox = origImage.x;
@@ -45,7 +46,7 @@ public class Pin implements Serializable{
 
     }
 
-    public Pin(PointF sCoor, PointF oCoor, String imageFileName){
+    public Pin(@NonNull PointF sCoor, @NonNull PointF oCoor, String imageFileName){
         this(-1,sCoor, oCoor, imageFileName);
     }
 
@@ -152,5 +153,13 @@ public class Pin implements Serializable{
     public void setOrigCoor(float x, float y) {
         ox = x;
         oy = y;
+    }
+
+    public float getOrigX() {
+        return ox;
+    }
+
+    public float getOrigY() {
+        return oy;
     }
 }

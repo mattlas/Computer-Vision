@@ -13,7 +13,10 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.app.FragmentManager;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName
+            = Environment.getExternalStorageDirectory() + "/mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();
@@ -69,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
-
-
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (imageView.isReady()) {
-                    if (dragPin != null) {
+                    if (dragPin != null) { // TODO fix the area for dragging the pin - it's still set to a circle around the point, should be a rectangle where the pin icon is
                         latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
                         dragPin.setPosition(latestTouch);
 
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -314,16 +316,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.nav_send){
+        if (id == R.id.nav_send) {
             export();
         }
+        else if (id == R.id.nav_statistics) {
+
+            StatFragment sf = new StatFragment();
+            sf.init(new Statista(imageView.getPins()));
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
+        }else if (id == R.id.nav_home) {
+            getFragmentManager().popBackStack();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
-
             ///selectItem(position);
         }
     }

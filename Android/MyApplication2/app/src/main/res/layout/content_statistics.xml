@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.treemapp.StatisticsActivity"
-    tools:showIn="@layout/activity_statistics">
+    tools:showIn="@layout/activity_statistics"
+    android:clickable="true"
+    android:weightSum="3"
 
-    <com.example.treemapp.HistogramView
-        android:id="@+id/histogramView"
-        android:layout_width="1px"
-        android:layout_height="1px" />
-    <com.example.treemapp.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        />
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="#FFFFFFFF"
 
-</android.support.constraint.ConstraintLayout>
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+
+
+        android:layout_weight="1"
+        android:weightSum="2">
+
+        <com.example.treemapp.HistogramView
+            android:id="@+id/histogramView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+        <com.example.treemapp.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

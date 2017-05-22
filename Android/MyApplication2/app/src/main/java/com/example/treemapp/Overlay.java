@@ -1,6 +1,5 @@
 package com.example.treemapp;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -15,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
@@ -23,7 +23,11 @@ import java.util.List;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 
+
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
+
 public class Overlay {
+    private static final String TAG = Overlay.class.getSimpleName();
     private final MainActivity mainActivity;
 
     private final RelativeLayout inputOverlay;
@@ -31,9 +35,10 @@ public class Overlay {
 
     private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
+    private PinView originalView;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
-                 //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
+    //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
     public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
 
         this.mainActivity = mainActivity;
@@ -45,21 +50,10 @@ public class Overlay {
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return inputIsVisible();
+                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE;
             }
         });
 
-        this.fakeView2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (imagePickerOverlay.getVisibility() == View.VISIBLE);
-            }
-        });
-    }
-
-    /*Checks if the input is currently invisble*/
-    public boolean inputIsVisible(){
-        return inputOverlay.getVisibility() == View.VISIBLE;
     }
 
     /**
@@ -72,7 +66,7 @@ public class Overlay {
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
-        
+
         // Components of the input menu
         final Button exitBtn = (Button) mainActivity.findViewById(R.id.btn_Exit);
         final NumberPicker height = (NumberPicker) mainActivity.findViewById(R.id.inp_height);
@@ -83,8 +77,8 @@ public class Overlay {
         tv.setText("Add tree");
 
         // Button to close the input menu
-        Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
-        
+        //Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
+
         // Apply the adapter to the spinner
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
@@ -98,12 +92,15 @@ public class Overlay {
             @Override
             public void onClick(View view) {
                 mainActivity.updateOrigPositionInPin(pin);
+                mainActivity.getImageView().addPin(pin);
+                mainActivity.getImageView().invalidate();
                 if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList)))
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 // Make overlayed view visible
                 inputOverlay.setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -126,7 +123,7 @@ public class Overlay {
                 mainActivity.getImageView().invalidate();
             }
         });
-
+        /*
         perspExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +131,7 @@ public class Overlay {
                 //imageView.invalidate();
             }
         });
+        */
     }
 
     /**
@@ -143,7 +141,7 @@ public class Overlay {
     public void edit(final Pin pin) {
         inputOverlay.setVisibility(View.VISIBLE);
 
-        Log.d(mainActivity.TAG,"Tree detail edit overlay opened");
+        Log.d(mainActivity.TAG, "Tree detail edit overlay opened");
 
         //TODO, put values here
 
@@ -156,7 +154,6 @@ public class Overlay {
 
         TextView tv = (TextView) inputOverlay.findViewById(R.id.overlay_box_txt);
         tv.setText("Edit tree");
-
 
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
@@ -174,9 +171,9 @@ public class Overlay {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList))){
-                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();}
-                else
+                if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList))) {
+                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                } else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 inputOverlay.setVisibility(View.INVISIBLE);
             }
@@ -222,7 +219,7 @@ public class Overlay {
         }
     }
 
-    public int getSpeciesPosition (String species, List<CarouselPicker.PickerItem> textItems) {
+    public int getSpeciesPosition(String species, List<CarouselPicker.PickerItem> textItems) {
         int position = 0;
         for (int i = 0; i < textItems.size(); i++) {
             if (textItems.get(i).getText().equals(species)) {
@@ -232,53 +229,99 @@ public class Overlay {
         return position;
     }
 
-    public void initImagePickerOverlay(final Pin pin){
+    public void initImagePickerOverlay(final Pin pin) {
+
         imagePickerOverlay.setVisibility(View.VISIBLE);
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
 
-        // This isnt working!!! it cant find the images, imgBtns is always null
+        //this converts from fileName to full path to the file
+        String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
+
+        OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        main.setZoomEnabled(true);
+        main.setMaxScale(7f);
+        main.setOrientation(ORIENTATION_0);
+
+        main.setScaleAndCenter(2, main.getCenter());
+
+        main.setOnTouchListener(new OriginalOnTouchListener(main));
+
+        main.setPin(pin);
+        main.setImage(ImageSource.uri(fullFileName));
+        main.setVisibility(View.VISIBLE);
+
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
-        ImageButton[] imgBtns = new ImageButton[4];
+        ImageButton imgBtn;
         for (int i = 0; i < 4; i++) {
-            imgBtns[i] = (ImageButton) mainActivity.findViewById(btns[i]);
-            final int finalIndex = i;
+            imgBtn = (ImageButton) mainActivity.findViewById(btns[i]);
+
             if (neighbors.size() > i) {
-                imgBtns[i].setOnClickListener(new View.OnClickListener() {
+                final String filePath = neighbors.get(i);
+                imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String filePath;
-                        filePath = neighbors.get(finalIndex);
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                im.setImageURI(Uri.fromFile(file));
-                                imagePickerOverlay.setVisibility(View.VISIBLE);
+                                if (im != null) {
+                                    im.setImageURI(Uri.fromFile(file));
+                                }
+                                //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
                             }
-                        } else Log.e(MainActivity.TAG, "Filename does not exist: " + filePath);
+                        } else Log.e(MainActivity.TAG, "Filename is null");
                     }
                 });
-                File file = new File(neighbors.get(i));
+
+                File file = new File(filePath);
                 if (file.exists()) {
-                    imgBtns[i].setImageURI(Uri.fromFile(file));
-                    imgBtns[i].setVisibility(ImageButton.VISIBLE);
+                    imgBtn.setImageURI(Uri.fromFile(file));
+                    imgBtn.setVisibility(ImageButton.VISIBLE);
                 } else {
                     Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
-                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                    imgBtn.setVisibility(ImageButton.INVISIBLE);
                 }
+
             } else {
-                if (imgBtns != null) {
-                    imgBtns[i].setVisibility(ImageButton.INVISIBLE);
+                if (imgBtn != null) {
+                    imgBtn.setVisibility(ImageButton.INVISIBLE);
+                } else {
+                    Log.e(TAG, "Image button null (image may not exist)");
                 }
+
             }
 
         }
 
 
+        ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
+
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add closing event
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
+            }
+        });
+
+        Button button = (Button)  imagePickerOverlay.findViewById(R.id.btn_continue_to_input);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                initInputOverlay(pin);
+
+                Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
+                t.show();
+            }
+        });
     }
+
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
         List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
@@ -286,6 +329,8 @@ public class Overlay {
         textItems.add(new CarouselPicker.TextItem("Pine", 12));
         textItems.add(new CarouselPicker.TextItem("Birch", 12));
         textItems.add(new CarouselPicker.TextItem("Oak", 12));
+        textItems.add(new CarouselPicker.TextItem("Alder", 12));
+        textItems.add(new CarouselPicker.TextItem("Aspen", 12));
         textItems.add(new CarouselPicker.TextItem("Other", 12));
         return textItems;
     }
@@ -294,7 +339,7 @@ public class Overlay {
     private CarouselListener setUpCarousel(CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
         //Carousse1 Picker with text to display the tree species
 
-        CarouselPicker.CarouselViewAdapter textAdapter =  new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
+        CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);
 
         final CarouselListener carouselPickerListener = new CarouselListener();

@@ -4,6 +4,7 @@ import android.icu.text.Collator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,7 @@ public class Statista implements Serializable{
         int uniqueValuesCount = 0;
 
         for (Pin p : pins) {
-            height = Double.parseDouble(p.getHeight());
+            height = Double.parseDouble(p.getHeight()); //TODO, fix this if it is not a number
 
             if (!heights.contains(height)) {
                 uniqueValuesCount++;
@@ -92,7 +93,8 @@ public class Statista implements Serializable{
 
         int numberOfStaples = Math.min(uniqueValuesCount, Math.min(heights.size(), maxStaples));
 
-        heights.sort(smallToLarge);
+        Collections.sort(heights, smallToLarge);
+        //heights.sort(smallToLarge); required api level 24 or higher
 
         int currentStaple = 0;
         double widthOfOneStaple = (heights.get(heights.size()-1) - heights.get(0)) / numberOfStaples;

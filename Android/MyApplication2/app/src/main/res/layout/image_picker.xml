@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Image_picker_overlayed"
-    android:visibility="invisible"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:visibility="invisible">
 
     <!-- Container -->
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:id="@+id/relativeLayout">
 
             <ImageButton
-                android:id="@+id/btn_Exit"
+                android:id="@+id/btn_imagepicker_exit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
@@ -47,39 +47,44 @@
         </RelativeLayout>
 
         <!-- Main image-->
-        <ImageView
-            android:background="@drawable/border_background"
+
+        <com.example.treemapp.OnePinView
+            android:id="@+id/originalView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="90dp"
-            android:layout_alignParentTop="true"/>
+            android:padding="3dp"
+            android:background="@drawable/border_blue"
 
-        <!-- Save & Close btm-->
+            android:layout_alignParentTop="true" />
+
+        <!-- Continue button-->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
 
             <Button
-                android:id="@+id/btn_save"
+                android:id="@+id/btn_continue_to_input"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:background="#00BA52"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textSize="16dp"
-                android:text="CONTINUE TO ADD TREE"/>
+                android:textSize="16sp"
+                android:text="CONTINUE TO ADD TREE" />
 
-            <!-- todo -->
+            <!-- todo
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/right_arrow"
                 android:layout_centerVertical="true"
-                android:layout_alignEnd="@+id/btn_save" />
+                android:layout_alignEnd="@+id/btn_save" />-->
 
         </RelativeLayout>
     </RelativeLayout>
@@ -101,28 +106,36 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
-            android:layout_margin="10dp"/>
+            android:padding="3dp"
+            android:background="@drawable/trees_img_press"
+            android:layout_margin="10dp" />
 
         <ImageButton
             android:id="@+id/btn_perspective_2"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
-            android:layout_margin="10dp"/>
+            android:padding="3dp"
+            android:background="@drawable/trees_img_press"
+            android:layout_margin="10dp" />
 
         <ImageButton
             android:id="@+id/btn_perspective_3"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
-            android:layout_margin="10dp"/>
+            android:padding="3dp"
+            android:background="@drawable/trees_img_press"
+            android:layout_margin="10dp" />
 
         <ImageButton
             android:id="@+id/btn_perspective_4"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
-            android:layout_margin="10dp"/>
+            android:padding="3dp"
+            android:background="@drawable/trees_img_press"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
 
