@@ -5,6 +5,7 @@
 #include <vector>
 #include "exif.h"
 #include "DirectoryReader.h"
+#include "neighbours.h"
 
 int main(){
 	std::vector<std::string> dir = DirectoryReader::readDirectory("geotaggedPhotos");
@@ -14,5 +15,7 @@ int main(){
 		printf("GPS Longitude        : %f deg\n", result.GeoLocation.Longitude);
 		printf("GPS Altitude         : %f m\n", result.GeoLocation.Altitude);
  	}
+	double dist = neighbours::distance();
+	printf("Code: %f\n", dist);
 	return 0;
 }
