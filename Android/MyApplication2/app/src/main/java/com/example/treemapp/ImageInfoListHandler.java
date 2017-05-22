@@ -39,7 +39,7 @@ public class ImageInfoListHandler {
 
     public ImageInfoListHandler() {
 
-        String fileName = "imageList.csv";
+        String fileName = "androidData.csv";
         File file = new File(folderName + fileName);
         FileReader fileReader;
         imageInfos = new HashMap<>();
