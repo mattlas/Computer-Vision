@@ -4,6 +4,6 @@
 #include <string>
 
 namespace neighbours{
-
+   std::string distance();
 }
 #endif
