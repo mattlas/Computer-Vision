@@ -1,7 +1,8 @@
+#include <cstring>
 #include "neighbours.h"
 
 namespace neighbours{
-   double distance(){
-	return 5;
+   std::string distance(){
+	return "success";
    }
 }

@@ -15,7 +15,7 @@ int main(){
 		printf("GPS Longitude        : %f deg\n", result.GeoLocation.Longitude);
 		printf("GPS Altitude         : %f m\n", result.GeoLocation.Altitude);
  	}
-	double dist = neighbours::distance();
-	printf("Code: %f\n", dist);
+	
+	printf("Code: %s\n", neighbours::distance().c_str());
 	return 0;
 }
