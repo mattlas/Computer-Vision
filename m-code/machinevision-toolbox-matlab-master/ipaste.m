@@ -47,11 +47,11 @@ function out = ipaste(canvas, pattern, topleft, varargin)
 
     if opt.centre
         % specify centre of pattern not topleft
-        left = topleft(1) - floor(pw/2);
-        top = topleft(2) - floor(ph/2);
+        left = floor(topleft(1)) - floor(pw/2);
+        top = floor(topleft(2)) - floor(ph/2);
     else
-        left = topleft(1);      % x
-        top = topleft(2);       % y
+        left = floor(topleft(1));      % x
+        top = floor(topleft(2));       % y
     end
 
     if opt.zero

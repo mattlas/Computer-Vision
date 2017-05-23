@@ -1,6 +1,4 @@
-*
-!.gitignore
-!exif.cpp
-!exif.h
+/geotaggedPhotos/
+*.o
+demo
 !demo.cpp
-!Makefile
