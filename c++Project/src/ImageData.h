@@ -19,11 +19,6 @@ private:
     std::string path;
     std::string pgm_path;
     exif::EXIFInfo info;
-public:
-    const std::string &getPgm_path() const;
-    void setPgm_path(const std::string &pgm_path);
-
-private:
     FeaturePoints* featurePoints;
 
 
@@ -45,6 +40,10 @@ public:
     FeaturePoints *getFeaturePoints() const;
 
     void setFeaturePoints(FeaturePoints *featurePoints);
+
+    const std::string &getPgm_path() const;
+    void setPgm_path(const std::string &pgm_path);
+
 
 };
 

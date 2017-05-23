@@ -53,17 +53,22 @@ void MosaicData::convertToPGM(std::string op_path) {
 
 void MosaicData::readPGMFromFolder() {
     pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
+    std::sort(pgmFileNames.begin(), pgmFileNames.end());
+    //fileNames = DirectoryReader::readDirectory(input_path);
 }
 
 void MosaicData::createImages() {
     int tempID = 0;
+    for (int i = 0; i < pgmFileNames.size(); ++i) {
 
-    for(std::string file : pgmFileNames){
-        ImageData *imageData = new ImageData(tempID);
-        imageData->setPgm_path(file);
+    //}
+    //for(std::string file : pgmFileNames){
+        ImageData *imageData = new ImageData(i);
+        imageData->setPgm_path(pgmFileNames.at(i));
+        //imageData->setPath(fileNames.at(i));
         imageData->setPath(im->getJpgFileNames().at(tempID));
-	imageData->setInfo(exif::read(imgData.getPath()));
-        imageList.insert(imageList.begin()+tempID,*imageData);
+	    //imageData->setInfo(exif::read(imageData->getPath()));
+        imageList.insert(imageList.begin()+i,*imageData);
         tempID++;
     }
 
@@ -85,7 +90,7 @@ void MosaicData::extractFeaturePoints() {
 void MosaicData::ubcMatch() {
     //TODO add loop for what images will be matched.
     MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
-  /*  cv::Mat image1 = imread(imageList.at(0).getPath());
+    /*cv::Mat image1 = imread(imageList.at(0).getPath());
     cv::Mat image2 = imread(imageList.at(1).getPath());
     Mat im_out;
     cv::warpPerspective(image1,im_out,matcher->getHomography(),image2.size());
@@ -97,11 +102,11 @@ void MosaicData::ubcMatch() {
 
     imshow("Destination Image", image2);
 
-    imshow("Warped Source Image", im_out);
+    imshow("Warped Source Image", im_out);*/
 
 
 
-    waitKey(0);*/
+    waitKey(0);
 }
 
 void MosaicData::createThreads() {

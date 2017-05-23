@@ -29,7 +29,7 @@ void ImageData::setPath(const std::string &path) {
     ImageData::path = path;
 }
 
-void setInfo(exif::EXIFInfo info){
+void ImageData::setInfo(exif::EXIFInfo info){
     ImageData::info = info;
 }
 

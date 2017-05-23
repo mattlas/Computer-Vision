@@ -11,7 +11,7 @@ MatchPoints::MatchPoints(FeaturePoints point1, FeaturePoints point2)
     findMatches();
     createHomography();
 
-   // std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
+    std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
 
 }
 
@@ -70,7 +70,7 @@ int MatchPoints::squaredDistance(ulong index1, ulong index2) {
 
 void MatchPoints::createHomography() {
 
-    homography = cv::findHomography(match1,match2,cv::RANSAC);
+    homography = cv::findHomography(match1,match2,cv::RANSAC,10,cv::noArray(),2000,0.995);
 
 }
 
