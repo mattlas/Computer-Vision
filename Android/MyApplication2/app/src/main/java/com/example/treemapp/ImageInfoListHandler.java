@@ -39,7 +39,7 @@ public class ImageInfoListHandler {
 
     public ImageInfoListHandler() {
 
-        String fileName = "imageList.csv";
+        String fileName = "androidData.csv";
         File file = new File(folderName + fileName);
         FileReader fileReader;
         imageInfos = new HashMap<>();
@@ -55,7 +55,7 @@ public class ImageInfoListHandler {
             Log.e(TAG, "Could not find file: '"+ fileName + "' in folder '" + folderName + "'");
         }
 
-        Log.d(TAG, "loaded " + imageInfos.size() + " numbers of lines from imageList.csv");
+        Log.d(TAG, "loaded " + imageInfos.size() + " numbers of lines from androidDate.csv");
     }
 
     public boolean didFindEverything() {
