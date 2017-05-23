@@ -22,7 +22,7 @@ public class Settings extends Fragment {
     public Settings(){
 
         // TODO put all possible species
-        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "alder", "aspen", "rowan"};
+        treesSpeciesAll = new String[]{"Pine", "Spruce", "Birch", "Oak", "Alder", "Aspen", "Rowan"};
         treesSpeciesChosen = new ArrayList<>();
         for (String tree:treesSpeciesAll){
             treesSpeciesChosen.add(new CarouselPicker.TextItem(tree, carouselSize));

@@ -78,7 +78,7 @@ public class FileNotFoundDialog extends DialogFragment {
 
     /**
      * Makes a dialog asking if the user wants to choose the file location (to be called when the files aren't found).
-     * Example format of how this should be used in other classes:                     new FileNotFoundDialog.popup(getActivity(), "imageFile");
+     * Example format of how this should be used in other classes:                     FileNotFoundDialog.popup(getActivity(), "imageFile");
      * @param file a brief description of the file to be located.
      */
     public static void popup(Activity activity, String file){

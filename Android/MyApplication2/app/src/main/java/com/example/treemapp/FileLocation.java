@@ -46,6 +46,10 @@ public class FileLocation {
             folder="/storage/sdcard0/";
             Log.i("Sd Card0 Path",folder);
         }
+        else { // For use with emulator
+            folder="/storage/emulated/0/";
+            Log.i("Emulated SD path", folder);
+        }
 
         return folder;
     }
