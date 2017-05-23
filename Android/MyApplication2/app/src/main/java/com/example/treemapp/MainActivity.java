@@ -27,6 +27,8 @@ import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -46,11 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Overlay overlay;
     private Vibrator vibrator;
 
+    private Settings settings;
+
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName
-            = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName = FileLocation.getSD() + "mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();
@@ -64,14 +67,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settings = new Settings();
 
         // The activity to initInputOverlay the input
         overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
-                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
+                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2), settings);
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
+
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I don't have permission");
@@ -86,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Event handling
         initialiseEventHandling();
+
 
     }
 
@@ -335,6 +341,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .commit();
         }else if (id == R.id.nav_home) {
             getFragmentManager().popBackStack();
+        }else if (id == R.id.nav_manage){
+            SettingsFragment sf = new SettingsFragment();
+            sf.init(settings, this.getPackageName());
+
+            FragmentManager fm = getFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.map_fragment, sf)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -349,6 +365,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ///selectItem(position);
         }
     }
+
+    /**
+     * Run  whenever one of checkboxes are clicked
+     * @param view
+     */
+    public void onCheckboxClicked(View view) {
+
+    }
+
+
+
 }
 
 

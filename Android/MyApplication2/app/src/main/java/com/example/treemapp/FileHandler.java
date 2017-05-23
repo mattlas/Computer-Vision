@@ -36,8 +36,9 @@ import org.apache.commons.math3.linear.*;
 public class FileHandler {
 
     private String fileName = "treeList.csv";
-    private String directory = Environment.getExternalStorageDirectory() + "/mosaic";
+    private String directory = FileLocation.getSD() + "mosaic";
     private String fullFileName= directory+fileName;
+
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
@@ -50,6 +51,7 @@ public class FileHandler {
         this.mainActivity=mainActivity;
         try{
             File dir = new File(directory);
+
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
@@ -58,6 +60,7 @@ public class FileHandler {
 
         } catch (Exception e){
             Log.e(TAG, "Failed to initInputOverlay/open directory: " + directory+  ": " + e.getLocalizedMessage());
+
         }
         // Then the file
         try {

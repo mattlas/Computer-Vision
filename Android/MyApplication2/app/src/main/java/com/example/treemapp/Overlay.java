@@ -36,16 +36,18 @@ public class Overlay {
     private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
     private PinView originalView;
+    private Settings settings;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
     //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
-    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
+    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
 
         this.mainActivity = mainActivity;
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.fakeView = fakeView;
         this.fakeView2 = fakeView2;
+        this.settings = settings;
 
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -240,7 +242,7 @@ public class Overlay {
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
-        OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        final OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
         main.setZoomEnabled(true);
         main.setMaxScale(7f);
         main.setOrientation(ORIENTATION_0);
@@ -250,30 +252,45 @@ public class Overlay {
         main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
-        main.setImage(ImageSource.uri(fullFileName));
+        main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
         main.setVisibility(View.VISIBLE);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton imgBtn;
-        for (int i = 0; i < 4; i++) {
-            imgBtn = (ImageButton) mainActivity.findViewById(btns[i]);
+        for (int i = -1; i < 3; i++) {
+            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
 
+            final String filePath;
             if (neighbors.size() > i) {
-                final String filePath = neighbors.get(i);
+                // First ImageButton: original
+
+
+                if (i == -1) {
+                    filePath = fullFileName;
+
+                    // Rest: it's neighbors
+                } else {
+                    filePath = neighbors.get(i);
+
+                }
+
+                //filePath = neighbors.get(i);
+
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                if (im != null) {
-                                    im.setImageURI(Uri.fromFile(file));
-                                }
-                                //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
+                                // Switch to perspective image
+                                main.setImage(ImageSource.uri(filePath));
+                                main.setVisibility(View.VISIBLE);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
+
+
+
                     }
                 });
 
@@ -285,7 +302,6 @@ public class Overlay {
                     Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
                 }
-
             } else {
                 if (imgBtn != null) {
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
@@ -326,16 +342,7 @@ public class Overlay {
 
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
-        List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("Spruce", 12));
-        textItems.add(new CarouselPicker.TextItem("Pine", 12));
-        textItems.add(new CarouselPicker.TextItem("Birch", 12));
-        textItems.add(new CarouselPicker.TextItem("Oak", 12));
-        textItems.add(new CarouselPicker.TextItem("Rowan", 12));
-        textItems.add(new CarouselPicker.TextItem("Alder", 12));
-        textItems.add(new CarouselPicker.TextItem("Aspen", 12));
-        textItems.add(new CarouselPicker.TextItem("Other", 12));
-        return textItems;
+        return settings.getTreesSpeciesChosen();
     }
 
     @NonNull
