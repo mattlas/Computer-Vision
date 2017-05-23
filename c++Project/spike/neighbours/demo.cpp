@@ -10,11 +10,12 @@
 
 int main(){
 	std::vector<std::string> dir = DirectoryReader::readDirectory("geotaggedPhotos");
-	std::list<exif::EXIFInfo> nodes;
+	std::vector<exif::EXIFInfo> nodes;
 	for(std::vector<std::string>::iterator it = dir.begin() ; it != dir.end(); ++it){
     		exif::EXIFInfo result = exif::read(*it);
 		nodes.push_back(result);
  	}
+
 	neighbours::pairs(nodes);
 	return 0;
 }
