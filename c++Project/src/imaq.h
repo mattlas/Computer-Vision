@@ -13,6 +13,12 @@ private:
     Mat grayImage;
     std::vector<std::string> directoryList;
     std::vector<std::string> jpgFileNames;
+public:
+    const std::vector<std::string> &getJpgFileNames() const;
+
+    void setJpgFileNames(const std::vector<std::string> &jpgFileNames);
+
+private:
     std::string jpgFolder;
 public:
     Mat readImage(std::string);

@@ -6,6 +6,7 @@
 #include "DirectoryReader.h"
 #include "MatchPoints.h"
 #include <thread>
+#include <opencv2/imgproc.hpp>
 
 #define NUM_THREADS 4
 
@@ -20,10 +21,10 @@ void MosaicData::startProcess() {
     readFiles(input_path);
     std::cout << "convert to pgm " << std::endl;
     convertToPGM(pgm_path);
-    delete im;
     std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
     createImages();
+    delete im;
     std::cout << "extracting featurepoints" << std::endl;
     extractFeaturePoints();
     std::cout << "create threads" << std::endl;
@@ -31,7 +32,41 @@ void MosaicData::startProcess() {
     std::cout << "ubc match" << std::endl;
     ubcMatch();
     std::cout << "ubc match done" << std::endl;
+    //stitchImages();
     emit finished();
+}
+
+void MosaicData::readFiles(std::string ip_path) {
+    im->addDirectory(ip_path);
+    im->readJPGfromFolder();
+    /*for(std::string directory : directoryList){
+        std::vector<std::string> temp = DirectoryReader::readDirectory(directory);
+        fileNames.insert(std::end(fileNames), std::begin(temp), std::end(temp));
+    }*/
+}
+
+void MosaicData::convertToPGM(std::string op_path) {
+
+    im->convertToPGM(op_path);
+    pgmFolder = op_path;
+}
+
+void MosaicData::readPGMFromFolder() {
+    pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
+}
+
+void MosaicData::createImages() {
+    int tempID = 0;
+
+    for(std::string file : pgmFileNames){
+        ImageData *imageData = new ImageData(tempID);
+        imageData->setPgm_path(file);
+        imageData->setPath(im->getJpgFileNames().at(tempID));
+	imageData->setInfo(exif::read(imgData.getPath()));
+        imageList.insert(imageList.begin()+tempID,*imageData);
+        tempID++;
+    }
+
 }
 
 void MosaicData::extractFeaturePoints() {
@@ -48,40 +83,25 @@ void MosaicData::extractFeaturePoints() {
 }
 
 void MosaicData::ubcMatch() {
-    MatchPoints *matcher = new MatchPoints(featurePointList.at(0), featurePointList.at(1));
-}
+    //TODO add loop for what images will be matched.
+    MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
+  /*  cv::Mat image1 = imread(imageList.at(0).getPath());
+    cv::Mat image2 = imread(imageList.at(1).getPath());
+    Mat im_out;
+    cv::warpPerspective(image1,im_out,matcher->getHomography(),image2.size());
 
-void MosaicData::readFiles(std::string ip_path) {
-    im->addDirectory(ip_path);
-    im->readJPGfromFolder();
-    /*for(std::string directory : directoryList){
-        std::vector<std::string> temp = DirectoryReader::readDirectory(directory);
-        fileNames.insert(std::end(fileNames), std::begin(temp), std::end(temp));
-    }*/
-}
+    // Display images
 
-void MosaicData::convertToPGM(std::string op_path) {
 
-    im->convertToPGM(op_path);
-    pgmFolder = op_path;
-    //pgmFolder = directoryList.at(0); //replace this line with actual folder once its implemented
-}
+    imshow("Source Image", image1);
 
-void MosaicData::extractFeaturePointsThreaded() {
+    imshow("Destination Image", image2);
 
-    while(!pgmFileNames.empty()){
-        readMutex.lock();
+    imshow("Warped Source Image", im_out);
 
-        std::string name = (std::string) pgmFileNames.back();
-        pgmFileNames.pop_back();
-        readMutex.unlock();
-        FeaturePoints *point = new FeaturePoints(name,1);
-        point->calculatePoints();
 
-        writeMutex.lock();
-        featurePointList.push_back(*point);
-        writeMutex.unlock();
-    }
+
+    waitKey(0);*/
 }
 
 void MosaicData::createThreads() {
@@ -108,25 +128,25 @@ void MosaicData::classWrapper(MosaicData *mosaicData) {
     mosaicData->extractFeaturePointsThreaded();
 }
 
-void MosaicData::readPGMFromFolder() {
-    pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
+void MosaicData::extractFeaturePointsThreaded() {
+
+    while(!pgmFileNames.empty()){
+        readMutex.lock();
+
+        std::string name = (std::string) pgmFileNames.back();
+        pgmFileNames.pop_back();
+        readMutex.unlock();
+        FeaturePoints *point = new FeaturePoints(name,1);
+        point->calculatePoints();
+
+        writeMutex.lock();
+        featurePointList.push_back(*point);
+        writeMutex.unlock();
+    }
 }
 
 void MosaicData::addDirectory(std::string dir) {
     directoryList.push_back(dir);
 }
 
-void MosaicData::createImages() {
-    int tempID = 0;
 
-    for(std::string file : pgmFileNames){
-        ImageData *imageData = new ImageData(tempID);
-        imageData->setPath(file);
-        //imageList[tempID]=*imageData;
-
-        imageList.insert(imageList.begin()+tempID,*imageData);
-
-        tempID++;
-    }
-
-}

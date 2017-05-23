@@ -15,11 +15,11 @@
 //#include <thread>
 #include <pthread.h>
 #include <mutex>
+#include "opencv2/core.hpp"
 
 //#include <unordered_map>
 
 #include "QObject"
-//#include <bits/unordered_map.h>
 
 class MosaicData : public QObject{
     Q_OBJECT
@@ -79,6 +79,8 @@ private:
 
 signals:
     void finished();
+
+
 };
 
 

@@ -6,8 +6,9 @@
 #define TREEMARKUPTOOLBOX_IMAGEDATA_H
 
 #include <string>
-#include "FeaturePoints.h"
 #include <memory>
+#include "FeaturePoints.h"
+#include "exif.h"
 
 
 class ImageData {
@@ -16,6 +17,13 @@ class ImageData {
 private:
     int id;
     std::string path;
+    std::string pgm_path;
+    exif::EXIFInfo info;
+public:
+    const std::string &getPgm_path() const;
+    void setPgm_path(const std::string &pgm_path);
+
+private:
     FeaturePoints* featurePoints;
 
 
@@ -27,6 +35,8 @@ public:
     int getId() const;
 
     void setId(int id);
+
+    void setInfo(exif::EXIFInfo info);
 
     const std::string &getPath() const;
 
