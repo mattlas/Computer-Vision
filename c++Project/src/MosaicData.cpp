@@ -62,10 +62,8 @@ void MosaicData::createImages() {
         ImageData *imageData = new ImageData(tempID);
         imageData->setPgm_path(file);
         imageData->setPath(im->getJpgFileNames().at(tempID));
-        //imageList[tempID]=*imageData;
-
+	imageData->setInfo(exif::read(imgData.getPath()));
         imageList.insert(imageList.begin()+tempID,*imageData);
-
         tempID++;
     }
 
