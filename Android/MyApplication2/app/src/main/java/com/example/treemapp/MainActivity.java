@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Vibrator;
 
@@ -15,9 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.app.FragmentManager;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -82,12 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
-            Log.d(TAG, "I doesn't have permission");
+            Log.d(TAG, "I don't have permission");
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
 
-        filehandler = new FileHandler();
+        filehandler = new FileHandler(this);
 
         // Setting the image to display
         imageViewSetUp();
@@ -135,7 +132,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Found png");
                 imageView.setImage(ImageSource.uri(path));
             }
-            else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+            else {
+                FileNotFoundDialog.popup(this,"mosaic");
+                imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+            }
         }
 
         // Filehandler - needs permission before starting
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
+            FileNotFoundDialog.popup(this,"imageList");
         }
         pin.setOrigCoor(origCoor[0], origCoor[1]);
 

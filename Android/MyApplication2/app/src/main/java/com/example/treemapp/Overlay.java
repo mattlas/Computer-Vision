@@ -180,6 +180,7 @@ public class Overlay {
                 } else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 inputOverlay.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
             }
         });
 
@@ -339,13 +340,14 @@ public class Overlay {
     }
 
 
+
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
         return settings.getTreesSpeciesChosen();
     }
 
     @NonNull
     private CarouselListener setUpCarousel(CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
-        //Carousse1 Picker with text to display the tree species
+        //Carouse1 Picker with text to display the tree species
 
         CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);
