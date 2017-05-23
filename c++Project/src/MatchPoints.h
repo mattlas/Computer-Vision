@@ -47,7 +47,7 @@ public:
 
     void setHomography(const cv::Mat &homography);
 
-};
+    };
 
 
 #endif //TREEMARKUPTOOLBOX_MATCHPOINTS_H

@@ -10,6 +10,9 @@ MatchPoints::MatchPoints(FeaturePoints point1, FeaturePoints point2)
     numberMatches = 0;
     findMatches();
     createHomography();
+
+   // std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
+
 }
 
 void MatchPoints::findMatches() {

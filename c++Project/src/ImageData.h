@@ -16,6 +16,13 @@ class ImageData {
 private:
     int id;
     std::string path;
+    std::string pgm_path;
+public:
+    const std::string &getPgm_path() const;
+
+    void setPgm_path(const std::string &pgm_path);
+
+private:
     FeaturePoints* featurePoints;
 
 

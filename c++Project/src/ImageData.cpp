@@ -37,5 +37,13 @@ void ImageData::setFeaturePoints(FeaturePoints *featurePoints) {
     ImageData::featurePoints = featurePoints;
 }
 
+const std::string &ImageData::getPgm_path() const {
+    return pgm_path;
+}
+
+void ImageData::setPgm_path(const std::string &pgm_path) {
+    ImageData::pgm_path = pgm_path;
+}
+
 
 
