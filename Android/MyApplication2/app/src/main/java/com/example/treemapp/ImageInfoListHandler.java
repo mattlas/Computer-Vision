@@ -5,9 +5,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,6 +110,41 @@ public class ImageInfoListHandler {
 
     }
 
+    public float[] getTransformOrigToMosaic(Pin pin) {
+
+        if (!new File(pin.getImageFileName()).exists()){
+            float[] arr = {pin.getX(), pin.getY()};
+            //TODO, file does not exists handling
+            return arr;
+        }
+
+        RealMatrix transformMatrix = findImageInfo(pin.getImageFileName()).getTransformMatrix();
+        LUDecomposition s = new LUDecomposition(transformMatrix);
+
+        RealMatrix doubleInversed = s.getSolver().getInverse();
+
+        double[] coordArr = {pin.getOrigX(), pin.getOrigY(), 1};
+        RealMatrix coordMatrix = new Array2DRowRealMatrix(coordArr);
+
+        RealMatrix result = doubleInversed.multiply(coordMatrix);
+        float[] coor = new float[2];
+
+        coor[0] = (float) result.getEntry(0, 0) + getICX();
+        coor[1] = (float) result.getEntry(1, 0) + getICY();
+        return coor;
+    }
+
+    public float[] getTransformMosaicToOriginal(float x, float y, ImageInfo im) {
+        float[] f = getResultCoordinates(x, y);
+        return im.convertFromIdentityCoordinatesToOriginal(f[0], f[1]);
+    }
+
+    public float[] getTransformMosaicToOriginal(float x, float y, String fileName) {
+        ImageInfo im = findImageInfo(fileName);
+        return getTransformMosaicToOriginal(x, y, im);
+    }
+
+
     public void parseFileToHashMap(Reader reader) {
         parseFileToHashMap(new BufferedReader(reader));
     }
@@ -174,7 +215,6 @@ public class ImageInfoListHandler {
 
         return closest;
     }
-
 
     public float[] getResultCoordinates(float x, float y) {
         float[] coor = {x, y};

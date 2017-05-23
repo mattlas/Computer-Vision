@@ -1,6 +1,8 @@
 package com.example.treemapp;
 
+import android.graphics.PointF;
 import android.net.Uri;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -246,13 +248,16 @@ public class Overlay {
         main.setMaxScale(7f);
         main.setOrientation(ORIENTATION_0);
 
-        main.setScaleAndCenter(2, main.getCenter());
+        main.setScaleAndCenter(1, main.getCenter());
 
         main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
         main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
         main.setVisibility(View.VISIBLE);
+
+        // Mosaic Coordinates
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -263,18 +268,12 @@ public class Overlay {
             final String filePath;
             if (neighbors.size() > i) {
                 // First ImageButton: original
-
-
                 if (i == -1) {
                     filePath = fullFileName;
-
                     // Rest: it's neighbors
                 } else {
                     filePath = neighbors.get(i);
-
                 }
-
-                //filePath = neighbors.get(i);
 
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -282,14 +281,17 @@ public class Overlay {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                // Switch to perspective image
+                                // TODO
+                                // Switch to perspective image and set pin accordingly (newly calculated coordinates)
+                                // New calculated coordinates
+                                float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
+                                // Change coordinates of pin
+                                pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                // Change displayed image to clicked perspective
                                 main.setImage(ImageSource.uri(filePath));
                                 main.setVisibility(View.VISIBLE);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
-
-
-
                     }
                 });
 
@@ -307,9 +309,7 @@ public class Overlay {
                 } else {
                     Log.e(TAG, "Image button null (image may not exist)");
                 }
-
             }
-
         }
 
 

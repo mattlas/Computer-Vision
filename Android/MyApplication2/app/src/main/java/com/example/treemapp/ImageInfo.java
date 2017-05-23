@@ -112,6 +112,7 @@ class ImageInfo {
         return y;
     }
 
+
     //TODO, this is missing the translation and the rescaling
     public float[] convertFromIdentityCoordinatesToOriginal(double x, double y) {
         double[] mc = new double[3];
