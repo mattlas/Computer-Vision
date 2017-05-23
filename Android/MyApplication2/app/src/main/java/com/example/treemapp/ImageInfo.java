@@ -112,6 +112,7 @@ class ImageInfo {
         return y;
     }
 
+
     public float[] convertFromIdentityCoordinatesToOriginal(double x, double y) {
         double[] mc = new double[3];
         mc[0] = x;
