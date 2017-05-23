@@ -11,7 +11,6 @@ addpath ../hello/
 addpath lsmethod/
 
 %% Setup work
-tic
 % First, we take care of the geotags
 clear all
 close all
@@ -19,7 +18,7 @@ close all
 startRuntime = tic;
 
 % The only input we need.
-im_path = 'resized2';
+im_path = 'resized';
 
 
 cd(im_path)
@@ -31,7 +30,6 @@ cd ..
 [d, ref] = m_distmat(pos);
 pairs = m_pairify(d);
 
-toc
 
 %% Support plot
 % for i = 200:size(imageIDs,1)
@@ -86,8 +84,10 @@ P0=nan(size(P));
 P0(:,:,ref)=eye(3);
 
 hasEst=ref;
-done=false(size(imageIDs));
-done(n==ref)=true;
+done=zeros(size(imageIDs));
+done(n==ref)=500;
+iter = 0;
+prev_hasEst = 0;
 
 % Repeat until we have estimates of all Pi
 while any(isnan(P0(:)))
@@ -97,10 +97,10 @@ while any(isnan(P0(:)))
         % Pj=Pi * inv(Hij)
         i=pairs(k,1);
         j=pairs(k,2);
-        if ~ismember(j,hasEst)
+        if (~ismember(j,hasEst) || done(n==j) < Hom{2}(k))
             P0(:,:,j)=P0(:,:,i)*inv(Hom{1}(:,:,k));
             hasEst(end+1)=j;
-            done(n==j)=true;
+            done(n==j)=Hom{2}(k);
         end
     end
     
@@ -110,15 +110,22 @@ while any(isnan(P0(:)))
         % Pi=Pj * Hij
         i=pairs(k,1);
         j=pairs(k,2);
-        if ~ismember(i,hasEst)
+        if (~ismember(i,hasEst) || done(n==i) < Hom{2}(k))
             P0(:,:,i)=P0(:,:,j)*Hom{1}(:,:,k);
             hasEst(end+1)=i;
-            done(n==i)=true;
+            done(n==i)=Hom{2}(k);
         end
     end
     
     % We need a break here, if the elapsed time is too short, set up
-    % identity as approximation
+    % identity as approximation    
+    if( all( ismember( hasEst, prev_hasEst )))
+        imageIDs = imageIDs(hasEst);
+        P0 = P0(:,:,hasEst);
+    end
+    
+    prev_hasEst = hasEst;
+    
 end
 
 
@@ -126,19 +133,21 @@ end
 
 % Do we need the starting approximation? (No)
 % P0=repmat(eye(3),[1,1,size(imageIDs, 1)]);
-
-
-x0=reshape(P0,[],1);
-
-[x,n,code,l,X,alphas,C,L,nus,r,J,A]=sqpsq('multihomo_f', 'multihomo_c', ...
-   x0,1e-3,1e-8,20,{Hom,pairs,ref},0.1,0.1);
-
-P(:,:,:) = round(reshape(x,3,3,[]),8);
+% 
+% 
+% x0=reshape(P0,[],1);
+% 
+% [x,n,code,l,X,alphas,C,L,nus,r,J,A]=sqpsq('multihomo_f', 'multihomo_c', ...
+%    x0,1e-3,1e-8,20,{Hom,pairs,ref},0.1,0.1);
+% 
+% P(:,:,:) = round(reshape(x,3,3,[]),8);
+% 
+% sum(sum(sum(abs(P-P0))))
 
 % Or instead:
 P = P0;
 
-sum(sum(sum(abs(P-P0))))
+% sum(sum(sum(abs(P-P0))))
 % clear P0
 toc
 %% MOSAIC
@@ -146,7 +155,7 @@ toc
 tic
 cd(im_path)
 
-[impos, offset] = m_stitch(imageIDs, P, 'mean');
+[impos, offset] = m_stitch(imageIDs, P, 'add');
 
 cd ..
 toc

@@ -5,7 +5,7 @@ function [ data ] = m_img_list_for_android(imageIDs, impos, P, d, offs)
 %    'blablabla.jpg', [2, 3], [ , , ; , , ; , , ], [ , , , , ]
 
 
-fid = fopen('androidData.txt', 'w');
+fid = fopen('androidData.csv', 'w');
 fprintf(fid, sprintf('%.0f,   ' ,offs(2)));
 fprintf(fid, sprintf('%.0f,' ,offs(1)));
 fprintf(fid, '\n');

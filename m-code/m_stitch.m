@@ -12,8 +12,12 @@ for ids=1:size(imageIDs,1)
     % Read in images
     im = iread(char(imageIDs{ids,1}), 'double');
     %     im = ones(10);
-    
-    [tile{ids},t(ids,:)] = homwarp(P(:,:,ids), im, 'full');
+%     H = maketform('affine', P(:,:,ids)');
+%     [tile{ids}, xdata, ydata] = imtransform(im, H);
+    H_ = affine2d(P(:,:,ids)');
+    [tile{ids}, rb] = imwarp(im, H_);
+    t(ids, :) = [rb.XWorldLimits(1), rb.YWorldLimits(1)];
+%     [tile{ids},t(ids,:)] = homwarp(P(:,:,ids), im, 'full');
     
     imsize(ids,:) = size(tile{ids});
     tile{ids} = imcrop(tile{ids},[imsize(ids, 2)*cf imsize(ids, 1)*cf imsize(ids, 2)*(1-cf*2)  imsize(ids, 1)*(1-cf*2)]);

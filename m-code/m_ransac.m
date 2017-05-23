@@ -8,15 +8,24 @@ for iter = 1:size(pairs,1)
     
     numMatches = 0;
     matchThreshold = 1.5;
-%     while numMatches < 200
-        [matches, scores] = vl_ubcmatch(D{i},D{j},matchThreshold);
-        numMatches = size(matches,2) ;
-        matchThreshold = matchThreshold -0.2;
-        scores = scores./(max(scores));
-%     end
+    
+        while (numMatches < 200 && matchThreshold > 0)
+    [matches, scores] = vl_ubcmatch(D{i},D{j},matchThreshold);
+    numMatches = size(matches,2) ;
+    matchThreshold = matchThreshold -0.2;
+    scores = scores./(max(scores)/2);
+        end
     
     Pi = F{i}(1:2,matches(1,:)) ;
     Pj = F{j}(1:2,matches(2,:)) ;
+    
+    if (isempty(Pi))
+        Hm(:,:,iter) = eye(3);
+        W(iter, 1) = 0;
+        break;
+    end
+    
+    
     scalei = F{i}(3,matches(1,:));
     scalej = F{j}(3,matches(2,:));
     % Normalize the angles to be between -pi and pi
@@ -39,7 +48,7 @@ for iter = 1:size(pairs,1)
     % Threshold for transform matches and inlier ratio
     t = 10*10;
     ts =  0.2;
-    ta = 0.2;
+    ta = 0.5;
     pp=0.99;
     % Initial consensus set size
     CS_0=0;
@@ -47,10 +56,10 @@ for iter = 1:size(pairs,1)
     
     
     % Fixed for loop
-%     for ii = 1 : 5000
-        
-        % Adaptive RANSAC
-            while ii<N
+    %     for ii = 1 : 5000
+    
+    % Adaptive RANSAC
+    while ii<N
         % Choosing suitable random points
         rand_ = randi(size(Pi,2),[1 2]);
         ran1 = rand_(1);
@@ -80,13 +89,13 @@ for iter = 1:size(pairs,1)
         %         Third condition for angle
         
         
-                ok = (du.*du + dv.*dv) < t;
-%         ok = (du.*du + dv.*dv) < t & ...
-%             abs ( 1 - (S * scalei ./ scalej) ) <ts & ...
-%             abs(angdiff(theta+thetai, thetaj)) < ta;
-%         
+%                         ok = (du.*du + dv.*dv) < t;
+        ok = (du.*du + dv.*dv) < t & ...
+            abs ( 1 - (S * scalei ./ scalej) ) <ts & ...
+            abs(angdiff(theta+thetai, thetaj)) < ta;
+        %
         % Introducing weights
-%         ok = ok .* scores;
+%                 ok = ok .* scores;
         % Size of consensus set
         CS_n=sum(ok);
         if CS_n > CS_0
@@ -119,40 +128,40 @@ for iter = 1:size(pairs,1)
     % --------------------------------------------------------------------
     %                                                         Show matches
     % --------------------------------------------------------------------
-%     im1 = imread(char(imageIDs{i,1}));
-%     im1 = im2single(im1);
-%     im1g = im1;
-%     im2 = imread(char(imageIDs{j,1}));
-%     im2 = im2single(im2);
-%     im2g = im2;
+%         im1 = imread(char(imageIDs{i,1}));
+%         im1 = im2single(im1);
+%         im1g = im1;
+%         im2 = imread(char(imageIDs{j,1}));
+%         im2 = im2single(im2);
+%         im2g = im2;
 %     
-%     dh1 = max(size(im2g,1)-size(im1g,1),0) ;
-%     dh2 = max(size(im1g,1)-size(im2g,1),0) ;
+%         dh1 = max(size(im2g,1)-size(im1g,1),0) ;
+%         dh2 = max(size(im1g,1)-size(im2g,1),0) ;
 %     
-%     figure(1) ; clf ;
-%     subplot(2,1,1) ;
-%     imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
-%     o = size(im1g,2) ;
-%     line([F{i}(1,matches(1,:));F{j}(1,matches(2,:))+o], ...
-%         [F{i}(2,matches(1,:));F{j}(2,matches(2,:))]) ;
-%     title(sprintf('%d tentative matches with pairs: %d %d', numMatches, pairs(iter, 1), pairs(iter, 2))) ;
-%     axis image off ;
+%         figure(1) ; clf ;
+%         subplot(2,1,1) ;
+%         imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
+%         o = size(im1g,2) ;
+%         line([F{i}(1,matches(1,:));F{j}(1,matches(2,:))+o], ...
+%             [F{i}(2,matches(1,:));F{j}(2,matches(2,:))]) ;
+%         title(sprintf('%d tentative matches with pairs: %d %d', numMatches, pairs(iter, 1), pairs(iter, 2))) ;
+%         axis image off ;
 %     
-%     subplot(2,1,2) ;
-%     imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
-%     o = size(im1,2) ;
-%     line([F{i}(1,matches(1,best > 0));F{j}(1,matches(2,best > 0))+o], ...
-%         [F{i}(2,matches(1,best > 0));F{j}(2,matches(2,best > 0))]) ;
-%     title(sprintf('%d (%.2f%%) inliner matches out of %d', ...
-%         sum(best > 0), ...
-%         100*sum(best > 0)/numMatches, ...
-%         numMatches)) ;
-%     axis image off ;
-%     drawnow ;
-%     pause(0.5)
+%         subplot(2,1,2) ;
+%         imagesc([padarray(im1g,dh1,'post') padarray(im2g,dh2,'post')]) ;
+%         o = size(im1,2) ;
+%         line([F{i}(1,matches(1,best > 0));F{j}(1,matches(2,best > 0))+o], ...
+%             [F{i}(2,matches(1,best > 0));F{j}(2,matches(2,best > 0))]) ;
+%         title(sprintf('%d (%.2f%%) inliner matches out of %d', ...
+%             sum(best > 0), ...
+%             100*sum(best > 0)/numMatches, ...
+%             numMatches)) ;
+%         axis image off ;
+%         drawnow ;
+%         pause(0.5)
     
     
 end
-W = W .* (W > 10);
+% W = W .* (W > 10);
 Hom = {Hm, W};
 end
