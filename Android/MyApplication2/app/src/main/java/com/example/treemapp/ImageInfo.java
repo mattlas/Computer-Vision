@@ -25,7 +25,7 @@ class ImageInfo {
     private boolean isIdentity;
 
     public ImageInfo(String[] words) {
-            parseInfo(words);
+        parseInfo(words);
 
     }
     public ImageInfo(){
@@ -112,7 +112,6 @@ class ImageInfo {
         return y;
     }
 
-    //TODO, this is missing the translation and the rescaling
     public float[] convertFromIdentityCoordinatesToOriginal(double x, double y) {
         double[] mc = new double[3];
         mc[0] = x;

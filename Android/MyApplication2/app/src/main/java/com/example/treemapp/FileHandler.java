@@ -16,7 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
 import org.apache.commons.math3.linear.*;
 
 
@@ -35,17 +35,21 @@ import org.apache.commons.math3.linear.*;
 
 public class FileHandler {
 
-    private String filename = Environment.getExternalStorageDirectory() + "/mosaic/treeList.csv";
+    private String fileName = "treeList.csv";
+    private String directory = Environment.getExternalStorageDirectory() + "/mosaic";
+    private String fullFileName= directory+fileName;
     private BufferedReader br;
     private BufferedWriter bw;
     private File file;
+    private MainActivity mainActivity;
     private final String TAG = FileHandler.class.getSimpleName();
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    public FileHandler() {
+    public FileHandler(MainActivity mainActivity) {
         // First initInputOverlay the directory if it doesn't exist
+        this.mainActivity=mainActivity;
         try{
-            File dir = new File(Environment.getExternalStorageDirectory()+"/mosaic");
+            File dir = new File(directory);
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
@@ -53,16 +57,16 @@ public class FileHandler {
             }
 
         } catch (Exception e){
-            Log.e(TAG, "Failed to initInputOverlay/open directory: " + Environment.getExternalStorageDirectory()+"/mosaic: " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open directory: " + directory+  ": " + e.getLocalizedMessage());
         }
         // Then the file
         try {
-            file = new File(filename);
+            file = new File(fullFileName);
 
             if (file.createNewFile()) {// if file already exists will do nothing
-                Log.i(TAG, "Existing file " + filename + " not found, new file created");
+                Log.i(TAG, "Existing file " + fullFileName + " not found, new file created");
             } else {
-                Log.i(TAG, "Existing file " + filename + " found and loaded");
+                Log.i(TAG, "Existing file " + fullFileName + " found and loaded");
             }
 
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -70,13 +74,13 @@ public class FileHandler {
             br = new BufferedReader(new FileReader(file));
 
         } catch (IOException e) {
-            Log.e(TAG, "Failed to initInputOverlay/open file " + filename + ": " + e.getLocalizedMessage());
-            //System.exit(-1);
+            Log.e(TAG, "Failed to initInputOverlay/open file " + fullFileName + ": " + e.getLocalizedMessage());
+
         }
     }
 
     /**
-     * Adds a line to the file specified by "filename"
+     * Adds a line to the file specified by "fullFileName"
      *
      * @param line the string to append to the file
      * @return true if the operation was a success, false if not
@@ -130,7 +134,7 @@ public class FileHandler {
 
 
         try {
-            File tempFile = new File(this.filename+".tmp");
+            File tempFile = new File(fullFileName +".tmp");
 
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
 
@@ -154,10 +158,10 @@ public class FileHandler {
             if (!(success &=this.file.delete())){
                 Log.e(TAG, "Error deleting file");
             }
-            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+            if (!(success &= tempFile.renameTo(new File(this.fileName)))){
                 Log.e(TAG, "Error renaming file");
             }
-            this.file=new File(this.filename);
+            this.file=new File(this.fileName);
 
             this.open();
             return success;
@@ -179,7 +183,7 @@ public class FileHandler {
     public boolean editLine(int lineIndex, String newLine) {
 
         try {
-            File tempFile = new File(this.filename+".tmp");
+            File tempFile = new File(fullFileName+".tmp");
 
             // Create a writer for the temp file
             BufferedWriter bwTemp = new BufferedWriter(new FileWriter(tempFile, true));
@@ -210,10 +214,10 @@ public class FileHandler {
             if (!(success &=this.file.delete())){
                 Log.e(TAG, "Error deleting file");
             }
-            if (!(success &= tempFile.renameTo(new File(this.filename)))){
+            if (!(success &= tempFile.renameTo(new File(fullFileName)))){
                 Log.e(TAG, "Error renaming file");
             }
-            this.file=new File(this.filename);
+            this.file=new File(fullFileName);
 
             this.open();
             return success;
@@ -270,16 +274,16 @@ public class FileHandler {
         ArrayList<Pin> list = new ArrayList<>();
         float mosaicX;
         float mosaicY;
-        String fileName;
+        String imageFileName;
         ImageInfo info;
 
 
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             if (line.length == 7){
-                fileName = line[6];
+                imageFileName = line[6];
 
-                info = iil.findImageInfo(fileName);
+                info = iil.findImageInfo(imageFileName);
 
                 float origY;
                 float origX;
@@ -305,7 +309,7 @@ public class FileHandler {
                 } else {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
-                    Log.e(TAG,"Image info not found (does the image file exist?)");
+                    FileNotFoundDialog.popup(mainActivity, "imageInfo");
 
                     mosaicX=origX;
                     mosaicY=origY;
@@ -315,7 +319,7 @@ public class FileHandler {
 
                 // For each tree on file, initInputOverlay and enter details of the new pin
 
-                Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, fileName);
+                Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, imageFileName);
                 p.setInputData(line[3], line[4], line[5]);
                 list.add(p);
             } else {
@@ -350,7 +354,7 @@ public class FileHandler {
             br.mark(0);
 
         } catch (IOException e) {
-            Log.e(TAG, "Failed to initInputOverlay/open file " + filename + ": " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open file " + fullFileName + ": " + e.getLocalizedMessage());
             //System.exit(-1);
         }
     }

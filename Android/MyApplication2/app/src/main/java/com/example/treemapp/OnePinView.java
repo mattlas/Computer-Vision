@@ -16,7 +16,8 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import java.util.ArrayList;
 
 /**
- * This view is an extention of the SubsamplingScaleImageView where you can add
+ * This view is an extention of the SubsamplingScaleImageView where you can add a pin.
+ * Pops up when you want to add a new pin.
  * Created by oskar on 2017-04-24.
  */
 

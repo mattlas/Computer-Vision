@@ -102,7 +102,6 @@ public class HistogramView extends AppCompatImageView {
 
         int yText=height-marginY/2;
 
-        //TODO uncomment once Histogram data is correct
         int size=histogram.size();
 
         double staple=histogram.widthOfStaple();
