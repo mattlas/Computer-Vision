@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include <mutex>
 
-#include <unordered_map>
+//#include <unordered_map>
 
 #include "QObject"
 //#include <bits/unordered_map.h>
@@ -25,8 +25,8 @@ class MosaicData : public QObject{
     Q_OBJECT
 
 private:
-    std::unordered_map<int,ImageData> imageList;
-    //std::vector<ImageData> imageList;
+    //std::unordered_map<int,ImageData> imageList;
+    std::vector<ImageData> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;

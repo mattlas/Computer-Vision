@@ -41,7 +41,7 @@ void MosaicData::extractFeaturePoints() {
         FeaturePoints *points = new FeaturePoints(file,id);
         points->calculatePoints();
         featurePointList.push_back(*points);
-        imageList[id].setFeaturePoints(points);
+        imageList.at(id).setFeaturePoints(points);
 
         id++;
     }
@@ -122,9 +122,9 @@ void MosaicData::createImages() {
     for(std::string file : pgmFileNames){
         ImageData *imageData = new ImageData(tempID);
         imageData->setPath(file);
-        imageList[tempID]=*imageData;
+        //imageList[tempID]=*imageData;
 
-        //imageList.insert(imageList.begin() ,imageData);
+        imageList.insert(imageList.begin()+tempID,*imageData);
 
         tempID++;
     }
