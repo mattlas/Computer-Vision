@@ -16,41 +16,48 @@
 
     >
 
-    <!-- Chechbox for trees -->
+    <!-- Chechbox for trees TODO find all trees-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <CheckBox android:id="@+id/chb_pine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pine"
+            android:tag="pine"
             android:onClick="onCheckboxClicked"/>
         <CheckBox android:id="@+id/chb_spruce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="spruce"
             android:text="@string/spruce"
             android:onClick="onCheckboxClicked"/>
         <CheckBox android:id="@+id/chb_birch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/birch"
+            android:tag="birch"
             android:onClick="onCheckboxClicked"/>
         <CheckBox android:id="@+id/chb_oak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/oak"
+            android:tag="oak"
             android:onClick="onCheckboxClicked"/>
         <CheckBox android:id="@+id/chb_alder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/alder"
+            android:tag="alder"
             android:onClick="onCheckboxClicked"/>
         <CheckBox android:id="@+id/chb_aspen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/aspen"
+            android:tag="aspen"
             android:onClick="onCheckboxClicked"/>
 
     </LinearLayout>

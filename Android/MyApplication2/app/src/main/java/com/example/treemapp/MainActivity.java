@@ -30,6 +30,8 @@ import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -68,16 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settings = new Settings();
 
         // The activity to initInputOverlay the input
         overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
-                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
+                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2), settings);
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
 
-        settings = new Settings();
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I doesn't have permission");
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Event handling
         initialiseEventHandling();
+
 
     }
 
@@ -339,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getFragmentManager().popBackStack();
         }else if (id == R.id.nav_manage){
             SettingsFragment sf = new SettingsFragment();
-            sf.init(settings);
+            sf.init(settings, this.getPackageName());
 
             FragmentManager fm = getFragmentManager();
 
@@ -369,6 +372,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCheckboxClicked(View view) {
 
     }
+
+
+
 }
 
 
