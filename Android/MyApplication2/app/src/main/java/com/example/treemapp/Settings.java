@@ -18,14 +18,21 @@ public class Settings extends Fragment {
     private String[] treesSpeciesAll;
     private List<CarouselPicker.PickerItem> treesSpeciesChosen;
     private int carouselSize = 12;
+    private CheckboxModel[] treesSpeciesChb;
 
     public Settings(){
 
         // TODO put all possible species
         treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "alder", "aspen", "rowan"};
+        treesSpeciesChb = new CheckboxModel[treesSpeciesAll.length];
         treesSpeciesChosen = new ArrayList<>();
+        int i = 0;
         for (String tree:treesSpeciesAll){
             treesSpeciesChosen.add(new CarouselPicker.TextItem(tree, carouselSize));
+            if (i< 5)
+                treesSpeciesChb[i] = new CheckboxModel(tree, 1);
+            else
+                treesSpeciesChb[i] = new CheckboxModel(tree, 0);
         }
     }
 
@@ -76,5 +83,13 @@ public class Settings extends Fragment {
         int pos = searchForObject(tree);
         if ( pos != -1)
             treesSpeciesChosen.remove(pos);
+    }
+
+    /**
+     * Returns a list for adapter with all trees
+     * @return
+     */
+    public CheckboxModel[] getTreesSpeciesChb() {
+        return treesSpeciesChb;
     }
 }
