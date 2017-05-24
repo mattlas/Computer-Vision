@@ -88,13 +88,13 @@ public class PinView extends SubsamplingScaleImageView {
      * Update the pin in the list and saves into the file
      * @return true if saving worked fine
      */
-    public boolean saveNewPin(Pin pin, String height, String diameter, String species){
-        pin.setInputData(height, diameter, species);
+    public boolean saveNewPin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
+        pin.setInputData(height, diameter, species, isDead, notes);
         return fileHandler.addLine(pin.getCSV());
     }
 
-    public boolean updatePin(Pin pin, String height, String diameter, String species){
-        pin.setInputData(height, diameter, species);
+    public boolean updatePin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
+        pin.setInputData(height, diameter, species, isDead, notes);
         return this.updatePinInFile(pin);
     }
 
