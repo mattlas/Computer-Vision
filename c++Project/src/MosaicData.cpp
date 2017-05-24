@@ -7,6 +7,7 @@
 #include "MatchPoints.h"
 #include <thread>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/features2d.hpp>
 
 #define NUM_THREADS 4
 
@@ -90,7 +91,7 @@ void MosaicData::extractFeaturePoints() {
 void MosaicData::ubcMatch() {
     //TODO add loop for what images will be matched.
     MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
-    /*cv::Mat image1 = imread(imageList.at(0).getPath());
+    cv::Mat image1 = imread(imageList.at(0).getPath());
     cv::Mat image2 = imread(imageList.at(1).getPath());
     Mat im_out;
     cv::warpPerspective(image1,im_out,matcher->getHomography(),image2.size());
@@ -102,7 +103,7 @@ void MosaicData::ubcMatch() {
 
     imshow("Destination Image", image2);
 
-    imshow("Warped Source Image", im_out);*/
+    imshow("Warped Source Image", im_out);
 
 
 
