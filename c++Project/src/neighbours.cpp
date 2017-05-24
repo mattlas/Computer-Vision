@@ -1,5 +1,6 @@
-#include "neighbours.h"
 #include <iostream>
+#include <limits>
+#include <cstddef>
 #include "neighbours.h"
 
 namespace neighbours {
@@ -51,16 +52,15 @@ std::vector<std::vector<ImageData>> pairs(
 	//filter closest neighbours
 	pairs.resize(filtered.size());
 	for(std::size_t i = 0; i < filtered.size(); i++){
-		int n = 0;
-		double neighbourlimit = 0;
+		pairs[i].push_back(filtered[i]);
+		double neighbourlimit = std::numeric_limits<double>::max();
 		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
-			neighbourlimit += distances[i][j];
-			n++;
+			double d = distances[i][j];
+			if(neighbourlimit > d){
+				neighbourlimit = d;
+			}
 		}
-		if(n>0){
-			neighbourlimit /= n; //mean
-			neighbourlimit *= 1.2; //arbitrary number that worked well
-		}
+		neighbourlimit *= 1.2;
 		
 		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
 			if(distances[i][j] <= neighbourlimit){

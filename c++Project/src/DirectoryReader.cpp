@@ -11,7 +11,7 @@ std::vector<std::string> DirectoryReader::readDirectory(const std::string &dir){
 					[](DIR *dir){dir && closedir(dir);});
 	struct dirent *dirent_ptr;
 	if(!directory_ptr){
-		std::cout << "Error opening : " << std::strerror(errno) << dir
+		std::cout << "Error opening : " << std::strerror(errno) << " " << dir
 				<< std::endl;
 		return files;
 	}
