@@ -29,4 +29,5 @@ public:
     void addDirectory(std::string);
     void convertToPGM(std::string);
     void createDIR(std::string);
+    Mat cropImage(Mat);
 };

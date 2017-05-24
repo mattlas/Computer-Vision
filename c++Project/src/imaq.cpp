@@ -154,3 +154,16 @@ void imaq::setJpgFileNames(const std::vector<std::string> &jpgFileNames) {
     imaq::jpgFileNames = jpgFileNames;
 }
 
+Mat imaq::cropImage(Mat img) {
+    int offset_x = 0.2*img.rows;
+    int offset_y = 0.2*img.cols;
+
+    cv::Rect roi;
+    roi.x = offset_x;
+    roi.y = offset_y;
+    roi.width = 0.6*img.size().width;
+    roi.height = 0.6*img.size().height;
+    cv::Mat croppedImage = img(roi);
+    return croppedImage;
+}
+
