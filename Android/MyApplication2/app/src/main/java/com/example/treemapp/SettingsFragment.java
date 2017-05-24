@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
@@ -25,6 +26,7 @@ public class SettingsFragment extends Fragment {
 
     Settings settings = null;
     private String packageName;
+    private ListView lv;
 
 
     @Override
@@ -40,6 +42,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setViews(View view) {
+
+        //lv = (ListView) view.findViewById(R.id.chb_species_list);
+        //lv.setAdapter(new SetChbAdapter(view.getContext(), settings.getTreesSpeciesChb()));
 
         CompoundButton.OnCheckedChangeListener list = new CompoundButton.OnCheckedChangeListener(){
             @Override

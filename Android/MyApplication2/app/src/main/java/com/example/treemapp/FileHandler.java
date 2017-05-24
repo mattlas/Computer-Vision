@@ -283,8 +283,8 @@ public class FileHandler {
 
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
-            if (line.length == 7){
-                imageFileName = line[6];
+            if (line.length == 9){
+                imageFileName = line[8];
 
                 info = iil.findImageInfo(imageFileName);
 
@@ -323,7 +323,12 @@ public class FileHandler {
                 // For each tree on file, initInputOverlay and enter details of the new pin
 
                 Pin p = new Pin(Integer.parseInt(line[0]), mosaicX, mosaicY, origX, origY, imageFileName);
-                p.setInputData(line[3], line[4], line[5]);
+                Boolean dead;
+                if (line[6].equals("dead"))
+                    dead = true;
+                else
+                    dead = false;
+                p.setInputData(line[3], line[4], line[5], dead, line[7]);
                 list.add(p);
             } else {
                 Log.e(TAG, "File format invalid");
