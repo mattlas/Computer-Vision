@@ -103,7 +103,7 @@
                 />
 
             <Button
-                android:id="@+id/directory_change_button"
+                android:id="@+id/btn_directory_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/directory_button"
