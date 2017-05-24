@@ -343,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getFragmentManager().popBackStack();
         }else if (id == R.id.nav_manage){
             SettingsFragment sf = new SettingsFragment();
+            Log.d("main", "settings fragment init");
             sf.init(settings, this.getPackageName());
 
             FragmentManager fm = getFragmentManager();

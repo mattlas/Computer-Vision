@@ -23,6 +23,7 @@
         android:layout_height="fill_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
+        <!--change tree names in res/strings-->
         <CheckBox android:id="@+id/chb_pine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,6 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/aspen"
+            android:tag="aspen"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/chb_rowan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rowan"
             android:tag="aspen"
             android:onClick="onCheckboxClicked"/>
 

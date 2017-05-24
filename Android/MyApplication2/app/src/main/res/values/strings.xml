@@ -8,12 +8,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!--trees species-->
-    <string name="pine">pine</string>
-    <string name="spruce">spruce</string>
-    <string name="birch">birch</string>
-    <string name="oak">oak</string>
-    <string name="alder">alder</string>
-    <string name="aspen">aspen</string>
+    <string name="pine">Pine</string>
+    <string name="spruce">Spruce</string>
+    <string name="birch">Birch</string>
+    <string name="oak">Oak</string>
+    <string name="alder">Alder</string>
+    <string name="aspen">Aspen</string>
+    <string name="rowan">Rowan</string>
+
 
 
     <string name="title_activity_statistics">StatisticsActivity</string>
