@@ -17,6 +17,7 @@ using namespace cv;
 void imaq::readJPGfromFolder() {                      // Read all image file names from a folder and store it in a variable
 
     imaq::jpgFileNames = DirectoryReader::readDirectory(imaq::jpgFolder);
+    std::sort(jpgFileNames.begin(),jpgFileNames.end());
 //    std::cout <<  "Loading files from folder" << imaq::jpgFolder<<std::endl ;
 //    std::cout <<  "Files loaded to jpgFileNames" << std::endl ;
    // for(std::string file_name : imaq::jpgFileNames){

@@ -11,6 +11,7 @@
 #include "FeaturePoints.h"
 #include "imaq.h"
 #include "ImageData.h"
+#include "neighbours.h"
 #include <memory>
 //#include <thread>
 #include <pthread.h>
@@ -36,6 +37,8 @@ private:
     std::mutex writeMutex;
     std::string input_path;
     std::string pgm_path;
+
+    std::vector<std::vector<ImageData>> imagePairs;
 
     imaq *im = NULL;
 
@@ -68,6 +71,9 @@ public slots:
 
     static void classWrapper(MosaicData* mosaicData);
 
+    void createNeighbours();
+
+
 private:
     void readFiles(std::string string);
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
@@ -79,6 +85,7 @@ private:
 
 signals:
     void finished();
+
 
 
 };

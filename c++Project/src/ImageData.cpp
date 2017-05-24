@@ -49,5 +49,9 @@ void ImageData::setPgm_path(const std::string &pgm_path) {
     ImageData::pgm_path = pgm_path;
 }
 
+const exif::EXIFInfo &ImageData::getInfo() const {
+    return info;
+}
+
 
 

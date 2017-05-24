@@ -10,19 +10,22 @@ MatchPoints::MatchPoints(FeaturePoints point1, FeaturePoints point2)
     numberMatches = 0;
     findMatches();
     createHomography();
+    flennMatch();
 
     std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
 
 }
+
+
 
 void MatchPoints::findMatches() {
     for(ulong index1 = 0 ; index1 < point1.getKeyPoints().size(); index1++){
         KeyPoint key1 = point1.getKeyPoints().at(index1);
         int32_t closestDistance = INT32_MAX;
         int32_t secondClosestDistance = INT32_MAX;
-        ulong bestMatch = 0;
+        ulong bestMatch = ULONG_MAX;
         KeyPoint bestKey;
-        double threshold = 1.1;
+        double threshold = 1.5;
 
 
         for(ulong index2 = 0 ; index2 < point2.getKeyPoints().size(); index2++){
@@ -35,7 +38,7 @@ void MatchPoints::findMatches() {
                 bestKey = key2;
             }
         }
-        if ((threshold * closestDistance) < secondClosestDistance && bestMatch != 0){
+        if (((threshold * closestDistance) < secondClosestDistance) && (bestMatch != ULONG_MAX)){
             std::vector<int> match;
             match1.push_back(cv::Point2f(key1.getX(),key1.getY()));
             match2.push_back(cv::Point2f(bestKey.getX(),bestKey.getY()));
@@ -80,6 +83,14 @@ const cv::Mat &MatchPoints::getHomography() const {
 
 void MatchPoints::setHomography(const cv::Mat &homography) {
     MatchPoints::homography = homography;
+}
+
+void MatchPoints::flennMatch() {
+    cv::FlannBasedMatcher matcher;
+    std::vector< cv::DMatch > matches;
+    //matcher.match( descriptors_1, descriptors_2, matches );
+    double max_dist = 0; double min_dist = 100;
+
 }
 
 

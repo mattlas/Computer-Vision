@@ -1,0 +1,14 @@
+prefix=/home/5dv115/Qt/5.8/gcc_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+
+Name: Qt5 Gamepad
+Description: Qt Gamepad module
+Version: 5.8.0
+Libs: -L${libdir} -lQt5Gamepad 
+Libs.private: -L/home/5dv115/Qt/5.8/gcc_64/lib -lQt5Gui -lQt5Core -lpthread -lGL  
+Cflags: -I${includedir}/QtGamepad -I${includedir}
+Requires: Qt5Core Qt5Gui
+
