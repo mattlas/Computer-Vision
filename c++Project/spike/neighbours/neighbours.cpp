@@ -1,31 +1,71 @@
+#include <math.h>
+#include <iostream>
 #include "neighbours.h"
 
 namespace neighbours {
-std::vector<std::vector<GPS>> pairs(std::vector<exif::EXIFInfo> nodes){
+std::vector<std::vector<exif::EXIFInfo>> pairs(
+		std::vector<exif::EXIFInfo> nodes){
+	std::vector < exif::EXIFInfo > filtered;
+	std::vector<std::vector<double>> distances;
+	std::vector < std::vector < exif::EXIFInfo >> pairs;
 
-	std::vector < std::vector < GPS >> pairs;
-	std::vector < GPS > neighbours;
-	neighbours.resize(nodes.size());
+	double x1; //longitude
+	double y1; //latitude
+	double x2;
+	double y2;
 
-	double longitude1 = -1;
-	double latitude1 = -1;
-	double longitude2 = -1;
-	double latitude2 = -1;
+	//filter ascend/descend images
+	double maxheight = 0;
+	double altitude = 0;
 	for(std::size_t i = 0; i < nodes.size(); i++){
-		for(std::size_t j = i; j < nodes.size(); j++){
-			neighbours[j].imageData = nodes[j];
-			neighbours[j + 1].imageData = nodes[j + 1];
+		altitude = nodes[i].GeoLocation.Altitude;
+		if(maxheight < altitude){
+			maxheight = altitude;
+		}
+	}
 
-			longitude1 = neighbours[i].imageData.GeoLocation.Longitude;
-			latitude1 = neighbours[j].imageData.GeoLocation.Latitude;
-			longitude2 = neighbours[i + 1].imageData.GeoLocation.Longitude;
-			latitude2 = neighbours[i + 1].imageData.GeoLocation.Latitude;
-			neighbours[i].distance = sqrt((longitude1 * longitude1)
-					+ (latitude1 * latitude1)
-					+ (longitude2 * longitude2 + latitude2 * latitude2)
-					- 2 * (longitude1 * longitude2 + latitude1 * latitude2));
+	for(std::size_t i = 0; i < nodes.size(); i++){
+		if(0.98 * maxheight <= nodes[i].GeoLocation.Altitude){
+			filtered.push_back(nodes[i]);
+		}
+	}
 
-			pairs.push_back(neighbours);
+	if(filtered.size() < 2)
+		return pairs;
+
+	//calculate image pair distances
+	for(std::size_t i = 0; i < filtered.size(); i++){
+		for(std::size_t j = i + 1; j < filtered.size() - 1; j++){
+			x1 = filtered[i].GeoLocation.Longitude;
+			y1 = filtered[i].GeoLocation.Latitude;
+			x2 = filtered[j].GeoLocation.Longitude;
+			y2 = filtered[j].GeoLocation.Latitude;
+			distances.resize(filtered.size());
+			distances[i].resize(filtered.size());
+			distances[i][j] = sqrt(
+					x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2
+							- 2 * (x1 * x2 + y1 * y2));
+		}
+	}
+
+	//filter closest neighbours
+	pairs.resize(filtered.size());
+	for(std::size_t i = 0; i < filtered.size(); i++){
+		int n = 0;
+		double neighbourlimit = 0;
+		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
+			neighbourlimit += distances[i][j];
+			n++;
+		}
+		if(n>0){
+			neighbourlimit /= n; //mean
+			neighbourlimit *= 1.2; //arbitrary number that worked well
+		}
+		
+		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
+			if(distances[i][j] <= neighbourlimit){
+				pairs[i].push_back(filtered[j]);
+			}
 		}
 	}
 
