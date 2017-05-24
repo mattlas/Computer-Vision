@@ -38,4 +38,6 @@ dependencies {
 
     //Add library
     compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
+    compile project(":aFileChooser")
+
 }

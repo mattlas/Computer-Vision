@@ -5,7 +5,9 @@ import android.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import in.goodiebag.carouselpicker.CarouselPicker;
+
 
 
 /**
@@ -13,7 +15,6 @@ import in.goodiebag.carouselpicker.CarouselPicker;
  */
 
 public class Settings extends Fragment {
-
 
     private String[] treesSpeciesAll;
     private List<CarouselPicker.PickerItem> treesSpeciesChosen;
@@ -77,4 +78,7 @@ public class Settings extends Fragment {
         if ( pos != -1)
             treesSpeciesChosen.remove(pos);
     }
+
+
+
 }
