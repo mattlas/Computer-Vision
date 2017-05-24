@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else {
                 FileNotFoundDialog.popup(this,"mosaic");
-                imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+                imageView.setImage(ImageSource.resource(R.drawable.error)); //default if we can't find mosaic
             }
         }
 
