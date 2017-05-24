@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -76,6 +78,8 @@ public class Overlay {
         final NumberPicker height = (NumberPicker) mainActivity.findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) mainActivity.findViewById(R.id.inp_diameter);
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker);
+        final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree);
+        final EditText notes = (EditText) mainActivity.findViewById(R.id.notes);
 
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
         tv.setText("Add tree");
@@ -98,7 +102,7 @@ public class Overlay {
                 mainActivity.updateOrigPositionInPin(pin);
                 mainActivity.getImageView().addPin(pin);
                 mainActivity.getImageView().invalidate();
-                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList)))
+                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString()))
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
@@ -152,9 +156,13 @@ public class Overlay {
         final NumberPicker height = (NumberPicker) inputOverlay.findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) inputOverlay.findViewById(R.id.inp_diameter);
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker);
+        final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree);
+        final EditText notes = (EditText) mainActivity.findViewById(R.id.notes);
 
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
+        deadTree.setChecked(pin.getIsDead());
+        notes.setText(pin.getNotes());
 
         TextView tv = (TextView) inputOverlay.findViewById(R.id.overlay_box_txt);
         tv.setText("Edit tree");
@@ -175,7 +183,7 @@ public class Overlay {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList))) {
+                if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString())) {
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
