@@ -71,6 +71,9 @@ public slots:
 
     static void classWrapper(MosaicData* mosaicData);
 
+    void createNeighbours();
+
+
 private:
     void readFiles(std::string string);
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
@@ -84,7 +87,7 @@ signals:
     void finished();
 
 
-    void createNeighbours();
+
 };
 
 

@@ -93,7 +93,7 @@ void MosaicData::ubcMatch() {
     //TODO add loop for what images will be matched.
     MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
 
-    cv::Mat image1 = imread(imageList.at(0).getPath());
+   /* cv::Mat image1 = imread(imageList.at(0).getPath());
     cv::Mat image2 = imread(imageList.at(1).getPath());
     image1 = im->cropImage(image1);
     image2 = im->cropImage(image2);
@@ -111,7 +111,7 @@ void MosaicData::ubcMatch() {
 
     imshow("Destination Image", image2);
 
-    imshow("Warped Source Image", im_out);
+    imshow("Warped Source Image", im_out);*/
 
 
 
