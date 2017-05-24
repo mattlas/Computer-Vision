@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ public class FileNotFoundDialog extends DialogFragment {
     public static ArrayList<String> missingFiles = new ArrayList<>();
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static boolean newLostFile=false;
-    private Activity activity;
+    private static DialogInterface.OnClickListener settingsListener = null;
 
     /**
      *   Adds a missing file descriptor to the list.
@@ -35,9 +38,21 @@ public class FileNotFoundDialog extends DialogFragment {
         }
     }
 
+    /**
+     * Removes all missing files from the list
+     */
     public static void clearMissingFiles(){
         missingFiles = new ArrayList<>();
         newLostFile=false;
+    }
+
+    /**
+     * This is being set in mainActivity so the settingsmenu can be opened when
+     * "go to settings is clicked"
+     * @param settingsListener - the listener set in mainActivity
+     */
+    public static void setClickListener(DialogInterface.OnClickListener settingsListener) {
+        FileNotFoundDialog.settingsListener = settingsListener;
     }
 
 
@@ -58,13 +73,7 @@ public class FileNotFoundDialog extends DialogFragment {
             message += LINE_SEPARATOR + "Do you want to locate them now?";
 
             builder.setMessage(message);
-            builder.setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    clearMissingFiles();
-                    //TODO go to file choice settings from here
-                }
-            });
+            if (settingsListener != null) builder.setPositiveButton("Go to settings", settingsListener);
 
             builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
                 @Override
@@ -73,7 +82,6 @@ public class FileNotFoundDialog extends DialogFragment {
                 }
             });
             return builder.create();
-
     }
 
     /**
@@ -90,11 +98,5 @@ public class FileNotFoundDialog extends DialogFragment {
             d.show(activity.getFragmentManager(), "missing:"+file);
         }
         newLostFile=false;
-
-    }
-
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
     }
 }

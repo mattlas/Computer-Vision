@@ -2,6 +2,7 @@ package com.example.treemapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.graphics.PointF;
@@ -59,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,23 +90,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Event handling
         initialiseEventHandling();
-
-
     }
 
     private void initMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //for lena
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        FileNotFoundDialog.setClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //we don't care about a lot of things, just open the settings
+                drawer.openDrawer(Gravity.LEFT);
+                startSettings();
+
+            }
+        });
+
     }
 
     private void imageViewSetUp() {
@@ -342,22 +349,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.nav_home) {
             getFragmentManager().popBackStack();
         }else if (id == R.id.nav_manage){
-            SettingsFragment sf = new SettingsFragment();
-            Log.d("main", "settings fragment init");
-            sf.init(settings, this.getPackageName());
-
-            FragmentManager fm = getFragmentManager();
-
-            fm.beginTransaction()
-                    .replace(R.id.map_fragment, sf)
-                    .addToBackStack(null)
-                    .commit();
+            startSettings();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void startSettings() {
+        SettingsFragment sf = new SettingsFragment();
+        sf.init(settings, this.getPackageName());
+
+        FragmentManager fm = getFragmentManager();
+
+        fm.beginTransaction()
+                .replace(R.id.map_fragment, sf)
+                .addToBackStack(null)
+                .commit();
     }
 
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
