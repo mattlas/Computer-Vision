@@ -1,2 +1,6 @@
 .DS_Store
 /menuTest
+.idea/
+gradlew
+gradlew.bat
+local.properties
