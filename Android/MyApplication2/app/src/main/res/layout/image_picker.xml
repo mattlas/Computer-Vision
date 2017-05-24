@@ -106,6 +106,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:padding="3dp"
             android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
@@ -114,6 +115,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:padding="3dp"
             android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
@@ -122,6 +124,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:padding="3dp"
             android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
@@ -130,6 +133,7 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:src="@drawable/tree"
+            android:padding="3dp"
             android:background="@drawable/trees_img_press"
             android:layout_margin="10dp" />
     </LinearLayout>

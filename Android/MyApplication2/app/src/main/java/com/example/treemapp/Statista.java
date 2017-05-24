@@ -1,6 +1,7 @@
 package com.example.treemapp;
 
 import android.icu.text.Collator;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 
 public class Statista implements Serializable{
+    private static final String TAG = Statista.class.getSimpleName();
     private List<Pin> pins; //not allowed to modify in this class
     private SmallToLarge smallToLarge;
     private ArrayList<SpeciesCount> species = new ArrayList<>();
@@ -75,7 +77,13 @@ public class Statista implements Serializable{
         int uniqueValuesCount = 0;
 
         for (Pin p : pins) {
-            height = Double.parseDouble(p.getHeight()); //TODO, fix this if it is not a number
+            try{
+                height = Double.parseDouble(p.getHeight());
+            }catch (Exception e){
+                Log.e(TAG,"Error parsing height from pin: "+e.getLocalizedMessage());
+                height = 0;
+
+            }
 
             if (!heights.contains(height)) {
                 uniqueValuesCount++;

@@ -2,6 +2,7 @@ package com.example.treemapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.app.FragmentManager;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,12 +22,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -47,62 +50,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Overlay overlay;
     private Vibrator vibrator;
 
+    private Settings settings;
+
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName
-            = Environment.getExternalStorageDirectory() + "/mosaic/";
+    private String folderName = FileLocation.getSD() + "mosaic/";
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settings = new Settings();
 
         // The activity to initInputOverlay the input
         overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
-                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
+                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2), settings);
 
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
 
+
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
-            Log.d(TAG, "I doesn't have permission");
+            Log.d(TAG, "I don't have permission");
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
 
-        filehandler = new FileHandler();
+        filehandler = new FileHandler(this);
 
         // Setting the image to display
         imageViewSetUp();
 
         // Event handling
         initialiseEventHandling();
-
     }
 
     private void initMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //for lena
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        FileNotFoundDialog.setClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //we don't care about a lot of things, just open the settings
+                drawer.openDrawer(Gravity.LEFT);
+                startSettings();
+
+            }
+        });
+
     }
 
     private void imageViewSetUp() {
@@ -127,7 +139,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Found png");
                 imageView.setImage(ImageSource.uri(path));
             }
-            else imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+            else {
+                FileNotFoundDialog.popup(this,"mosaic");
+                imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+            }
         }
 
         // Filehandler - needs permission before starting
@@ -160,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
+            FileNotFoundDialog.popup(this,"imageList");
         }
         pin.setOrigCoor(origCoor[0], origCoor[1]);
 
@@ -175,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (imageView.isReady()) {
-                    if (dragPin != null) {
+                    if (dragPin != null) { // TODO fix the area for dragging the pin - it's still set to a circle around the point, should be a rectangle where the pin icon is
                         latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
                         dragPin.setPosition(latestTouch);
 
@@ -257,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!imageView.listIsEmpty()) {
 
             dragPin = imageView.getClosestPin(e.getX(), e.getY());
-
+            Log.d(TAG, "y="+e.getY());
             if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
@@ -332,6 +348,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .commit();
         }else if (id == R.id.nav_home) {
             getFragmentManager().popBackStack();
+        }else if (id == R.id.nav_manage){
+            startSettings();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -340,12 +358,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    private void startSettings() {
+        SettingsFragment sf = new SettingsFragment();
+        sf.init(settings, this.getPackageName());
+
+        FragmentManager fm = getFragmentManager();
+
+        fm.beginTransaction()
+                .replace(R.id.map_fragment, sf)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
             ///selectItem(position);
         }
     }
+
+    /**
+     * Run  whenever one of checkboxes are clicked
+     * @param view
+     */
+    public void onCheckboxClicked(View view) {
+
+    }
+
+
+
 }
 
 

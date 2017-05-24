@@ -7,13 +7,22 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string-array name="trees_array">
-        <item>Spruce</item>
-        <item>Pine</item>
-        <item>Birch</item>
-        <item>Oak</item>
-        <item>Other…</item>
-    </string-array>
+    <string name="current_directory">Current directory:</string>
+    <string name="directory_placeholder">/usr/files/</string>
+    <string name="directory_button">Change directory</string>
+
+
+    <!--trees species-->
+    <string name="pine">Pine</string>
+    <string name="spruce">Spruce</string>
+    <string name="birch">Birch</string>
+    <string name="oak">Oak</string>
+    <string name="alder">Alder</string>
+    <string name="aspen">Aspen</string>
+    <string name="rowan">Rowan</string>
+
+
+
     <string name="title_activity_statistics">StatisticsActivity</string>
 
 </resources>

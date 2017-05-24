@@ -159,6 +159,46 @@
                     ></in.goodiebag.carouselpicker.CarouselPicker>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/chb_deadtree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="false"
+                    android:text="Dead tree"
+                    android:textSize="18sp"
+                    android:textColor="#FFFFFF"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/notes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Additional notes"
+                    android:textSize="18sp"
+                    android:inputType="text" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
         <LinearLayout

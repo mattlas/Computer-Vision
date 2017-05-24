@@ -1,6 +1,8 @@
 package com.example.treemapp;
 
+import android.graphics.PointF;
 import android.net.Uri;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -23,9 +25,11 @@ import java.util.List;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 
+
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 public class Overlay {
+    private static final String TAG = Overlay.class.getSimpleName();
     private final MainActivity mainActivity;
 
     private final RelativeLayout inputOverlay;
@@ -34,35 +38,26 @@ public class Overlay {
     private final RelativeLayout imagePickerOverlay;
     private final LinearLayout fakeView2;
     private PinView originalView;
+    private Settings settings;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
     //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
-    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2) {
+    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
 
         this.mainActivity = mainActivity;
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.fakeView = fakeView;
         this.fakeView2 = fakeView2;
+        this.settings = settings;
 
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return inputIsVisible();
+                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE;
             }
         });
 
-        this.fakeView2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (imagePickerOverlay.getVisibility() == View.VISIBLE);
-            }
-        });
-    }
-
-    /*Checks if the input is currently invisble*/
-    public boolean inputIsVisible() {
-        return inputOverlay.getVisibility() == View.VISIBLE;
     }
 
     /**
@@ -185,6 +180,7 @@ public class Overlay {
                 } else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
                 inputOverlay.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
             }
         });
 
@@ -248,39 +244,53 @@ public class Overlay {
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
-        OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        final OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
         main.setZoomEnabled(true);
         main.setMaxScale(7f);
         main.setOrientation(ORIENTATION_0);
 
-        main.setScaleAndCenter(2, main.getCenter());
+        main.setScaleAndCenter(1, main.getCenter());
 
-        //main.setOnTouchListener(new OriginalOnTouchListener(main));
+        main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
-        main.setImage(ImageSource.uri(fullFileName));
+        main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
         main.setVisibility(View.VISIBLE);
 
+        // Mosaic Coordinates
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
         ImageButton imgBtn;
-        for (int i = 0; i < 4; i++) {
-            imgBtn = (ImageButton) mainActivity.findViewById(btns[i]);
+        for (int i = -1; i < 3; i++) {
+            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
 
+            final String filePath;
             if (neighbors.size() > i) {
-                final String filePath = neighbors.get(i);
+                // First ImageButton: original
+                if (i == -1) {
+                    filePath = fullFileName;
+                    // Rest: it's neighbors
+                } else {
+                    filePath = neighbors.get(i);
+                }
+
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                ImageView im = (ImageView) imagePickerOverlay.findViewById(R.id.perspective_image);
-                                if (im != null) {
-                                    im.setImageURI(Uri.fromFile(file));
-                                }
-                                //imagePickerOverlay.setVisibility(View.VISIBLE); do not think we need this line
+                                // TODO
+                                // Switch to perspective image and set pin accordingly (newly calculated coordinates)
+                                // New calculated coordinates
+                                float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
+                                // Change coordinates of pin
+                                pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                // Change displayed image to clicked perspective
+                                main.setImage(ImageSource.uri(filePath));
+                                main.setVisibility(View.VISIBLE);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
                     }
@@ -294,13 +304,13 @@ public class Overlay {
                     Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
                 }
-
             } else {
                 if (imgBtn != null) {
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
+                } else {
+                    Log.e(TAG, "Image button null (image may not exist)");
                 }
             }
-
         }
 
 
@@ -330,19 +340,14 @@ public class Overlay {
     }
 
 
+
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
-        List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("Spruce", 12));
-        textItems.add(new CarouselPicker.TextItem("Pine", 12));
-        textItems.add(new CarouselPicker.TextItem("Birch", 12));
-        textItems.add(new CarouselPicker.TextItem("Oak", 12));
-        textItems.add(new CarouselPicker.TextItem("Other", 12));
-        return textItems;
+        return settings.getTreesSpeciesChosen();
     }
 
     @NonNull
     private CarouselListener setUpCarousel(CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
-        //Carousse1 Picker with text to display the tree species
+        //Carouse1 Picker with text to display the tree species
 
         CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);

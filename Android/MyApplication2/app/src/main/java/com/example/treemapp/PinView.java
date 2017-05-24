@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -200,36 +202,43 @@ public class PinView extends SubsamplingScaleImageView {
 
         PointF point = sourceToViewCoord(pin.getPoint());
 
-        int drawableName=R.drawable.alder;
+        int drawableName;
 
         boolean fileExists = true;
 
-        String species="Spruce";
+        String species="Other";
 
         if (pin.getSpecies() != null) {
             species=pin.getSpecies();
         }
 
-        switch (species){
-            case "Spruce": drawableName=R.drawable.spruce;
+        switch (species.toLowerCase()){
+            case "spruce": drawableName=R.drawable.spruce;
                 break;
-            case "Pine": drawableName=R.drawable.pine;
+            case "pine": drawableName=R.drawable.pine;
                 break;
-            case "Alder": drawableName=R.drawable.alder;
+            case "alder": drawableName=R.drawable.alder;
                 break;
-            case "Aspen": drawableName=R.drawable.aspen;
+            case "aspen": drawableName=R.drawable.aspen;
                 break;
-            case "Rowan": drawableName=R.drawable.rowan;
+            case "rowan": drawableName=R.drawable.rowan;
                 break;
-            case "Birch": drawableName=R.drawable.birch;
+            case "birch": drawableName=R.drawable.birch;
+                break;
+            case "oak": drawableName=R.drawable.oak;
+                break;
+            case "other":   //Pass to next line
+            default : drawableName=R.drawable.empty;
                 break;
         }
 
 
+        int pinWidth=pin.getRadius()*3;
+
         if (fileExists) { // draw the pin
-            Drawable d = getResources().getDrawable(drawableName);
-            int w=pin.getRadius();
-            int h=d.getIntrinsicHeight()*pin.getRadius()/d.getIntrinsicWidth();
+            Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
+            int w=pinWidth;
+            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
 
             int left=(int)point.x-(w/2);
             int top=(int)point.y-h;
