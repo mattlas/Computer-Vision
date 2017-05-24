@@ -7,6 +7,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="current_directory">Current directory:</string>
+    <string name="directory_placeholder">/usr/files/</string>
+    <string name="directory_button">Change directory</string>
+
+
     <!--trees species-->
     <string name="pine">Pine</string>
     <string name="spruce">Spruce</string>
