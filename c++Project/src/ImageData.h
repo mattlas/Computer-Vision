@@ -19,6 +19,10 @@ private:
     std::string path;
     std::string pgm_path;
     exif::EXIFInfo info;
+public:
+    const exif::EXIFInfo &getInfo() const;
+
+private:
     FeaturePoints* featurePoints;
 
 

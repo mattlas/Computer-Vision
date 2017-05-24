@@ -25,7 +25,8 @@ void MosaicData::startProcess() {
     std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
     createImages();
-    delete im;
+    createNeighbours();
+    //delete im;
     std::cout << "extracting featurepoints" << std::endl;
     extractFeaturePoints();
     std::cout << "create threads" << std::endl;
@@ -91,10 +92,17 @@ void MosaicData::extractFeaturePoints() {
 void MosaicData::ubcMatch() {
     //TODO add loop for what images will be matched.
     MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
+
     cv::Mat image1 = imread(imageList.at(0).getPath());
     cv::Mat image2 = imread(imageList.at(1).getPath());
+    image1 = im->cropImage(image1);
+    image2 = im->cropImage(image2);
+
+    cv::Mat mosaic = Mat::zeros(1000,1000,CV_8UC1);
+
+
     Mat im_out;
-    cv::warpPerspective(image1,im_out,matcher->getHomography(),image2.size());
+    cv::warpPerspective(image1,im_out,matcher->getHomography(),mosaic.size());
 
     // Display images
 
@@ -153,6 +161,10 @@ void MosaicData::extractFeaturePointsThreaded() {
 
 void MosaicData::addDirectory(std::string dir) {
     directoryList.push_back(dir);
+}
+
+void MosaicData::createNeighbours() {
+    imagePairs = neighbours::pairs(imageList);
 }
 
 

@@ -11,6 +11,7 @@
 #include "FeaturePoints.h"
 #include "imaq.h"
 #include "ImageData.h"
+#include "neighbours.h"
 #include <memory>
 //#include <thread>
 #include <pthread.h>
@@ -36,6 +37,8 @@ private:
     std::mutex writeMutex;
     std::string input_path;
     std::string pgm_path;
+
+    std::vector<std::vector<ImageData>> imagePairs;
 
     imaq *im = NULL;
 
@@ -81,6 +84,7 @@ signals:
     void finished();
 
 
+    void createNeighbours();
 };
 
 
