@@ -78,7 +78,6 @@ public class FileHandler {
 
         } catch (IOException e) {
             Log.e(TAG, "Failed to initInputOverlay/open file " + fullFileName + ": " + e.getLocalizedMessage());
-
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 
 public class SettingsFragment extends Fragment {
 
+    private static final String TAG = SettingsFragment.class.getSimpleName();
     Settings settings = null;
     private String packageName;
 
@@ -47,9 +49,15 @@ public class SettingsFragment extends Fragment {
         };
 
         for(String tree:settings.getTreesSpeciesAll()){
-            int id =  getResources().getIdentifier("chb_" + tree, "id", packageName);
+            int id =  getResources().getIdentifier("chb_" + tree.toLowerCase(), "id", packageName);
+
             CheckBox cb = (CheckBox) view.findViewById(id);
-            cb.setOnCheckedChangeListener(list);
+            if (cb != null) {
+                cb.setOnCheckedChangeListener(list);
+            }
+            else {
+                Log.e(TAG, "no checkbox found called for tag: " + "chb_" + tree.toLowerCase());
+            }
         }
 
         for(CarouselPicker.PickerItem pi:settings.getTreesSpeciesChosen()) {
