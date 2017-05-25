@@ -10,7 +10,6 @@ import android.os.Vibrator;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -29,10 +28,7 @@ import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import android.widget.Toast;
@@ -56,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
     private String folderName = FileLocation.getSD() + "mosaic/";
+    private boolean foundMosaic = false;
+
+    public boolean isMosaicIsFound() {
+        return foundMosaic;
+    }
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     static final String TAG = MainActivity.class.getSimpleName();
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (file.exists()) {
             imageView.setImage(ImageSource.uri(path));
+            foundMosaic = true;
         }
         else  { //if it is a png
             path = folderName + "mosaic.png";
@@ -138,10 +140,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (file.exists()) {
                 Log.d(TAG, "Found png");
                 imageView.setImage(ImageSource.uri(path));
+                foundMosaic = true;
             }
             else {
                 FileNotFoundDialog.popup(this,"mosaic");
-                imageView.setImage(ImageSource.resource(R.drawable.tree)); //default if we can't find mosaic
+                imageView.setImage(ImageSource.resource(R.drawable.could_not_find_file)); //default if we can't find mosaic
             }
         }
 
