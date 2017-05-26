@@ -24,11 +24,14 @@ void MosaicData::startProcess() {
     convertToPGM(pgm_path);
     std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
+    std::cout << "create images" << std::endl;
     createImages();
+    extractFeaturePoints();
+    std::cout << "create neighbours" << std::endl;
     createNeighbours();
+
     //delete im;
     std::cout << "extracting featurepoints" << std::endl;
-    extractFeaturePoints();
     std::cout << "create threads" << std::endl;
     //createThreads();
     std::cout << "ubc match" << std::endl;
@@ -96,9 +99,9 @@ void MosaicData::extractFeaturePoints() {
 
 void MosaicData::ubcMatch() {
     for (int i = 0; i < imagePairs.size() ; ++i) {
-        for (int j = 1; j < imagePairs.at(i).size(); ++j) {
+        for (int j = 0; j < imagePairs.at(i).size()-1; ++j) {
             MatchPoints *matcher = new MatchPoints(*imagePairs.at(i).at(0).getFeaturePoints(),
-                                                   *imagePairs.at(i).at(j).getFeaturePoints());
+                                                   *imagePairs.at(i).at(j+1).getFeaturePoints());
             //todo how to save homography
             matcher->getHomography();
 
@@ -126,11 +129,11 @@ void MosaicData::ubcMatch() {
 
     imshow("Destination Image", image2);
 
-    imshow("Warped Source Image", im_out);*/
+    imshow("Warped Source Image", im_out);
 
 
 
-    waitKey(0);
+    waitKey(0);*/
 }
 
 void MosaicData::createThreads() {
