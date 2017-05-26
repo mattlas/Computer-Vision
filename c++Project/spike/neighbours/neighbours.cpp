@@ -37,7 +37,7 @@ std::vector<std::vector<exif::EXIFInfo>> pairs(
 
 	//calculate image pair distances
 	for(std::size_t i = 0; i < filtered.size(); i++){
-		for(std::size_t j = i + 1; j < filtered.size() - 1; j++){
+		for(std::size_t j = i + 1; j < filtered.size(); j++){
 			x1 = filtered[i].GeoLocation.Longitude;
 			y1 = filtered[i].GeoLocation.Latitude;
 			x2 = filtered[j].GeoLocation.Longitude;
@@ -63,7 +63,7 @@ std::vector<std::vector<exif::EXIFInfo>> pairs(
 		}
 		neighbourlimit *= 1.2;
 		
-		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
+		for(std::size_t j = i + 1; j < filtered.size(); j++){
 			if(distances[i][j] <= neighbourlimit){
 				pairs[i].push_back(filtered[j]);
 			}
