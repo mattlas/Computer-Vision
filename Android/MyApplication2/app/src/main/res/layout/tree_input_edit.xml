@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Add a tree"
+                android:text="Edit tree"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:id="@+id/overlay_box_txt"
@@ -216,6 +216,17 @@
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
                 android:text="SAVE AND CLOSE" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="#ED4D6E"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"
+                android:text="DELETE" />
+
 
         </LinearLayout>
 
