@@ -35,7 +35,7 @@ import org.apache.commons.math3.linear.*;
 
 public class FileHandler {
 
-    private String fileName = "treeList.csv";
+    private String fileName = "/treeList.csv";
     private String directory = FileLocation.getSD() + "mosaic";
     private String fullFileName= directory+fileName;
 
@@ -91,7 +91,7 @@ public class FileHandler {
     public boolean addLine(String line) {
         try {
 
-            bw.append(line+LINE_SEPARATOR);
+            bw.append("blabla"+LINE_SEPARATOR);
             this.save();
             return true;
 

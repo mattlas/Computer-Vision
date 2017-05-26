@@ -4,12 +4,28 @@
         "source": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_provider.png"
     },
     {
+        "merged": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_file.png",
+        "source": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_file.png"
+    },
+    {
+        "merged": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_provider.png",
+        "source": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_provider.png"
+    },
+    {
+        "merged": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_chooser.png",
+        "source": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_chooser.png"
+    },
+    {
         "merged": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_file.png",
         "source": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_file.png"
     },
     {
         "merged": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_chooser.png",
         "source": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_chooser.png"
+    },
+    {
+        "merged": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_folder.png",
+        "source": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_folder.png"
     },
     {
         "merged": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_folder.png",

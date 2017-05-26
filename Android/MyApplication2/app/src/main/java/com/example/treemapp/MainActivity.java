@@ -1,6 +1,7 @@
 package com.example.treemapp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
+    @TargetApi(23)
+    protected void askPermissions() {
+        String[] permissions = {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        int requestCode = 200;
+        requestPermissions(permissions, requestCode);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +94,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
+
+        if(!checkPermission()) {
+            Log.d(TAG, "I don't have permission");
+            requestPermission(); // Code for permission
+            Log.d(TAG, "I do have permission");
+        }
+
+        if(checkPermission()) {
+            Log.d(TAG, "I do have permission");
+        }
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1)
+            askPermissions();
+
+
 
         filehandler = new FileHandler(this);
 
