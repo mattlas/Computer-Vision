@@ -49,4 +49,9 @@ public class ExampleInstrumentedTest {
         iilh.getImageFileName(iilh.findImageClosestTo(0, 0));
     }
 
+    @Test
+    public void checkIfWritePermission() throws Exception{
+        new FileHandler(null);
+    }
+
 }

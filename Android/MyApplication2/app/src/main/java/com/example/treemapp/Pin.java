@@ -52,6 +52,10 @@ public class Pin implements Serializable{
         this(-1,sCoor, oCoor, imageFileName);
     }
 
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
+
     public PointF getPoint() {
         return new PointF(sx, sy);
     }

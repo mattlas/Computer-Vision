@@ -124,7 +124,7 @@ class ImageInfo {
 
         float imageX, imageY;
 
-        if (matrix != null && mosaicCordinates != null) {
+        if (matrix != null) {
 
             RealMatrix resultingMatrix = matrix.multiply(mosaicCordinates);
 

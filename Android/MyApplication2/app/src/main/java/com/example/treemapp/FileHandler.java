@@ -78,7 +78,6 @@ public class FileHandler {
 
         } catch (IOException e) {
             Log.e(TAG, "Failed to initInputOverlay/open file " + fullFileName + ": " + e.getLocalizedMessage());
-
         }
     }
 
@@ -314,7 +313,9 @@ public class FileHandler {
                 } else {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
-                    FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    if (mainActivity != null) {
+                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    }
 
                     mosaicX=origX;
                     mosaicY=origY;
