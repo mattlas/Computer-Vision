@@ -2,7 +2,6 @@ package com.example.treemapp;
 
 import android.graphics.PointF;
 
-import android.graphics.*;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -19,6 +18,8 @@ public class Pin implements Serializable{
     private String height;
     private String diameter;
     private String species;
+    private String notes;
+    private Boolean isDead;
     private int radius;
     private String imageFileName;
     private boolean dragged = false;
@@ -86,10 +87,12 @@ public class Pin implements Serializable{
         this.dragged = dragged;
     }
 
-    public void setInputData(String height, String diameter, String species) {
+    public void setInputData(String height, String diameter, String species, Boolean isDead, String notes) {
         this.diameter = diameter;
         this.height = height;
         this.species = species;
+        this.isDead = isDead;
+        this.notes = notes;
     }
 
     public void setId(int id){
@@ -100,6 +103,13 @@ public class Pin implements Serializable{
         return this.id;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public Boolean getIsDead() {
+        return isDead;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -122,7 +132,12 @@ public class Pin implements Serializable{
      * @return String representing the CSV line for the tree - "id,x,y,height,diameter,species,imageFileName"
      */
     public String getCSV(){
-        return id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + imageFileName;
+        String dead;
+        if(isDead)
+            dead = "dead";
+        else
+            dead = "alive";
+        return id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + dead + ", \"" + notes + "\"," + imageFileName;
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/
