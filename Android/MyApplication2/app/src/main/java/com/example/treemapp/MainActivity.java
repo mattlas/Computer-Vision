@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName = FileLocation.getSD() + "mosaic/";
+    private String folderName = FileLocation.getSD();
     private boolean foundMosaic = false;
 
     public boolean isMosaicIsFound() {
