@@ -37,6 +37,7 @@ private:
     std::mutex writeMutex;
     std::string input_path;
     std::string pgm_path;
+    ImageData* referenceImage;
 
     std::vector<std::vector<ImageData>> imagePairs;
 
