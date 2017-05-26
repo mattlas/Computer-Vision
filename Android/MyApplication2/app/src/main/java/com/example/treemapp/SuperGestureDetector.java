@@ -16,8 +16,19 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
         this.main = main;
     }
 
+    /**
+     * This adds a pin to the view and brings up dialogs to edit information about that pin
+     * @param pos, the position in screen coordinates where the pin is
+     * @return if this function used the event, if this returns false other code can grab the click instead
+     */
     @Override
     public boolean onSingleTapConfirmed(MotionEvent pos) {
+        /* TODO before release
+        if (!main.isMosaicIsFound()) {
+            return false;
+        }
+        */
+
         //viewSwitcher.showNext();
         if (main.getImageView().isReady()) {
             // If there is no pins we are definitely creating a new one

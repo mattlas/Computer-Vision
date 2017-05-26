@@ -75,8 +75,8 @@ public class OnePinView extends SubsamplingScaleImageView {
         pin = null;
     }
 
-    public void updatePin(Pin pin, String height, String diameter, String species){
-        pin.setInputData(height, diameter, species);
+    public void updatePin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
+        pin.setInputData(height, diameter, species, isDead, notes);
     }
 
     @Override

@@ -88,13 +88,13 @@ public class PinView extends SubsamplingScaleImageView {
      * Update the pin in the list and saves into the file
      * @return true if saving worked fine
      */
-    public boolean saveNewPin(Pin pin, String height, String diameter, String species){
-        pin.setInputData(height, diameter, species);
+    public boolean saveNewPin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
+        pin.setInputData(height, diameter, species, isDead, notes);
         return fileHandler.addLine(pin.getCSV());
     }
 
-    public boolean updatePin(Pin pin, String height, String diameter, String species){
-        pin.setInputData(height, diameter, species);
+    public boolean updatePin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
+        pin.setInputData(height, diameter, species, isDead, notes);
         return this.updatePinInFile(pin);
     }
 
@@ -212,22 +212,22 @@ public class PinView extends SubsamplingScaleImageView {
             species=pin.getSpecies();
         }
 
-        switch (species){
-            case "Spruce": drawableName=R.drawable.spruce;
+        switch (species.toLowerCase()){
+            case "spruce": drawableName=R.drawable.spruce;
                 break;
-            case "Pine": drawableName=R.drawable.pine;
+            case "pine": drawableName=R.drawable.pine;
                 break;
-            case "Alder": drawableName=R.drawable.alder;
+            case "alder": drawableName=R.drawable.alder;
                 break;
-            case "Aspen": drawableName=R.drawable.aspen;
+            case "aspen": drawableName=R.drawable.aspen;
                 break;
-            case "Rowan": drawableName=R.drawable.rowan;
+            case "rowan": drawableName=R.drawable.rowan;
                 break;
-            case "Birch": drawableName=R.drawable.birch;
+            case "birch": drawableName=R.drawable.birch;
                 break;
-            case "Oak": drawableName=R.drawable.oak;
+            case "oak": drawableName=R.drawable.oak;
                 break;
-            case "Other":   //Pass to next line
+            case "other":   //Pass to next line
             default : drawableName=R.drawable.empty;
                 break;
         }

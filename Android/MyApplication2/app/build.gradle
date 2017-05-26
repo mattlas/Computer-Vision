@@ -16,6 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            debuggable true
+        }
+
     }
     testOptions {
         unitTests.returnDefaultValues = true
@@ -38,4 +43,6 @@ dependencies {
 
     //Add library
     compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
+    compile project(":aFileChooser")
+
 }
