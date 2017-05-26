@@ -12,7 +12,23 @@
         "source": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_folder.png"
     },
     {
+        "merged": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_folder.png",
+        "source": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_folder.png"
+    },
+    {
         "merged": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_chooser.png",
         "source": "/home/5dv115/tree-app/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_chooser.png"
+    },
+    {
+        "merged": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_provider.png",
+        "source": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_provider.png"
+    },
+    {
+        "merged": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_file.png",
+        "source": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_file.png"
+    },
+    {
+        "merged": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_chooser.png",
+        "source": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_chooser.png"
     }
 ]

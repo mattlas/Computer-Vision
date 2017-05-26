@@ -1,9 +1,12 @@
 package com.example.treemapp;
 
+import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
@@ -30,7 +34,7 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
-public class Overlay {
+public class Overlay extends View {
     private static final String TAG = Overlay.class.getSimpleName();
     private final MainActivity mainActivity;
 
@@ -42,10 +46,12 @@ public class Overlay {
     private PinView originalView;
     private Settings settings;
 
+    Canvas canvas;
+
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
     //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
     public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
-
+        super(mainActivity);
         this.mainActivity = mainActivity;
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
@@ -60,6 +66,47 @@ public class Overlay {
             }
         });
 
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        this.canvas = canvas;
+
+        PointF point = new PointF(0, 1);
+
+        /*for(Pin p : pins) {
+            point = sourceToViewCoord(p.getPoint());
+
+            filled.setAlpha(255);
+
+            drawMark(canvas, p);
+        }*/
+        //drawMark(canvas, point);
+    }
+
+    public void drawMark(PointF point){
+        // First see if the species exists as a pin
+
+        //point = sourceToViewCoord(point);
+
+        boolean fileExists = true;
+
+        int pinWidth=3;
+
+        if (fileExists) { // draw the pin
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.crosshair, null);
+            int w=pinWidth;
+            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
+
+            int left=(int)point.x-(w/2);
+            int top=(int)point.y-h;
+            int right=left+w;
+            int bottom=(int)point.y;
+
+            d.setBounds(left, top, right, bottom);
+            d.draw(canvas);
+        }
     }
 
     /**
@@ -347,7 +394,115 @@ public class Overlay {
         });
     }
 
+    public void editImagePickerOverlay(final Pin pin) {
+        imagePickerOverlay.setVisibility(View.VISIBLE);
 
+        final String fileName = pin.getImageFileName();
+        final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+
+        //this converts from fileName to full path to the file
+        final String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
+
+        final OnePinView main = (OnePinView) mainActivity.findViewById(R.id.originalView);
+        main.setZoomEnabled(true);
+        main.setMaxScale(7f);
+        main.setOrientation(ORIENTATION_0);
+
+        main.setScaleAndCenter(1, main.getCenter());
+
+        main.setOnTouchListener(new OriginalOnTouchListener(main));
+
+        main.setPin(pin);
+        main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
+        main.setVisibility(View.VISIBLE);
+
+        // Mosaic Coordinates
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+
+        // Chooose the photos for the buttons (different perspectives)
+        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
+        ImageButton imgBtn;
+        for (int i = -1; i < 3; i++) {
+            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
+
+            final String filePath;
+            if (neighbors.size() > i) {
+                // First ImageButton: original
+                if (i == -1) {
+                    filePath = fullFileName;
+                    // Rest: it's neighbors
+                } else {
+                    filePath = neighbors.get(i);
+                }
+
+                imgBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (filePath != null) {
+                            File file = new File(filePath);
+                            if (file.exists()) {
+                                // If image is not the pins image -> set mark instead of pin
+                                if (!filePath.equals(fullFileName)) {
+                                    drawMark(pin.getPoint());
+
+                                    // If image is the pins image -> set pin
+                                } else {
+                                    // New calculated coordinates
+                                    //float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
+                                    // Change coordinates of pin
+                                    //pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                }
+
+                                // Change displayed image to clicked perspective
+                                main.setImage(ImageSource.uri(filePath));
+                                main.setVisibility(View.VISIBLE);
+                            }
+                        } else Log.e(MainActivity.TAG, "Filename is null");
+                    }
+                });
+
+                File file = new File(filePath);
+                if (file.exists()) {
+                    imgBtn.setImageURI(Uri.fromFile(file));
+                    imgBtn.setVisibility(ImageButton.VISIBLE);
+                } else {
+                    Log.e(MainActivity.TAG, "Could not find file: '" + file.toString() + "'");
+                    imgBtn.setVisibility(ImageButton.INVISIBLE);
+                }
+            } else {
+                if (imgBtn != null) {
+                    imgBtn.setVisibility(ImageButton.INVISIBLE);
+                } else {
+                    Log.e(TAG, "Image button null (image may not exist)");
+                }
+            }
+        }
+
+
+        ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
+
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add closing event
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
+            }
+        });
+
+        Button button = (Button)  imagePickerOverlay.findViewById(R.id.btn_continue_to_input);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imagePickerOverlay.setVisibility(View.INVISIBLE);
+                edit(pin);
+
+                Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
+                t.show();
+            }
+        });
+    }
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
         return settings.getTreesSpeciesChosen();
