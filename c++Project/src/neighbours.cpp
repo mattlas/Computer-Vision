@@ -54,7 +54,7 @@ std::vector<std::vector<ImageData>> pairs(
 	for(std::size_t i = 0; i < filtered.size(); i++){
 		pairs[i].push_back(filtered[i]);
 		double neighbourlimit = std::numeric_limits<double>::max();
-		for(std::size_t j = i + 1; j < filtered.size(); j++){
+		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
 			double d = distances[i][j];
 			if(neighbourlimit > d){
 				neighbourlimit = d;
@@ -62,7 +62,7 @@ std::vector<std::vector<ImageData>> pairs(
 		}
 		neighbourlimit *= 1.2;
 		
-		for(std::size_t j = i + 1; j < filtered.size(); j++){
+		for(std::size_t j = i + 1; j < filtered.size()-1; j++){
 			if(distances[i][j] <= neighbourlimit){
 				pairs[i].push_back(filtered[j]);
 			}
