@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:layout_centerInParent="true"
-        android:background="#99909090"
+        android:background="#87FFFFFF"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="75dp"
             android:layout_marginRight="75dp"
-            android:background="#33000000"
+            android:background="#33868686"
             android:orientation="vertical">
 
             <LinearLayout
@@ -74,7 +74,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Height (m)"
                     android:textSize="18sp"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#1A1A1A" />
 
                 <com.shawnlin.numberpicker.NumberPicker
                     android:id="@+id/inp_height"
@@ -87,8 +87,8 @@
                     app:np_max="9999999"
                     app:np_min="0"
                     app:np_orientation="horizontal"
-                    app:np_selectedTextColor="#FFFFFF"
-                    app:np_textColor="#FFFFFF"
+                    app:np_selectedTextColor="#1A1A1A"
+                    app:np_textColor="#3A3A3A"
                     app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
 
 
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Diameter (cm)"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#1A1A1A"
                     android:textSize="18sp" />
 
 
@@ -116,14 +116,14 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#1A1A1A"
                     app:np_dividerColor="@color/colorPrimary"
                     app:np_formatter="@string/format"
                     app:np_max="1000"
                     app:np_min="0"
                     app:np_orientation="horizontal"
-                    app:np_selectedTextColor="#FFFFFF"
-                    app:np_textColor="#FFFFFF"
+                    app:np_selectedTextColor="#1A1A1A"
+                    app:np_textColor="#3A3A3A"
                     app:np_value="3"></com.shawnlin.numberpicker.NumberPicker>
 
 
@@ -143,7 +143,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Species: "
                     android:textSize="18sp"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#1A1A1A" />
 
                 <in.goodiebag.carouselpicker.CarouselPicker
                     android:id="@+id/carouselPicker"
@@ -171,7 +171,7 @@
                     android:checked="false"
                     android:text="Dead tree"
                     android:textSize="18sp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#1A1A1A"
                     android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
 
@@ -216,17 +216,6 @@
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
                 android:text="SAVE AND CLOSE" />
-
-            <Button
-                android:id="@+id/btn_cancel"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:background="#ED4D6E"
-                android:layout_width="170dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="16sp"
-                android:text="DELETE" />
-
 
         </LinearLayout>
 

@@ -34,7 +34,7 @@ import java.util.List;
 public class ImageInfoListHandler {
 
     private final String TAG = ImageInfoListHandler.class.getSimpleName();
-    private String folderName = FileLocation.getSD() + "mosaic/";
+    private String folderName = FileLocation.getSD();
     private String imageFolderName = folderName + "images/";
 
     private boolean foundEverything;

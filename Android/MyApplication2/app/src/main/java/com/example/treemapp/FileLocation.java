@@ -59,7 +59,6 @@ public class FileLocation {
             Log.i("Emulated SD path", folder);
         }
 
-        folder += "Android/TMS/";
-        return folder;
+        return folder+"Android/data/com.example.treemapp/";
     }
 }

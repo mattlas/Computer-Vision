@@ -32,13 +32,13 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void checkIfMosaicFolderExists() {
-        File f = new File(FileLocation.getSD() + "mosaic");
+        File f = new File(FileLocation.getSD());
         assertTrue(f.isDirectory());
     }
 
     @Test
     public void checkIfMosaicImageExists() {
-        File f = new File(FileLocation.getSD() + "mosaic/mosiac.jpg");
+        File f = new File(FileLocation.getSD() + "mosaic.jpg");
 
         assertTrue(f.exists() && !f.isDirectory());
     }
@@ -47,6 +47,11 @@ public class ExampleInstrumentedTest {
     public void checkIfImagesExists() {
         ImageInfoListHandler iilh = new ImageInfoListHandler();
         iilh.getImageFileName(iilh.findImageClosestTo(0, 0));
+    }
+
+    @Test
+    public void checkIfWritePermission() throws Exception{
+        new FileHandler(null);
     }
 
 }

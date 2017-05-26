@@ -35,8 +35,8 @@ import org.apache.commons.math3.linear.*;
 
 public class FileHandler {
 
-    private String fileName = "/treeList.csv";
-    private String directory = FileLocation.getSD() + "mosaic";
+    private String fileName = "treeList.csv";
+    private String directory = FileLocation.getSD();
     private String fullFileName= directory+fileName;
 
     private BufferedReader br;
@@ -55,7 +55,7 @@ public class FileHandler {
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
-                Log.i(TAG, "Opening existing treelist directory");
+                Log.i(TAG, "Opening existing treelist directory " + directory);
             }
 
         } catch (Exception e){
@@ -90,7 +90,7 @@ public class FileHandler {
     public boolean addLine(String line) {
         try {
 
-            bw.append("blabla"+LINE_SEPARATOR);
+            bw.append(line+LINE_SEPARATOR);
             this.save();
             return true;
 
@@ -257,7 +257,9 @@ public class FileHandler {
             String line;
 
             while ((line = br.readLine()) != null) {
-                lineList.add(line.split(","));
+                String [] line2 = line.split(",");
+                if (line2.length == 9)
+                    lineList.add(line2);
             }
             this.save();
         } catch (Exception e) {
@@ -311,7 +313,9 @@ public class FileHandler {
                 } else {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
-                    FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    if (mainActivity != null) {
+                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    }
 
                     mosaicX=origX;
                     mosaicY=origY;
