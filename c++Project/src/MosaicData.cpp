@@ -34,7 +34,7 @@ void MosaicData::startProcess() {
     std::cout << "ubc match" << std::endl;
     ubcMatch();
     std::cout << "ubc match done" << std::endl;
-    //stitchImages();
+    stitchImages();
     emit finished();
 }
 
@@ -77,6 +77,10 @@ void MosaicData::createImages() {
 
 }
 
+void MosaicData::createNeighbours() {
+    imagePairs = neighbours::pairs(imageList);
+}
+
 void MosaicData::extractFeaturePoints() {
 
     int id = 0;
@@ -91,8 +95,18 @@ void MosaicData::extractFeaturePoints() {
 }
 
 void MosaicData::ubcMatch() {
-    //TODO add loop for what images will be matched.
-    MatchPoints *matcher = new MatchPoints(*imageList.at(0).getFeaturePoints(), *imageList.at(1).getFeaturePoints());
+    for (int i = 0; i < imagePairs.size() ; ++i) {
+        for (int j = 1; j < imagePairs.at(i).size(); ++j) {
+            MatchPoints *matcher = new MatchPoints(*imagePairs.at(i).at(0).getFeaturePoints(),
+                                                   *imagePairs.at(i).at(j).getFeaturePoints());
+            //todo how to save homography
+            matcher->getHomography();
+
+        }
+    }
+
+
+
 
    /* cv::Mat image1 = imread(imageList.at(0).getPath());
     cv::Mat image2 = imread(imageList.at(1).getPath());
@@ -164,8 +178,9 @@ void MosaicData::addDirectory(std::string dir) {
     directoryList.push_back(dir);
 }
 
-void MosaicData::createNeighbours() {
-    imagePairs = neighbours::pairs(imageList);
+void MosaicData::stitchImages() {
+    //todo final stitching of images
+
 }
 
 

@@ -82,12 +82,10 @@ private:
     void convertToPGM(std::string string);
 
     void createImages();
+    void stitchImages();
 
 signals:
     void finished();
-
-
-
 };
 
 
