@@ -35,9 +35,9 @@ import org.apache.commons.math3.linear.*;
 
 public class FileHandler {
 
-    private String fileName = "/treeList.csv";
-    private String directory = FileLocation.getSD() + "mosaic";
-    private String fullFileName= directory+fileName;
+    private String fileName = "treeList.csv";
+    private String directory = FileLocation.getMosaicFolder();
+    private String fullFileName = directory + fileName;
 
     private BufferedReader br;
     private BufferedWriter bw;
@@ -311,7 +311,9 @@ public class FileHandler {
                 } else {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
-                    FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    if (mainActivity != null) {
+                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    }
 
                     mosaicX=origX;
                     mosaicY=origY;
