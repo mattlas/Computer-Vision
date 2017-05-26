@@ -36,8 +36,8 @@ import org.apache.commons.math3.linear.*;
 public class FileHandler {
 
     private String fileName = "treeList.csv";
-    private String directory = FileLocation.getSD() + "mosaic";
-    private String fullFileName= directory+fileName;
+    private String directory = FileLocation.getMosaicFolder();
+    private String fullFileName = directory + fileName;
 
     private BufferedReader br;
     private BufferedWriter bw;
@@ -78,7 +78,6 @@ public class FileHandler {
 
         } catch (IOException e) {
             Log.e(TAG, "Failed to initInputOverlay/open file " + fullFileName + ": " + e.getLocalizedMessage());
-
         }
     }
 
@@ -91,7 +90,7 @@ public class FileHandler {
     public boolean addLine(String line) {
         try {
 
-            bw.append(line+LINE_SEPARATOR);
+            bw.append("blabla"+LINE_SEPARATOR);
             this.save();
             return true;
 
@@ -312,7 +311,9 @@ public class FileHandler {
                 } else {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
-                    FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    if (mainActivity != null) {
+                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                    }
 
                     mosaicX=origX;
                     mosaicY=origY;

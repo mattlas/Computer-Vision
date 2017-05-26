@@ -16,6 +16,14 @@ public class FileLocation {
         return fileLocation;
     }
 
+    public static String getMosaicFolder() {
+        return getSD() + "mosaic/";
+    }
+
+    public static String getImagesFolder() {
+        return getMosaicFolder() + "images/";
+    }
+
     public static boolean changeSDLocation(String location) {
         if(new File(location).exists()) {
             fileLocation = location;
@@ -52,5 +60,6 @@ public class FileLocation {
         }
 
         return folder+"Android/TMS/";
+
     }
 }

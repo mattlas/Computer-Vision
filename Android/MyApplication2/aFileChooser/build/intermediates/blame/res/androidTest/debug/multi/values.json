@@ -1,6 +1,10 @@
 [
     {
+<<<<<<< HEAD
         "outputFile": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+=======
+        "outputFile": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
         "map": [
             {
                 "to": {
@@ -11,7 +15,11 @@
                     "endOffset": 92
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +38,11 @@
                     "endOffset": 135
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +61,11 @@
                     "endOffset": 184
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +84,11 @@
                     "endOffset": 227
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -87,7 +107,11 @@
                     "endOffset": 281
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -106,7 +130,11 @@
                     "endOffset": 341
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -125,7 +153,11 @@
                     "endOffset": 411
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -144,7 +176,11 @@
                     "endOffset": 473
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -163,7 +199,11 @@
                     "endOffset": 551
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -183,7 +223,11 @@
                     "endOffset": 1066
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values/values.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,

@@ -1,6 +1,7 @@
 package com.example.treemapp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,20 +64,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
+    @TargetApi(23)
+    protected void askPermissions() {
+        String[] permissions = {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        int requestCode = 200;
+        requestPermissions(permissions, requestCode);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        settings = new Settings();
-
-        // The activity to initInputOverlay the input
-        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
-                 (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2), settings);
-
-        vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-
-        initMenu();
-
 
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I don't have permission");
@@ -84,6 +85,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "I do have permission");
         }
 
+        settings = new Settings();
+
+        // The activity to initInputOverlay the input
+        overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Image_picker_overlayed),
+                (LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2), settings);
+
+        vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+        initMenu();
         filehandler = new FileHandler(this);
 
         // Setting the image to display
@@ -199,7 +209,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            Pin pin = dragPin;
                             dragPinRelease();
+                            editOriginals(pin);
                         }
 
                         imageView.invalidate();
@@ -240,6 +252,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // TODO add on save
         //imageView.addPin(pin);
         //overlay.initInputOverlay(pin);
+
+        imageView.invalidate();
+    }
+
+    /* adding the pin to the file and pin list and shows the menu for the pin*/
+    void editOriginals(Pin pin) {
+        PointF sCoord = new PointF(pin.getX(), pin.getY());
+
+        ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
+        String filename = ii.getFileName();
+
+        float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
+
+        float[] origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
+
+        pin.setImageFileName(filename);
+
+        overlay.initImagePickerOverlay(pin);
 
         imageView.invalidate();
     }

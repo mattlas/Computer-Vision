@@ -26,9 +26,9 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 
 public class SettingsFragment extends Fragment {
 
+
     private static final int REQUEST_CHOOSER = 1234;
     private static final String TAG = SettingsFragment.class.getSimpleName();
-
     Settings settings = null;
     private String packageName;
     private ListView lv;
@@ -65,9 +65,15 @@ public class SettingsFragment extends Fragment {
         };
 
         for(String tree:settings.getTreesSpeciesAll()){
-            int id =  getResources().getIdentifier("chb_" + tree, "id", packageName);
+            int id =  getResources().getIdentifier("chb_" + tree.toLowerCase(), "id", packageName);
+
             CheckBox cb = (CheckBox) view.findViewById(id);
-            cb.setOnCheckedChangeListener(list);
+            if (cb != null) {
+                cb.setOnCheckedChangeListener(list);
+            }
+            else {
+                Log.e(TAG, "no checkbox found called for tag: " + "chb_" + tree.toLowerCase());
+            }
         }
 
         for(CarouselPicker.PickerItem pi:settings.getTreesSpeciesChosen()) {

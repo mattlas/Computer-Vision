@@ -1,6 +1,10 @@
 [
     {
+<<<<<<< HEAD
         "outputFile": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v11/values-v11.xml",
+=======
+        "outputFile": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v11/values-v11.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
         "map": [
             {
                 "to": {
@@ -11,7 +15,11 @@
                     "endOffset": 104
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-v11/values-v11.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-v11/values-v11.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

@@ -81,7 +81,11 @@
         ]
     },
     {
+<<<<<<< HEAD
         "outputFile": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-ca/values-ca.xml",
+=======
+        "outputFile": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-ca/values-ca.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
         "map": [
             {
                 "to": {
@@ -92,7 +96,11 @@
                     "endOffset": 112
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -111,7 +119,11 @@
                     "endOffset": 170
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -130,7 +142,11 @@
                     "endOffset": 250
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -149,7 +165,11 @@
                     "endOffset": 336
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+=======
+                    "file": "/home/5dv173/TreemApp/Computer-Vision/Android/MyApplication2/aFileChooser/build/intermediates/bundles/debug/res/values-ca/values-ca.xml",
+>>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
