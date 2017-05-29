@@ -11,9 +11,11 @@ import android.widget.Toast;
 public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListener {
 
     private MainActivity main;
+    private float yPinOffset;
 
     public SuperGestureDetector(MainActivity main) {
         this.main = main;
+        this.yPinOffset = main.getResources().getDimension(R.dimen.pin_selection_offset);
     }
 
     /**
@@ -36,10 +38,10 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
                 main.showOriginals(pos); //makes pin, creates menu
             } else {
                 // Closest pin to tapped position
-                Pin closestPin = main.getImageView().getClosestPin(pos.getX(), pos.getY());
+                Pin closestPin = main.getImageView().getClosestPin(pos.getX(), pos.getY()+yPinOffset);
 
                 // If tabbed position is inside collision radius of a pin -> edit this pin
-                if (main.getImageView().euclidanViewDistance(closestPin, pos.getX(), pos.getY()) < closestPin.getCollisionRadius()){
+                if (main.getImageView().euclidanViewDistance(closestPin, pos.getX(), pos.getY()+yPinOffset) < closestPin.getCollisionRadius()){
                     main.getOverlay().edit(closestPin);
                     main.getImageView().invalidate();
                     // otherwise make new pin

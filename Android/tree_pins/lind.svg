@@ -2,6 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -15,9 +16,18 @@
    id="svg4133"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="pine.svg">
+   sodipodi:docname="lind.svg">
   <defs
-     id="defs4135" />
+     id="defs4135">
+    <linearGradient
+       id="linearGradient5629"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5631" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +35,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="-553.07147"
-     inkscape:cy="391.0714"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="358.13235"
+     inkscape:cy="486.64714"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,7 +47,7 @@
      fit-margin-bottom="0"
      inkscape:window-width="1280"
      inkscape:window-height="1376"
-     inkscape:window-x="0"
+     inkscape:window-x="17"
      inkscape:window-y="27"
      inkscape:window-maximized="0" />
   <metadata
@@ -64,16 +74,14 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sssss" />
     <path
-       sodipodi:nodetypes="cccccccccccccccccc"
        inkscape:connector-curvature="0"
-       id="polygon3390-3"
-       d="m 437.33038,279.93946 36.1487,-13.37313 -82.6225,-129.7337 -82.6213,129.7337 36.1497,13.37313 -78.0165,115.07232 57.0865,20.05967 -103.7297,141.77956 139.6855,37.89049 0,132.57885 0.5483,0 61.7928,0 0.5516,0 0,-132.57885 139.6855,-37.89049 -103.7296,-141.77956 57.0864,-20.05967 z"
-       style="fill:#000000;fill-opacity:0.27071826" />
+       id="path4296"
+       d="m 391.10327,140.61469 a 175,220.45686 0 0 0 -175,220.45703 175,220.45686 0 0 0 143.57618,216.69922 l 0,147.09179 62.85546,0 0,-147.01757 a 175,220.45686 0 0 0 143.56836,-216.77344 175,220.45686 0 0 0 -175,-220.45703 z"
+       style="fill:#000000;fill-opacity:0.27058825" />
     <path
-       sodipodi:nodetypes="cccccccccccccccccc"
-       inkscape:connector-curvature="0"
-       id="polygon3390"
-       d="m 416.18749,261.33888 36.14864,-13.37313 -82.62245,-129.7337 -82.62135,129.7337 36.14977,13.37313 -78.01654,115.07232 57.08649,20.05967 -103.72969,141.77956 139.68555,37.89049 0,132.57885 0.54829,0 61.79272,0 0.55164,0 0,-132.57885 L 540.84611,538.25043 437.11642,396.47087 494.2029,376.4112 Z"
-       style="fill:#3e8c21;fill-opacity:1" />
+       style="fill:#44a33f;fill-opacity:1"
+       d="m 371.10327,120.61469 a 175,220.45686 0 0 0 -175,220.45703 175,220.45686 0 0 0 143.57618,216.69922 l 0,147.09179 62.85546,0 0,-147.01757 a 175,220.45686 0 0 0 143.56836,-216.77344 175,220.45686 0 0 0 -175,-220.45703 z"
+       id="rect4237"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

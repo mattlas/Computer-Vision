@@ -15,7 +15,7 @@
    id="svg4133"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="pine.svg">
+   sodipodi:docname="larch.svg">
   <defs
      id="defs4135" />
   <sodipodi:namedview
@@ -74,6 +74,6 @@
        inkscape:connector-curvature="0"
        id="polygon3390"
        d="m 416.18749,261.33888 36.14864,-13.37313 -82.62245,-129.7337 -82.62135,129.7337 36.14977,13.37313 -78.01654,115.07232 57.08649,20.05967 -103.72969,141.77956 139.68555,37.89049 0,132.57885 0.54829,0 61.79272,0 0.55164,0 0,-132.57885 L 540.84611,538.25043 437.11642,396.47087 494.2029,376.4112 Z"
-       style="fill:#3e8c21;fill-opacity:1" />
+       style="fill:#aa7939;fill-opacity:1" />
   </g>
 </svg>
