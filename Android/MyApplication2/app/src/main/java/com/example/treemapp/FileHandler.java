@@ -237,7 +237,7 @@ public class FileHandler {
             }
             this.file=new File(fullFileName);
 
-            this.open();
+            open();
             return success;
 
         } catch (Exception e) {
@@ -258,7 +258,7 @@ public class FileHandler {
 
     @Override
     protected void finalize() throws Throwable {
-        this.close();
+        close();
         super.finalize();
     }
 
@@ -277,7 +277,7 @@ public class FileHandler {
                 if (line2.length == 9)
                     lineList.add(line2);
             }
-            this.save();
+            save();
         } catch (Exception e) {
             Log.getStackTraceString(e);
         }
@@ -389,8 +389,14 @@ public class FileHandler {
      * Closes and reopens the file
      */
     protected void save(){
-        this.close();
-        this.open();
+        close();
+        open();
     }
 
+    public void deleteAllTrees() {
+        close();
+        file.delete();
+        file = new File(fullFileName);
+        open();
+    }
 }

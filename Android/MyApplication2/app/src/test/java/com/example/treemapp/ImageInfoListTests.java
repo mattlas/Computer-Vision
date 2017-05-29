@@ -1,13 +1,10 @@
 package com.example.treemapp;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,18 +23,32 @@ public class ImageInfoListTests {
     @Before
     public void initialize() {
         fileName = "DSC01104_geotag.JPG";
-        String[] matrices = {"1,0,0,0,1,0,0,0,1,", "1,0,74,0,1,-12,0,0,1,", "1, 0,", "1,0,-12,0,1,-80,0,0,1,"};
+        String[] matrices = {"1,0,0,0,1,0,0,0,1,", "1,0,74,0,1,-12,0,0,1,", "1,0,-12,0,1,-80,0,0,1,"};
         String[] fileNames = {fileName, "DSC01105_geotag.JPG", "DSC01106_geotag.JPG"};
         String[] coordinates = {",3,3,", ",1,2,", ",9,7,"};
-        String randomNeighbors = "DSC01104_geotag.JPG,DSC01105_geotag.JPG,DSC01106_geotag.JPG,";
+        String randomNeighbors = "0,1,2,";
 
-        content = "";
+        content = ".15, 20, 21,\n";
 
         for (int i = 0; i < 3; i++) {
             content += fileNames[i] + coordinates[i] + matrices[i] + randomNeighbors + '\n';
         }
 
         reader = new BufferedReader(new StringReader(content));
+    }
+
+    @Test
+    public void thereAndBackAgain() {
+        ImageInfoListHandler iilh = new ImageInfoListHandler();
+        iilh.parseFileToHashMap(reader);
+        Pin pin = new Pin(0, 5, 5, 10, 10, fileName);
+
+        float[] xy = iilh.transformOrigToMosaic(pin);
+        xy = iilh.transformMosaicToOrig(xy[0], xy[1], pin.getImageFileName());
+
+        System.out.println(pin.getOrigX() + ", " + xy[0] + "\n" + pin.getOrigY() + ", " + xy[1]);
+        assertTrue(pin.getOrigX() == xy[0]);
+        assertTrue(pin.getOrigY() == xy[1]);
     }
 
     @Test

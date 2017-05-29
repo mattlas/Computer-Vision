@@ -121,7 +121,7 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     public boolean listIsEmpty () {
-        return pins == null || pins.isEmpty();
+        return (pins == null || pins.isEmpty());
     }
 
     /**
@@ -202,8 +202,6 @@ public class PinView extends SubsamplingScaleImageView {
 
         PointF point = sourceToViewCoord(pin.getPoint());
 
-        int drawableName;
-
         boolean fileExists = true;
 
         String species="Other";
@@ -212,29 +210,14 @@ public class PinView extends SubsamplingScaleImageView {
             species=pin.getSpecies();
         }
 
-        switch (species.toLowerCase()){
-            case "spruce": drawableName=R.drawable.spruce;
-                break;
-            case "pine": drawableName=R.drawable.pine;
-                break;
-            case "alder": drawableName=R.drawable.alder;
-                break;
-            case "aspen": drawableName=R.drawable.aspen;
-                break;
-            case "rowan": drawableName=R.drawable.rowan;
-                break;
-            case "birch": drawableName=R.drawable.birch;
-                break;
-            case "oak": drawableName=R.drawable.oak;
-                break;
-            case "other":   //Pass to next line
-            default : drawableName=R.drawable.empty;
-                break;
+        int drawableName = getResources().getIdentifier(species.replaceAll(" ","_").toLowerCase(),"drawable",getContext().getPackageName());
+
+        if (drawableName == 0) {
+            drawableName=R.drawable.empty;
         }
 
 
         float pinWidth = getResources().getDimension(R.dimen.pin_width);
-        Log.d(TAG,"pinWidth = "+pinWidth);
         if (fileExists) { // draw the pin
             Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
             int w=(int)pinWidth;

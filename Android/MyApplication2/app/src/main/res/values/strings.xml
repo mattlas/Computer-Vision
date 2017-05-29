@@ -11,6 +11,8 @@
     <string name="directory_placeholder">/usr/files/</string>
     <string name="directory_button">Change directory</string>
 
+    <string name="delete_treelist_button">Delete current treelist</string>
+
 
     <!--trees species-->
     <string name="pine">Pine</string>
@@ -29,15 +31,19 @@
     <string name="cherry">Cherry</string>
     <string name="fir">Fir</string>
     <string name="hazel">Hazel</string>
-    <string name="horseChestnut">Horse Chestnut</string>
+    <string name="chestnut">Horse Chestnut</string>
     <string name="lind">Lind</string>
     <string name="larch">Larch</string>
     <string name="maple">Maple</string>
     <string name="oxel">Oxel</string>
-    <string name="sallow">Sallow</string>
+    <string name="willow">Willow</string>
     <string name="other">Other</string>
 
 
     <string name="title_activity_statistics">StatisticsActivity</string>
+    <string name="delete_treelist_message">All recorded trees that have not been exported will be lost.</string>
+    <string name="delete_treelist_title">Delete local treelist</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

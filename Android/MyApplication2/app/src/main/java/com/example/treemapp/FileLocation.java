@@ -40,7 +40,7 @@ public class FileLocation {
         File sub = new File(sd + "TMS/mosaic");
 
         if (sub.exists()) {
-            sd = sub.getAbsolutePath() + "/";
+            sd = sub.getAbsolutePath();
 
             if (new File(sd + "mosaic.png").exists()) {
                 Log.d("Hello ", "mosaic.png exists");

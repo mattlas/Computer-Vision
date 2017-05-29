@@ -1,6 +1,9 @@
 package com.example.treemapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ public class SettingsFragment extends Fragment {
     private static final int REQUEST_CHOOSER = 1234;
     private static final String TAG = SettingsFragment.class.getSimpleName();
     Settings settings = null;
+    public FileHandler fileHandler;
     private String packageName;
     private ListView lv;
     private TextView tv;
@@ -56,16 +60,28 @@ public class SettingsFragment extends Fragment {
         //lv.setAdapter(new SetChbAdapter(view.getContext(), settings.getTreesSpeciesChb()));
 
 
-        CompoundButton.OnCheckedChangeListener list = new CompoundButton.OnCheckedChangeListener(){
+        Button deleteListButton = (Button) view.findViewById(R.id.btn_delete_treelist);
+        deleteListButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                String tree = (String) buttonView.getTag();
-                if(isChecked)
-                    settings.addToChecked(tree);
-                else
-                    settings.removeFromChecked(tree);
+            public void onClick(View v) {
+
+                deleteListDialog();
+
+
+
             }
-        };
+        });
+
+        CompoundButton.OnCheckedChangeListener list = new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        String tree = (String) buttonView.getTag();
+                        if (isChecked)
+                            settings.addToChecked(tree);
+                        else
+                            settings.removeFromChecked(tree);
+                    }
+                };
 
         for(String tree:settings.getTreesSpeciesAll()){
             int id =  getResources().getIdentifier("chb_" + tree.toLowerCase(), "id", packageName);
@@ -83,7 +99,9 @@ public class SettingsFragment extends Fragment {
             String tree = pi.getText();
             int id =  getResources().getIdentifier("chb_" + tree, "id", packageName);
             CheckBox cb = (CheckBox) view.findViewById(id);
+            Log.d(TAG,"Tree: "+tree);
             cb.setChecked(true);
+
         }
 
         TextView tv = (TextView) view.findViewById(R.id.directory_textview);
@@ -93,15 +111,40 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    private void deleteListDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.delete_treelist_message);
+        builder.setTitle(R.string.delete_treelist_title);
+
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fileHandler.deleteAllTrees();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+    }
+
     /**
      * gets objects needed for init
      * @param settings the Settings instance
      * @param packageName the package name of an app
      */
-    public void init(Settings settings, String packageName) {
+    public void init(Settings settings, FileHandler fileHandler, String packageName) {
         this.settings = settings;
         this.packageName = packageName;
+        this.fileHandler = fileHandler;
     }
+
+
 
 
 

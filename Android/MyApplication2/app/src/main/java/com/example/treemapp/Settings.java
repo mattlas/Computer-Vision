@@ -18,12 +18,12 @@ public class Settings extends Fragment {
 
     private String[] treesSpeciesAll;
     private List<CarouselPicker.PickerItem> treesSpeciesChosen;
-    private int carouselSize = 12;
+    public static final int carouselSize = 12;
     private CheckboxModel[] treesSpeciesChb;
 
     public Settings(){
 
-        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "horseChestnut", "lind", "larch", "maple", "oxel","sallow", "other" };
+        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "chestnut", "lind", "larch", "maple", "oxel","willow", "other" };
         treesSpeciesChb = new CheckboxModel[treesSpeciesAll.length];
         treesSpeciesChosen = new ArrayList<>();
         int i = 0;
