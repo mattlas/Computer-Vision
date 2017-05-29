@@ -1,5 +1,7 @@
 package com.example.treemapp;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
@@ -9,59 +11,46 @@ import java.io.File;
  */
 
 public class FileLocation {
-    private static final String TAG = FileLocation.class.getSimpleName();
-    private static String fileLocation = getFileSystemSDcardName();
-    private static String listLocation = "/TreemApp/";
 
+    private static final String TAG = FileLocation.class.getSimpleName();
+    private static String listLocation = "/TreemApp/";
+    private static String fileLocation = null;
+
+    /**
+     * This can only be run after getFileSystemSDCard name has been run
+     * @return
+     */
     public static String getSD() {
         return fileLocation;
     }
 
-    public static String getMosaicFolder() {
-        return getSD() + "mosaic/";
-    }
+    /**
+     * This line of code finds the mosaic, has to be run before FileLocation is usable,
+     * run from main activity in onCreate before any file things
+     */
+    @NonNull
+    public static String getFileSystemSDCardName(Context context) {
+        File[] paths = context.getExternalFilesDirs(null);
+        String sd = "ERROR";
 
-    public static String getImagesFolder() {
-        return getMosaicFolder() + "images/";
+        if (paths.length > 1) {
+            sd = paths[1].getAbsolutePath().split("Android")[0];
+        }
+
+        File sub = new File(sd + "TMS/mosaic");
+
+        if (sub.exists()) {
+            sd = sub.getAbsolutePath() + "/";
+
+            if (new File(sd + "mosaic.png").exists()) {
+                Log.d("Hello ", "mosaic.png exists");
+            }
+        }
+
+        fileLocation = sd + "/";
+
+        return fileLocation;
     }
 
     public static String getListLocation(){return listLocation;}
-
-    public static boolean changeSDLocation(String location) {
-        if(new File(location).exists()) {
-            fileLocation = location;
-            return true;
-        }
-        else {
-            Log.e(TAG, "that folder does not exist... sooo I am not going to change. Folder you sent was '" + location + "'");
-            return false;
-        }
-    }
-
-    private static String getFileSystemSDcardName() {
-        String folder = "ERROR";
-
-        if(new File("/storage/extSdCard/").exists()) {
-            folder="/storage/extSdCard/";
-            Log.i("Sd Cardext Path",folder);
-        }
-        else if(new File("/storage/sdcard1/").exists()) {
-            folder="/storage/sdcard1/";
-            Log.i("Sd Card1 Path",folder);
-        }
-        else if(new File("/storage/usbcard1/").exists()) {
-            folder="/storage/usbcard1/";
-            Log.i("USB Path",folder);
-        }
-        else if(new File("/storage/sdcard0/").exists()) {
-            folder="/storage/sdcard0/";
-            Log.i("Sd Card0 Path",folder);
-        }
-        else { // For use with emulator
-            folder="/storage/emulated/0/";
-            Log.i("Emulated SD path", folder);
-        }
-
-        return folder+"Android/data/com.example.treemapp/";
-    }
 }

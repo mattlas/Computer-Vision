@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName = FileLocation.getSD();
+    private String folderName;
     private boolean foundMosaic = false;
 
     public boolean isMosaicIsFound() {
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private float yPinOffset;
     static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
@@ -88,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(checkPermission())
             Log.d(TAG, "I do have permission");
 
+
+        this.yPinOffset = getResources().getDimension(R.dimen.pin_selection_offset);
+
+        folderName = FileLocation.getFileSystemSDCardName(getApplicationContext());
 
         settings = new Settings();
 
@@ -122,15 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        FileNotFoundDialog.setClickListener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //we don't care about a lot of things, just open the settings
-                drawer.openDrawer(Gravity.LEFT);
-                startSettings();
-
-            }
-        });
 
     }
 
@@ -158,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 foundMosaic = true;
             }
             else {
-                FileNotFoundDialog.popup(this,"mosaic");
+                Log.e(TAG,"Mosaic image file not found");
                 imageView.setImage(ImageSource.resource(R.drawable.could_not_find_file)); //default if we can't find mosaic
             }
         }
@@ -194,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
-            FileNotFoundDialog.popup(this,"imageList");
         }
         pin.setOrigCoor(origCoor[0], origCoor[1]);
 
@@ -211,8 +206,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (imageView.isReady()) {
-                    if (dragPin != null) { // TODO fix the area for dragging the pin - it's still set to a circle around the point, should be a rectangle where the pin icon is
-                        latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
+                    if (dragPin != null) {
+                        latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY()+yPinOffset);
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -268,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     *  editing the pin in the file and pin list and shows the menu for the pin
+     *  edits the pin in the file and pin list and shows the menu for the pin
      */
     void editOriginals(Pin pin) {
         PointF sCoord = new PointF(pin.getX(), pin.getY());
@@ -322,9 +317,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!imageView.listIsEmpty()) {
 
-            dragPin = imageView.getClosestPin(e.getX(), e.getY());
+
+            dragPin = imageView.getClosestPin(e.getX(), e.getY()+yPinOffset);
             Log.d(TAG, "y="+e.getY());
-            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()) < dragPin.getCollisionRadius()) {
+            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()+yPinOffset) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);

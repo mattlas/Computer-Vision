@@ -284,7 +284,6 @@ public class FileHandler {
         String imageFileName;
         ImageInfo info;
 
-
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             if (line.length == 9){
@@ -317,7 +316,7 @@ public class FileHandler {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
                     if (mainActivity != null) {
-                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                        Log.e(TAG,"Image info list not found");
                     }
 
                     mosaicX=origX;
