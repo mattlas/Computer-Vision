@@ -5,7 +5,7 @@
 
 namespace neighbours {
 std::vector<std::vector<HomographyData>> pairs(
-		std::vector<ImageData> nodes){
+		std::vector<ImageData*> nodes){
 	std::vector <HomographyData > filtered;
 	std::vector<std::vector<double>> distances;
 	std::vector < std::vector < HomographyData >> pairs;
@@ -19,16 +19,16 @@ std::vector<std::vector<HomographyData>> pairs(
 	double maxheight = 0;
 	double altitude = 0;
 	for(std::size_t i = 0; i < nodes.size(); i++){
-		altitude = nodes[i].getInfo().GeoLocation.Altitude;
+		altitude = nodes[i]->getInfo().GeoLocation.Altitude;
 		if(maxheight < altitude){
 			maxheight = altitude;
 		}
 	}
 
 	for(std::size_t i = 0; i < nodes.size(); i++){
-		if(0.98 * maxheight <= nodes[i].getInfo().GeoLocation.Altitude){
+		if(0.98 * maxheight <= nodes[i]->getInfo().GeoLocation.Altitude){
             HomographyData *homographyData = new HomographyData();
-            homographyData->setImageData(&nodes[i]);
+            homographyData->setImageData(nodes[i]);
 			filtered.push_back(*homographyData);
 		}
 	}
@@ -60,6 +60,7 @@ std::vector<std::vector<HomographyData>> pairs(
 		for(std::size_t j = 0; j < filtered.size(); j++){
 
 			double d = distances[i][j];
+            std::cout << "neigbhourlimit" << neighbourlimit << std::endl;
 			if(neighbourlimit > d){
 				neighbourlimit = d;
 			}

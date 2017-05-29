@@ -10,6 +10,6 @@
 
 
 namespace neighbours {
-std::vector<std::vector<HomographyData>> pairs(std::vector<ImageData> nodes);
+std::vector<std::vector<HomographyData>> pairs(std::vector<ImageData*> nodes);
 }
 #endif

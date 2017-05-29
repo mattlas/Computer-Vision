@@ -16,23 +16,22 @@ private:
     ImageData *imageData;
     float distance;
     cv::Mat homography;
-    HomographyData prevNode;
+    HomographyData* prevNode;
     int recursionDepth;
-public:
-    int getRecursionDepth() const;
 
-    void setRecursionDepth(int recursionDepth);
+
 
 
 public:
 
     HomographyData(ImageData imageData, float range,
-                   cv::Mat homography, HomographyData prevNode) : imageData(&imageData),
+                   cv::Mat homography, HomographyData *prevNode) : imageData(&imageData),
                                                      distance(range),
                                                      homography(homography),
                                                      prevNode(prevNode){}
 
-    HomographyData() : recursionDepth(std::numeric_limits<int>::max()){}
+    HomographyData(void) : recursionDepth(std::numeric_limits<int>::max()){}
+
 
 
 
@@ -40,12 +39,8 @@ public:
         return distance;
     }
 
-    const HomographyData &getPrevNode() const;
-
-    void setPrevNode(const HomographyData &prevNode);
-
-    void setDistance(float range) {
-        HomographyData::distance = range;
+    void setDistance(float distance) {
+        HomographyData::distance = distance;
     }
 
     const cv::Mat &getHomography() const {
@@ -56,7 +51,21 @@ public:
         HomographyData::homography = homography;
     }
 
+    HomographyData *getPrevNode() const {
+        return prevNode;
+    }
 
+    void setPrevNode(HomographyData *prevNode) {
+        HomographyData::prevNode = prevNode;
+    }
+
+    int getRecursionDepth() const {
+        return recursionDepth;
+    }
+
+    void setRecursionDepth(int recursionDepth) {
+        HomographyData::recursionDepth = recursionDepth;
+    }
 
     ImageData *getImageData() const {
         return imageData;
@@ -65,6 +74,8 @@ public:
     void setImageData(ImageData *imageData) {
         HomographyData::imageData = imageData;
     }
+
+
 
 
 };

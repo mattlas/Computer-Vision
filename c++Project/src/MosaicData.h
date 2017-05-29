@@ -29,7 +29,7 @@ class MosaicData : public QObject{
 
 private:
     //std::unordered_map<int,ImageData> imageList;
-    std::vector<ImageData> imageList;
+    std::vector<ImageData*> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;
@@ -90,14 +90,15 @@ private:
     void createImages();
     void stitchImages();
     void findPath();
-    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData prevNode, int recursionDepth);
+    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData *prevNode, int recursionDepth);
     void calculateHomographies(std::vector<HomographyData> finalHomList);
+    void recurseHomographies(HomographyData data);
 
 
 signals:
     void finished();
 
-    void recurseHomographies(HomographyData data);
+
 };
 
 

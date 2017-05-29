@@ -34,8 +34,9 @@ void MosaicData::startProcess() {
     std::cout << "extracting featurepoints" << std::endl;
     std::cout << "create threads" << std::endl;
     //createThreads();
-    std::cout << "ubc match" << std::endl;
+    std::cout << "find match" << std::endl;
     findPath();
+    std::cout << "calculate homographies" << std::endl;
     calculateHomographies(homographyList);
     //find
     //ubcMatch();
@@ -77,10 +78,10 @@ void MosaicData::createImages() {
         imageData->setPath(im->getJpgFileNames().at(i));
 
 	    imageData->setInfo(exif::read(imageData->getPath()));
-        imageList.insert(imageList.begin()+i,*imageData);
+        imageList.insert(imageList.begin()+i,imageData);
         tempID++;
     }
-    referenceImage = &imageList.at(imageList.size()/2);
+    referenceImage = imageList.at(imageList.size()/2);
 
 }
 
@@ -95,7 +96,7 @@ void MosaicData::extractFeaturePoints() {
         FeaturePoints *points = new FeaturePoints(file,id);
         points->calculatePoints();
         featurePointList.push_back(*points);
-        imageList.at(id).setFeaturePoints(points);
+        imageList.at(id)->setFeaturePoints(points);
 
         id++;
     }
@@ -207,20 +208,20 @@ void MosaicData::findPath() {
     startNode.setRecursionDepth(recursionDepth);
     for (int i = 0; i < startPairs.size()-1; ++i) {
         HomographyData node = startPairs.at(i+1);
-        calculatePairs(imagePairs.at(node.getImageData()->getId()),startNode,recursionDepth+1);
+        calculatePairs(imagePairs.at(node.getImageData()->getId()),&startNode,recursionDepth+1);
     }
 
 
 }
 
-void MosaicData::calculatePairs(std::vector<HomographyData> &currentlist, HomographyData prevNode, int recursionDepth ) {
+void MosaicData::calculatePairs(std::vector<HomographyData> &currentlist, HomographyData *prevNode, int recursionDepth ) {
     HomographyData currentNode = currentlist.at(0);
     if(recursionDepth < currentNode.getRecursionDepth()){
         currentNode.setRecursionDepth(recursionDepth);
         currentNode.setPrevNode(prevNode);
         for (int i = 0; i < currentlist.size()-1; ++i) {
             HomographyData newNode = currentlist.at(i+1);
-            calculatePairs(imagePairs.at(newNode.getImageData()->getId()),currentNode,recursionDepth+1);
+            calculatePairs(imagePairs.at(newNode.getImageData()->getId()),&currentNode,recursionDepth+1);
 
         }
 
@@ -236,14 +237,17 @@ void MosaicData::calculateHomographies(std::vector<HomographyData> finalHomList)
 }
 
 void MosaicData::recurseHomographies(HomographyData data) {
-    MatchPoints *matcher = new MatchPoints(*data.getPrevNode().getImageData()->getFeaturePoints(),
-                                           *data.getImageData()->getFeaturePoints());
-    cv::Mat homography = matcher->getHomography();
-    if(data.getPrevNode().getHomography().empty()){
-        recurseHomographies(data.getPrevNode());
-    }
+    if(data.getPrevNode() != NULL){
+        MatchPoints *matcher = new MatchPoints(*data.getPrevNode()->getImageData()->getFeaturePoints(),
+                                               *data.getImageData()->getFeaturePoints());
+        cv::Mat homography = matcher->getHomography();
+        if(data.getPrevNode()->getHomography().empty()){
+            recurseHomographies(*data.getPrevNode());
+        }
 
-    homography = homography * data.getPrevNode().getHomography();
+        homography = homography * data.getPrevNode()->getHomography();
+
+    }
 }
 
 
