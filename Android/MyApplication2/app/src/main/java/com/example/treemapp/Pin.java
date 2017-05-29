@@ -37,7 +37,7 @@ public class Pin implements Serializable{
 
         this.id = id;
         this.radius = 30;
-        this.collisionRadius = 30;
+        this.collisionRadius = 40;
         this.imageFileName = imageFileName;
         this.ox = origImage.x;
         this.oy = origImage.y;
