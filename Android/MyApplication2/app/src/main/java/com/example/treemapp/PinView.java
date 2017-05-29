@@ -121,7 +121,7 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     public boolean listIsEmpty () {
-        return pins == null || pins.isEmpty();
+        return (pins == null || pins.isEmpty());
     }
 
     /**
@@ -218,7 +218,6 @@ public class PinView extends SubsamplingScaleImageView {
 
 
         float pinWidth = getResources().getDimension(R.dimen.pin_width);
-        Log.d(TAG,"pinWidth = "+pinWidth);
         if (fileExists) { // draw the pin
             Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
             int w=(int)pinWidth;

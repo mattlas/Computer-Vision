@@ -530,7 +530,21 @@ public class Overlay extends View {
     }
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
-        return settings.getTreesSpeciesChosen();
+        List<CarouselPicker.PickerItem> treeList = settings.getTreesSpeciesChosen();
+        List<CarouselPicker.PickerItem> newList = new ArrayList<>();
+
+        for (CarouselPicker.PickerItem item : treeList){
+            String text = item.getText();
+            String newText;
+            int id = mainActivity.getResources().getIdentifier(text, "string", mainActivity.getPackageName());
+            newText = mainActivity.getResources().getString(id);
+            CarouselPicker.PickerItem newItem = new CarouselPicker.TextItem(newText,settings.carouselSize);
+
+            newList.add(newItem);
+        }
+
+        return newList;
+
     }
 
     @NonNull
