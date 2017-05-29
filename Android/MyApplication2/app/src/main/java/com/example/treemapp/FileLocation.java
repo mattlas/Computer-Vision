@@ -33,9 +33,8 @@ public class FileLocation {
         File[] paths = context.getExternalFilesDirs(null);
         String sd = "ERROR";
 
-        if (paths.length > 1) {
+        if (paths.length > 1 && paths[1] != null && paths[1].exists()) {
             sd = paths[1].getAbsolutePath().split("Android")[0];
-
         }
 
         File sub = new File(sd + "TMS/mosaic");

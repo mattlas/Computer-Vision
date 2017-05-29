@@ -205,13 +205,11 @@ public class Overlay extends View {
     public void edit(final Pin pin) {
         inputOverlayEdit.setVisibility(View.VISIBLE);
 
-        Log.d(mainActivity.TAG, "Tree detail edit overlay opened");
-
-        //TODO, put values here
+        Log.d(MainActivity.TAG, "Tree detail edit overlay opened");
 
         final NumberPicker height = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_height_edit);
         final NumberPicker diameter = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_diameter_edit);
-        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker_edit);
+        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carousel_picker_edit);
         final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
         final ImageButton closeButton= (ImageButton) mainActivity.findViewById(R.id.btn_imagepicker_exit);
@@ -369,6 +367,7 @@ public class Overlay extends View {
                                 float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
                                 // Change coordinates of pin
                                 pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                pin.setImageFileName(new File(filePath).getName());
                                 // Change displayed image to clicked perspective
                                 main.setImage(ImageSource.uri(filePath));
                                 main.setVisibility(View.VISIBLE);
@@ -393,7 +392,6 @@ public class Overlay extends View {
                 }
             }
         }
-
 
         ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
 
@@ -453,9 +451,6 @@ public class Overlay extends View {
         ImageButton imgBtn;
         for (int i = -1; i < 3; i++) {
             imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
-
-
-
             final String filePath;
             if (neighbors.size() > i) {
                 // First ImageButton: original
@@ -469,15 +464,15 @@ public class Overlay extends View {
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d(TAG, "hello");
-                        Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Stop", Toast.LENGTH_LONG);
-                        t.show();
+                        //Log.d(TAG, "hello");
+                        //Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Stop", Toast.LENGTH_LONG);
+                        //t.show();
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 // If image is not the pins image -> set mark instead of pin
                                 if (!filePath.equals(fullFileName)) {
-                                    drawMark(pin.getPoint());
+                                    //drawMark(pin.getPoint());
 
                                     // If image is the pins image -> set pin
                                 } else {
