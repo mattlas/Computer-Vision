@@ -36,8 +36,9 @@ import org.apache.commons.math3.linear.*;
 public class FileHandler {
 
     private String fileName = "treeList.csv";
+    private String listDirectory = FileLocation.getListLocation();
     private String directory = FileLocation.getSD();
-    private String fullFileName= directory+fileName;
+    private String fullFileName= listDirectory+fileName;
 
     private BufferedReader br;
     private BufferedWriter bw;

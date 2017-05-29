@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
+        if(checkPermission())
+            Log.d(TAG, "I do have permission");
+
 
         settings = new Settings();
 

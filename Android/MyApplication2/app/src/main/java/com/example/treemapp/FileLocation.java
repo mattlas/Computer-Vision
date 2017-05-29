@@ -11,6 +11,7 @@ import java.io.File;
 public class FileLocation {
     private static final String TAG = FileLocation.class.getSimpleName();
     private static String fileLocation = getFileSystemSDcardName();
+    private static String listLocation = "/TreemApp/";
 
     public static String getSD() {
         return fileLocation;
@@ -23,6 +24,8 @@ public class FileLocation {
     public static String getImagesFolder() {
         return getMosaicFolder() + "images/";
     }
+
+    public static String getListLocation(){return listLocation;}
 
     public static boolean changeSDLocation(String location) {
         if(new File(location).exists()) {

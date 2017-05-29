@@ -35,6 +35,7 @@
     <string name="maple">Maple</string>
     <string name="oxel">Oxel</string>
     <string name="sallow">Sallow</string>
+    <string name="other">Other</string>
 
 
     <string name="title_activity_statistics">StatisticsActivity</string>

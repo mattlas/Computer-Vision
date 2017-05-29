@@ -106,7 +106,6 @@ public class Pin implements Serializable{
         this.diameter = diameter;
         this.height = height;
         this.species = species;
-        this.speciesStr = speciesStr;
     }
 
     public void setId(int id){

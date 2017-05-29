@@ -23,8 +23,7 @@ public class Settings extends Fragment {
 
     public Settings(){
 
-        // TODO put all possible species
-        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "horseChestnut", "lind", "larch", "maple", "oxel","sallow" };
+        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "horseChestnut", "lind", "larch", "maple", "oxel","sallow", "other" };
         treesSpeciesChb = new CheckboxModel[treesSpeciesAll.length];
         treesSpeciesChosen = new ArrayList<>();
         int i = 0;
@@ -46,7 +45,7 @@ public class Settings extends Fragment {
     }
 
       /**
-     * Adds to the checked tree list chosen tree
+     * Adds @param tree to the checked tree list chosen tree
      * @param tree the name of the tree to add to the list
      */
     public void addToChecked(String tree) {
@@ -55,7 +54,7 @@ public class Settings extends Fragment {
     }
 
     /**
-     * Search for the objext in the list of specified name
+     * Search for the object in the list of specified name
      * @param tree - the name of the tree to be found in the list
      * @return position of the object, -1 if there is no object
      */
