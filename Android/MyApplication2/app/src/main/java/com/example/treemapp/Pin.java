@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class Pin implements Serializable{
 
-    private final int collisionRadius;
+    private int collisionRadius;
     private float sx;
     private float sy;
     private int id;
@@ -31,25 +31,28 @@ public class Pin implements Serializable{
     * Make sure you are passing in image coordinates here
     * */
 
-    public Pin(int id, @NonNull PointF sPin, @NonNull PointF origImage, String imageFileName) {
-        this.sx = sPin.x;
-        this.sy = sPin.y;
+    public Pin(int id, @NonNull PointF sPin, @NonNull PointF origPoint, String imageFileName) {
+        init(id, sPin.x, sPin.y, origPoint.x, origPoint.y, imageFileName);
+    }
+
+    private void init(int id, float x, float y, float ox, float oy, String imageFileName) {
+        this.sx = x;
+        this.sy = y;
 
         this.id = id;
         this.radius = 30;
         this.collisionRadius = 40;
         this.imageFileName = imageFileName;
-        this.ox = origImage.x;
-        this.oy = origImage.y;
+        this.ox = ox;
+        this.oy = oy;
     }
 
     public Pin(int id, float x, float y, float ox, float oy, String imageFileName) {
-        this(id, new PointF(x, y), new PointF(ox, oy), imageFileName);
-
+        init(id, x, y, ox, oy, imageFileName);
     }
 
     public Pin(@NonNull PointF sCoor, @NonNull PointF oCoor, String imageFileName){
-        this(-1,sCoor, oCoor, imageFileName);
+        init(id, sCoor.x, sCoor.y, oCoor.x, oCoor.y, imageFileName);
     }
 
     public void setImageFileName(String imageFileName) {

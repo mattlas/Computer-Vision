@@ -3,7 +3,6 @@ package com.example.treemapp;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -22,7 +21,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.graphics.PointF;
@@ -39,6 +37,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+import static android.support.v4.content.FileProvider.getUriForFile;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
@@ -173,9 +172,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // TODO try on tablet
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        Uri csv = filehandler.getUri();
+        File listFile = new File(this.getFilesDir(), filehandler.getFileName());
+        Uri csv = getUriForFile(getApplicationContext(), "com.example.treemapp.fileprovider", listFile);
+        File file = new File(csv.getPath());
+        if (file.length()!=0)
+            Log.d(TAG, "file to export exists");
+        else
+            Log.d(TAG, "file to export does NOT exist");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, csv);
         sharingIntent.setType("text/html");
+        if (file.length()!=0)
+            Log.d(TAG, "file to export exists");
+        else
+            Log.d(TAG, "file to export does NOT exist");
         startActivity(sharingIntent);
     }
 
@@ -247,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
         String filename = ii.getFileName();
 
-        float[] origCoor = imageInfoListHandler.getTransformMosaicToOriginal(sCoord.x, sCoord.y, ii);
+        float[] origCoor = imageInfoListHandler.transformMosaicToOrig(sCoord.x, sCoord.y, ii);
 
         Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 

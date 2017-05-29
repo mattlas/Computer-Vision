@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -15,14 +14,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
@@ -44,7 +41,7 @@ public class Overlay extends View {
 
     private final RelativeLayout imagePickerOverlay;
 
-    private final LinearLayout fakeView2;
+
     private PinView originalView;
     private Settings settings;
 
@@ -57,17 +54,19 @@ public class Overlay extends View {
     public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout overLayedActivityEdit, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
         super(mainActivity);
         this.mainActivity = mainActivity;
+
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.inputOverlayEdit = overLayedActivityEdit;
+
         this.fakeView = fakeView;
-        this.fakeView2 = fakeView2;
         this.settings = settings;
 
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE;
+                //if this is true you can not press on the back layers, we want it to be true of any overlay is visible
+                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE || inputOverlayEdit.getVisibility() == View.VISIBLE;
             }
         });
 
@@ -80,7 +79,7 @@ public class Overlay extends View {
         super.onDraw(canvas);
         this.canvas = canvas;
 
-        PointF point = new PointF(0, 1);
+        PointF point;
         //point = sourceToViewCoord(pin.getPoint());
         point = pin.getPoint();
         drawMark(point);
@@ -333,7 +332,7 @@ public class Overlay extends View {
         main.setVisibility(View.VISIBLE);
 
         // Mosaic Coordinates
-        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -431,7 +430,7 @@ public class Overlay extends View {
         main.setVisibility(View.VISIBLE);
 
         // Mosaic Coordinates
-        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -458,9 +457,6 @@ public class Overlay extends View {
                                 if (!filePath.equals(fullFileName)) {
                                     //main.removePin(pin);
                                     //invalidate();
-
-                                    // Switch to perspective image and set pin accordingly (newly calculated coordinates)
-                                    // New calculated coordinates
 
                                     imageListenerCode(file, pin, filePath, main);
 
@@ -519,8 +515,8 @@ public class Overlay extends View {
     }
 
     private void imageListenerCode(File file, Pin pin, String filePath, OnePinView main) {
-        float[] mos = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
-        float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mos[0], mos[1], file.getName());
+        float[] mos = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
+        float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mos[0], mos[1], file.getName());
         // Change coordinates of pin
         pin.setOrigCoor(originalCoord[0], originalCoord[1]);
         pin.setImageFileName(new File(filePath).getName());
