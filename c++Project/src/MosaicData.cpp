@@ -36,7 +36,7 @@ void MosaicData::startProcess() {
     //createThreads();
     std::cout << "ubc match" << std::endl;
     findShortestPath();
-    ubcMatch();
+    //ubcMatch();
     std::cout << "ubc match done" << std::endl;
     stitchImages();
     emit finished();
