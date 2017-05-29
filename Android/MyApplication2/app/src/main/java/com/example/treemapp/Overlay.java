@@ -121,7 +121,7 @@ public class Overlay extends View {
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
 
         // Components of the input menu
-        final Button exitBtn = (Button) mainActivity.findViewById(R.id.btn_Exit);
+        final ImageButton exitBtn = (ImageButton) mainActivity.findViewById(R.id.btn_Exit);
         final NumberPicker height = (NumberPicker) mainActivity.findViewById(R.id.inp_height);
         final NumberPicker diameter = (NumberPicker) mainActivity.findViewById(R.id.inp_diameter);
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker);
@@ -140,7 +140,7 @@ public class Overlay extends View {
 
         // Buttons to save inputs according to a pin/delete a pin
         Button save = (Button) mainActivity.findViewById(R.id.btn_save);
-        Button delete = (Button) mainActivity.findViewById(R.id.btn_cancel);
+        //Button delete = (Button) mainActivity.findViewById(R.id.btn_cancel);
 
         // When save clicked - save info to the file and to the pin list
         save.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +159,7 @@ public class Overlay extends View {
             }
         });
 
+        /*
         // When delete clicked - don't save the info and delete the pin
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +169,7 @@ public class Overlay extends View {
                 mainActivity.getImageView().invalidate();
             }
         });
+        */
 
         // when X is clicked - the same as delete button
         exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -223,8 +225,8 @@ public class Overlay extends View {
         Toast.makeText(mainActivity.getApplicationContext(), "Data saved." + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
         carouselPicker.setCurrentItem(getSpeciesPosition(formerSpecies, speciesList));
 
-        Button save = (Button) inputOverlay.findViewById(R.id.btn_save);
-        Button delete = (Button) inputOverlay.findViewById(R.id.btn_cancel);
+        Button save = (Button) inputOverlay.findViewById(R.id.btn_save_edit);
+        Button delete = (Button) inputOverlay.findViewById(R.id.btn_cancel_edit);
 
         // when save clicked - save info to the pin list, change the line in the file
         save.setOnClickListener(new View.OnClickListener() {
