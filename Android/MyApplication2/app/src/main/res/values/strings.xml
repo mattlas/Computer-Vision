@@ -42,7 +42,7 @@
 
     <string name="title_activity_statistics">StatisticsActivity</string>
     <string name="delete_treelist_message">All recorded trees that have not been exported will be lost.</string>
-    <string name="delete_treelist_title">Delete local treelist</string>
+    <string name="delete_treelist_title">Delete local treelist?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 

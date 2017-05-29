@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+import static android.support.v4.content.FileProvider.getUriForFile;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
@@ -171,9 +172,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // TODO try on tablet
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        Uri csv = filehandler.getUri();
+        File listFile = new File(this.getFilesDir(), filehandler.getFileName());
+        Uri csv = getUriForFile(getApplicationContext(), "com.example.treemapp.fileprovider", listFile);
+        File file = new File(csv.getPath());
+        if (file.length()!=0)
+            Log.d(TAG, "file to export exists");
+        else
+            Log.d(TAG, "file to export does NOT exist");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, csv);
         sharingIntent.setType("text/html");
+        if (file.length()!=0)
+            Log.d(TAG, "file to export exists");
+        else
+            Log.d(TAG, "file to export does NOT exist");
         startActivity(sharingIntent);
     }
 
@@ -316,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             dragPin = imageView.getClosestPin(e.getX(), e.getY()+yPinOffset);
-            Log.d(TAG, "y="+e.getY());
             if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()+yPinOffset) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
@@ -385,8 +395,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .addToBackStack(null)
                     .commit();
         }else if (id == R.id.nav_home) {
-            getFragmentManager().popBackStack();
-        }else if (id == R.id.nav_manage){
+            getFragmentManager().popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            }else if (id == R.id.nav_manage){
             startSettings();
         }
 

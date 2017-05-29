@@ -99,7 +99,6 @@ public class SettingsFragment extends Fragment {
             String tree = pi.getText();
             int id =  getResources().getIdentifier("chb_" + tree, "id", packageName);
             CheckBox cb = (CheckBox) view.findViewById(id);
-            Log.d(TAG,"Tree: "+tree);
             cb.setChecked(true);
 
         }
@@ -131,6 +130,8 @@ public class SettingsFragment extends Fragment {
         });
 
         AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 
     /**

@@ -41,7 +41,7 @@ public class Overlay extends View {
 
     private final RelativeLayout imagePickerOverlay;
 
-    private final LinearLayout fakeView2;
+
     private PinView originalView;
     private Settings settings;
 
@@ -54,17 +54,19 @@ public class Overlay extends View {
     public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout overLayedActivityEdit, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
         super(mainActivity);
         this.mainActivity = mainActivity;
+
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.inputOverlayEdit = overLayedActivityEdit;
+
         this.fakeView = fakeView;
-        this.fakeView2 = fakeView2;
         this.settings = settings;
 
         this.fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE;
+                //if this is true you can not press on the back layers, we want it to be true of any overlay is visible
+                return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE || inputOverlayEdit.getVisibility() == View.VISIBLE;
             }
         });
 
@@ -77,7 +79,7 @@ public class Overlay extends View {
         super.onDraw(canvas);
         this.canvas = canvas;
 
-        PointF point = new PointF(0, 1);
+        PointF point;
         //point = sourceToViewCoord(pin.getPoint());
         point = pin.getPoint();
         drawMark(point);
