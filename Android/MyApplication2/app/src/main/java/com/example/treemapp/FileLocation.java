@@ -17,7 +17,7 @@ public class FileLocation {
     }
 
     public static String getMosaicFolder() {
-        return getSD() + "mosaic/";
+        return getSD();
     }
 
     public static String getImagesFolder() {
@@ -59,7 +59,7 @@ public class FileLocation {
             Log.i("Emulated SD path", folder);
         }
 
-        return folder+"Android/TMS/";
+        return folder+"Android/data/com.example.treemapp/";
 
     }
 }

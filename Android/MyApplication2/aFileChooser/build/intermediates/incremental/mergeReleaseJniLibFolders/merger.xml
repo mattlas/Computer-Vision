@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/Users/tinu/Documents/GitHub/Computer-Vision/Android/MyApplication2/aFileChooser/src/release/jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="D:\Documents\GitHub\Computer-Vision\Android\MyApplication2\aFileChooser\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="D:\Documents\GitHub\Computer-Vision\Android\MyApplication2\aFileChooser\src\release\jniLibs"/></dataSet></merger>
->>>>>>> 02b96dad4b8832f624d81b6fed658e8c7a4429bb
