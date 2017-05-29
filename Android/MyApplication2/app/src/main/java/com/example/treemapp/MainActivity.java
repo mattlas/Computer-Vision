@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.yPinOffset = getResources().getDimension(R.dimen.pin_selection_offset);
 
         folderName = FileLocation.getFileSystemSDCardName(getApplicationContext());
+        FileLocation.setPathForList(getApplicationContext());
 
         settings = new Settings();
 

@@ -74,6 +74,10 @@ public class Pin implements Serializable{
 
     public String getSpecies() {return this.species;}
 
+    public String getImageFileName() {
+        return this.imageFileName;
+    }
+
     /*Two different ways of setting position of the pin (mosaic-coordinates)*/
     public void setPosition(double x, double y) {
             sx = (float) x;
@@ -97,7 +101,7 @@ public class Pin implements Serializable{
     }
 
     /**
-     * Setter for parameters. Added so that some unit tests would still work.
+     * Setter for parameters.
      * @param diameter
      * @param height
      * @param species
@@ -124,6 +128,9 @@ public class Pin implements Serializable{
         return isDead;
     }
 
+    /**
+     * checks if a pin is equal to other pin - not used for now
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,34 +151,34 @@ public class Pin implements Serializable{
      * Gives part of the CSV format for the pin/tree (to be saved in the file)
      * @return String representing the CSV line for the tree - "id,x,y,height,diameter,species,imageFileName"
      */
-    public String getCSV(){
+    public String getCSV(float scale){
         String dead;
         if(isDead)
             dead = "dead";
         else
             dead = "alive";
         notes = notes.replaceAll(",", "¸");
-        String line = id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + dead + "," + notes + "," + imageFileName;
+        String line = id+","+ Float.toString(ox/scale) + "," + Float.toString(oy/scale) + "," + height + "," + diameter + "," + species + "," + dead + "," + notes + "," + imageFileName;
         Log.d("pin", line);
         return line;
     }
 
-    /*How far away the user can touch the screen for the pin to consider itself touched*/
+    /**
+     * How far away the user can touch the screen for the pin to consider itself touched
+     */
     public int getCollisionRadius() {
         return collisionRadius;
     }
 
-    /*How big the drawn circle should be*/
+    /**
+     * How big the drawn circle should be
+     */
     public int getRadius() {
         return radius;
     }
 
     public boolean isDragged() {
         return dragged;
-    }
-
-    public String getImageFileName() {
-        return this.imageFileName;
     }
 
     @Override
