@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:layout_centerInParent="true"
-        android:background="#87FFFFFF"
+        android:background="#F0CCCCCC"
         android:orientation="vertical"
         android:weightSum="1">
 

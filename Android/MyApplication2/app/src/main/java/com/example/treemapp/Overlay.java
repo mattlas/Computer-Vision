@@ -205,7 +205,7 @@ public class Overlay extends View {
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carousel_picker_edit);
         final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
-        final ImageButton closeButton= (ImageButton) mainActivity.findViewById(R.id.btn_imagepicker_exit);
+        final ImageButton closeButton= (ImageButton) mainActivity.findViewById(R.id.btn_Exit_edit);
 
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
