@@ -316,7 +316,7 @@ public class FileHandler {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
                     if (mainActivity != null) {
-                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                        Log.e(TAG,"Image info list not found");
                     }
 
                     mosaicX=origX;
