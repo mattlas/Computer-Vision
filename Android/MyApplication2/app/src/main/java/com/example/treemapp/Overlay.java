@@ -39,9 +39,11 @@ public class Overlay extends View {
     private final MainActivity mainActivity;
 
     private final RelativeLayout inputOverlay;
+    private final RelativeLayout inputOverlayEdit;
     private final LinearLayout fakeView;
 
     private final RelativeLayout imagePickerOverlay;
+
     private final LinearLayout fakeView2;
     private PinView originalView;
     private Settings settings;
@@ -50,11 +52,12 @@ public class Overlay extends View {
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
     //(LinearLayout) findViewById(R.id.inp_fake_layer), (LinearLayout) findViewById(R.id.inp_fake_layer_2));
-    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
+    public Overlay(final MainActivity mainActivity, final RelativeLayout overlayedActivity, final RelativeLayout overLayedActivityEdit, final RelativeLayout imagePickerOverlay, final LinearLayout fakeView, final LinearLayout fakeView2, final Settings settings) {
         super(mainActivity);
         this.mainActivity = mainActivity;
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
+        this.inputOverlayEdit = overLayedActivityEdit;
         this.fakeView = fakeView;
         this.fakeView2 = fakeView2;
         this.settings = settings;
@@ -68,6 +71,8 @@ public class Overlay extends View {
 
     }
 
+    // TODO
+    // onDraw for mark of other perspectives...
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -84,7 +89,7 @@ public class Overlay extends View {
         }*/
         //drawMark(canvas, point);
     }
-
+    // TODO
     public void drawMark(PointF point){
         // First see if the species exists as a pin
 
@@ -196,24 +201,24 @@ public class Overlay extends View {
      * to edit the pin and in so editing the output file
      */
     public void edit(final Pin pin) {
-        inputOverlay.setVisibility(View.VISIBLE);
+        inputOverlayEdit.setVisibility(View.VISIBLE);
 
         Log.d(mainActivity.TAG, "Tree detail edit overlay opened");
 
         //TODO, put values here
 
-        final NumberPicker height = (NumberPicker) inputOverlay.findViewById(R.id.inp_height);
-        final NumberPicker diameter = (NumberPicker) inputOverlay.findViewById(R.id.inp_diameter);
-        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker);
-        final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree);
-        final EditText notes = (EditText) mainActivity.findViewById(R.id.notes);
+        final NumberPicker height = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_height_edit);
+        final NumberPicker diameter = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_diameter_edit);
+        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker_edit);
+        final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
+        final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
 
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
         deadTree.setChecked(pin.getIsDead());
         notes.setText(pin.getNotes());
 
-        TextView tv = (TextView) inputOverlay.findViewById(R.id.overlay_box_txt);
+        TextView tv = (TextView) inputOverlayEdit.findViewById(R.id.overlay_box_txt_edit);
         tv.setText("Edit tree");
 
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
@@ -225,8 +230,8 @@ public class Overlay extends View {
         Toast.makeText(mainActivity.getApplicationContext(), "Data saved." + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
         carouselPicker.setCurrentItem(getSpeciesPosition(formerSpecies, speciesList));
 
-        Button save = (Button) inputOverlay.findViewById(R.id.btn_save_edit);
-        Button delete = (Button) inputOverlay.findViewById(R.id.btn_cancel_edit);
+        Button save = (Button) inputOverlayEdit.findViewById(R.id.btn_save_edit);
+        Button delete = (Button) inputOverlayEdit.findViewById(R.id.btn_cancel_edit);
 
         // when save clicked - save info to the pin list, change the line in the file
         save.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +251,7 @@ public class Overlay extends View {
             @Override
             public void onClick(View view) {
                 mainActivity.getImageView().deletePin(pin);
-                inputOverlay.setVisibility(View.INVISIBLE);
+                inputOverlayEdit.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
         });
@@ -396,6 +401,7 @@ public class Overlay extends View {
         });
     }
 
+    // TODO
     public void editImagePickerOverlay(final Pin pin) {
         imagePickerOverlay.setVisibility(View.VISIBLE);
 

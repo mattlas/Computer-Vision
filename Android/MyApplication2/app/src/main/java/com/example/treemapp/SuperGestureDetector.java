@@ -40,6 +40,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
 
                 // If tabbed position is inside collision radius of a pin -> edit this pin
                 if (main.getImageView().euclidanViewDistance(closestPin, pos.getX(), pos.getY()) < closestPin.getCollisionRadius()){
+                    // TODO
                     //main.getOverlay().edit(closestPin);
                     main.getOverlay().editImagePickerOverlay(closestPin);
                     main.getImageView().invalidate();
