@@ -433,6 +433,8 @@ public class Overlay extends View {
         for (int i = -1; i < 3; i++) {
             imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
 
+
+
             final String filePath;
             if (neighbors.size() > i) {
                 // First ImageButton: original
@@ -446,6 +448,9 @@ public class Overlay extends View {
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d(TAG, "hello");
+                        Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Stop", Toast.LENGTH_LONG);
+                        t.show();
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
