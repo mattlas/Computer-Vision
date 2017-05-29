@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/mainwindow.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp src/MosaicData.cpp src/MosaicData.h src/DirectoryReader.cpp src/DirectoryReader.h src/MatchPoints.cpp src/MatchPoints.h ${PROJECT_SOURCE_DIR}/src/imaq.h ${PROJECT_SOURCE_DIR}/src/imaq.cpp ${PROJECT_SOURCE_DIR}/src/ImageData.h ${PROJECT_SOURCE_DIR}/src/ImageData.cpp ${PROJECT_SOURCE_DIR}/src/exif.h ${PROJECT_SOURCE_DIR}/src/exif.cpp ${PROJECT_SOURCE_DIR}/src/neighbours.cpp ${PROJECT_SOURCE_DIR}/src/neighbours.h)
+set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Main.cpp ${PROJECT_SOURCE_DIR}/src/mainwindow.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.cpp ${PROJECT_SOURCE_DIR}/src/FeaturePoints.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.h ${PROJECT_SOURCE_DIR}/src/KeyPoint.cpp src/MosaicData.cpp src/MosaicData.h src/DirectoryReader.cpp src/DirectoryReader.h src/MatchPoints.cpp src/MatchPoints.h ${PROJECT_SOURCE_DIR}/src/imaq.h ${PROJECT_SOURCE_DIR}/src/imaq.cpp ${PROJECT_SOURCE_DIR}/src/ImageData.h ${PROJECT_SOURCE_DIR}/src/ImageData.cpp ${PROJECT_SOURCE_DIR}/src/HomographyData.h ${PROJECT_SOURCE_DIR}/src/HomographyData.cpp ${PROJECT_SOURCE_DIR}/src/exif.h ${PROJECT_SOURCE_DIR}/src/exif.cpp ${PROJECT_SOURCE_DIR}/src/neighbours.cpp ${PROJECT_SOURCE_DIR}/src/neighbours.h)
 
 # OpenCV library
 find_package( OpenCV REQUIRED )
