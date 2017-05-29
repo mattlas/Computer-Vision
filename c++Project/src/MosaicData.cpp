@@ -106,8 +106,8 @@ void MosaicData::ubcMatch() {
     for (int i = 0; i < imagePairs.size() ; ++i) {
         for (int j = 0; j < imagePairs.at(i).size()-1; ++j) {
             MatchPoints *matcher = new MatchPoints(
-                    *imagePairs.at(i).at(0).getImageData()->getFeaturePoints(),
-                    *imagePairs.at(i).at(j+1).getImageData()->getFeaturePoints());
+                    *imagePairs.at(i).at(0)->getImageData()->getFeaturePoints(),
+                    *imagePairs.at(i).at(j+1)->getImageData()->getFeaturePoints());
             //todo how to save homography
             matcher->getHomography();
 
@@ -192,61 +192,54 @@ void MosaicData::stitchImages() {
 
 }
 
-
-
-
 void MosaicData::findPath() {
     int recursionDepth = 0;
     for (int j = 0; j < imagePairs.size(); ++j) {
-        homographyList.push_back((HomographyData &&) imagePairs.at(j).at(0));
+        homographyList.push_back((HomographyData *&&) imagePairs.at(j).at(0));
     }
 
-    std::vector<HomographyData> startPairs = (std::vector<HomographyData> &&) imagePairs.at(referenceImage->getId());
-    HomographyData startNode = startPairs.at(0);
+    std::vector<HomographyData*> startPairs = (std::vector<HomographyData*>) imagePairs.at(referenceImage->getId());
+    HomographyData *startNode = startPairs.at(0);
     cv::Mat startMat = Mat::eye(3, 3, CV_64F);
-    startNode.setHomography(startMat);
-    startNode.setRecursionDepth(recursionDepth);
+    startNode->setHomography(startMat);
+    startNode->setRecursionDepth(recursionDepth);
+    startNode->setPrevNode(NULL);
     for (int i = 0; i < startPairs.size()-1; ++i) {
-        HomographyData node = startPairs.at(i+1);
-        calculatePairs(imagePairs.at(node.getImageData()->getId()),&startNode,recursionDepth+1);
+        HomographyData *node = startPairs.at(i+1);
+        calculatePairs(imagePairs.at(node->getImageData()->getId()),startNode,recursionDepth+1);
     }
 
 
 }
 
-void MosaicData::calculatePairs(std::vector<HomographyData> &currentlist, HomographyData *prevNode, int recursionDepth ) {
-    HomographyData currentNode = currentlist.at(0);
-    if(recursionDepth < currentNode.getRecursionDepth()){
-        currentNode.setRecursionDepth(recursionDepth);
-        currentNode.setPrevNode(prevNode);
+void MosaicData::calculatePairs(std::vector<HomographyData*> currentlist, HomographyData *prevNode, int recursionDepth ) {
+    HomographyData* currentNode = currentlist.at(0);
+    if(recursionDepth < currentNode->getRecursionDepth()){
+        currentNode->setRecursionDepth(recursionDepth);
+        currentNode->setPrevNode(prevNode);
         for (int i = 0; i < currentlist.size()-1; ++i) {
-            HomographyData newNode = currentlist.at(i+1);
-            calculatePairs(imagePairs.at(newNode.getImageData()->getId()),&currentNode,recursionDepth+1);
-
+            HomographyData* newNode = currentlist.at(i+1);
+            calculatePairs(imagePairs.at(newNode->getImageData()->getId()),currentNode,recursionDepth+1);
         }
-
     }
-    //checkHomList.insert(currentNode.getImageData()->getId());
-
 }
 
-void MosaicData::calculateHomographies(std::vector<HomographyData> finalHomList) {
-    for(HomographyData data: finalHomList){
+void MosaicData::calculateHomographies(std::vector<HomographyData*> finalHomList) {
+    for(HomographyData* data: finalHomList){
         recurseHomographies(data);
     }
 }
 
-void MosaicData::recurseHomographies(HomographyData data) {
-    if(data.getPrevNode() != NULL){
-        MatchPoints *matcher = new MatchPoints(*data.getPrevNode()->getImageData()->getFeaturePoints(),
-                                               *data.getImageData()->getFeaturePoints());
+void MosaicData::recurseHomographies(HomographyData* data) {
+    if(data->getPrevNode() != NULL){
+        MatchPoints *matcher = new MatchPoints(*data->getPrevNode()->getImageData()->getFeaturePoints(),
+                                               *data->getImageData()->getFeaturePoints());
         cv::Mat homography = matcher->getHomography();
-        if(data.getPrevNode()->getHomography().empty()){
-            recurseHomographies(*data.getPrevNode());
+        if(data->getPrevNode()->getHomography().empty()){
+            recurseHomographies(data->getPrevNode());
         }
-
-        homography = homography * data.getPrevNode()->getHomography();
-
+        homography = homography * data->getPrevNode()->getHomography();
+        data->setHomography(homography);
     }
 }
 

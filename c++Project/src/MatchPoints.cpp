@@ -72,7 +72,7 @@ int MatchPoints::squaredDistance(ulong index1, ulong index2) {
 
 void MatchPoints::createHomography() {
 
-    homography = cv::findHomography(match1,match2,cv::RANSAC,10,cv::noArray(),2000,0.995);
+    homography = cv::findHomography(match1,match2,cv::RANSAC,3,cv::noArray(),200,0.995);
 
 }
 

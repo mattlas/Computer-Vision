@@ -4,11 +4,11 @@
 #include "neighbours.h"
 
 namespace neighbours {
-std::vector<std::vector<HomographyData>> pairs(
+std::vector<std::vector<HomographyData*>> pairs(
 		std::vector<ImageData*> nodes){
-	std::vector <HomographyData > filtered;
+	std::vector <HomographyData* > filtered;
 	std::vector<std::vector<double>> distances;
-	std::vector < std::vector < HomographyData >> pairs;
+	std::vector < std::vector < HomographyData* >> pairs;
 
 	double x1; //longitude
 	double y1; //latitude
@@ -29,7 +29,7 @@ std::vector<std::vector<HomographyData>> pairs(
 		if(0.98 * maxheight <= nodes[i]->getInfo().GeoLocation.Altitude){
             HomographyData *homographyData = new HomographyData();
             homographyData->setImageData(nodes[i]);
-			filtered.push_back(*homographyData);
+			filtered.push_back(homographyData);
 		}
 	}
 
@@ -39,10 +39,11 @@ std::vector<std::vector<HomographyData>> pairs(
 	//calculate image pair distances
 	for(std::size_t i = 0; i < filtered.size(); i++){
 		for(std::size_t j = 0; j < filtered.size(); j++){
-			x1 = filtered[i].getImageData()->getInfo().GeoLocation.Longitude;
-			y1 = filtered[i].getImageData()->getInfo().GeoLocation.Latitude;
-			x2 = filtered[j].getImageData()->getInfo().GeoLocation.Longitude;
-			y2 = filtered[j].getImageData()->getInfo().GeoLocation.Latitude;
+
+			x1 = filtered[i]->getImageData()->getInfo().GeoLocation.Longitude;
+			y1 = filtered[i]->getImageData()->getInfo().GeoLocation.Latitude;
+			x2 = filtered[j]->getImageData()->getInfo().GeoLocation.Longitude;
+			y2 = filtered[j]->getImageData()->getInfo().GeoLocation.Latitude;
 			distances.resize(filtered.size());
 			distances[i].resize(filtered.size());
 			distances[i][j] = sqrt(
@@ -57,19 +58,22 @@ std::vector<std::vector<HomographyData>> pairs(
 	for(std::size_t i = 0; i < filtered.size(); i++){
 		pairs[i].push_back(filtered[i]);
 		double neighbourlimit = std::numeric_limits<double>::max();
-		for(std::size_t j = 0; j < filtered.size(); j++){
+        //double neighbourlimit = 10000;
 
-			double d = distances[i][j];
-            std::cout << "neigbhourlimit" << neighbourlimit << std::endl;
-			if(neighbourlimit > d){
-				neighbourlimit = d;
-			}
+        for(std::size_t j = 0; j < filtered.size(); j++){
+            double d = 0;
+            if(i!=j){
+                d = distances[i][j];
+                if(neighbourlimit > d){
+                    neighbourlimit = d;
+                }
+            }
 		}
 		neighbourlimit *= 1.2;
 		
 		for(std::size_t j = 0; j < filtered.size(); j++){
 			if((distances[i][j] <= neighbourlimit) && (i != j)){
-                pairs[i][j].setDistance(distances[i][j]);
+                //pairs[i][j].setDistance(distances[i][j]);
                 pairs[i].push_back(filtered[j]);
 
 			}

@@ -41,10 +41,10 @@ private:
     std::string pgm_path;
     ImageData* referenceImage;
 
-    std::vector<std::vector<HomographyData>> imagePairs;
+    std::vector<std::vector<HomographyData*>> imagePairs;
     std::set<int> checkHomList;
     std::map<int,int> recursionList;
-    std::vector<HomographyData> homographyList;
+    std::vector<HomographyData*> homographyList;
 
     imaq *im = NULL;
 
@@ -90,9 +90,9 @@ private:
     void createImages();
     void stitchImages();
     void findPath();
-    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData *prevNode, int recursionDepth);
-    void calculateHomographies(std::vector<HomographyData> finalHomList);
-    void recurseHomographies(HomographyData data);
+    void calculatePairs(std::vector<HomographyData*> startNode, HomographyData *prevNode, int recursionDepth);
+    void calculateHomographies(std::vector<HomographyData*> finalHomList);
+    void recurseHomographies(HomographyData* data);
 
 
 signals:
