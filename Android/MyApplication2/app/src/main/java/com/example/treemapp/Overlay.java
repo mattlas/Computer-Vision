@@ -214,6 +214,7 @@ public class Overlay extends View {
         final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker_edit);
         final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
+        final ImageButton closeButton= (ImageButton) mainActivity.findViewById(R.id.btn_imagepicker_exit);
 
         height.setValue(Integer.parseInt(pin.getHeight()));
         diameter.setValue(Integer.parseInt(pin.getDiameter()));
@@ -244,7 +245,7 @@ public class Overlay extends View {
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
-                inputOverlay.setVisibility(View.INVISIBLE);
+                inputOverlayEdit.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
         });
@@ -254,6 +255,15 @@ public class Overlay extends View {
             @Override
             public void onClick(View view) {
                 mainActivity.getImageView().deletePin(pin);
+                inputOverlayEdit.setVisibility(View.INVISIBLE);
+                mainActivity.getImageView().invalidate();
+            }
+        });
+
+        // when close clicked - don't save the info
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 inputOverlayEdit.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
