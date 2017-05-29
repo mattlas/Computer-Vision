@@ -8,30 +8,41 @@
 
 #include <opencv2/core/mat.hpp>
 #include "ImageData.h"
+#include <limits>
+#include <cstddef>
 
 class HomographyData {
 private:
     ImageData *imageData;
     float distance;
     cv::Mat homography;
-    int pairID;
+    HomographyData prevNode;
+    int recursionDepth;
+public:
+    int getRecursionDepth() const;
 
+    void setRecursionDepth(int recursionDepth);
 
 
 public:
 
     HomographyData(ImageData imageData, float range,
-                   cv::Mat homography, int pairID) : imageData(&imageData),
+                   cv::Mat homography, HomographyData prevNode) : imageData(&imageData),
                                                      distance(range),
                                                      homography(homography),
-                                                     pairID(pairID){}
-    HomographyData();
+                                                     prevNode(prevNode){}
+
+    HomographyData() : recursionDepth(std::numeric_limits<int>::max()){}
 
 
 
     float getDistance() const {
         return distance;
     }
+
+    const HomographyData &getPrevNode() const;
+
+    void setPrevNode(const HomographyData &prevNode);
 
     void setDistance(float range) {
         HomographyData::distance = range;
@@ -45,13 +56,7 @@ public:
         HomographyData::homography = homography;
     }
 
-    int getPairID() const {
-        return pairID;
-    }
 
-    void setPairID(int pairID) {
-        HomographyData::pairID = pairID;
-    }
 
     ImageData *getImageData() const {
         return imageData;

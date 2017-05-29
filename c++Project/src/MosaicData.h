@@ -43,6 +43,7 @@ private:
 
     std::vector<std::vector<HomographyData>> imagePairs;
     std::set<int> checkHomList;
+    std::map<int,int> recursionList;
     std::vector<HomographyData> homographyList;
 
     imaq *im = NULL;
@@ -88,13 +89,15 @@ private:
 
     void createImages();
     void stitchImages();
-    void findShortestPath();
-    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData data, Mat mat);
+    void findPath();
+    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData prevNode, int recursionDepth);
+    void calculateHomographies(std::vector<HomographyData> finalHomList);
 
 
 signals:
     void finished();
 
+    void recurseHomographies(HomographyData data);
 };
 
 
