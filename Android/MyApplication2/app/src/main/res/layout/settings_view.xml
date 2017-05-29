@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:text="Current directory"
             android:textColor="#101010"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -194,6 +195,7 @@
             android:text="@string/delete_treelist_button"
             android:onClick="onClick"
             android:layout_marginTop="36dp"
+            android:layout_marginBottom="36dp"
             />
 
 
