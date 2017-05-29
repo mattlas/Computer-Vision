@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
+    // TODO: do we need that?
     @TargetApi(23)
     protected void askPermissions() {
         String[] permissions = {
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestPermissions(permissions, requestCode);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= 23 && !checkPermission()) {
             Log.d(TAG, "I don't have permission");
             requestPermission(); // Code for permission
-            Log.d(TAG, "I do have permission");
         }
         if(checkPermission())
             Log.d(TAG, "I do have permission");
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Event handling
         initialiseEventHandling();
     }
+
 
     private void initMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
 
     private void imageViewSetUp() {
         imageView = (PinView) findViewById(R.id.imageView);
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(sharingIntent);
     }
 
+
     public float[] updateOrigPositionInPin(Pin pin) {
         ImageInfo ii = imageInfoListHandler.findImageInfo(pin.getImageFileName());
 
@@ -197,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //return is only so its easier to do unit test
         return origCoor;
     }
+
 
     private void initialiseEventHandling() {
         final GestureDetector gestureDetector = new GestureDetector(this, new SuperGestureDetector(this));
@@ -236,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+
     /**
      *  adding the pin to the file and pin list and shows the menu for the pin
      */
@@ -260,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.invalidate();
     }
 
+
     /**
      *  editing the pin in the file and pin list and shows the menu for the pin
      */
@@ -280,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.invalidate();
     }
 
+
     /**
      * Goes to the StatisticsActivity
      */
@@ -288,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("pinList", (ArrayList) imageView.getPins());
         startActivity(intent);
     }
+
 
     /**
      * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
@@ -351,22 +360,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     // TODO: do we need it?
     @Override
     public void onClick(View v) {
         return;
-    }
-
-    public PinView getImageView() {
-        return imageView;
-    }
-
-    public ImageInfoListHandler getImageInfoListHandler() {
-        return imageInfoListHandler;
-    }
-
-    public Overlay getOverlay() {
-        return overlay;
     }
 
 
@@ -405,6 +403,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
+    /**
+     * starts the SettingsFragment object
+     */
     private void startSettings() {
         SettingsFragment sf = new SettingsFragment();
         sf.init(settings, this.getPackageName());
@@ -417,6 +419,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
+
+    // TODO: do we need it?
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
@@ -424,7 +428,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //getters
+    public PinView getImageView() {
+        return imageView;
+    }
 
+    public ImageInfoListHandler getImageInfoListHandler() {
+        return imageInfoListHandler;
+    }
+
+    public Overlay getOverlay() {
+        return overlay;
+    }
 
 }
 
