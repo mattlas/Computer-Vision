@@ -350,6 +350,7 @@ public class Overlay extends View {
                                 float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
                                 // Change coordinates of pin
                                 pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                pin.setImageFileName(new File(filePath).getName());
                                 // Change displayed image to clicked perspective
                                 main.setImage(ImageSource.uri(filePath));
                                 main.setVisibility(View.VISIBLE);
