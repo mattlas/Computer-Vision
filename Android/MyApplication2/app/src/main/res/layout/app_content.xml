@@ -36,5 +36,6 @@
         android:visibility="invisible"></LinearLayout>
 
     <include layout="@layout/tree_input"/>
+    <include layout="@layout/tree_input_edit"></include>
 
 </FrameLayout>

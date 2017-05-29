@@ -25,7 +25,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
      */
     @Override
     public boolean onSingleTapConfirmed(MotionEvent pos) {
-        /* TODO before release
+        /* TODO before release uncomment this
         if (!main.isMosaicIsFound()) {
             return false;
         }
@@ -41,8 +41,11 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
                 Pin closestPin = main.getImageView().getClosestPin(pos.getX(), pos.getY()+yPinOffset);
 
                 // If tabbed position is inside collision radius of a pin -> edit this pin
-                if (main.getImageView().euclidanViewDistance(closestPin, pos.getX(), pos.getY()+yPinOffset) < closestPin.getCollisionRadius()){
-                    main.getOverlay().edit(closestPin);
+
+                if (main.getImageView().euclidanViewDistance(closestPin, pos.getX(), pos.getY()) < closestPin.getCollisionRadius()){
+                    // TODO
+                    //main.getOverlay().edit(closestPin);
+                    main.getOverlay().editImagePickerOverlay(closestPin);
                     main.getImageView().invalidate();
                     // otherwise make new pin
                 } else {

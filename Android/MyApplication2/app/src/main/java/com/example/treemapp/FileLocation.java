@@ -13,7 +13,7 @@ import java.io.File;
 public class FileLocation {
 
     private static final String TAG = FileLocation.class.getSimpleName();
-    private static String listLocation = "/TreemApp/";
+    private static String listLocation;
     private static String fileLocation = null;
 
     /**
@@ -33,7 +33,7 @@ public class FileLocation {
         File[] paths = context.getExternalFilesDirs(null);
         String sd = "ERROR";
 
-        if (paths.length > 1) {
+        if (paths.length > 1 && paths[1] != null && paths[1].exists()) {
             sd = paths[1].getAbsolutePath().split("Android")[0];
         }
 
@@ -52,5 +52,13 @@ public class FileLocation {
         return fileLocation;
     }
 
-    public static String getListLocation(){return listLocation;}
+    public static void setPathForList(Context context){
+        File path = context.getFilesDir();
+        listLocation = path.getAbsolutePath() + "/";
+        //return listLocation;
+    }
+
+    public static String getListLocation(){
+        return listLocation;
+    }
 }
