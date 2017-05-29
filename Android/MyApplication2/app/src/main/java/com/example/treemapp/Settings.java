@@ -24,13 +24,13 @@ public class Settings extends Fragment {
     public Settings(){
 
         // TODO put all possible species
-        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "alder", "aspen", "rowan"};
+        treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "horseChestnut", "lind", "larch", "maple", "oxel","sallow" };
         treesSpeciesChb = new CheckboxModel[treesSpeciesAll.length];
         treesSpeciesChosen = new ArrayList<>();
         int i = 0;
         for (String tree:treesSpeciesAll){
             treesSpeciesChosen.add(new CarouselPicker.TextItem(tree, carouselSize));
-            if (i< 5)
+            if (i< 6)
                 treesSpeciesChb[i] = new CheckboxModel(tree, 1);
             else
                 treesSpeciesChb[i] = new CheckboxModel(tree, 0);

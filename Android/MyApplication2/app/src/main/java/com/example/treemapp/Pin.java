@@ -96,6 +96,19 @@ public class Pin implements Serializable{
         this.notes = notes;
     }
 
+    /**
+     * Setter for parameters. Added so that some unit tests would still work.
+     * @param diameter
+     * @param height
+     * @param species
+     */
+    public void setInputData(String diameter, String height, String species){
+        this.diameter = diameter;
+        this.height = height;
+        this.species = species;
+        this.speciesStr = speciesStr;
+    }
+
     public void setId(int id){
         this.id = id;
     }

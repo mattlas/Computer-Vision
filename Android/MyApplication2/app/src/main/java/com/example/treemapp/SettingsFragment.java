@@ -13,8 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.ipaulpro.afilechooser.utils.FileUtils;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -84,12 +83,6 @@ public class SettingsFragment extends Fragment {
         }
 
         Button changeDirectory = (Button) view.findViewById(R.id.btn_directory_change);
-        changeDirectory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeDirectory();
-            }
-        });
 
         TextView tv = (TextView) view.findViewById(R.id.directory_textview);
 
@@ -103,42 +96,6 @@ public class SettingsFragment extends Fragment {
         this.packageName = packageName;
     }
 
-    /**
-     * Uses aFileChooser to pick a URI
-     * @return the chosen uri
-     */
-    private void changeDirectory() {
-
-        Log.i(TAG, "Changing directory");
-        Intent getContentIntent = FileUtils.createGetContentIntent();
-        Intent intent = Intent.createChooser(getContentIntent, "Select a new directory");
-
-        startActivityForResult(intent, REQUEST_CHOOSER);
-
-
-
-
-        Intent data = new Intent();
-        onActivityResult(REQUEST_CHOOSER, 0, data);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == REQUEST_CHOOSER) {
-            final Uri uri = data.getData();
-            if (uri != null) {
-                Log.d(TAG, "Data: "+uri.toString());
-                String path = uri.getPath();
-                Log.d(TAG, "Data as string: "+path);
-                FileLocation.changeSDLocation(path);
-                FileNotFoundDialog.clearMissingFiles();
-
-                tv.setText(path);
-
-            } else {
-                Log.e(TAG, "Null location object - directory not changed");
-            }
-        }
-    }
 
 
 
