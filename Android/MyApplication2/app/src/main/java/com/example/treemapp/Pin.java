@@ -3,6 +3,7 @@ package com.example.treemapp;
 import android.graphics.PointF;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -137,7 +138,10 @@ public class Pin implements Serializable{
             dead = "dead";
         else
             dead = "alive";
-        return id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + dead + ", \"" + notes + "\"," + imageFileName;
+        notes = notes.replaceAll(",", "¸");
+        String line = id+","+ ox + "," + oy + "," + height + "," + diameter + "," + species + "," + dead + "," + notes + "," + imageFileName;
+        Log.d("pin", line);
+        return line;
     }
 
     /*How far away the user can touch the screen for the pin to consider itself touched*/
