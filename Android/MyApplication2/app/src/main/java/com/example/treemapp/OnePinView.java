@@ -129,8 +129,9 @@ public class OnePinView extends SubsamplingScaleImageView {
         Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
 
         if (d != null) {
-            int w = pin.getRadius();
-            int h = d.getIntrinsicHeight() * pin.getRadius() / d.getIntrinsicWidth();
+            float prettyScale = 1.5f;
+            int w = (int) (pin.getRadius() * prettyScale);
+            int h = (int) (prettyScale * d.getIntrinsicHeight() * pin.getRadius() / d.getIntrinsicWidth());
 
             int left = (int) point.x - (w / 2);
             int top = (int) point.y - h;
