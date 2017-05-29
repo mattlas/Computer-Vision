@@ -233,12 +233,10 @@ public class PinView extends SubsamplingScaleImageView {
         }
 
 
-        int pinWidth=pin.getRadius()*3;
-
         if (fileExists) { // draw the pin
             Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
-            int w=pinWidth;
-            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
+            int w=R.dimen.pin_width;
+            int h=d.getIntrinsicHeight()*w/d.getIntrinsicWidth();
 
             int left=(int)point.x-(w/2);
             int top=(int)point.y-h;
