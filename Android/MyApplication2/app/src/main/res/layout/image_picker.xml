@@ -51,12 +51,13 @@
         <com.example.treemapp.OnePinView
             android:id="@+id/originalView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="90dp"
             android:padding="3dp"
-            android:background="@drawable/border_blue"
-
+            android:foreground="@drawable/border_gray"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:layout_alignParentTop="true" />
 
         <!-- Continue button-->
@@ -107,7 +108,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:padding="3dp"
-            android:background="@drawable/trees_img_press"
+            android:foreground="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -116,7 +117,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:padding="3dp"
-            android:background="@drawable/trees_img_press"
+            android:foreground="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -125,7 +126,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:padding="3dp"
-            android:background="@drawable/trees_img_press"
+            android:foreground="@drawable/trees_img_press"
             android:layout_margin="10dp" />
 
         <ImageButton
@@ -134,7 +135,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/tree"
             android:padding="3dp"
-            android:background="@drawable/trees_img_press"
+            android:foreground="@drawable/trees_img_press"
             android:layout_margin="10dp" />
     </LinearLayout>
 
