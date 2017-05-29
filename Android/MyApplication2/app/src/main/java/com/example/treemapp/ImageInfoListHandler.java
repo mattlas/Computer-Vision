@@ -35,7 +35,6 @@ public class ImageInfoListHandler {
 
     private final String TAG = ImageInfoListHandler.class.getSimpleName();
     private String folderName = FileLocation.getSD();
-    private String imageFolderName = folderName + "images/";
 
     private boolean foundEverything;
 
@@ -161,7 +160,7 @@ public class ImageInfoListHandler {
      * @return an imagesource which can be used to set in an image view
      */
     public String loadImage(String fileName) {
-        String location = imageFolderName + fileName;
+        String location = folderName + fileName;
 
         File file = new File(location);
 

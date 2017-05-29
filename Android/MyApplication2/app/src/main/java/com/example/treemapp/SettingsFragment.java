@@ -46,6 +46,10 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Sets the settings view, signs listeners to checkboxes
+     * @param view
+     */
     private void setViews(View view) {
 
         //lv = (ListView) view.findViewById(R.id.chb_species_list);
@@ -89,6 +93,11 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    /**
+     * gets objects needed for init
+     * @param settings the Settings instance
+     * @param packageName the package name of an app
+     */
     public void init(Settings settings, String packageName) {
         this.settings = settings;
         this.packageName = packageName;

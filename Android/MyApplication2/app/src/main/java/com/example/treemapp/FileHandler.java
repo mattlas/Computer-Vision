@@ -50,19 +50,20 @@ public class FileHandler {
 
     public FileHandler(MainActivity mainActivity, double scale) {
         // First initInputOverlay the directory if it doesn't exist
+        listDirectory = FileLocation.getListLocation();
         this.mainActivity=mainActivity;
         this.scale = scale;
         try{
-            File dir = new File(directory);
+            File dir = new File(listDirectory);
 
             if (dir.mkdir()){
                 Log.i(TAG, "Treelist directory created");
             } else {
-                Log.i(TAG, "Opening existing treelist directory " + directory);
+                Log.i(TAG, "Opening existing treelist directory " + listDirectory);
             }
 
         } catch (Exception e){
-            Log.e(TAG, "Failed to initInputOverlay/open directory: " + directory+  ": " + e.getLocalizedMessage());
+            Log.e(TAG, "Failed to initInputOverlay/open directory: " + listDirectory+  ": " + e.getLocalizedMessage());
 
         }
         // Then the file
@@ -101,6 +102,10 @@ public class FileHandler {
             Log.e(TAG, "Error adding line to file: " + e.getLocalizedMessage());
             return false;
         }
+    }
+
+    public float getScale(){
+        return (float) scale;
     }
 
     /**

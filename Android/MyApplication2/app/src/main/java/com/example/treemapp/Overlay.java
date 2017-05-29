@@ -116,7 +116,6 @@ public class Overlay extends View {
 
     /**
      * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
-     *
      * @param pin the tree/pin to add
      */
     public void initInputOverlay(final Pin pin) {
@@ -136,6 +135,9 @@ public class Overlay extends View {
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
         tv.setText("Add tree");
 
+        notes.setText("");
+        deadTree.setChecked(false);
+
         // Button to close the input menu
         //Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
 
@@ -154,7 +156,7 @@ public class Overlay extends View {
                 mainActivity.updateOrigPositionInPin(pin);
                 mainActivity.getImageView().addPin(pin);
                 mainActivity.getImageView().invalidate();
-                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString()))
+                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString(), (float)mainActivity.getImageInfoListHandler().getScale()))
                     Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
@@ -302,6 +304,9 @@ public class Overlay extends View {
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+        final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
+
+        continueBtn.setText("CONTINUE TO ADD THE TREE");
 
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
@@ -388,16 +393,12 @@ public class Overlay extends View {
             }
         });
 
-        Button button = (Button)  imagePickerOverlay.findViewById(R.id.btn_continue_to_input);
-        button.setOnClickListener(new View.OnClickListener() {
+        continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 imagePickerOverlay.setVisibility(View.INVISIBLE);
                 initInputOverlay(pin);
-
-                Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
-                t.show();
             }
         });
     }
@@ -408,6 +409,9 @@ public class Overlay extends View {
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+        final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
+
+        continueBtn.setText("CONTINUE TO EDIT THE TREE");
 
         //this converts from fileName to full path to the file
         final String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
@@ -504,16 +508,12 @@ public class Overlay extends View {
             }
         });
 
-        Button button = (Button)  imagePickerOverlay.findViewById(R.id.btn_continue_to_input);
-        button.setOnClickListener(new View.OnClickListener() {
+        continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 imagePickerOverlay.setVisibility(View.INVISIBLE);
                 edit(pin);
-
-                Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Hello, I am clicked", Toast.LENGTH_LONG);
-                t.show();
             }
         });
     }

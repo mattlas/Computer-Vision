@@ -13,7 +13,7 @@ import java.io.File;
 public class FileLocation {
 
     private static final String TAG = FileLocation.class.getSimpleName();
-    private static String listLocation = "/TreemApp/";
+    private static String listLocation;
     private static String fileLocation = null;
 
     /**
@@ -52,5 +52,13 @@ public class FileLocation {
         return fileLocation;
     }
 
-    public static String getListLocation(){return listLocation;}
+    public static void setPathForList(Context context){
+        File path = context.getFilesDir();
+        listLocation = path.getAbsolutePath() + "/";
+        //return listLocation;
+    }
+
+    public static String getListLocation(){
+        return listLocation;
+    }
 }
