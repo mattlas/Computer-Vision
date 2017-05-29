@@ -35,6 +35,7 @@ public class FileLocation {
 
         if (paths.length > 1) {
             sd = paths[1].getAbsolutePath().split("Android")[0];
+
         }
 
         File sub = new File(sd + "TMS/mosaic");

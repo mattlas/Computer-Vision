@@ -37,8 +37,8 @@ public class StatistaTest {
         for (int i = 0; i < 4; i++) {
             p = new Pin(new PointF(pos[i][0], pos[i][1]), new PointF(pos[i][2], pos[i][3]), "blabla");
 
-            p.setInputData(widths[i], heights[i], species[i]);
-            pins.add(p);
+            //p.setInputData(widths[i], heights[i], species[i]);
+            //pins.add(p);
         }
 
         stat = new Statista(pins);
