@@ -12,6 +12,8 @@ import java.io.File;
 
 public class FileLocation {
 
+    private static final String TAG = FileLocation.class.getSimpleName();
+    private static String listLocation = "/TreemApp/";
     private static String fileLocation = null;
 
     /**
@@ -43,11 +45,12 @@ public class FileLocation {
             if (new File(sd + "mosaic.png").exists()) {
                 Log.d("Hello ", "mosaic.png exists");
             }
-
         }
 
         fileLocation = sd + "/";
 
         return fileLocation;
     }
+
+    public static String getListLocation(){return listLocation;}
 }

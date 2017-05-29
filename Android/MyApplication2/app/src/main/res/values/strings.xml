@@ -20,7 +20,22 @@
     <string name="alder">Alder</string>
     <string name="aspen">Aspen</string>
     <string name="rowan">Rowan</string>
-
+    <string name="elm">Elm</string>
+    <string name="ash">Ash</string>
+    <string name="hornbeam">Hornbeam</string>
+    <string name="beech">Beech</string>
+    <string name="buckthorn">Buckthorn</string>
+    <string name="juniper">Juniper</string>
+    <string name="cherry">Cherry</string>
+    <string name="fir">Fir</string>
+    <string name="hazel">Hazel</string>
+    <string name="horseChestnut">Horse Chestnut</string>
+    <string name="lind">Lind</string>
+    <string name="larch">Larch</string>
+    <string name="maple">Maple</string>
+    <string name="oxel">Oxel</string>
+    <string name="sallow">Sallow</string>
+    <string name="other">Other</string>
 
 
     <string name="title_activity_statistics">StatisticsActivity</string>
