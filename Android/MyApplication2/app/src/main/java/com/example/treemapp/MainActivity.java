@@ -247,9 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
         String filename = ii.getFileName();
 
-        float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
-
-        float[] origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
+        float[] origCoor = imageInfoListHandler.getTransformMosaicToOriginal(sCoord.x, sCoord.y, ii);
 
         Pin pin = new Pin(sCoord, new PointF(origCoor[0], origCoor[1]), filename);
 

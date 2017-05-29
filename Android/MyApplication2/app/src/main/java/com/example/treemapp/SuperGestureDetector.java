@@ -23,7 +23,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
      */
     @Override
     public boolean onSingleTapConfirmed(MotionEvent pos) {
-        /* TODO before release
+        /* TODO before release uncomment this
         if (!main.isMosaicIsFound()) {
             return false;
         }
