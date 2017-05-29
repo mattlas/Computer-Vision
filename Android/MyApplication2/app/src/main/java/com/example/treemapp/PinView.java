@@ -65,7 +65,7 @@ public class PinView extends SubsamplingScaleImageView {
         unfilled.setStyle(Paint.Style.STROKE);
 
         pins = new ArrayList<>();
-        statista = new Statista((ArrayList) pins);
+        statista = new Statista(pins);
 
         pinIndex=0;
     }
@@ -233,12 +233,12 @@ public class PinView extends SubsamplingScaleImageView {
         }
 
 
-        int pinWidth=pin.getRadius()*3;
-
+        float pinWidth = getResources().getDimension(R.dimen.pin_width);
+        Log.d(TAG,"pinWidth = "+pinWidth);
         if (fileExists) { // draw the pin
             Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
-            int w=pinWidth;
-            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
+            int w=(int)pinWidth;
+            int h=(int)(d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth());
 
             int left=(int)point.x-(w/2);
             int top=(int)point.y-h;

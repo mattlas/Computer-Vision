@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName = FileLocation.getSD();
+    private String folderName;
     private boolean foundMosaic = false;
 
     public boolean isMosaicIsFound() {
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private float yPinOffset;
     static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
@@ -84,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
+        if(checkPermission())
+            Log.d(TAG, "I do have permission");
+
+
+        this.yPinOffset = getResources().getDimension(R.dimen.pin_selection_offset);
+
+        folderName = FileLocation.getFileSystemSDCardName(getApplicationContext());
 
         settings = new Settings();
 
@@ -94,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
-        filehandler = new FileHandler(this);
+        imageInfoListHandler = new ImageInfoListHandler();
+        filehandler = new FileHandler(this, imageInfoListHandler.getScale());
 
         // Setting the image to display
         imageViewSetUp();
@@ -116,15 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        FileNotFoundDialog.setClickListener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //we don't care about a lot of things, just open the settings
-                drawer.openDrawer(Gravity.LEFT);
-                startSettings();
-
-            }
-        });
 
     }
 
@@ -133,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         imageView.setMaxScale(7f);
         imageView.setOrientation(ORIENTATION_0);
-
-        imageInfoListHandler = new ImageInfoListHandler();
 
         String path = folderName + "mosaic.jpg";
         File file = new File(path);
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 foundMosaic = true;
             }
             else {
-                FileNotFoundDialog.popup(this,"mosaic");
+                Log.e(TAG,"Mosaic image file not found");
                 imageView.setImage(ImageSource.resource(R.drawable.could_not_find_file)); //default if we can't find mosaic
             }
         }
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Goes to sharing activity
+     * Goes to the default android share activity - share "treeList.csv"
      */
     private void export(){
         // TODO try on tablet
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
-            FileNotFoundDialog.popup(this,"imageList");
         }
         pin.setOrigCoor(origCoor[0], origCoor[1]);
 
@@ -204,8 +201,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (imageView.isReady()) {
-                    if (dragPin != null) { // TODO fix the area for dragging the pin - it's still set to a circle around the point, should be a rectangle where the pin icon is
-                        latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY());
+                    if (dragPin != null) {
+                        latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY()+yPinOffset);
                         dragPin.setPosition(latestTouch);
 
                         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -234,7 +231,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    /* adding the pin to the file and pin list and shows the menu for the pin*/
+    /**
+     *  adding the pin to the file and pin list and shows the menu for the pin
+     */
     void showOriginals(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
@@ -256,7 +255,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.invalidate();
     }
 
-    /* adding the pin to the file and pin list and shows the menu for the pin*/
+
+    /**
+     *  edits the pin in the file and pin list and shows the menu for the pin
+     */
     void editOriginals(Pin pin) {
         PointF sCoord = new PointF(pin.getX(), pin.getY());
 
@@ -292,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
+
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
@@ -300,14 +303,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     public void setUpDragPin(MotionEvent e) {
         PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
 
         if (!imageView.listIsEmpty()) {
 
-            dragPin = imageView.getClosestPin(e.getX(), e.getY());
+
+            dragPin = imageView.getClosestPin(e.getX(), e.getY()+yPinOffset);
             Log.d(TAG, "y="+e.getY());
-            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()) < dragPin.getCollisionRadius()) {
+            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()+yPinOffset) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);
@@ -330,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else dragPin = null;
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
         switch (requestCode) {
@@ -342,6 +348,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // TODO: do we need it?
     @Override
     public void onClick(View v) {
         return;
@@ -359,8 +366,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return overlay;
     }
 
-    //navigationbar stuff
 
+    /**
+     * Gets the information which item from the menu is selected (clicked)
+     * @param item the clicked option
+     * @return true
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -408,14 +419,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
             ///selectItem(position);
         }
-    }
-
-    /**
-     * Run  whenever one of checkboxes are clicked
-     * @param view
-     */
-    public void onCheckboxClicked(View view) {
-
     }
 
 

@@ -36,8 +36,9 @@ import org.apache.commons.math3.linear.*;
 public class FileHandler {
 
     private String fileName = "treeList.csv";
+    private String listDirectory = FileLocation.getListLocation();
     private String directory = FileLocation.getSD();
-    private String fullFileName= directory+fileName;
+    private String fullFileName= listDirectory+fileName;
 
     private BufferedReader br;
     private BufferedWriter bw;
@@ -45,10 +46,12 @@ public class FileHandler {
     private MainActivity mainActivity;
     private final String TAG = FileHandler.class.getSimpleName();
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private double scale;
 
-    public FileHandler(MainActivity mainActivity) {
+    public FileHandler(MainActivity mainActivity, double scale) {
         // First initInputOverlay the directory if it doesn't exist
         this.mainActivity=mainActivity;
+        this.scale = scale;
         try{
             File dir = new File(directory);
 
@@ -281,7 +284,6 @@ public class FileHandler {
         String imageFileName;
         ImageInfo info;
 
-
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             if (line.length == 9){
@@ -292,8 +294,8 @@ public class FileHandler {
                 float origY;
                 float origX;
 
-                origX = Float.parseFloat(line[1]);
-                origY = Float.parseFloat(line[2]);
+                origX = Float.parseFloat(line[1]) * (float) scale;
+                origY = Float.parseFloat(line[2]) * (float) scale;
 
                 if (info != null) {
 
@@ -314,7 +316,7 @@ public class FileHandler {
                     // TODO make sure this is ok in the final build. Maybe improve error handling
 
                     if (mainActivity != null) {
-                        FileNotFoundDialog.popup(mainActivity, "imageInfo");
+                        Log.e(TAG,"Image info list not found");
                     }
 
                     mosaicX=origX;

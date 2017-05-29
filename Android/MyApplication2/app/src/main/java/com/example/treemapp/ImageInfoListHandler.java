@@ -42,6 +42,7 @@ public class ImageInfoListHandler {
     private HashMap<String, ImageInfo> imageInfos;
     private float icx;
     private float icy;
+    private double scale;
 
     public ImageInfoListHandler() {
 
@@ -80,8 +81,9 @@ public class ImageInfoListHandler {
         try {
             String firstLine = bf.readLine();
             words = firstLine.split(",");
-            this.icx = Float.parseFloat(words[0]);
-            this.icy = Float.parseFloat(words[1]);
+            this.scale = Double.parseDouble(words[0]);
+            this.icx = Float.parseFloat(words[1]);
+            this.icy = Float.parseFloat(words[2]);
             while((line = bf.readLine()) != null) {
                 line = line.replaceAll("\"", "");
                 words = line.split(",");
@@ -229,5 +231,9 @@ public class ImageInfoListHandler {
 
     public float getICY() {
         return icy;
+    }
+
+    public double getScale() {
+        return scale;
     }
 }
