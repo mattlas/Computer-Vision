@@ -72,6 +72,13 @@ make lapacklib
 
 ### File System
 
+### Debug
+To debug line for line, add to CMakeLists.txt:
+
+set(CMAKE_BUILD_TYPE Debug)
+
+and compile the project
+
 #### src
 source for the application
 
