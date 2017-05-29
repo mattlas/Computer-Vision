@@ -156,4 +156,8 @@ public class OnePinView extends SubsamplingScaleImageView {
     public void setPin(Pin pin) {
         this.pin = pin;
     }
+
+    public void removePin(Pin pin) {
+        this.pin = null;
+    }
 }
