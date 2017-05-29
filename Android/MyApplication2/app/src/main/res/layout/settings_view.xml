@@ -76,6 +76,11 @@
             android:layout_height="wrap_content"
             android:text="@string/pine"
             android:tag="pine"/>
+        <CheckBox android:id="@+id/chb_ash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ash"
+            android:tag="ash"/>
         <CheckBox android:id="@+id/chb_spruce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,11 +113,6 @@
             android:layout_height="wrap_content"
             android:text="@string/alder"
             android:tag="alder"/>
-        <CheckBox android:id="@+id/chb_buckthorn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/buckthorn"
-            android:tag="buckthorn"/>
         <CheckBox android:id="@+id/chb_cherry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,11 +138,11 @@
             android:layout_height="wrap_content"
             android:text="@string/hornbeam"
             android:tag="hornbeam"/>
-        <CheckBox android:id="@+id/chb_horseChestnut"
+        <CheckBox android:id="@+id/chb_chestnut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/horseChestnut"
-            android:tag="horseChestnut"/>
+            android:text="@string/chestnut"
+            android:tag="chestnut"/>
         <CheckBox android:id="@+id/chb_juniper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,16 +173,23 @@
             android:layout_height="wrap_content"
             android:text="@string/rowan"
             android:tag="rowan"/>
-        <CheckBox android:id="@+id/chb_sallow"
+        <CheckBox android:id="@+id/chb_willow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sallow"
-            android:tag="sallow"/>
+            android:text="@string/willow"
+            android:tag="willow"/>
         <CheckBox android:id="@+id/chb_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/other"
             android:tag="other"/>
+        <Button
+            android:id="@+id/btn_delete_treelist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_treelist_button"
+            android:onClick="onClick"
+            />
 
 
     </LinearLayout>

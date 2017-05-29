@@ -187,11 +187,20 @@ public class Pin implements Serializable{
     @Override
     public String toString() {
         return "Pin{" +
-                "sPin=" + sx +", " + sy +
+                "collisionRadius=" + collisionRadius +
+                ", sx=" + sx +
+                ", sy=" + sy +
                 ", id=" + id +
                 ", height='" + height + '\'' +
                 ", diameter='" + diameter + '\'' +
                 ", species='" + species + '\'' +
+                ", notes='" + notes + '\'' +
+                ", isDead=" + isDead +
+                ", radius=" + radius +
+                ", imageFileName='" + imageFileName + '\'' +
+                ", dragged=" + dragged +
+                ", ox=" + ox +
+                ", oy=" + oy +
                 '}';
     }
 

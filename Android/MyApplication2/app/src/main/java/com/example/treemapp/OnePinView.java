@@ -101,30 +101,18 @@ public class OnePinView extends SubsamplingScaleImageView {
         //PointF point = sourceToViewCoord(pin.getPoint());
         PointF point = sourceToViewCoord(pin.getOrigX(), pin.getOrigY());
 
-        //TODO, convert from mosaic to original
-
-        int drawableName=R.drawable.alder;
-
-        String species="Spruce";
+        String species="Other";
 
         if (pin.getSpecies() != null) {
             species=pin.getSpecies();
         }
 
-        switch (species){
-            case "Spruce": drawableName=R.drawable.spruce;
-                break;
-            case "Pine": drawableName=R.drawable.pine;
-                break;
-            case "Alder": drawableName=R.drawable.alder;
-                break;
-            case "Aspen": drawableName=R.drawable.aspen;
-                break;
-            case "Rowan": drawableName=R.drawable.rowan;
-                break;
-            case "Birch": drawableName=R.drawable.birch;
-                break;
+        int drawableName = getResources().getIdentifier(species.replaceAll(" ","_").toLowerCase(),"drawable",getContext().getPackageName());
+
+        if (drawableName == 0) {
+            drawableName=R.drawable.empty;
         }
+
 
         Drawable d = ResourcesCompat.getDrawable(getResources(), drawableName, null);
 

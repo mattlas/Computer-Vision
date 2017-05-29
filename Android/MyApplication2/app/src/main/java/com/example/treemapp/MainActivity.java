@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void startSettings() {
         SettingsFragment sf = new SettingsFragment();
-        sf.init(settings, this.getPackageName());
+        sf.init(settings,filehandler, this.getPackageName());
 
         FragmentManager fm = getFragmentManager();
 

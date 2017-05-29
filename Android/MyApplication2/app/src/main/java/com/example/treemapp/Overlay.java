@@ -353,16 +353,7 @@ public class Overlay extends View {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                // TODO
-                                // Switch to perspective image and set pin accordingly (newly calculated coordinates)
-                                // New calculated coordinates
-                                float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mosaicCoord[0], mosaicCoord[1], file.getName());
-                                // Change coordinates of pin
-                                pin.setOrigCoor(originalCoord[0], originalCoord[1]);
-                                pin.setImageFileName(new File(filePath).getName());
-                                // Change displayed image to clicked perspective
-                                main.setImage(ImageSource.uri(filePath));
-                                main.setVisibility(View.VISIBLE);
+                                imageListenerCode(file, pin, filePath, main);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
                     }
@@ -463,21 +454,13 @@ public class Overlay extends View {
                                 if (!filePath.equals(fullFileName)) {
                                     //main.removePin(pin);
                                     //invalidate();
-                                    
-                                    // Switch to perspective image and set pin accordingly (newly calculated coordinates)
-                                    // New calculated coordinates
-                                    float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mosaicCoord[0], mosaicCoord[1], file.getName());
-                                    // Change coordinates of pin
-                                    pin.setOrigCoor(originalCoord[0], originalCoord[1]);
-                                    pin.setImageFileName(new File(filePath).getName());
-                                    // Change displayed image to clicked perspective
-                                    main.setImage(ImageSource.uri(filePath));
-                                    main.setVisibility(View.VISIBLE);
+
+                                    imageListenerCode(file, pin, filePath, main);
 
                                     // If image is the pins image -> set pin
                                 } else {
                                     //main.setPin(pin);
-
+                                    imageListenerCode(file, pin, filePath, main);
                                 }
 
 
@@ -528,8 +511,33 @@ public class Overlay extends View {
         });
     }
 
+    private void imageListenerCode(File file, Pin pin, String filePath, OnePinView main) {
+        float[] mos = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mos[0], mos[1], file.getName());
+        // Change coordinates of pin
+        pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+        pin.setImageFileName(new File(filePath).getName());
+        // Change displayed image to clicked perspective
+        main.setImage(ImageSource.uri(filePath));
+        main.setVisibility(View.VISIBLE);
+    }
+
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
-        return settings.getTreesSpeciesChosen();
+        List<CarouselPicker.PickerItem> treeList = settings.getTreesSpeciesChosen();
+        List<CarouselPicker.PickerItem> newList = new ArrayList<>();
+
+        for (CarouselPicker.PickerItem item : treeList){
+            String text = item.getText();
+            String newText;
+            int id = mainActivity.getResources().getIdentifier(text, "string", mainActivity.getPackageName());
+            newText = mainActivity.getResources().getString(id);
+            CarouselPicker.PickerItem newItem = new CarouselPicker.TextItem(newText,settings.carouselSize);
+
+            newList.add(newItem);
+        }
+
+        return newList;
+
     }
 
     @NonNull
