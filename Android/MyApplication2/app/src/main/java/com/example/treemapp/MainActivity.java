@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         initMenu();
-        filehandler = new FileHandler(this);
+        imageInfoListHandler = new ImageInfoListHandler();
+        filehandler = new FileHandler(this, imageInfoListHandler.getScale());
 
         // Setting the image to display
         imageViewSetUp();
@@ -133,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         imageView.setMaxScale(7f);
         imageView.setOrientation(ORIENTATION_0);
-
-        imageInfoListHandler = new ImageInfoListHandler();
 
         String path = folderName + "mosaic.jpg";
         File file = new File(path);

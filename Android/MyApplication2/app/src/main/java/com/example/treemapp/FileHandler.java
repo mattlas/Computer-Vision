@@ -45,10 +45,12 @@ public class FileHandler {
     private MainActivity mainActivity;
     private final String TAG = FileHandler.class.getSimpleName();
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private double scale;
 
-    public FileHandler(MainActivity mainActivity) {
+    public FileHandler(MainActivity mainActivity, double scale) {
         // First initInputOverlay the directory if it doesn't exist
         this.mainActivity=mainActivity;
+        this.scale = scale;
         try{
             File dir = new File(directory);
 
@@ -292,8 +294,8 @@ public class FileHandler {
                 float origY;
                 float origX;
 
-                origX = Float.parseFloat(line[1]);
-                origY = Float.parseFloat(line[2]);
+                origX = Float.parseFloat(line[1]) * (float) scale;
+                origY = Float.parseFloat(line[2]) * (float) scale;
 
                 if (info != null) {
 
