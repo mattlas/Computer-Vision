@@ -133,7 +133,7 @@ public class Overlay extends View {
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes);
 
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
-        tv.setText("Add tree");
+        tv.setText("Save a tree");
 
         notes.setText("");
         deadTree.setChecked(false);
@@ -205,13 +205,11 @@ public class Overlay extends View {
     public void edit(final Pin pin) {
         inputOverlayEdit.setVisibility(View.VISIBLE);
 
-        Log.d(mainActivity.TAG, "Tree detail edit overlay opened");
-
-        //TODO, put values here
+        Log.d(MainActivity.TAG, "Tree detail edit overlay opened");
 
         final NumberPicker height = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_height_edit);
         final NumberPicker diameter = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_diameter_edit);
-        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker_edit);
+        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carousel_picker_edit);
         final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
 
@@ -221,7 +219,8 @@ public class Overlay extends View {
         notes.setText(pin.getNotes());
 
         TextView tv = (TextView) inputOverlayEdit.findViewById(R.id.overlay_box_txt_edit);
-        tv.setText("Edit tree");
+        tv.setText("Edit the tree");
+
 
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
@@ -308,6 +307,9 @@ public class Overlay extends View {
 
         continueBtn.setText("CONTINUE TO ADD THE TREE");
 
+        TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
+        tv.setText("Choose a position of the tree");
+
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
 
@@ -381,7 +383,6 @@ public class Overlay extends View {
             }
         }
 
-
         ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
 
         ib.setOnClickListener(new View.OnClickListener() {
@@ -410,6 +411,9 @@ public class Overlay extends View {
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
         final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
+
+        TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
+        tv.setText("Edit position of the tree");
 
         continueBtn.setText("CONTINUE TO EDIT THE TREE");
 
