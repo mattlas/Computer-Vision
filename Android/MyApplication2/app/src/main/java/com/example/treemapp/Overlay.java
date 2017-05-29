@@ -23,6 +23,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -512,8 +513,8 @@ public class Overlay extends View {
     }
 
     private void imageListenerCode(File file, Pin pin, String filePath, OnePinView main) {
-        float[] mos = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
-        float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mos[0], mos[1], file.getName());
+        float[] mos = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
+        float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mos[0], mos[1], file.getName());
         // Change coordinates of pin
         pin.setOrigCoor(originalCoord[0], originalCoord[1]);
         pin.setImageFileName(new File(filePath).getName());
