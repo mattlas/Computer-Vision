@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -15,18 +14,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -333,7 +329,7 @@ public class Overlay extends View {
         main.setVisibility(View.VISIBLE);
 
         // Mosaic Coordinates
-        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -360,7 +356,7 @@ public class Overlay extends View {
                                 // TODO
                                 // Switch to perspective image and set pin accordingly (newly calculated coordinates)
                                 // New calculated coordinates
-                                float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
+                                float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mosaicCoord[0], mosaicCoord[1], file.getName());
                                 // Change coordinates of pin
                                 pin.setOrigCoor(originalCoord[0], originalCoord[1]);
                                 pin.setImageFileName(new File(filePath).getName());
@@ -440,7 +436,7 @@ public class Overlay extends View {
         main.setVisibility(View.VISIBLE);
 
         // Mosaic Coordinates
-        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
         int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -470,7 +466,7 @@ public class Overlay extends View {
                                     
                                     // Switch to perspective image and set pin accordingly (newly calculated coordinates)
                                     // New calculated coordinates
-                                    float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
+                                    float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mosaicCoord[0], mosaicCoord[1], file.getName());
                                     // Change coordinates of pin
                                     pin.setOrigCoor(originalCoord[0], originalCoord[1]);
                                     pin.setImageFileName(new File(filePath).getName());

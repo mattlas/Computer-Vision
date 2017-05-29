@@ -1,14 +1,6 @@
 package com.example.treemapp;
 
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
-import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
@@ -20,8 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Array;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -111,12 +101,13 @@ public class ImageInfoListHandler {
 
     }
 
-    public float[] getTransformOrigToMosaic(Pin pin) {
+    public float[] transformOrigToMosaic(Pin pin) {
 
-        if (!new File(pin.getImageFileName()).exists()){
-            float[] arr = {pin.getX(), pin.getY()};
-            //TODO, file does not exists handling
-            return arr;
+        ImageInfo ii = findImageInfo(pin.getImageFileName());
+
+        if (ii == null) {
+            Log.e(TAG, "Could not find the correct imageInfo for filename: '" + pin.getImageFileName() +"' so I am returning orig");
+            return new float[]{pin.getOrigY(), pin.getOrigY()};
         }
 
         RealMatrix transformMatrix = findImageInfo(pin.getImageFileName()).getTransformMatrix();
@@ -135,14 +126,14 @@ public class ImageInfoListHandler {
         return coor;
     }
 
-    public float[] getTransformMosaicToOriginal(float x, float y, ImageInfo im) {
+    public float[] transformMosaicToOrig(float x, float y, ImageInfo im) {
         float[] f = getResultCoordinates(x, y);
         return im.convertFromIdentityCoordinatesToOriginal(f[0], f[1]);
     }
 
-    public float[] getTransformMosaicToOriginal(float x, float y, String fileName) {
+    public float[] transformMosaicToOrig(float x, float y, String fileName) {
         ImageInfo im = findImageInfo(fileName);
-        return getTransformMosaicToOriginal(x, y, im);
+        return transformMosaicToOrig(x, y, im);
     }
 
 
@@ -151,7 +142,13 @@ public class ImageInfoListHandler {
     }
 
     public ImageInfo findImageInfo(String fileName) {
-        return imageInfos.get(fileName);
+
+        if (imageInfos.containsKey(fileName)) {
+            return imageInfos.get(fileName);
+        }
+        else {
+            return null;
+        }
     }
 
     /**
