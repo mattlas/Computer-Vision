@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.graphics.Rect;
@@ -18,8 +19,6 @@ import java.util.Map;
  */
 
 public class HistogramView extends AppCompatImageView {
-
-    private static final String TAG=HistogramView.class.getSimpleName();
 
     private static final int MAX_STAPLES = 20;
 
@@ -81,7 +80,6 @@ public class HistogramView extends AppCompatImageView {
      */
     private void drawHistogram(Canvas canvas){
 
-
         if (!ready){
             return;
         }
@@ -118,17 +116,19 @@ public class HistogramView extends AppCompatImageView {
             int scaledValue = values[i] * yAxisLength/maxStapleSize;
             int xText=marginX+i*xAxisLength/size;
             canvas.drawText(String.format("%.3g%n", Math.min(min+staple*i,max)),xText,yText,textPaint);
+            canvas.drawText(Integer.toString(values[i]), xText + xAxisLength/(2 * size), height - marginY - scaledValue - 30, textPaint);
 
-                Rect r = new Rect(xText, height - marginY - scaledValue,xText+xAxisLength/size,height-marginY);
-                Paint rectPaint = new Paint();
-                //fill
-                rectPaint.setColor(colorScheme[i%colorScheme.length]);
-                canvas.drawRect(r,rectPaint);
-                //border
-                rectPaint.setColor(Color.WHITE);
-                rectPaint.setStyle(Paint.Style.STROKE);
-                rectPaint.setStrokeWidth(3);
-                canvas.drawRect(r,rectPaint);
+            Rect r = new Rect(xText, height - marginY - scaledValue,xText+xAxisLength/size,height-marginY);
+            Paint rectPaint = new Paint();
+            //fill
+            //rectPaint.setColor(colorScheme[i%colorScheme.length]);
+            rectPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            canvas.drawRect(r,rectPaint);
+            //border
+            rectPaint.setColor(Color.WHITE);
+            rectPaint.setStyle(Paint.Style.STROKE);
+            rectPaint.setStrokeWidth(3);
+            canvas.drawRect(r,rectPaint);
 
         }
 

@@ -16,28 +16,65 @@
 
     >
 
+
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-
-
         android:layout_weight="1"
         android:weightSum="2">
 
-        <com.example.treemapp.HistogramView
-            android:id="@+id/histogramView"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            />
-        <com.example.treemapp.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/histogramText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Histogram for heights"
+                android:gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="#FF000000"
+                />
+
+            <com.example.treemapp.HistogramView
+                android:id="@+id/histogramView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pieChartText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Species distribution"
+                android:gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="#FF000000"
+                />
+
+            <com.example.treemapp.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+            />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
