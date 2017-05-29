@@ -318,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             dragPin = imageView.getClosestPin(e.getX(), e.getY()+yPinOffset);
-            Log.d(TAG, "y="+e.getY());
             if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()+yPinOffset) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
@@ -387,8 +386,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .addToBackStack(null)
                     .commit();
         }else if (id == R.id.nav_home) {
-            getFragmentManager().popBackStack();
-        }else if (id == R.id.nav_manage){
+            getFragmentManager().popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            }else if (id == R.id.nav_manage){
             startSettings();
         }
 
