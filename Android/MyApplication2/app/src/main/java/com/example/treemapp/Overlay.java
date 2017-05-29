@@ -205,13 +205,11 @@ public class Overlay extends View {
     public void edit(final Pin pin) {
         inputOverlayEdit.setVisibility(View.VISIBLE);
 
-        Log.d(mainActivity.TAG, "Tree detail edit overlay opened");
-
-        //TODO, put values here
+        Log.d(MainActivity.TAG, "Tree detail edit overlay opened");
 
         final NumberPicker height = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_height_edit);
         final NumberPicker diameter = (NumberPicker) inputOverlayEdit.findViewById(R.id.inp_diameter_edit);
-        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carouselPicker_edit);
+        final CarouselPicker carouselPicker = (CarouselPicker) mainActivity.findViewById(R.id.carousel_picker_edit);
         final CheckBox deadTree = (CheckBox) mainActivity.findViewById(R.id.chb_deadtree_edit);
         final EditText notes = (EditText) mainActivity.findViewById(R.id.notes_edit);
 
@@ -383,7 +381,6 @@ public class Overlay extends View {
                 }
             }
         }
-
 
         ImageButton ib = (ImageButton) imagePickerOverlay.findViewById(R.id.btn_imagepicker_exit);
 
