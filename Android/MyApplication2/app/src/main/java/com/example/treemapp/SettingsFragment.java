@@ -82,8 +82,6 @@ public class SettingsFragment extends Fragment {
             cb.setChecked(true);
         }
 
-        Button changeDirectory = (Button) view.findViewById(R.id.btn_directory_change);
-
         TextView tv = (TextView) view.findViewById(R.id.directory_textview);
 
         tv.setText(FileLocation.getSD());

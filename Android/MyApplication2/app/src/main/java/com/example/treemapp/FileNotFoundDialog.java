@@ -70,12 +70,18 @@ public class FileNotFoundDialog extends DialogFragment {
                     message += LINE_SEPARATOR + file;
                 }
             } else message+=".";
-            message += LINE_SEPARATOR + "Do you want to locate them now?";
+            message += LINE_SEPARATOR + "Ensure the file structure is correct and try again.";
 
             builder.setMessage(message);
-            if (settingsListener != null) builder.setPositiveButton("Go to settings", settingsListener);
+            if (settingsListener != null)
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //nothing!
+                    }
+                });
 
-            builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // User cancelled dialog. Is this enough to remove it?
