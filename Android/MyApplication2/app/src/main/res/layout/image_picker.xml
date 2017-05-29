@@ -76,7 +76,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textSize="16sp"
-                android:text="CONTINUE TO ADD TREE" />
+                android:text="CONTINUE TO ADD THE TREE" />
 
             <!-- todo
             <ImageView

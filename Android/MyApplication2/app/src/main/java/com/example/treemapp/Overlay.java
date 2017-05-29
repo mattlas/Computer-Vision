@@ -116,7 +116,6 @@ public class Overlay extends View {
 
     /**
      * Opens the input for pin data entry. Basically just an invisible view that becomes visible.
-     *
      * @param pin the tree/pin to add
      */
     public void initInputOverlay(final Pin pin) {
@@ -302,6 +301,9 @@ public class Overlay extends View {
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+        final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
+
+        continueBtn.setText("CONTINUE TO ADD THE TREE");
 
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
@@ -407,6 +409,9 @@ public class Overlay extends View {
 
         final String fileName = pin.getImageFileName();
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
+        final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
+
+        continueBtn.setText("CONTINUE TO EDIT THE TREE");
 
         //this converts from fileName to full path to the file
         final String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);

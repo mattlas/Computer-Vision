@@ -274,9 +274,6 @@ public class PinView extends SubsamplingScaleImageView {
         // then remove the line and put a new one back in
         if (lineToUpdate != -1){
             Log.d(TAG,"Line to edit found: "+lineToUpdate);
-
-
-
             return fileHandler.editLine(lineToUpdate, pin.getCSV(fileHandler.getScale()));}
         else return false;
     }
