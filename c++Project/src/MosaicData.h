@@ -16,11 +16,13 @@
 //#include <thread>
 #include <pthread.h>
 #include <mutex>
+#include <set>
 #include "opencv2/core.hpp"
 
 //#include <unordered_map>
 
 #include "QObject"
+#include "HomographyData.h"
 
 class MosaicData : public QObject{
     Q_OBJECT
@@ -39,7 +41,9 @@ private:
     std::string pgm_path;
     ImageData* referenceImage;
 
-    std::vector<std::vector<ImageData>> imagePairs;
+    std::vector<std::vector<HomographyData>> imagePairs;
+    std::set<int> checkHomList;
+    std::vector<HomographyData> homographyList;
 
     imaq *im = NULL;
 
@@ -84,9 +88,13 @@ private:
 
     void createImages();
     void stitchImages();
+    void findShortestPath();
+    void calculatePairs(std::vector<HomographyData> &startNode, HomographyData data, Mat mat);
+
 
 signals:
     void finished();
+
 };
 
 

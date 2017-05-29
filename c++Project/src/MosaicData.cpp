@@ -35,6 +35,7 @@ void MosaicData::startProcess() {
     std::cout << "create threads" << std::endl;
     //createThreads();
     std::cout << "ubc match" << std::endl;
+    findShortestPath();
     ubcMatch();
     std::cout << "ubc match done" << std::endl;
     stitchImages();
@@ -77,6 +78,7 @@ void MosaicData::createImages() {
         imageList.insert(imageList.begin()+i,*imageData);
         tempID++;
     }
+    referenceImage = &imageList.at(imageList.size()/2);
 
 }
 
@@ -100,8 +102,9 @@ void MosaicData::extractFeaturePoints() {
 void MosaicData::ubcMatch() {
     for (int i = 0; i < imagePairs.size() ; ++i) {
         for (int j = 0; j < imagePairs.at(i).size()-1; ++j) {
-            MatchPoints *matcher = new MatchPoints(*imagePairs.at(i).at(0).getFeaturePoints(),
-                                                   *imagePairs.at(i).at(j+1).getFeaturePoints());
+            MatchPoints *matcher = new MatchPoints(
+                    *imagePairs.at(i).at(0).getImageData()->getFeaturePoints(),
+                    *imagePairs.at(i).at(j+1).getImageData()->getFeaturePoints());
             //todo how to save homography
             matcher->getHomography();
 
@@ -184,6 +187,39 @@ void MosaicData::addDirectory(std::string dir) {
 void MosaicData::stitchImages() {
     //todo final stitching of images
 
+}
+
+void MosaicData::findShortestPath() {
+    std::vector<HomographyData> startPairs = (std::vector<HomographyData> &&) imagePairs.at(referenceImage->getId());
+    HomographyData startNode = startPairs.at(0);
+
+    cv::Mat startMat = Mat::eye(3, 3, CV_64F);
+    for (int i = 0; i < startPairs.size()-1; ++i) {
+        HomographyData node = startPairs.at(i+1);
+        calculatePairs(imagePairs.at(node.getImageData()->getId()), startNode, startMat);
+    }
+
+
+}
+
+void MosaicData::calculatePairs(std::vector<HomographyData> &currentlist, HomographyData previousNode, Mat prevMat) {
+    HomographyData currentNode = currentlist.at(0);
+    MatchPoints *matcher = new MatchPoints(*currentNode.getImageData()->getFeaturePoints(),
+                                           *previousNode.getImageData()->getFeaturePoints());
+    cv::Mat homography = matcher->getHomography();
+    homography = homography * prevMat;
+    HomographyData *homographyData = new HomographyData(*currentNode.getImageData(),
+                                                        currentNode.getDistance(),
+                                                        homography,
+                                                        previousNode.getImageData()->getId());
+    homographyList.push_back(*homographyData);
+    checkHomList.insert(currentNode.getImageData()->getId());
+    for (int i = 0; i < currentlist.size()-1; ++i) {
+        HomographyData newNode = currentlist.at(i+1);
+        if(checkHomList.find(newNode.getImageData()->getId()) != checkHomList.end()){
+            calculatePairs(imagePairs.at(newNode.getImageData()->getId()), currentNode, Mat());
+        }
+    }
 }
 
 

@@ -3,3 +3,7 @@
 //
 
 #include "HomographyData.h"
+
+HomographyData::HomographyData() {
+
+}

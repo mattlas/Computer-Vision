@@ -10,7 +10,6 @@ MatchPoints::MatchPoints(FeaturePoints point1, FeaturePoints point2)
     numberMatches = 0;
     findMatches();
     createHomography();
-    flennMatch();
 
     std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
 
@@ -85,13 +84,7 @@ void MatchPoints::setHomography(const cv::Mat &homography) {
     MatchPoints::homography = homography;
 }
 
-void MatchPoints::flennMatch() {
-    cv::FlannBasedMatcher matcher;
-    std::vector< cv::DMatch > matches;
-    //matcher.match( descriptors_1, descriptors_2, matches );
-    double max_dist = 0; double min_dist = 100;
 
-}
 
 
 

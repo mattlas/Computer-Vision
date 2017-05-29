@@ -6,8 +6,10 @@
 #include <math.h>
 #include "../spike/neighbours/exif.h"
 #include "ImageData.h"
+#include "HomographyData.h"
+
 
 namespace neighbours {
-std::vector<std::vector<ImageData>> pairs(std::vector<ImageData> nodes);
+std::vector<std::vector<HomographyData>> pairs(std::vector<ImageData> nodes);
 }
 #endif
