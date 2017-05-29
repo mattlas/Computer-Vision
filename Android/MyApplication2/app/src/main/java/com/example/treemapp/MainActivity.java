@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FileHandler filehandler;
     private ImageInfoListHandler imageInfoListHandler;
     private PinView imageView;
-    private String folderName = FileLocation.getSD();
+    private String folderName;
     private boolean foundMosaic = false;
 
     public boolean isMosaicIsFound() {
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         this.yPinOffset = getResources().getDimension(R.dimen.pin_selection_offset);
+
+        folderName = FileLocation.getFileSystemSDCardName(getApplicationContext());
 
         settings = new Settings();
 

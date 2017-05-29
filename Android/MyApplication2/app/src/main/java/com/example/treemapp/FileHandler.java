@@ -284,7 +284,6 @@ public class FileHandler {
         String imageFileName;
         ImageInfo info;
 
-
         ArrayList<String[]> lineList = this.readContents();
         for (String line[] : lineList) {
             if (line.length == 9){

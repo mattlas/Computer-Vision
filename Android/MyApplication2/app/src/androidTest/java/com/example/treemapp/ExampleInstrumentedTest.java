@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,13 +22,22 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
 
     private final String TAG = this.getClass().getSimpleName();
+    private Context appContext;
 
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.example.treemapp", appContext.getPackageName());
+    }
+
+    @Test
+    public void checkTheSDcard() {
+
+        String path = InstrumentationRegistry.getTargetContext().getExternalFilesDirs(null)[1].getAbsolutePath().split("Android")[0];
+
+        Log.i("SD-path " ,path);
     }
 
     @Test
@@ -51,7 +61,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void checkIfWritePermission() throws Exception{
-        new FileHandler(null);
+        new FileHandler(null, 1);
     }
 
 }
