@@ -86,12 +86,10 @@ public class PieChart extends AppCompatImageView {
         p.setStyle(Paint.Style.FILL);
         p.setStrokeWidth(8);
 
-
         TextPaint tp = new TextPaint();
         tp.setTextSize(32f);
         tp.setTextAlign(Paint.Align.LEFT);
         int yAlign = -(int) (tp.getFontMetrics().top + tp.getFontMetrics().bottom) / 2;
-
 
         canvas.drawVertices(Canvas.VertexMode.TRIANGLES, verts.length, verts, 0, null, 0, colors, 0, null, 0, 0, p);
 
@@ -161,7 +159,7 @@ public class PieChart extends AppCompatImageView {
         verts = new float[length * 6];
 
         float cx = width * .31f;
-        float cy = height * .31f;
+        float cy = height * .5f;
         float radius = Math.min(width, height) * 0.3f;
         float angle;
         float angle2;
