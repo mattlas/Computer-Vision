@@ -18,9 +18,6 @@
 #include <mutex>
 #include <set>
 #include "opencv2/core.hpp"
-
-//#include <unordered_map>
-
 #include "QObject"
 #include "HomographyData.h"
 
@@ -28,12 +25,10 @@ class MosaicData : public QObject{
     Q_OBJECT
 
 private:
-    //std::unordered_map<int,ImageData> imageList;
     std::vector<ImageData*> imageList;
     std::vector<std::string> directoryList;
     std::vector<std::string> pgmFileNames;
     std::string pgmFolder;
-    std::vector<std::string> fileNames;
     std::vector<FeaturePoints> featurePointList;
     std::mutex readMutex;
     std::mutex writeMutex;
@@ -42,8 +37,6 @@ private:
     ImageData* referenceImage;
 
     std::vector<std::vector<HomographyData*>> imagePairs;
-    std::set<int> checkHomList;
-    std::map<int,int> recursionList;
     std::vector<HomographyData*> homographyList;
 
     imaq *im = NULL;
@@ -67,32 +60,36 @@ public slots:
      */
     void startProcess();
 
-    void extractFeaturePoints();
-
-    void extractFeaturePointsThreaded();
-
-    void createThreads();
-
-    void ubcMatch();
-
+    /**
+     * Class wrapper to be called in threaded solution. This function then calls the threaded
+     * implementation for extracting feature points.
+     * @param mosaicData
+     */
     static void classWrapper(MosaicData* mosaicData);
 
-    void createNeighbours();
 
 
 private:
+    /**
+     * function to read all files from input directory
+     * @param string
+     */
     void readFiles(std::string string);
     std::vector<std::string> readDirectoryFiles(const std::string &dir);
     void readPGMFromFolder();
 
     void convertToPGM(std::string string);
-
     void createImages();
-    void stitchImages();
+    void extractFeaturePoints();
+    void createNeighbours();
+
+    void createThreads();
+    void extractFeaturePointsThreaded();
     void findPath();
     void calculatePairs(std::vector<HomographyData*> startNode, HomographyData *prevNode, int recursionDepth);
     void calculateHomographies(std::vector<HomographyData*> finalHomList);
     void recurseHomographies(HomographyData* data);
+    void stitchImages();
 
 
 signals:

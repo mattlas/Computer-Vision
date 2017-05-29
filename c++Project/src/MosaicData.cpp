@@ -38,8 +38,6 @@ void MosaicData::startProcess() {
     findPath();
     std::cout << "calculate homographies" << std::endl;
     calculateHomographies(homographyList);
-    //find
-    //ubcMatch();
     std::cout << "ubc match done" << std::endl;
     stitchImages();
     emit finished();
@@ -70,11 +68,8 @@ void MosaicData::createImages() {
     int tempID = 0;
     for (int i = 0; i < pgmFileNames.size(); ++i) {
 
-    //}
-    //for(std::string file : pgmFileNames){
         ImageData *imageData = new ImageData(i);
         imageData->setPgm_path(pgmFileNames.at(i));
-        //imageData->setPath(fileNames.at(i));
         imageData->setPath(im->getJpgFileNames().at(i));
 
 	    imageData->setInfo(exif::read(imageData->getPath()));
@@ -100,46 +95,6 @@ void MosaicData::extractFeaturePoints() {
 
         id++;
     }
-}
-
-void MosaicData::ubcMatch() {
-    for (int i = 0; i < imagePairs.size() ; ++i) {
-        for (int j = 0; j < imagePairs.at(i).size()-1; ++j) {
-            MatchPoints *matcher = new MatchPoints(
-                    *imagePairs.at(i).at(0)->getImageData()->getFeaturePoints(),
-                    *imagePairs.at(i).at(j+1)->getImageData()->getFeaturePoints());
-            //todo how to save homography
-            matcher->getHomography();
-
-        }
-    }
-
-
-
-
-   /* cv::Mat image1 = imread(imageList.at(0).getPath());
-    cv::Mat image2 = imread(imageList.at(1).getPath());
-    image1 = im->cropImage(image1);
-    image2 = im->cropImage(image2);
-
-    cv::Mat mosaic = Mat::zeros(1000,1000,CV_8UC1);
-
-
-    Mat im_out;
-    cv::warpPerspective(image1,im_out,matcher->getHomography(),mosaic.size());
-
-    // Display images
-
-
-    imshow("Source Image", image1);
-
-    imshow("Destination Image", image2);
-
-    imshow("Warped Source Image", im_out);
-
-
-
-    waitKey(0);*/
 }
 
 void MosaicData::createThreads() {
@@ -194,12 +149,13 @@ void MosaicData::stitchImages() {
 
 void MosaicData::findPath() {
     int recursionDepth = 0;
-    for (int j = 0; j < imagePairs.size(); ++j) {
-        homographyList.push_back((HomographyData *&&) imagePairs.at(j).at(0));
-    }
+    /*for (int j = 0; j < imagePairs.size(); ++j) {
+        homographyList.push_back((HomographyData*) imagePairs.at(j).at(0));
+    }*/
 
     std::vector<HomographyData*> startPairs = (std::vector<HomographyData*>) imagePairs.at(referenceImage->getId());
     HomographyData *startNode = startPairs.at(0);
+    homographyList.push_back(startNode);
     cv::Mat startMat = Mat::eye(3, 3, CV_64F);
     startNode->setHomography(startMat);
     startNode->setRecursionDepth(recursionDepth);
@@ -215,6 +171,7 @@ void MosaicData::findPath() {
 void MosaicData::calculatePairs(std::vector<HomographyData*> currentlist, HomographyData *prevNode, int recursionDepth ) {
     HomographyData* currentNode = currentlist.at(0);
     if(recursionDepth < currentNode->getRecursionDepth()){
+        homographyList.push_back(currentNode);
         currentNode->setRecursionDepth(recursionDepth);
         currentNode->setPrevNode(prevNode);
         for (int i = 0; i < currentlist.size()-1; ++i) {
