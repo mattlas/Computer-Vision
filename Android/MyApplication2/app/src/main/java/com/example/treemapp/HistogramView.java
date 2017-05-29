@@ -111,7 +111,7 @@ public class HistogramView extends AppCompatImageView {
 
         int maxStapleSize=histogram.mostPopulatedStapleSize();
 
-        for (i=0; i<size; i++){
+        for (i=0; i<size && maxStapleSize != 0; i++){
 
             int scaledValue = values[i] * yAxisLength/maxStapleSize;
             int xText=marginX+i*xAxisLength/size;

@@ -48,6 +48,8 @@ public class Overlay extends View {
     private PinView originalView;
     private Settings settings;
 
+    private Pin pin;
+
     Canvas canvas;
 
     // overlay = new Overlay(this, (RelativeLayout) findViewById(R.id.Tree_input_overlayed), (RelativeLayout) findViewById(R.id.Perspective_overlay),
@@ -79,15 +81,9 @@ public class Overlay extends View {
         this.canvas = canvas;
 
         PointF point = new PointF(0, 1);
-
-        /*for(Pin p : pins) {
-            point = sourceToViewCoord(p.getPoint());
-
-            filled.setAlpha(255);
-
-            drawMark(canvas, p);
-        }*/
-        //drawMark(canvas, point);
+        //point = sourceToViewCoord(pin.getPoint());
+        point = pin.getPoint();
+        drawMark(point);
     }
     // TODO
     public void drawMark(PointF point){
@@ -361,16 +357,7 @@ public class Overlay extends View {
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
-                                // TODO
-                                // Switch to perspective image and set pin accordingly (newly calculated coordinates)
-                                // New calculated coordinates
-                                float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
-                                // Change coordinates of pin
-                                pin.setOrigCoor(originalCoord[0], originalCoord[1]);
-                                pin.setImageFileName(new File(filePath).getName());
-                                // Change displayed image to clicked perspective
-                                main.setImage(ImageSource.uri(filePath));
-                                main.setVisibility(View.VISIBLE);
+                                imageListenerCode(file, pin, filePath, main);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
                     }
@@ -464,23 +451,25 @@ public class Overlay extends View {
                 imgBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Log.d(TAG, "hello");
-                        //Toast t = Toast.makeText(mainActivity.getApplicationContext(), "Stop", Toast.LENGTH_LONG);
-                        //t.show();
                         if (filePath != null) {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 // If image is not the pins image -> set mark instead of pin
                                 if (!filePath.equals(fullFileName)) {
-                                    //drawMark(pin.getPoint());
+                                    //main.removePin(pin);
+                                    //invalidate();
+
+                                    // Switch to perspective image and set pin accordingly (newly calculated coordinates)
+                                    // New calculated coordinates
+
+                                    imageListenerCode(file, pin, filePath, main);
 
                                     // If image is the pins image -> set pin
                                 } else {
-                                    // New calculated coordinates
-                                    //float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mosaicCoord[0], mosaicCoord[1], file.getName());
-                                    // Change coordinates of pin
-                                    //pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+                                    //main.setPin(pin);
+                                    imageListenerCode(file, pin, filePath, main);
                                 }
+
 
                                 // Change displayed image to clicked perspective
                                 main.setImage(ImageSource.uri(filePath));
@@ -527,6 +516,17 @@ public class Overlay extends View {
                 edit(pin);
             }
         });
+    }
+
+    private void imageListenerCode(File file, Pin pin, String filePath, OnePinView main) {
+        float[] mos = mainActivity.getImageInfoListHandler().getTransformOrigToMosaic(pin);
+        float[] originalCoord = mainActivity.getImageInfoListHandler().getTransformMosaicToOriginal(mos[0], mos[1], file.getName());
+        // Change coordinates of pin
+        pin.setOrigCoor(originalCoord[0], originalCoord[1]);
+        pin.setImageFileName(new File(filePath).getName());
+        // Change displayed image to clicked perspective
+        main.setImage(ImageSource.uri(filePath));
+        main.setVisibility(View.VISIBLE);
     }
 
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
