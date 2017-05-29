@@ -48,6 +48,14 @@ public class FileHandler {
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
     private double scale;
 
+    public String getFullFileName(){
+        return fullFileName;
+    }
+
+    public String getFileName(){
+        return fileName;
+    }
+
     public FileHandler(MainActivity mainActivity, double scale) {
         // First initInputOverlay the directory if it doesn't exist
         listDirectory = FileLocation.getListLocation();
