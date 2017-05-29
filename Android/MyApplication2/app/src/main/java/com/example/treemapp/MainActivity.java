@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestPermission(); // Code for permission
             Log.d(TAG, "I do have permission");
         }
+        if(checkPermission())
+            Log.d(TAG, "I do have permission");
+
 
         this.yPinOffset = getResources().getDimension(R.dimen.pin_selection_offset);
 
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Goes to sharing activity
+     * Goes to the default android share activity - share "treeList.csv"
      */
     private void export(){
         // TODO try on tablet
@@ -226,7 +229,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    /* adding the pin to the file and pin list and shows the menu for the pin*/
+    /**
+     *  adding the pin to the file and pin list and shows the menu for the pin
+     */
     void showOriginals(MotionEvent e) {
         PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
 
@@ -248,7 +253,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.invalidate();
     }
 
-    /* adds the pin to the file and pin list and shows the menu for the pin*/
+
+    /**
+     *  edits the pin in the file and pin list and shows the menu for the pin
+     */
     void editOriginals(Pin pin) {
         PointF sCoord = new PointF(pin.getX(), pin.getY());
 
@@ -284,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
+
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
@@ -291,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
         }
     }
+
 
     public void setUpDragPin(MotionEvent e) {
         PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
@@ -323,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else dragPin = null;
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
         switch (requestCode) {
@@ -335,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // TODO: do we need it?
     @Override
     public void onClick(View v) {
         return;
@@ -352,8 +364,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return overlay;
     }
 
-    //navigationbar stuff
 
+    /**
+     * Gets the information which item from the menu is selected (clicked)
+     * @param item the clicked option
+     * @return true
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -401,14 +417,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onItemClick(AdapterView<?> parent, View view, int position, long i){
             ///selectItem(position);
         }
-    }
-
-    /**
-     * Run  whenever one of checkboxes are clicked
-     * @param view
-     */
-    public void onCheckboxClicked(View view) {
-
     }
 
 
