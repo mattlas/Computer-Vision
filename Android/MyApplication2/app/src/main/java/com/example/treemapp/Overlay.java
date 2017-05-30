@@ -152,9 +152,9 @@ public class Overlay extends View {
                 mainActivity.getImageView().addPin(pin);
                 mainActivity.getImageView().invalidate();
                 if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString(), (float)mainActivity.getImageInfoListHandler().getScale()))
-                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT).show();
                 else
-                    Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_save_failed, Toast.LENGTH_SHORT).show();
                 // Make overlayed view visible
                 inputOverlay.setVisibility(View.INVISIBLE);
 
@@ -224,7 +224,7 @@ public class Overlay extends View {
         // Former chosen species
         String formerSpecies = pin.getSpecies();
         // Set picker position to former chosen species
-        Toast.makeText(mainActivity.getApplicationContext(), "Data saved." + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
         carouselPicker.setCurrentItem(getSpeciesPosition(formerSpecies, speciesList));
 
         Button save = (Button) inputOverlayEdit.findViewById(R.id.btn_save_edit);
@@ -235,9 +235,9 @@ public class Overlay extends View {
             @Override
             public void onClick(View view) {
                 if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString())) {
-                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved , Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_save_failed, Toast.LENGTH_SHORT).show();
                 inputOverlayEdit.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }

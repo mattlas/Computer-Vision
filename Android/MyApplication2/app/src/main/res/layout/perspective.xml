@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Neighboring image"
+                android:text="@string/neighboring_image"
                 android:textColor="#FFFFFF" />
 
         </RelativeLayout>
@@ -43,7 +43,7 @@
             android:layout_gravity="start|top"
             android:src="@drawable/tree"
             android:adjustViewBounds="true"
-            android:contentDescription="neighboring image" />
+            android:contentDescription="@string/neighboring_image" />
     </LinearLayout>
 
 

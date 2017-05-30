@@ -334,9 +334,7 @@ public class FileHandler {
 
                     mosaicX=origX;
                     mosaicY=origY;
-                };
-
-
+                }
 
                 // For each tree on file, initInputOverlay and enter details of the new pin
 
@@ -348,6 +346,7 @@ public class FileHandler {
                     dead = false;
                 p.setInputData(line[3], line[4], line[5], dead, line[7]);
                 list.add(p);
+
             } else {
                 Log.e(TAG, "File format invalid");
             }
@@ -393,10 +392,15 @@ public class FileHandler {
         open();
     }
 
+    /**
+     * Deletes all the trees in the file (replaces the file with a blank one),
+     * also removes all the trees from the list in memory.
+     */
     public void deleteAllTrees() {
         close();
         file.delete();
         file = new File(fullFileName);
         open();
+        mainActivity.deleteAllPinsFromMemory();
     }
 }

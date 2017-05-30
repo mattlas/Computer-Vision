@@ -55,7 +55,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
             }
 
         } else {
-            Toast.makeText(main.getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(main.getApplicationContext(), R.string.singletap_not_ready, Toast.LENGTH_SHORT).show();
         }
         return true;
     }
@@ -64,7 +64,7 @@ public class SuperGestureDetector extends GestureDetector.SimpleOnGestureListene
         if (main.getImageView().isReady()) {
             main.setUpDragPin(e);
         } else {
-            Toast.makeText(main.getApplicationContext(), "Long press: Image not ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(main.getApplicationContext(), R.string.longpress_not_ready, Toast.LENGTH_SHORT).show();
         }
     }
 

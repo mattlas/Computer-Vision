@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Choose an image"
+                android:text="@string/choose_image"
                 android:textSize="24dp"
                 android:textStyle="bold"
                 android:id="@+id/overlay_box_txt"
@@ -77,7 +77,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textSize="16sp"
-                android:text="CONTINUE TO ADD THE TREE" />
+                android:text="@string/continue_add_tree" />
 
             <!-- todo
             <ImageView

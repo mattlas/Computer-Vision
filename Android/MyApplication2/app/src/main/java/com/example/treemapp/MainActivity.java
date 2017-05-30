@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.write_permission_explanation, Toast.LENGTH_LONG).show();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
         }
@@ -443,6 +443,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Overlay getOverlay() {
         return overlay;
+    }
+
+    /**
+     * Deletes all pins in the active pin list. Does not remove the treeList.csv file.
+     */
+    public void deleteAllPinsFromMemory(){
+        imageView.deleteAllPins();
     }
 
 }
