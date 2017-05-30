@@ -2,7 +2,10 @@
 #define __EXIF_H
 
 #include <string>
-
+/**
+ * Clall used to get geotagged data from the images. Data used now is
+ * Altitude, longitude and latitude
+ */
 namespace exif{
 class EXIFInfo{
 public:

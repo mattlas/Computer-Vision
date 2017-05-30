@@ -5,6 +5,9 @@
 
 #include <iostream>
 
+/**
+ * Class contains functions with the openCV lib to read and crop images.
+ */
 using namespace cv;
 class imaq
 {

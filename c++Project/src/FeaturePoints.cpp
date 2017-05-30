@@ -3,17 +3,6 @@
 //
 #include "FeaturePoints.h"
 
-
-
-/*int main( int argc, char** argv ) {
-    VL_PRINT("vlfeat loaded properly\n");
-    FeaturePoints *points = new FeaturePoints();
-    points->testClass();
-    points->calculatePoints("filnamn");
-    return 0;
-}*/
-
-
 FeaturePoints::FeaturePoints(std::string imageName, int id) {
     this->imageName = imageName;
 }
@@ -48,10 +37,6 @@ void FeaturePoints::calculatePoints() {
 
     char basename [1024] ;
 
-    //char const *name = path;
-    if(imageName.empty()) {
-        imageName = "/home/5dv115/c13evk_scripts/output/DSC01104_geotag.pgm";
-    }
 
     char const *name = imageName.c_str();
 
@@ -139,67 +124,7 @@ void FeaturePoints::calculatePoints() {
         fdata [q] = data [q] ;
     }
 
-#define WERR(name,op)                                           \
-    if (err == VL_ERR_OVERFLOW) {                               \
-      snprintf(err_msg, sizeof(err_msg),                        \
-               "Output file name too long.") ;                  \
-      goto done ;                                               \
-    } else if (err) {                                           \
-      snprintf(err_msg, sizeof(err_msg),                        \
-               "Could not open '%s' for " #op, name) ;          \
-      goto done ;                                               \
-    }
 
-    if (ifr.active) {
-
-        /* open file */
-        //err = vl_file_meta_open (&ifr, basename, "rb") ;
-        WERR(ifr.name, reading) ;
-
-#define QERR                                                            \
-      if (err ) {                                                       \
-        snprintf (err_msg, sizeof(err_msg),                             \
-                  "'%s' malformed", ifr.name) ;                         \
-        err = VL_ERR_IO ;                                               \
-        goto done ;                                                     \
-      }
-
-        while (1) {
-            double x, y, s, th ;
-
-            /* read next guy */
-            err = vl_file_meta_get_double (&ifr, &x) ;
-            if   (err == VL_ERR_EOF) break;
-            else QERR ;
-            err = vl_file_meta_get_double (&ifr, &y ) ; QERR ;
-            err = vl_file_meta_get_double (&ifr, &s ) ; QERR ;
-            err = vl_file_meta_get_double (&ifr, &th) ;
-            if   (err == VL_ERR_EOF) break;
-            else QERR ;
-
-            /* make enough space */
-            if (ikeys_size < nikeys + 1) {
-                ikeys_size += 10000 ;
-                ikeys       = (double *) realloc (ikeys, 4 * sizeof(double) * ikeys_size);
-            }
-
-            /* add the guy to the buffer */
-            ikeys [4 * nikeys + 0]  = x ;
-            ikeys [4 * nikeys + 1]  = y ;
-            ikeys [4 * nikeys + 2]  = s ;
-            ikeys [4 * nikeys + 3]  = th ;
-
-            ++ nikeys ;
-        }
-
-        /* now order by scale */
-        qsort (ikeys, nikeys, 4 * sizeof(double), korder) ;
-
-        /* close file */
-        vl_file_meta_close (&ifr) ;
-    }
-
-    //err = vl_file_meta_open (&dsc, basename, "wb") ; WERR(dsc.name, writing) ;
 
 
     filt = vl_sift_new((int)pim.width, (int)pim.height, -1,LEVELS,FIRST_OCTAVE);
@@ -244,32 +169,11 @@ void FeaturePoints::calculatePoints() {
             VlSiftKeypoint const *k ;
 
 
-            /* obtain keypoint orientations ........................... */
-            if (ikeys) {
-                vl_sift_keypoint_init (filt, &ik,
-                                       ikeys [4 * i + 0],
-                                       ikeys [4 * i + 1],
-                                       ikeys [4 * i + 2]) ;
 
-                if (ik.o != vl_sift_get_octave_index (filt)) {
-                    break ;
-                }
+            k = keys + i ;
+            nangles = vl_sift_calc_keypoint_orientations
+                    (filt, angles, k) ;
 
-                k          = &ik ;
-
-                /* optionally compute orientations too */
-                if (force_orientations) {
-                    nangles = vl_sift_calc_keypoint_orientations
-                            (filt, angles, k) ;
-                } else {
-                    angles [0] = ikeys [4 * i + 3] ;
-                    nangles    = 1 ;
-                }
-            } else {
-                k = keys + i ;
-                nangles = vl_sift_calc_keypoint_orientations
-                        (filt, angles, k) ;
-            }
 
             /* for each orientation ................................... */
             for (q = 0 ; q < (unsigned) nangles ; ++q) {
@@ -288,29 +192,16 @@ void FeaturePoints::calculatePoints() {
                     double x = 512.0 * descr[l] ;
                     x = (x < 255.0) ? x : 255.0 ;
                     descriptor.push_back((uint16_t)x);
-                    //vl_file_meta_put_uint8 (&dsc, (vl_uint8) (x)) ;
                 }
                 keyPoints.push_back(*keyPoint);
                 descriptors.push_back(descriptor);
-                //fprintf(dsc.file, "\n") ;
 
             }
         }
     }
-    //std::cout << "kepoints= " << nKeypoints << std::endl;
-
-    //writeKeyPoints(basename);
-    //writeDescriptors(basename);
-    //std::cout << "done" << std::endl;
-
 
     done :
-    /* release input keys buffer */
-    if (ikeys) {
-        free (ikeys) ;
-        ikeys_size = nikeys = 0 ;
-        ikeys = 0 ;
-    }
+
 
     /* release filter */
     if (filt) {
@@ -339,12 +230,6 @@ void FeaturePoints::calculatePoints() {
     vl_file_meta_close (&dsc) ;
     vl_file_meta_close (&ifr) ;
 
-    /*vl_file_meta_close (&out) ;
-    vl_file_meta_close (&frm) ;
-    vl_file_meta_close (&dsc) ;
-    vl_file_meta_close (&met) ;
-    vl_file_meta_close (&gss) ;
-    vl_file_meta_close (&ifr) ;*/
 
     /* if bad print error message */
     if (err) {

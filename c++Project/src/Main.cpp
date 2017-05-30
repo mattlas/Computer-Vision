@@ -26,7 +26,7 @@ extern "C"{
 int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
     time_t start = time(0);
-    MosaicData *data = new MosaicData("/home/5dv115/c13evk_scripts/bigset","/home/5dv115/c13evk_scripts/out_bigset" );
+    MosaicData *data = new MosaicData("/home/5dv115/c13evk_scripts/pict","/home/5dv115/c13evk_scripts/pict_out" );
     data->startProcess();
     time_t end = time(0);
     double time = difftime(end, start) * 1000.0;

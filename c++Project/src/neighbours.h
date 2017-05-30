@@ -8,7 +8,9 @@
 #include "ImageData.h"
 #include "HomographyData.h"
 
-
+/**
+ * Class used to find all the images neighbours. Saves images to imagePairs a 2dim vector.
+ */
 namespace neighbours {
 std::vector<std::vector<HomographyData*>> pairs(std::vector<ImageData*> nodes);
 }

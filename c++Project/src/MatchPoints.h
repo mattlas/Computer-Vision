@@ -9,12 +9,12 @@
 #include "FeaturePoints.h"
 #include "KeyPoint.h"
 #include "opencv2/core.hpp"
-//#include "opencv2/xfeatures2d.hpp"
-//#include "opencv2/features2d.hpp"
 
-extern "C" {
-//#include <toolbox/sift/vl_ubcmatch.c>
-}
+/**
+ * This class is used to calculate the matches between two images. The class calculate the matches
+ * and runs the openCV function findHomography which uses ransac to find the homography between the
+ * two images. The important variable is homography which can be accessed by a getter.
+ */
 class MatchPoints {
 
 private:
@@ -29,13 +29,15 @@ private:
     FeaturePoints point2;
     cv::Mat homography;
 private:
-    //std::vector<std::vector<KeyPoint>> matchedPoints;
     int numberMatches;
 
 public:
 
-    MatchPoints();
-
+    /**
+     * Constructor. takes two FeaturePoints and runs the matching.
+     * @param point1, FeaturePoint1
+     * @param point2, FeaturePoints2
+     */
     MatchPoints(FeaturePoints point1, FeaturePoints point2);
 
     void findMatches();
@@ -48,7 +50,6 @@ public:
 
     void setHomography(const cv::Mat &homography);
 
-    void flennMatch();
 };
 
 

@@ -11,10 +11,23 @@
 #include <limits>
 #include <cstddef>
 
+/**
+ * Class used to store all the data needed to calculate the homographies.
+ *
+ * imageData: A pointer to the imageData of the object
+ *
+ * distance: Not used. supposed to be used to get the shortest path between
+ * image and reference.
+ *
+ * prevNode: a pointer to the previous node which is supposed to be
+ * the path with the least iterations to the reference image.
+ *
+ * recursionDepth: Used to know what path has the least iterations to reference image.
+ */
 class HomographyData {
 private:
     ImageData *imageData;
-    float distance;
+    float distance; //not used atm.
     cv::Mat homography;
     HomographyData* prevNode;
     int recursionDepth;
@@ -32,7 +45,10 @@ public:
 
     HomographyData(void) : recursionDepth(std::numeric_limits<int>::max()){}
 
-
+    virtual ~HomographyData() {
+        delete imageData;
+        delete prevNode;
+    }
 
 
     float getDistance() const {
