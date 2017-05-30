@@ -260,4 +260,11 @@ public class PinView extends SubsamplingScaleImageView {
             return fileHandler.editLine(lineToUpdate, pin.getCSV(fileHandler.getScale()));}
         else return false;
     }
+
+    /**
+     * Deletes all pins from pin list
+     */
+    public void deleteAllPins() {
+        this.pins = new ArrayList<>();
+    }
 }

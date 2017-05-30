@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Edit tree"
+                android:text="@string/edit_tree"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:id="@+id/overlay_box_txt_edit"
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Height (dm)"
+                    android:text="@string/height_dm"
                     android:textSize="18sp"
                     android:textColor="#1A1A1A" />
 
@@ -105,7 +105,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Diameter (cm)"
+                    android:text="@string/diameter_cm"
                     android:textColor="#1A1A1A"
                     android:textSize="18sp" />
 
@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Species: "
+                    android:text="@string/species"
                     android:textSize="18sp"
                     android:textColor="#1A1A1A" />
 
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:checked="false"
-                    android:text="Dead tree"
+                    android:text="@string/dead_tree"
                     android:textSize="18sp"
                     android:textColor="#1A1A1A"
                     android:textAppearance="@android:style/TextAppearance.Material.Small" />
@@ -189,7 +189,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="7dp"
-                    android:hint="Additional notes"
+                    android:hint="@string/additional_notes"
                     android:textSize="18sp"
                     android:inputType="text" />
 
@@ -215,7 +215,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
-                android:text="SAVE AND CLOSE" />
+                android:text="@string/save_and_close" />
 
             <Button
                 android:id="@+id/btn_cancel_edit"
@@ -225,7 +225,7 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
-                android:text="DELETE" />
+                android:text="@string/delete" />
 
 
         </LinearLayout>

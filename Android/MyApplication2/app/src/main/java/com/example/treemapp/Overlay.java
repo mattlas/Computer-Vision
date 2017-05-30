@@ -42,15 +42,10 @@ public class Overlay extends View {
 
     private final RelativeLayout inputOverlay;
     private final RelativeLayout inputOverlayEdit;
-    private final LinearLayout fakeView;
 
     private final RelativeLayout imagePickerOverlay;
 
-
-    private PinView originalView;
     private Settings settings;
-
-    private Pin pin;
 
     Canvas canvas;
 
@@ -63,55 +58,21 @@ public class Overlay extends View {
         this.inputOverlay = overlayedActivity;
         this.imagePickerOverlay = imagePickerOverlay;
         this.inputOverlayEdit = overLayedActivityEdit;
-
-        this.fakeView = fakeView;
         this.settings = settings;
 
-        this.fakeView.setOnTouchListener(new View.OnTouchListener() {
+        fakeView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 //if this is true you can not press on the back layers, we want it to be true of any overlay is visible
                 return inputOverlay.getVisibility() == View.VISIBLE || imagePickerOverlay.getVisibility() == View.VISIBLE || inputOverlayEdit.getVisibility() == View.VISIBLE;
             }
         });
-
     }
 
-    // TODO
     // onDraw for mark of other perspectives...
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        this.canvas = canvas;
-
-        PointF point;
-        //point = sourceToViewCoord(pin.getPoint());
-        point = pin.getPoint();
-        drawMark(point);
-    }
-    // TODO
-    public void drawMark(PointF point){
-        // First see if the species exists as a pin
-
-        //point = sourceToViewCoord(point);
-
-        boolean fileExists = true;
-
-        int pinWidth=3;
-
-        if (fileExists) { // draw the pin
-            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.crosshair, null);
-            int w=pinWidth;
-            int h=d.getIntrinsicHeight()*pinWidth/d.getIntrinsicWidth();
-
-            int left=(int)point.x-(w/2);
-            int top=(int)point.y-h;
-            int right=left+w;
-            int bottom=(int)point.y;
-
-            d.setBounds(left, top, right, bottom);
-            d.draw(canvas);
-        }
     }
 
     /**
@@ -135,8 +96,8 @@ public class Overlay extends View {
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
         tv.setText("Save a tree");
 
-        notes.setText("");
-        deadTree.setChecked(false);
+        notes.setText(""); //asume no note
+        deadTree.setChecked(false); //assume it is not dead
 
         // Apply the adapter to the spinner
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
@@ -152,13 +113,13 @@ public class Overlay extends View {
                 mainActivity.updateOrigPositionInPin(pin);
                 mainActivity.getImageView().addPin(pin);
                 mainActivity.getImageView().invalidate();
-                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString(), (float)mainActivity.getImageInfoListHandler().getScale()))
-                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                if (mainActivity.getImageView().saveNewPin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString(), (float) mainActivity.getImageInfoListHandler().getScale()))
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_save_failed, Toast.LENGTH_SHORT).show();
+                }
                 // Make overlayed view visible
                 inputOverlay.setVisibility(View.INVISIBLE);
-
             }
         });
 
@@ -204,7 +165,7 @@ public class Overlay extends View {
         // Former chosen species
         String formerSpecies = pin.getSpecies();
         // Set picker position to former chosen species
-        Toast.makeText(mainActivity.getApplicationContext(), "Data saved." + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved + getSpeciesPosition(formerSpecies, speciesList), Toast.LENGTH_SHORT).show();
         carouselPicker.setCurrentItem(getSpeciesPosition(formerSpecies, speciesList));
 
         Button save = (Button) inputOverlayEdit.findViewById(R.id.btn_save_edit);
@@ -215,9 +176,9 @@ public class Overlay extends View {
             @Override
             public void onClick(View view) {
                 if (mainActivity.getImageView().updatePin(pin, Integer.toString(height.getValue()), Integer.toString(diameter.getValue()), carouselPickerListener.getItem(speciesList), deadTree.isChecked(), notes.getText().toString())) {
-                    Toast.makeText(mainActivity.getApplicationContext(), "Data saved.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_saved , Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(mainActivity.getApplicationContext(), "Failed to save the data.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), R.string.data_save_failed, Toast.LENGTH_SHORT).show();
                 inputOverlayEdit.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }

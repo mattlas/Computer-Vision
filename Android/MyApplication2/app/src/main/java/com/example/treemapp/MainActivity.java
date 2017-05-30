@@ -41,7 +41,7 @@ import static android.support.v4.content.FileProvider.getUriForFile;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Overlay overlay;
     private Vibrator vibrator;
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(getApplicationContext(), "Write External Storage permission allows us to store the tree data. Please allow this permission in App Settings", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.write_permission_explanation, Toast.LENGTH_LONG).show();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
         }
@@ -364,12 +364,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    // TODO: do we need it?
-    @Override
-    public void onClick(View v) {
-        return;
-    }
-
 
     /**
      * Gets the information which item from the menu is selected (clicked)
@@ -407,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-
     /**
      * starts the SettingsFragment object
      */
@@ -423,15 +416,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
-
-    // TODO: do we need it?
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long i){
-            ///selectItem(position);
-        }
-    }
-
     //getters
     public PinView getImageView() {
         return imageView;
@@ -443,6 +427,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Overlay getOverlay() {
         return overlay;
+    }
+
+    /**
+     * Deletes all pins in the active pin list. Does not remove the treeList.csv file.
+     */
+    public void deleteAllPinsFromMemory(){
+        imageView.deleteAllPins();
     }
 
 }

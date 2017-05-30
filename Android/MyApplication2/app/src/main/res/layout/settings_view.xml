@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current directory"
+            android:text="@string/current_directory_string"
             android:textColor="#101010"
             android:textSize="18sp"
             android:layout_marginTop="16dp"/>
@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select tree species"
+            android:text="@string/select_tree_species"
             android:textColor="#101010"
             android:textSize="18sp"
             android:layout_marginTop="36dp"/>
