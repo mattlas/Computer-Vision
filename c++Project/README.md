@@ -23,25 +23,6 @@ install OpenGL: sudo apt-get install mesa-common-dev
 
 sudo bash install/opencv_install.sh
 
-### Compile LAPACK
-
-http://matrixprogramming.com/2011/04/using-lapack-from-c
-
-wget http://www.netlib.org/lapack/lapack-3.7.0.tgz
-
-tar zxvf lapack-3.7.0.tgz
-
-cd lapack-3.7.0
-
-cp INSTALL/make.inc.gfortran make.inc
-
-make blaslib
-
-make lapacklib
-
-## Mosaic Pipeline
-Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mosaic
-
 #### src
 source for the application
 
