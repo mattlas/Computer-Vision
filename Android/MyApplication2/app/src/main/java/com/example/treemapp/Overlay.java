@@ -1,10 +1,15 @@
 package com.example.treemapp;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -133,16 +138,12 @@ public class Overlay extends View {
         notes.setText("");
         deadTree.setChecked(false);
 
-        // Button to close the input menu
-        //Button perspExitBtn = (Button) mainActivity.findViewById(R.id.btn_perspective_cancel);
-
         // Apply the adapter to the spinner
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
         final CarouselListener carouselPickerListener = setUpCarousel(carouselPicker, speciesList);
 
         // Buttons to save inputs according to a pin/delete a pin
         Button save = (Button) mainActivity.findViewById(R.id.btn_save);
-        //Button delete = (Button) mainActivity.findViewById(R.id.btn_cancel);
 
         // When save clicked - save info to the file and to the pin list
         save.setOnClickListener(new View.OnClickListener() {
@@ -161,18 +162,6 @@ public class Overlay extends View {
             }
         });
 
-        /*
-        // When delete clicked - don't save the info and delete the pin
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainActivity.getImageView().removePinFromList(pin);
-                inputOverlay.setVisibility(View.INVISIBLE);
-                mainActivity.getImageView().invalidate();
-            }
-        });
-        */
-
         // when X is clicked - the same as delete button
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,15 +171,6 @@ public class Overlay extends View {
                 mainActivity.getImageView().invalidate();
             }
         });
-        /*
-        perspExitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imagePickerOverlay.setVisibility(View.INVISIBLE);
-                //imageView.invalidate();
-            }
-        });
-        */
     }
 
     /**
@@ -335,16 +315,19 @@ public class Overlay extends View {
         final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
-        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
-        ImageButton imgBtn;
+        final int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
+        //ImageButton imgBtn;
         for (int i = -1; i < 3; i++) {
-            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
+            final int m = i;
+            final ImageButton imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
+            imgBtn.setSelected(false);
 
             final String filePath;
             if (neighbors.size() > i) {
                 // First ImageButton: original
                 if (i == -1) {
                     filePath = fullFileName;
+                    imgBtn.setSelected(true);
                     // Rest: it's neighbors
                 } else {
                     filePath = neighbors.get(i);
@@ -357,6 +340,11 @@ public class Overlay extends View {
                             File file = new File(filePath);
                             if (file.exists()) {
                                 imageListenerCode(file, pin, filePath, main);
+                                for (int k = -1; k < 3; k++) {
+                                    final ImageButton imgBtn2 = (ImageButton) mainActivity.findViewById(btns[k+1]);
+                                    imgBtn2.setSelected(false);
+                                }
+                                imgBtn.setSelected(true);
                             }
                         } else Log.e(MainActivity.TAG, "Filename is null");
                     }
@@ -433,15 +421,18 @@ public class Overlay extends View {
         final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
 
         // Chooose the photos for the buttons (different perspectives)
-        int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
-        ImageButton imgBtn;
+        final int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
+        //ImageButton imgBtn;
         for (int i = -1; i < 3; i++) {
-            imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
+            final ImageButton imgBtn = (ImageButton) mainActivity.findViewById(btns[i+1]);
+            imgBtn.setSelected(false);
+
             final String filePath;
             if (neighbors.size() > i) {
                 // First ImageButton: original
                 if (i == -1) {
                     filePath = fullFileName;
+                    imgBtn.setSelected(true);
                     // Rest: it's neighbors
                 } else {
                     filePath = neighbors.get(i);
@@ -459,6 +450,12 @@ public class Overlay extends View {
                                     //invalidate();
 
                                     imageListenerCode(file, pin, filePath, main);
+
+                                    for (int k = -1; k < 3; k++) {
+                                        final ImageButton imgBtn2 = (ImageButton) mainActivity.findViewById(btns[k+1]);
+                                        imgBtn2.setSelected(false);
+                                    }
+                                    imgBtn.setSelected(true);
 
                                     // If image is the pins image -> set pin
                                 } else {
