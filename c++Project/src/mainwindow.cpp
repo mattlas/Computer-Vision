@@ -62,6 +62,9 @@ void MainWindow::on_button_create_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 
+    //This folder should not be an absolute path
+    //It should also be cleaned in some way after a run
+
     QDir dir("/home/5dv115/temp");
     if (!dir.exists()) {
         dir.mkdir("/home/5dv115/temp");
