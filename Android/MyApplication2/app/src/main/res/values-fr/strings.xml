@@ -26,7 +26,6 @@
     <string name="delete_treelist_title">Supprimer liste d\'arbres?</string>
     <string name="diameter_cm">Diametre (cm)</string>
     <string name="directory_button">Changer de dossier</string>
-    <string name="directory_placeholder" translatable="false"></string>
     <string name="edit_tree">Modifier arbre</string>
     <string name="elm">Orme</string>
     <string name="export">Exporter</string>
@@ -60,4 +59,8 @@
     <string name="statistics">Statistiques</string>
     <string name="willow">Saule</string>
     <string name="write_permission_explanation">"Le droit d'ecriture sur memoire externe nous permet d'enregistrer la liste d'arbres. Merci d'accorder ce droit dans vos Parametres des applications. "</string>
+    <string name="edit_text">Modifier arbre</string>
+    <string name="choose_position">Choisissez un poste</string>
+    <string name="edit_tree_position">Modifier la position de l\'arbre</string>
+    <string name="cont_edit_tree">CONTINUER</string>
 </resources>

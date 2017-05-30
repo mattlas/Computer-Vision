@@ -8,7 +8,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="current_directory">Current directory:</string>
-    <string name="directory_placeholder">/usr/files/</string>
+    <string name="directory_placeholder" translatable="false">/usr/files/</string>
     <string name="directory_button">Change directory</string>
 
     <string name="delete_treelist_button">Delete current treelist</string>
@@ -18,7 +18,7 @@
     <string name="pine">Pine</string>
     <string name="spruce">Spruce</string>
     <string name="birch">Birch</string>
-    <string name="oak" translatable="false">Oak</string>
+    <string name="oak">Oak</string>
     <string name="alder">Alder</string>
     <string name="aspen">Aspen</string>
     <string name="rowan">Rowan</string>
@@ -70,5 +70,9 @@
     <string name="settings">Settings</string>
     <string name="statistics">Statistics</string>
     <string name="export">Export</string>
+    <string name="edit_text">Edit tree</string>
+    <string name="choose_position">Choose a position of the tree</string>
+    <string name="cont_edit_tree">CONTINUE TO EDIT THE TREE</string>
+    <string name="edit_tree_position">Edit the position of the tree</string>
 
 </resources>

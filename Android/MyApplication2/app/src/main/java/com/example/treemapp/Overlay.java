@@ -156,7 +156,7 @@ public class Overlay extends View {
         notes.setText(pin.getNotes());
 
         TextView tv = (TextView) inputOverlayEdit.findViewById(R.id.overlay_box_txt_edit);
-        tv.setText("Edit the tree");
+        tv.setText(getResources().getText(R.string.edit_text));
 
 
         final List<CarouselPicker.PickerItem> speciesList = getSpeciesList();
@@ -251,10 +251,10 @@ public class Overlay extends View {
         final List<String> neighbors = mainActivity.getImageInfoListHandler().loadNeighboringImages(fileName);
         final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
 
-        continueBtn.setText("CONTINUE TO ADD THE TREE");
+        continueBtn.setText(getResources().getText(R.string.continue_add_tree));
 
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
-        tv.setText("Choose a position of the tree");
+        tv.setText(getResources().getText(R.string.choose_position));
 
         //this converts from fileName to full path to the file
         String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
@@ -269,11 +269,11 @@ public class Overlay extends View {
         main.setOnTouchListener(new OriginalOnTouchListener(main));
 
         main.setPin(pin);
-        main.setImage(ImageSource.uri(fullFileName));//TODO, do not set if no image
-        main.setVisibility(View.VISIBLE);
+        if (new File(fullFileName).exists()) {
+            main.setImage(ImageSource.uri(fullFileName));
+        }
 
-        // Mosaic Coordinates
-        final float[] mosaicCoord = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
+        main.setVisibility(View.VISIBLE);
 
         // Chooose the photos for the buttons (different perspectives)
         final int[] btns = {R.id.btn_perspective_1, R.id.btn_perspective_2, R.id.btn_perspective_3, R.id.btn_perspective_4};
@@ -333,7 +333,6 @@ public class Overlay extends View {
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add closing event
                 imagePickerOverlay.setVisibility(View.INVISIBLE);
                 mainActivity.getImageView().invalidate();
             }
@@ -343,13 +342,21 @@ public class Overlay extends View {
             @Override
             public void onClick(View v) {
 
+                float[] mosaic_xy = mainActivity.getImageInfoListHandler().
+                                                    transformOrigToMosaic(pin);
+
+                pin.setPosition(mosaic_xy[0], mosaic_xy[1]);
+
                 imagePickerOverlay.setVisibility(View.INVISIBLE);
                 initInputOverlay(pin);
             }
         });
     }
 
-    // TODO
+    /**
+     * Brings up the image picker thingy for an existing pin
+     * @param pin the pin we are editing
+     */
     public void editImagePickerOverlay(final Pin pin) {
         imagePickerOverlay.setVisibility(View.VISIBLE);
 
@@ -358,9 +365,9 @@ public class Overlay extends View {
         final Button continueBtn = (Button) mainActivity.findViewById(R.id.btn_continue_to_input);
 
         TextView tv = (TextView) mainActivity.findViewById(R.id.overlay_box_txt);
-        tv.setText("Edit position of the tree");
+        tv.setText(getResources().getText(R.string.edit_tree_position));
 
-        continueBtn.setText("CONTINUE TO EDIT THE TREE");
+        continueBtn.setText(getResources().getText(R.string.cont_edit_tree));
 
         //this converts from fileName to full path to the file
         final String fullFileName = mainActivity.getImageInfoListHandler().loadImage(fileName);
@@ -409,7 +416,6 @@ public class Overlay extends View {
                                 if (!filePath.equals(fullFileName)) {
                                     //main.removePin(pin);
                                     //invalidate();
-
                                     imageListenerCode(file, pin, filePath, main);
 
                                     for (int k = -1; k < 3; k++) {
@@ -423,7 +429,6 @@ public class Overlay extends View {
                                     //main.setPin(pin);
                                     imageListenerCode(file, pin, filePath, main);
                                 }
-
 
                                 // Change displayed image to clicked perspective
                                 main.setImage(ImageSource.uri(filePath));
@@ -465,24 +470,42 @@ public class Overlay extends View {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                float[] mosaic_xy = mainActivity.getImageInfoListHandler().
+                        transformOrigToMosaic(pin);
 
+                pin.setPosition(mosaic_xy[0], mosaic_xy[1]);
                 imagePickerOverlay.setVisibility(View.INVISIBLE);
                 edit(pin);
             }
         });
     }
 
-    private void imageListenerCode(File file, Pin pin, String filePath, OnePinView main) {
+    /**
+     * This code is for the neighboring images you can click on
+     * @param file the file that is going to show
+     * @param pin the pin involved
+     * @param filePath the filePath as well (probably unneccesary)
+     * @param onePinView the pinView
+     */
+    private void imageListenerCode(File file, Pin pin, String filePath, OnePinView onePinView) {
         float[] mos = mainActivity.getImageInfoListHandler().transformOrigToMosaic(pin);
         float[] originalCoord = mainActivity.getImageInfoListHandler().transformMosaicToOrig(mos[0], mos[1], file.getName());
+
         // Change coordinates of pin
         pin.setOrigCoor(originalCoord[0], originalCoord[1]);
         pin.setImageFileName(new File(filePath).getName());
+
+
+
         // Change displayed image to clicked perspective
-        main.setImage(ImageSource.uri(filePath));
-        main.setVisibility(View.VISIBLE);
+        onePinView.setImage(ImageSource.uri(filePath));
+        onePinView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Getter for items in speecies list
+     * @return the current species list
+     */
     public final List<CarouselPicker.PickerItem> getSpeciesList() {
         List<CarouselPicker.PickerItem> treeList = settings.getTreesSpeciesChosen();
         List<CarouselPicker.PickerItem> newList = new ArrayList<>();
@@ -504,7 +527,6 @@ public class Overlay extends View {
     @NonNull
     private CarouselListener setUpCarousel(CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
         //Carouse1 Picker with text to display the tree species
-
         CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);
 

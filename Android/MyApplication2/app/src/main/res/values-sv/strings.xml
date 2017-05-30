@@ -14,7 +14,7 @@
     <string name="cherry">Körsbärsträd</string>
     <string name="chestnut">Kastanj</string>
     <string name="choose_image">Välj en bild</string>
-    <string name="continue_add_tree">FORTSÄTT TILL LÄGG TILL TRÄD</string>
+    <string name="continue_add_tree">FORTSÄTT</string>
     <string name="current_directory">Nuvarande katalog:</string>
     <string name="current_directory_string">Nuvarande katalog</string>
     <string name="data_save_failed">Misslyckades med att spara data.</string>
@@ -59,4 +59,8 @@
     <string name="statistics">Statistik</string>
     <string name="willow">Vide</string>
     <string name="write_permission_explanation">Write External Storage tillåter oss att lagra träddata. Vänligen tillåt detta tillstånd i App Settings</string>
+    <string name="edit_text">Redigera träd</string>
+    <string name="choose_position">Välj en position</string>
+    <string name="edit_tree_position">Redigera trädets position</string>
+    <string name="cont_edit_tree">FORTSÄTT</string>
 </resources>

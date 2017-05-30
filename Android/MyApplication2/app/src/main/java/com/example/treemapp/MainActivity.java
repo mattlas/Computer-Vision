@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        // Filehandler - needs permission before starting
         imageView.setFileHandler(filehandler);
         imageView.loadPinsFromFile(imageInfoListHandler);
     }
@@ -169,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * Goes to the default android share activity - share "treeList.csv"
      */
     private void export(){
-        // TODO try on tablet
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         File listFile = new File(this.getFilesDir(), filehandler.getFileName());
@@ -262,44 +260,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         overlay.initImagePickerOverlay(pin);
 
-        // TODO add on save
-        //imageView.addPin(pin);
-        //overlay.initInputOverlay(pin);
-
         imageView.invalidate();
     }
-
 
     /**
      *  edits the pin in the file and pin list and shows the menu for the pin
      */
     void editOriginals(Pin pin) {
-        PointF sCoord = new PointF(pin.getX(), pin.getY());
-
-        ImageInfo ii = imageInfoListHandler.findImageClosestTo(sCoord.x, sCoord.y);
-        String filename = ii.getFileName();
-
-        float[] resultCoor = imageInfoListHandler.getResultCoordinates(sCoord.x, sCoord.y);
-
-        float[] origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
-
-        pin.setImageFileName(filename);
-
         overlay.initImagePickerOverlay(pin);
-
         imageView.invalidate();
     }
-
-
-    /**
-     * Goes to the StatisticsActivity
-     */
-    public void sendStats(){
-        Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-        intent.putExtra("pinList", (ArrayList) imageView.getPins());
-        startActivity(intent);
-    }
-
 
     /**
      * Checks if the app has permission to read and write from external storage. Required for Android 5 and up with requestPermission()
@@ -310,7 +280,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-
+    /**
+     * This askes the user to allow the user to use the storage
+     */
     private void requestPermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             Toast.makeText(getApplicationContext(), R.string.write_permission_explanation, Toast.LENGTH_LONG).show();
@@ -320,14 +292,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    /**
+     * Sets up the information for when the user is dragging the pin
+     */
     public void setUpDragPin(MotionEvent e) {
-        PointF p = imageView.viewToSourceCoord(e.getX(), e.getY());
-
         if (!imageView.listIsEmpty()) {
 
-
-            dragPin = imageView.getClosestPin(e.getX(), e.getY()+yPinOffset);
-            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY()+yPinOffset) < dragPin.getCollisionRadius()) {
+            dragPin = imageView.getClosestPin(e.getX(), e.getY() + yPinOffset);
+            if (imageView.euclidanViewDistance(dragPin, e.getX(), e.getY() + yPinOffset) < dragPin.getCollisionRadius()) {
 
                 dragPin.setDragged(true);
                 imageView.setZoomEnabled(false);
@@ -344,12 +316,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 imageView.invalidate();
             }
             else {
-                dragPin = null;
+                dragPin = null; //should never come here
             }
         }
-        else dragPin = null;
+        else dragPin = null; //should never come here
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
@@ -362,8 +333,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         }
     }
-
-
 
     /**
      * Gets the information which item from the menu is selected (clicked)
@@ -402,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * starts the SettingsFragment object
+     * starts the SettingsFragment object, (opens the settings menu)
      */
     private void startSettings() {
         SettingsFragment sf = new SettingsFragment();
