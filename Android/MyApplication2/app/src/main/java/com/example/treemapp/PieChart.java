@@ -22,12 +22,14 @@ public class PieChart extends AppCompatImageView {
     private static final int length = 64;
     private int width;
     private int height;
-    private float[] verts;
     private ArrayList<Statista.SpeciesCount> speciesCountList;
     private boolean ready = false;
 
     /**
      * The list of colors to be used in the pie. Maybe could be changed so that each tree has an assigned color.
+     * Change this to change the apperance of the piechart
+     * format is hexadecimal 0x (transparency, transparency),(red, red),(blue, blue), green, green)
+     * so 0xFFFF0000 would be opaque red, a suggestion using the site https://coolors.co/
      */
     private final int[] colorScheme = {
             0xFF50514F,
@@ -156,7 +158,7 @@ public class PieChart extends AppCompatImageView {
      * @return the list of coordinates for each point of each triangle sector
      */
     public float[] getVerts() {
-        verts = new float[length * 6];
+        float[] verts = new float[length * 6];
 
         float cx = width * .31f;
         float cy = height * .5f;

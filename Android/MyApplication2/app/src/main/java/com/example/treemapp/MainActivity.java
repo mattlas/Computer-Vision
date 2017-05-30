@@ -44,7 +44,7 @@ import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIE
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Overlay overlay;
-    private Vibrator vibrator;
+    private Vibrator vibrator; // this is only used whilst dragging a pin
 
     private Settings settings;
 
@@ -53,29 +53,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PinView imageView;
     private String folderName;
     private boolean foundMosaic = false;
-
-    public boolean isMosaicIsFound() {
-        return foundMosaic;
-    }
-
     private static final int PERMISSION_REQUEST_CODE = 1;
     private float yPinOffset;
     static final String TAG = MainActivity.class.getSimpleName();
     private Pin dragPin = null;
     public static PointF latestTouch = null;
 
-    // TODO: do we need that?
-    @TargetApi(23)
-    protected void askPermissions() {
-        String[] permissions = {
-                "android.permission.READ_EXTERNAL_STORAGE",
-                "android.permission.WRITE_EXTERNAL_STORAGE"
-        };
-        int requestCode = 200;
-        requestPermissions(permissions, requestCode);
-    }
-
-
+    /**
+     * This code runs on start up, it is close to a constructor
+     * @param savedInstanceState - don't think we use this
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +100,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initialiseEventHandling();
     }
 
+    public boolean isMosaicIsFound() {
+        return foundMosaic;
+    }
 
+    /**
+     * Initalizes the menu
+     */
     private void initMenu() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -127,29 +120,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
-
+    /**
+     * Code to initialize the mosaic, searches both for jpg and png
+     */
     private void imageViewSetUp() {
         imageView = (PinView) findViewById(R.id.imageView);
 
         imageView.setMaxScale(7f);
         imageView.setOrientation(ORIENTATION_0);
 
-        String path = folderName + "mosaic.jpg";
+        String path = folderName + "mosaic.png";
         File file = new File(path);
 
         if (file.exists()) {
+            Log.d(TAG, "Found " + path);
             imageView.setImage(ImageSource.uri(path));
             foundMosaic = true;
         }
         else  { //if it is a png
-            path = folderName + "mosaic.png";
+            path = folderName + "mosaic.jpg";
             file = new File(path);
 
             if (file.exists()) {
-                Log.d(TAG, "Found png");
+                Log.d(TAG, "Found " + path);
                 imageView.setImage(ImageSource.uri(path));
                 foundMosaic = true;
             }
@@ -165,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     /**
-     * Goes to the default android share activity - share "treeList.csv"
+     * Goes to the default android share activity - shares "treeList.csv"
      */
     private void export(){
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -186,15 +181,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(sharingIntent);
     }
 
-
+    /**
+     * Calcultates the pins original position (in the original unstitched image) based on
+     * its mosaic position
+     * @param pin the pin we want to update
+     * @return its new original coordinates (in case you need them)
+     */
     public float[] updateOrigPositionInPin(Pin pin) {
         ImageInfo ii = imageInfoListHandler.findImageInfo(pin.getImageFileName());
 
-        float[] origCoor = {pin.getX(), pin.getY()};
+        float[] origCoor = {pin.getX(), pin.getY()}; //this is just a back up so we instead of getting null exceptions we are getting the normal coordinates
 
         if (ii != null) {
-            float[] resultCoor = imageInfoListHandler.getResultCoordinates(pin.getX(), pin.getY());
-            origCoor = ii.convertFromIdentityCoordinatesToOriginal(resultCoor[0], resultCoor[1]);
+            origCoor = imageInfoListHandler.transformMosaicToOrig(pin.getX(), pin.getY(), ii);
         }
         else {
             Log.e(TAG, "No imageList file or no file to match pin's filename: '" + pin.getImageFileName() + "'");
@@ -205,14 +204,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return origCoor;
     }
 
-
+    /**
+     * Starts all the interactions with the  like touching, panning, zooming
+     */
     private void initialiseEventHandling() {
         final GestureDetector gestureDetector = new GestureDetector(this, new SuperGestureDetector(this));
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
+
+            /**
+             * This is triggered every time the user touches the screen, drags the pin if there is
+             * a pin to drag
+             */
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
                 if (imageView.isReady()) {
                     if (dragPin != null) {
                         latestTouch = imageView.viewToSourceCoord(motionEvent.getX(), motionEvent.getY()+yPinOffset);
@@ -230,13 +235,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return gestureDetector.onTouchEvent(motionEvent);
             }
 
+            /**
+             * When you release a pin on the mosaic
+             */
             private void dragPinRelease() {
+                //switching out the image
+                ImageInfo im = imageInfoListHandler.findImageClosestTo(dragPin.getX(), dragPin.getY());
+                dragPin.setImageFileName(im.getFileName());
+
+                //update the position
                 updateOrigPositionInPin(dragPin);
+
+                //update it in the file
                 imageView.updatePinInFile(dragPin);
 
+                //release the pin
                 dragPin.setDragged(false);
                 dragPin = null;
 
+                //make the view pan and zoom able again
                 imageView.setPanEnabled(true);
                 imageView.setZoomEnabled(true);
                 imageView.invalidate();

@@ -47,6 +47,9 @@ public class PinView extends SubsamplingScaleImageView {
         return pins;
     }
 
+    /**
+     * Creating colors and paints
+     */
     public void init() {
         filled = new Paint();
         filled.setColor(Color.WHITE);
@@ -75,7 +78,7 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     /**
-     * Adds a pin to the active pin list (DOESN'T save to the file)
+     * Adds a pin to the active pin list (DOES NOT save to the file)
      * @param pin the pin to add to the list
      */
     public void addPin(Pin pin) {
@@ -93,6 +96,16 @@ public class PinView extends SubsamplingScaleImageView {
         return fileHandler.addLine(pin.getCSV(scale));
     }
 
+    /**
+     * Updates info in the pin and in the file
+     * @param pin - the pin to be updated
+     * @param height - new height of tree in decimeters
+     * @param diameter - new diameter of tree in cm
+     * @param species - new species of tree
+     * @param isDead - whether the tree is dead or alive
+     * @param notes - random notes
+     * @return if it succesfully updated it in file
+     */
     public boolean updatePin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
         pin.setInputData(height, diameter, species, isDead, notes);
         return this.updatePinInFile(pin);
@@ -116,10 +129,12 @@ public class PinView extends SubsamplingScaleImageView {
         pins.remove(pin);
     }
 
-    public Statista getStatista() {
-        return statista;
-    }
-
+    /**
+     * Hello, good job reading all the comments, heres a joke for you
+     * "I was pretending I was a flamingo and my wife said I had to stop.
+     * I had to put my foot down"
+     * @return if there are pins in the list
+     */
     public boolean listIsEmpty () {
         return (pins == null || pins.isEmpty());
     }

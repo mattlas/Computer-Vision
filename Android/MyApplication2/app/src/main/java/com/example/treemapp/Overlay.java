@@ -320,11 +320,7 @@ public class Overlay extends View {
                     imgBtn.setVisibility(ImageButton.INVISIBLE);
                 }
             } else {
-                if (imgBtn != null) {
-                    imgBtn.setVisibility(ImageButton.INVISIBLE);
-                } else {
-                    Log.e(TAG, "Image button null (image may not exist)");
-                }
+                imgBtn.setVisibility(ImageButton.INVISIBLE);
             }
         }
 

@@ -38,6 +38,7 @@ public class OnePinView extends SubsamplingScaleImageView {
         init();
     }
 
+    //getter
     public Pin getPin() {
         return pin;
     }
@@ -51,7 +52,12 @@ public class OnePinView extends SubsamplingScaleImageView {
         return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
     }
 
-
+    /**
+     * Sets the original image
+     * @param x originalX
+     * @param y originalY
+     * @return
+     */
     public PointF setPinXandY(float x, float y) {
         if (pin != null) {
             pin.setOrigCoor(x, y); // we can update this as we are on the original image
@@ -60,7 +66,10 @@ public class OnePinView extends SubsamplingScaleImageView {
         return null;
     }
 
-    public void init() {
+    /**
+     * sets up the colors
+     */
+    private void init() {
         filled = new Paint();
         filled.setColor(Color.WHITE);
         filled.setAlpha(255);
@@ -75,10 +84,10 @@ public class OnePinView extends SubsamplingScaleImageView {
         pin = null;
     }
 
-    public void updatePin(Pin pin, String height, String diameter, String species, Boolean isDead, String notes){
-        pin.setInputData(height, diameter, species, isDead, notes);
-    }
-
+    /**
+     * Draws things on the image (only the pin for now)
+     * @param canvas - what we are drawing to, given to us by android
+     */
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -86,7 +95,7 @@ public class OnePinView extends SubsamplingScaleImageView {
         if (pin != null && isReady()) {
             PointF point = sourceToViewCoord(pin.getOrigX(), pin.getOrigY());
 
-            if (pin.isDragged()) {
+            if (pin.isDragged()) { //some feedback when you drag it
                 canvas.drawCircle((int) point.x, (int) point.y, pin.getCollisionRadius(), unfilled);
                 filled.setAlpha(128);
             } else filled.setAlpha(255);
@@ -95,10 +104,14 @@ public class OnePinView extends SubsamplingScaleImageView {
         }
     }
 
+    /**
+     * Draws the pin on the pinview
+     * @param canvas - what we are drawing to, given to us by android
+     * @param pin - the pin to draw
+     */
     public void drawPin(Canvas canvas, Pin pin){
         // First see if the species exists as a pin
 
-        //PointF point = sourceToViewCoord(pin.getPoint());
         PointF point = sourceToViewCoord(pin.getOrigX(), pin.getOrigY());
 
         String species="Other";
@@ -129,23 +142,13 @@ public class OnePinView extends SubsamplingScaleImageView {
             d.setBounds(left, top, right, bottom);
             d.draw(canvas);
         }
-
-        /*
-        else{
-            // if not just draw a circle
-            filled.setAlpha(255);
-            canvas.drawCircle((int) point.x, (int) point.y, pin.getRadius(), filled);
-            canvas.drawCircle((int) point.x, (int) point.y, (int) (pin.getRadius() * 0.75), smaller);
-        }
-        */
-
     }
 
+    /**
+     * Swaps the pin used
+     * @param pin
+     */
     public void setPin(Pin pin) {
         this.pin = pin;
-    }
-
-    public void removePin(Pin pin) {
-        this.pin = null;
     }
 }

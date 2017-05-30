@@ -8,6 +8,7 @@ import android.view.View;
 
 /**
  * Created by oskar on 2017-05-11.
+ * This code handles dragging the pin
  */
 
 public class OriginalOnTouchListener implements View.OnTouchListener {
@@ -23,6 +24,13 @@ public class OriginalOnTouchListener implements View.OnTouchListener {
         drag = false;
     }
 
+    /**
+     * Registers when the user touches the screen
+     * @param view - the view touched (our view)
+     * @param motionEvent - the motionevent gotten from the user (has x and y)
+     * @return if this event was used by the code
+     *  (if not, other codes can use it, like pan and zoom)
+     */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         boolean used = false;
@@ -57,6 +65,9 @@ public class OriginalOnTouchListener implements View.OnTouchListener {
         return used;
     }
 
+    /**
+     * Code that runs when we release a dragged pin
+     */
     private void dragPinRelease() {
         opw.getPin().setDragged(false);
         drag = false;
@@ -65,6 +76,10 @@ public class OriginalOnTouchListener implements View.OnTouchListener {
         opw.invalidate();
     }
 
+    /**
+     * Code that runs when the user is starting to drag a pin
+     * @param e the motion event we get from the tap event
+     */
     public void setUpDragPin(MotionEvent e) {
         drag = true;
         opw.setZoomEnabled(false);

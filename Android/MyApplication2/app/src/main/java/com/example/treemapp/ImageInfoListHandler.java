@@ -189,6 +189,13 @@ public class ImageInfoListHandler {
         return loadNeighboringImages(imageInfos.get(fileName));
     }
 
+
+    /**
+     * For a given position it returns the image closest to it (as an imageInfo)
+     * @param x mosaic coordinates
+     * @param y mosaic coordinates
+     * @return an ImageInfo which contains information about the file
+     */
     public ImageInfo findImageClosestTo(double x, double y) {
         if (imageInfos.isEmpty()) return new ImageInfo();
         double dis;
@@ -214,7 +221,8 @@ public class ImageInfoListHandler {
         return closest;
     }
 
-    public float[] getResultCoordinates(float x, float y) {
+
+    private float[] getResultCoordinates(float x, float y) {
         float[] coor = {x, y};
         coor[0] -= this.icx;
         coor[1] -= this.icy;
