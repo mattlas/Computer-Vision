@@ -24,19 +24,18 @@ extern "C"{
 }
 
 int main(int argc, char **argv){
-    VL_PRINT ("vlfeat loaded properly\n");
-    time_t start = time(0);
+    //VL_PRINT ("vlfeat loaded properly\n");
+    //This can be used instead of gui to run a certain folder
+    /*
     MosaicData *data = new MosaicData("/home/5dv115/c13evk_scripts/pict","/home/5dv115/c13evk_scripts/pict_out" );
     data->startProcess();
-    time_t end = time(0);
-    double time = difftime(end, start) * 1000.0;
     std::cout << "time = " << time << std::endl;
-
+    */
     // Qt
-   /*QApplication app(argc, argv);
+   QApplication app(argc, argv);
 
     MainWindow w;
     w.show();
 
-    return app.exec();*/
+    return app.exec();
 }
