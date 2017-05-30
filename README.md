@@ -8,6 +8,6 @@ in the mosaic. Back in the office, the stereophotogrammetric processing of the i
 is done and then the relative position of the tree measurement can be connected to the right tree in the
 3D model.
 
-#Copyright & License
+# Copyright & License
 
 Use of this source code is governed by a BSD license that can be found in the LICENSE file.
