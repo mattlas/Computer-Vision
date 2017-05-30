@@ -18,7 +18,7 @@
     <string name="pine">Pine</string>
     <string name="spruce">Spruce</string>
     <string name="birch">Birch</string>
-    <string name="oak">Oak</string>
+    <string name="oak" translatable="false">Oak</string>
     <string name="alder">Alder</string>
     <string name="aspen">Aspen</string>
     <string name="rowan">Rowan</string>
