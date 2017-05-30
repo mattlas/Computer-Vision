@@ -11,37 +11,6 @@ make
 ./TreeMarkupToolbox [path to pgm image file]
 
 ### Qt
-install latest Qt pack
-
-install OpenGL: sudo apt-get install mesa-common-dev
-
-### Call Matlab from C++ in Linux
--MATLAB Coder translates Matlab code into c++
--Only works for MATLAB functions, not scripts
--Must know about input data types and set them directly
-
-### Create standalone application from Matlab code
-The guide below is an easy example of how to make a standalone exectable from MATLAB code:
-
-To skip problems with login, read the guide in MATLAB by pasting this link in the MATLAB command window:
-web(fullfile(docroot, 'compiler/create-and-install-a-standalone-application-from-matlab-code.html'))
-
-Some notes on the guide:
--On our systems, the magicsquare.m is located at /pkg/matlab/2017a/extern/examples/compiler/magicsquare.m
-
--Choose to bundle the runtime package instead of downloading 
-
--To run the exectable the path to the runtime libs might have to be set:
-export LD_LIBRARY_PATH=MATLAB_Runtime_Root/v92/runtime/glnxa64:MATLAB_Runtime_Root/v92/bin/glnxa64:MATLAB_Runtime_Root/v92/sys/os/glnxa64
-
-OTHER INFORMATION
-Start guide:
-web(fullfile(docroot, 'compiler/index.html'))
-
-Compilation limitations:
-web(fullfile(docroot, 'compiler/limitations-about-what-may-be-compiled.html'))
-
-### Qt
 cd install
 
 ./install/qt-unified-linux-x64-2.0.5-2-online.run
@@ -70,14 +39,8 @@ make blaslib
 
 make lapacklib
 
-### File System
-
-### Debug
-To debug line for line, add to CMakeLists.txt:
-
-set(CMAKE_BUILD_TYPE Debug)
-
-and compile the project
+## Mosaic Pipeline
+Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mosaic
 
 #### src
 source for the application
@@ -99,9 +62,6 @@ documentation of any kind
 
 #### spikes
 small tests for proof-of-concept
-
-## Mosaic Pipeline
-Geotag->Image compression->Find neighbours->SIFT->RANSAC->Bundle Adjustment->Mosaic
 
 #### Geotag
 
