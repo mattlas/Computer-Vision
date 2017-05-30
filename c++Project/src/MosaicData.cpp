@@ -18,28 +18,18 @@ MosaicData::MosaicData(std::string input_path, std::string pgm_path) {
 }
 
 void MosaicData::startProcess() {
-    std::cout << "readFiles" << std::endl;
     readFiles(input_path);
-    std::cout << "convert to pgm " << std::endl;
     convertToPGM(pgm_path);
-    std::cout << "read pgm" << std::endl;
     readPGMFromFolder();
-    std::cout << "create images" << std::endl;
     createImages();
     extractFeaturePoints();
-    std::cout << "create neighbours" << std::endl;
     createNeighbours();
-
-    //delete im;
-    std::cout << "extracting featurepoints" << std::endl;
-    std::cout << "create threads" << std::endl;
     //createThreads();
-    std::cout << "find match" << std::endl;
     findPath();
-    std::cout << "calculate homographies" << std::endl;
     calculateHomographies(homographyList);
-    std::cout << "ubc match done" << std::endl;
     stitchImages();
+    clearData();
+
     emit finished();
 }
 
@@ -61,7 +51,6 @@ void MosaicData::convertToPGM(std::string op_path) {
 void MosaicData::readPGMFromFolder() {
     pgmFileNames = DirectoryReader::readDirectory(pgmFolder);
     std::sort(pgmFileNames.begin(), pgmFileNames.end());
-    //fileNames = DirectoryReader::readDirectory(input_path);
 }
 
 void MosaicData::createImages() {
@@ -149,6 +138,9 @@ void MosaicData::stitchImages() {
 
 void MosaicData::findPath() {
     int recursionDepth = 0;
+    //This can be used to initialize all the images to the homographyList. This caused problems
+    //because not all images had a path to the referenceimage which caused nullpointers.
+
     /*for (int j = 0; j < imagePairs.size(); ++j) {
         homographyList.push_back((HomographyData*) imagePairs.at(j).at(0));
     }*/
@@ -198,6 +190,37 @@ void MosaicData::recurseHomographies(HomographyData* data) {
         homography = homography * data->getPrevNode()->getHomography();
         data->setHomography(homography);
     }
+}
+
+void MosaicData::clearData() {
+    delete im;
+    //TODO clear memory.
+   /* while(!homographyList.empty()){
+        HomographyData *data = homographyList.back();
+        homographyList.pop_back();
+        delete data;
+    }
+
+    for(std::vector<HomographyData*> dataVector: imagePairs){
+        while(!dataVector.empty()){
+            HomographyData *data = dataVector.back();
+            dataVector.pop_back();
+            delete(data);
+        }
+    }
+    while(!imageList.empty()){
+        ImageData* data = imageList.back();
+        imageList.pop_back();
+        delete data;
+    }
+
+    delete referenceImage;
+
+    while(!featurePointList.empty()){
+        FeaturePoints data = featurePointList.back();
+        featurePointList.pop_back();
+        //delete data;
+    }*/
 }
 
 
