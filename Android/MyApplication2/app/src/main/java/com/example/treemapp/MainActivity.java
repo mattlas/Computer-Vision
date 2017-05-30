@@ -41,7 +41,7 @@ import static android.support.v4.content.FileProvider.getUriForFile;
 import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_0;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Overlay overlay;
     private Vibrator vibrator;
@@ -364,12 +364,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    // TODO: do we need it?
-    @Override
-    public void onClick(View v) {
-        return;
-    }
-
 
     /**
      * Gets the information which item from the menu is selected (clicked)
@@ -407,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-
     /**
      * starts the SettingsFragment object
      */
@@ -421,15 +414,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .replace(R.id.map_fragment, sf)
                 .addToBackStack(null)
                 .commit();
-    }
-
-
-    // TODO: do we need it?
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long i){
-            ///selectItem(position);
-        }
     }
 
     //getters
