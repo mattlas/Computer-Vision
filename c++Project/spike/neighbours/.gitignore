@@ -1,0 +1,4 @@
+/geotaggedPhotos/
+*.o
+demo
+!demo.cpp

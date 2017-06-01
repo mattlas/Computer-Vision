@@ -19,9 +19,9 @@ void imaq::readJPGfromFolder() {                      // Read all image file nam
     imaq::jpgFileNames = DirectoryReader::readDirectory(imaq::jpgFolder);
 //    std::cout <<  "Loading files from folder" << imaq::jpgFolder<<std::endl ;
 //    std::cout <<  "Files loaded to jpgFileNames" << std::endl ;
-    for(std::string file_name : imaq::jpgFileNames){
-        std::cout <<  file_name << std::endl ;
-    }
+   // for(std::string file_name : imaq::jpgFileNames){
+   //     std::cout <<  file_name << std::endl ;
+   // }
 
 //    int ct = 0;
 //    std::string fname=imaq::jpgFolder;
@@ -143,5 +143,13 @@ Mat imaq::rgb2gray(Mat img_data)                            // Input img_data in
     Mat new_gray;
     cvtColor(img_data,new_gray,COLOR_RGB2GRAY);
     return new_gray;
+}
+
+const std::vector<std::string> &imaq::getJpgFileNames() const {
+    return jpgFileNames;
+}
+
+void imaq::setJpgFileNames(const std::vector<std::string> &jpgFileNames) {
+    imaq::jpgFileNames = jpgFileNames;
 }
 

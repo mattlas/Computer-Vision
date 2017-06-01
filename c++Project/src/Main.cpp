@@ -16,7 +16,6 @@
 
 // Qt
 #include "mainwindow.h"
-//#include <QtGui>
 #include <QApplication>
 #include <QMainWindow>
 
@@ -26,7 +25,8 @@ extern "C"{
 
 int main(int argc, char **argv){
     VL_PRINT ("vlfeat loaded properly\n");
-
+   // MosaicData *data = new MosaicData("/home/5dv115/c13evk_scripts/pict","/home/5dv115/c13evk_scripts/pict_out" );
+   // data->startProcess();
     // Qt
     QApplication app(argc, argv);
 
@@ -44,20 +44,21 @@ int main(int argc, char **argv){
 //        ip_path=(std::string)MainWindow::qpath;
 //    }
 //
-    std::string op_path;
+
 //    if(argc > 1){
 //        op_path = argv[2];
 //
 //    } else {
         //op_path = "/home/5dv115/Computer-Vision/c++Project/PGMdir";
 //        op_path = "/home/5dv115/c13evk_scripts/pict_out";
-        op_path=w.QstringToString(w.qpath);
-    std::cout << "String =" << op_path << std::endl;
+
+//    if(w.wait_path == 1)
+//    {
+//        op_path=w.QstringToString(w.qpath);
+//        std::cout << "String =" << op_path << std::endl;
         //    }
-
-
-    time_t start = time(0);
-
+//        time_t start = time(0);
+//    }
     // Feature points extraction
 //    MosaicData *data = new MosaicData();
 
@@ -71,7 +72,7 @@ int main(int argc, char **argv){
     //data->startProcess();
     //time_t end = time(0);
 //    double time = difftime(end, start) * 1000.0;
-    std::cout << "time = " << time << std::endl;
-//    return 0;
-    return app.exec();
+//    std::cout << "time = " << time << std::endl;
+//    return 0;*/
+    //return app.exec();
 }

@@ -2,12 +2,17 @@
 // Created by 5dv115 on 5/12/17.
 //
 
+#include <opencv/cv.hpp>
 #include "MatchPoints.h"
 
 MatchPoints::MatchPoints(FeaturePoints point1, FeaturePoints point2)
         : point1(point1), point2(point2) {
     numberMatches = 0;
     findMatches();
+    createHomography();
+
+    std::cout << "M = "<< std::endl << " "  << homography << std::endl << std::endl;
+
 }
 
 void MatchPoints::findMatches() {
@@ -16,6 +21,7 @@ void MatchPoints::findMatches() {
         int32_t closestDistance = INT32_MAX;
         int32_t secondClosestDistance = INT32_MAX;
         ulong bestMatch = 0;
+        KeyPoint bestKey;
         double threshold = 1.1;
 
 
@@ -26,10 +32,13 @@ void MatchPoints::findMatches() {
                 secondClosestDistance = closestDistance;
                 closestDistance = distSquared;
                 bestMatch = index2;
+                bestKey = key2;
             }
         }
         if ((threshold * closestDistance) < secondClosestDistance && bestMatch != 0){
             std::vector<int> match;
+            match1.push_back(cv::Point2f(key1.getX(),key1.getY()));
+            match2.push_back(cv::Point2f(bestKey.getX(),bestKey.getY()));
             match.insert(match.begin(),(int)index1);
             match.insert(match.begin() +1 ,(int) bestMatch);
             matchedIndex.push_back(match);
@@ -58,3 +67,20 @@ int MatchPoints::squaredDistance(ulong index1, ulong index2) {
     }
     return distsq;
 }
+
+void MatchPoints::createHomography() {
+
+    homography = cv::findHomography(match1,match2,cv::RANSAC,10,cv::noArray(),2000,0.995);
+
+}
+
+const cv::Mat &MatchPoints::getHomography() const {
+    return homography;
+}
+
+void MatchPoints::setHomography(const cv::Mat &homography) {
+    MatchPoints::homography = homography;
+}
+
+
+

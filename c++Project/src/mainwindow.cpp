@@ -3,6 +3,9 @@
 #include "QFileDialog"
 #include "QButtonGroup"
 #include "QString"
+#include "QThread"
+#include "QDir"
+#include "MosaicData.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,9 +27,9 @@ void MainWindow::on_button_browse_clicked()
                                                      QFileDialog::ShowDirsOnly
                                                      | QFileDialog::DontResolveSymlinks);
     if (!dir.isEmpty() && dir.compare("") > 0)
-        //(TreeMarkupToolbox:28289): GLib-CRITICAL **: g_once_init_leave: assertion 'result != 0' failed, probably something is wrong here %Jakub
+        //(TreeMarkupToolbox:6457): GLib-GObject-CRITICAL **: g_type_register_static: assertion 'parent_type > 0' failed, probably something is wrong here %Jakub
     {
-         ui->foldername->setText(dir);
+        ui->foldername->setText(dir);
         ui->foldername->adjustSize();
         ui->button_next->setEnabled(true);
         ui->button_next->setStyleSheet({"background-color: rgb(0, 96, 100); font: 13pt 'Noto Sans CJK KR'; color: rgb(255, 255, 255);"});
@@ -35,20 +38,15 @@ void MainWindow::on_button_browse_clicked()
         this->qpath = dir;
        //ui->label_path_1->setText(dir);
     }
-
 }
 
 
 bool MainWindow::saveImagesOnPC(bool g)
-
 {
-
-return g;
-
+    return g;
 }
 
 std::string MainWindow::QstringToString(QString qstring_1)
-
 {
     std::string text = qstring_1.toUtf8().constData(); //it should work but not sure, it needs some testing.
     return text;
@@ -64,29 +62,26 @@ void MainWindow::on_button_create_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 
-    if(ui->radioButton_yes->isChecked())
-    {
-    this->saveImages=saveImagesOnPC(1);
+    QDir dir("/home/5dv115/temp");
+    if (!dir.exists()) {
+        dir.mkdir("/home/5dv115/temp");
     }
 
-    if(ui->radioButton_no->isChecked())
-    {
-    this->saveImages=saveImagesOnPC(0);
-    }
-
+    QThread *thread = new QThread;
+    MosaicData *md = new MosaicData(this->path, "/home/5dv115/temp");
+    md->addDirectory(this->path);
+    md->moveToThread(thread);
+    connect(thread, SIGNAL(started()), md, SLOT(startProcess()));
+    connect(md, SIGNAL(finished()), this, SLOT(gotoPageMosaicSaved()));
+    connect(md, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(md, SIGNAL(finished()), md, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
 }
 
-
-
-void MainWindow::on_button_next_4_clicked()
+void MainWindow::gotoPageMosaicSaved()
 {
     ui->stackedWidget->setCurrentIndex(3);
-
-   // if (this->qpath.isEmpty()!=0)
-   // {
-    ui->label->setText(this->qpath);
-    ui->label->repaint();
-    //}
 }
 
 void MainWindow::on_label_linkActivated(const QString &link)
