@@ -44,7 +44,7 @@
     <string name="navigation_drawer_close">Stäng navigationsruta</string>
     <string name="navigation_drawer_open">Öppna navigationsruta</string>
     <string name="neighboring_image">Närliggande bild</string>
-    <string name="oak" translatable="false">Ek</string>
+    <string name="oak">Ek</string>
     <string name="other">Övrig</string>
     <string name="oxel">Oxel</string>
     <string name="pine">Tall</string>

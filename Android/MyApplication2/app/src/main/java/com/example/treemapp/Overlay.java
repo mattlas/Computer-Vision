@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
@@ -14,7 +15,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.TouchDelegate;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -521,7 +524,7 @@ public class Overlay extends View {
     }
 
     @NonNull
-    private CarouselListener setUpCarousel(CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
+    private CarouselListener setUpCarousel(final CarouselPicker carouselPicker, List<CarouselPicker.PickerItem> textItems) {
         //Carouse1 Picker with text to display the tree species
         CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(mainActivity, textItems, 0);
         carouselPicker.setAdapter(textAdapter);

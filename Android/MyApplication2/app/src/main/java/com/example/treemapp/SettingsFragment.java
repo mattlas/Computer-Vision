@@ -33,6 +33,7 @@ public class SettingsFragment extends Fragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
     Settings settings = null;
     public FileHandler fileHandler;
+    private MainActivity.MyListener deleteAllListener;
     private String packageName;
     private ListView lv;
     private TextView tv;
@@ -120,6 +121,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 fileHandler.deleteAllTrees();
+                deleteAllListener.onActivate();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -138,11 +140,13 @@ public class SettingsFragment extends Fragment {
      * gets objects needed for init
      * @param settings the Settings instance
      * @param packageName the package name of an app
+     * @param deleteAllListener
      */
-    public void init(Settings settings, FileHandler fileHandler, String packageName) {
+    public void init(Settings settings, FileHandler fileHandler, String packageName, MainActivity.MyListener deleteAllListener) {
         this.settings = settings;
         this.packageName = packageName;
         this.fileHandler = fileHandler;
+        this.deleteAllListener = deleteAllListener;
     }
 
 

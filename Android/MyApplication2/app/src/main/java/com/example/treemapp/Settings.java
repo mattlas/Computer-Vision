@@ -1,6 +1,11 @@
 package com.example.treemapp;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +27,21 @@ public class Settings extends Fragment {
     private CheckboxModel[] treesSpeciesChb;
 
     public Settings(){
-
         treesSpeciesAll = new String[]{"pine", "spruce", "birch", "oak", "aspen", "beech", "alder", "rowan", "elm", "ash", "hornbeam", "juniper", "cherry", "fir", "hazel", "chestnut", "lind", "larch", "maple", "oxel","willow", "other" };
         treesSpeciesChb = new CheckboxModel[treesSpeciesAll.length];
         treesSpeciesChosen = new ArrayList<>();
         int i = 0;
+
         for (String tree:treesSpeciesAll){
-            treesSpeciesChosen.add(new CarouselPicker.TextItem(tree, carouselSize));
-            if (i< 6)
-                treesSpeciesChb[i] = new CheckboxModel(tree, 1);
-            else
-                treesSpeciesChb[i] = new CheckboxModel(tree, 0);
+            CarouselPicker.TextItem textItem = new CarouselPicker.TextItem(tree, carouselSize);
+            int fontSize = (int) (20 * Resources.getSystem().getDisplayMetrics().scaledDensity);
+            textItem.setTextSize(fontSize);
+
+            treesSpeciesChosen.add(textItem);
+            treesSpeciesChb[i] = new CheckboxModel(tree, 1);
         }
     }
+
 
     public String[] getTreesSpeciesAll() {
         return treesSpeciesAll;
@@ -83,13 +90,5 @@ public class Settings extends Fragment {
         int pos = searchForObject(tree);
         if ( pos != -1)
             treesSpeciesChosen.remove(pos);
-    }
-
-    /**
-     * Returns a list for adapter with all trees
-     * @return
-     */
-    public CheckboxModel[] getTreesSpeciesChb() {
-        return treesSpeciesChb;
     }
 }

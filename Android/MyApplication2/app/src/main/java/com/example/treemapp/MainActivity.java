@@ -392,7 +392,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void startSettings() {
         SettingsFragment sf = new SettingsFragment();
-        sf.init(settings,filehandler, this.getPackageName());
+
+        MyListener deleteAllListener = new MyListener() {
+
+            @Override
+            public void onActivate() {
+                imageView.deleteAllPins();
+            }
+        };
+
+        sf.init(settings, filehandler, this.getPackageName(), deleteAllListener);
 
         FragmentManager fm = getFragmentManager();
 
@@ -422,6 +431,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imageView.deleteAllPins();
     }
 
+    public abstract class MyListener {
+        public abstract void onActivate();
+    }
 }
 
 

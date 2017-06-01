@@ -259,7 +259,6 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     public boolean updatePinInFile(Pin pin) {
-
         // First find the pin in the file
         ArrayList<String[]> list = fileHandler.readContents();
         int lineToUpdate = -1;
@@ -281,5 +280,7 @@ public class PinView extends SubsamplingScaleImageView {
      */
     public void deleteAllPins() {
         this.pins = new ArrayList<>();
+        invalidate();
     }
+
 }
